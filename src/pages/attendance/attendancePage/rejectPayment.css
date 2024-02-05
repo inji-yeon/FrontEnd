@@ -1,0 +1,179 @@
+.main {
+    position: relative;
+    display: grid;
+    width: 95%;
+    grid-template-columns: 326px 245px auto;
+
+}
+
+.main2{
+    position: relative;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Pretendard;
+}
+
+.main-title{
+    position: relative;
+    left: 10px;
+    top: 30px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.bar{
+    position: relative;
+    top: 40px;
+    border:0.5px solid #606060;
+    
+}
+
+.filter-area{
+    position: relative;
+    top: 90px;
+}
+
+.bar2{
+    position: relative;
+    border:0.5px solid #F5F5F5;
+    
+}
+
+.box-area{
+    position: relative;
+    width: 240px;
+    height: 50px;
+}
+
+.waiting-box{
+    position: absolute;
+    left: 0px;
+    background-color: #F5F5F5;
+    width: 80px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+} 
+
+.approval-box{
+    position: absolute;
+    left: 80px;
+    background-color: #F5F5F5;
+    width: 80px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+
+}
+
+
+.reject-box{
+    position: absolute;
+    left: 160px;
+    background-color: #FFBE98;
+    width: 80px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+}
+
+.approval{
+    position: relative;
+    top:140px;
+    width: 80px;
+    height: 25px;
+    background-color: white;
+    border:0.5px solid #606060;
+    color: #414141;
+    font-size: 16px;
+}
+
+.rejection{
+    position: relative;
+    top:140px;
+    width: 80px;
+    height: 25px;
+    left: 20px;
+    background-color: white;
+    border:0.5px solid #606060;
+    color: #414141;
+    font-size: 16px;
+}
+
+.list-commute-area{
+    position: relative;
+    top: 190px;
+    left: 50px;
+    width: 1200px;
+}
+
+.list-commute-detail td {
+    border-bottom: 1px solid #606060;
+    padding: 20px; /* 셀 내부 여백을 지정합니다. */
+    text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
+    font-size: 16px;
+}
+
+.list-commute-detail tr {
+    border-bottom: 1px solid #606060;
+    padding: 20px; /* 셀 내부 여백을 지정합니다. */
+    text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
+    font-size: 16px;
+}
+
+.paging-po{
+    position: absolute;
+    top: 850px;
+    left: 450px;
+    color: #414141;
+    font-size: 20px;
+}
+
+
+a {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+
+#popup {
+    display: none;
+    position: fixed;
+    width: 450px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+}
+
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
