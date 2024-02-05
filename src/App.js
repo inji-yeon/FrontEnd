@@ -11,6 +11,7 @@ import Approval from "./pages/approval/Approval";
 import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
 import Attendance from "./pages/attendance/Attendance";
+import MailSidebar from "./pages/mail/common/MailSidebar";
 
 function App() {
   return (
@@ -20,9 +21,11 @@ function App() {
           <Route path="/" element={<Layout/>}>
             <Route index element={<Main/>}/>
 
-            <Route path="mail" element={<Mail/>}/>
-            <Route path="mail/write" element={<Write/>}/>
 
+            <Route path="mail" element={<MailSidebar />}>
+              <Route path="check" element={<Mail />} />
+              <Route path="write" element={<Write />} />
+            </Route>
             <Route path="group" element={<Group/>}/>
 
             <Route path="board" element={<Board/>}/>

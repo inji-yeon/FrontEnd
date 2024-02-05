@@ -21,9 +21,9 @@ function SideBar() {
 
     const user = useSelector(state => state.sidebar);
     const {userName, userGroup, userDept, userProfileImg} = user;
-    
 
-    const [statusImg, setStatusImg] = useState("sidebar/sidebar_user_status_img/office.png");
+
+    const [statusImg, setStatusImg] = useState("../../../../sidebar/sidebar_user_status_img/office.png");
 
 //유저 근무 상태 이미지 넣기
 
@@ -31,24 +31,23 @@ function SideBar() {
         const status = e.target.value;  //이벤트 가져와서 status에 넣기
         switch (status) {
             case 'office':  //오피스 근무 중 상태로 사진 변경
-                setStatusImg('sidebar/sidebar_user_status_img/office.png'); break;
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/office.png'); break;
             case 'remote':  //재택 근무 중 으로 변경
-                setStatusImg('sidebar/sidebar_user_status_img/remote.png'); break;
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/remote.png'); break;
             case 'vacation':    //휴거
-                setStatusImg('sidebar/sidebar_user_status_img/vacation.png'); break;
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/vacation.png'); break;
             case 'meeting': //미팅
-                setStatusImg('sidebar/sidebar_user_status_img/meeting.png'); break;
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/meeting.png'); break;
             case 'away':    //자리비움
-                setStatusImg('sidebar_user_status_img/away.png'); break;
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/away.png'); break;
             default:    //기본(에러)는 오피스 근무로
-                setStatusImg('sidebar/sidebar_user_status_img/office.png');
+                setStatusImg('../../../../sidebar/sidebar_user_status_img/office.png');
         }
-    }
+    } 
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
         box.style.opacity = '1';
-        
-        box.style.top = '210px';
+
         switch (value) {
             case 'main':
                 box.style.opacity = '0';
@@ -56,7 +55,7 @@ function SideBar() {
                 break;
             case 'mail': 
                 box.style.top = '125px'; 
-                navigate('/mail');
+                navigate('/mail/check');
                 break;
             case 'attendance': 
                 box.style.top = '210px'; 
