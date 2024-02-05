@@ -1,0 +1,167 @@
+.sidemenu {
+    color: #606060;
+    height: 100%;
+    width: 326px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.company_name {
+    user-select: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+    padding: 1em 0em 0.7em 0em;
+}
+
+.sidemenu_list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0px auto;
+    width: 280px;
+}
+
+.sidemenu_list li {
+    border-radius: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    cursor: pointer;
+}
+.selected_box{
+    top: 120px;
+    pointer-events: none;
+    background: #fa9a85;    
+    position: absolute;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    width: 280px;
+    height: 80px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    transition-property: top display;
+    transition: 0.5s ease-in-out;
+}
+
+
+.sidemenu_list li div {
+    z-index: 1  ;
+    font-size: 20px;
+    margin-right: 40px;
+    transition: font-size 0.2s ease;
+}
+
+.sidemenu_list li:hover div {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.working_status_wrap {
+    margin: 20px auto;
+    width: 270px;
+    height: 243px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.working_status {
+    width: 100%;
+    height: 100%;
+}
+
+.working_status td {
+    box-sizing: border-box;
+}
+
+.status_title {
+    height: 40px;
+}
+
+.status_title div {
+    display: flex;
+    height:100%;
+    flex-direction: column-reverse;
+}
+
+.status_title span {
+    user-select: none;
+    padding-left: 20px;
+    font-size: 20px;
+}
+
+.status_profile {
+    height: 100px;
+}
+
+.status_profile div {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status_name_text {
+    user-select: none;
+    font-size: 20px;
+    padding-left: 0.5em;
+}
+
+.status_team_text {
+    user-select: none;
+    font-size: 16px;
+    padding-left: 0.5em;
+}
+
+.status_name_and_team br {
+    margin: 0.4em 0;
+    content: "";
+    display: block;
+}
+
+#status_img {
+    padding-left: 0.5em;
+    height: 1.3em;
+}
+
+.status_name_and_team div {
+    display: flex;
+    align-items: center;
+}
+
+.status_profile img {
+    scale: 0.9;
+    position: relative;
+    width: 75px;
+    height: 75px;
+    margin: 0px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: scale 0.3s ease;
+}
+.status_profile img:hover{
+    scale: 1.0;
+}
+
+.status_temp_text {
+    font-size: 16px;
+}
+
+.select_status {
+    text-align: center;
+    height: 36px;
+    padding-bottom: 20px;
+}
+
+.select_status select {
+    width: 85%;
+    height: 36px;
+}
