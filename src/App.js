@@ -10,6 +10,7 @@ import Project from "./pages/project/Project";
 import Approval from "./pages/approval/Approval";
 import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
+import Attendance from "./pages/attendance/Attendance";
 
 function App() {
   return (
@@ -33,7 +34,9 @@ function App() {
             <Route path="approval" element={<Approval/>}/>
 
             <Route path="mypage" element={<MyPage/>}/>
-            
+
+            <Route path="attendance" element={<Attendance/>}/>
+
           </Route>
 
           <Route path="/admin" element={<Admin/>}/>

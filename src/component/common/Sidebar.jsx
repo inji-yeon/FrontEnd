@@ -4,10 +4,11 @@ import {useDispatch, useSelector } from 'react-redux';
 import './sidemenu.css';
 import {useEffect, useState} from 'react';
 import { getUserInformation } from '../../apis/SidebarAPI';
+import { useNavigate  } from 'react-router-dom';
 
 
 function SideBar() {
-
+    let navigate = useNavigate();
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getUserInformation());
@@ -45,17 +46,46 @@ function SideBar() {
     }
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
+        box.style.opacity = '1';
         
         box.style.top = '210px';
         switch (value) {
-            case '메일': box.style.top = '125px'; break;
-            case '근태': box.style.top = '210px'; break;
-            case '캘린더': box.style.top = '293px'; break;
-            case '프로젝트': box.style.top = '376px'; break;
-            case '결재': box.style.top = '462px'; break;
-            case '게시판': box.style.top = '546px'; break;
-            case '조직': box.style.top = '630px'; break;
-            case '관리자': box.style.top = '714px'; break;
+            case 'main':
+                box.style.opacity = '0';
+                navigate('/');
+                break;
+            case 'mail': 
+                box.style.top = '125px'; 
+                navigate('/mail');
+                break;
+            case 'attendance': 
+                box.style.top = '210px'; 
+                navigate('/attendance');
+                break;
+            case 'calendar': 
+                box.style.top = '293px'; 
+                navigate('/calendar');
+                break;
+            case 'project': 
+                box.style.top = '376px'; 
+                navigate('/project');
+                break;
+            case 'approval': 
+                box.style.top = '462px'; 
+                navigate('/approval');
+                break;
+            case 'board': 
+                box.style.top = '546px';
+                navigate('/board');
+                break;
+            case 'group': 
+                box.style.top = '630px'; 
+                navigate('/group');
+                break;
+            case 'admin': 
+                box.style.top = '714px';
+                navigate('/admin');
+                break;
             default:
                 box.style.display = 'none';
             
@@ -66,38 +96,39 @@ function SideBar() {
     return (
         <>
             <div className="sidemenu">
-                <div className="company_name">Witty Wave</div>
+                <div onClick={()=>{sidebarMenuSelectHandler('main')}} className="company_name">Witty Wave</div>
                 <div className="sidemenu_list">
                     <ul>
                         <div className="selected_box"></div>
-                        <li onClick={() => { sidebarMenuSelectHandler('메일') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('mail') }}>
                             <div>메일</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('근태') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('attendance') }}>
                             <div>근태 관리</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('캘린더') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('calendar') }}>
                             <div>캘린더</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('프로젝트') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('project') }}>
                             <div>프로젝트</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('결재') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('approval') }}>
                             <div>전자 결재</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('게시판') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('board') }}>
                             <div>게시판</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('조직') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('group') }}>
                             <div>조직</div>
                         </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('관리자') }}>
+                        <li onClick={() => { sidebarMenuSelectHandler('admin') }}>
                             <div>(임시)관리자</div>
                         </li>
                     </ul>
                 </div>
                 <div className="working_status_wrap">
                     <table className="working_status">
+                        <thead>
                         <tr className="working_status_row1">
                             <td className="status_title" colSpan="2">
                                 <div>
@@ -123,7 +154,7 @@ function SideBar() {
                         <tr className="working_status_row3">
                             <td className="select_status" colSpan="2">
                                 <select id="status_dropdown" onChange={changeStatusImg}>
-                                    <option value="none" selected hidden>근무 상태를 선택하세요.</option>
+                                    <option value="none" hidden>근무 상태를 선택하세요.</option>
                                     <option value="office">오피스 근무</option>
                                     <option value="remote">재택 근무</option>
                                     <option value="vacation">휴가 중</option>
@@ -132,6 +163,7 @@ function SideBar() {
                                 </select>
                             </td>
                         </tr>
+                        </thead>
                     </table>
                 </div>
             </div>
