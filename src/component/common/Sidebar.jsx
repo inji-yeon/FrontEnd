@@ -44,6 +44,7 @@ function SideBar() {
                 setStatusImg('sidebar/sidebar_user_status_img/office.png');
         }
     }
+    
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
         box.style.opacity = '1';

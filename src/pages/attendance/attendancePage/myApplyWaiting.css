@@ -47,7 +47,7 @@ body {
     height: 50px;
 }
 
-.waiting-box{
+.my-apply-waiting-box{
     position: absolute;
     left: 0px;
     background-color: #FFBE98;
@@ -98,17 +98,17 @@ body {
 
 
 
-table {
+
+.list-my-waiting table {
     position: relative;
     top: 190px;
     font-size: 16px;
     width: 1200px; 
-    left: px;
     border-collapse: collapse; /* 테이블 셀 간의 경계를 합칩니다. */
 
 }
 
-th, td {
+.list-my-waiting th, .list-my-waiting td {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */

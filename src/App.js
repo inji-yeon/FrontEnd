@@ -11,8 +11,19 @@ import Approval from "./pages/approval/Approval";
 import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
 import Attendance from "./pages/attendance/Attendance";
+import AttendanceSide from "./pages/attendance/AttendanceLayout";
+import CommuteList from "./pages/attendance/CommuteList";
+import DoPaymentDocumentWaiting from "./pages/attendance/DoPaymentDocumentWaiting";
+import DoPaymentDocumentApproval from "./pages/attendance/DoPaymentDocumentApproval";
+import DoPaymentDocumentReject from "./pages/attendance/DoPaymentDocumentReject";
+import MyApplyDocumentWaiting from "./pages/attendance/MyApplyDocumentWaiting";
+import MyApplyDocumentApproval from "./pages/attendance/MyApplyDocumentApproval";
+import MyApplyDocumentRejction from "./pages/attendance/MyApplyDocumentRejction";
+
 
 function App() {
+
+
   return (
     
     <BrowserRouter>
@@ -35,7 +46,17 @@ function App() {
 
             <Route path="mypage" element={<MyPage/>}/>
 
-            <Route path="attendance" element={<Attendance/>}/>
+            
+            <Route path="attendance" element={<AttendanceSide/>}>
+              <Route path="attendance" element={<Attendance/>}/>
+              <Route path="commuteList" element={<CommuteList/>}/>
+              <Route path="doPaymentDocumentWaiting" element={<DoPaymentDocumentWaiting/>}/>
+              <Route path="doPaymentDocumentApproval" element={<DoPaymentDocumentApproval/>}/>
+              <Route path="doPaymentDocumentReject" element={<DoPaymentDocumentReject/>}/>
+              <Route path="myApplyDocumentWaiting" element={<MyApplyDocumentWaiting/>}/>
+              <Route path="myApplyDocumentApproval" element={<MyApplyDocumentApproval/>}/>
+              <Route path="myApplyDocumentRejction" element={<MyApplyDocumentRejction/>}/>
+            </Route>
 
           </Route>
 

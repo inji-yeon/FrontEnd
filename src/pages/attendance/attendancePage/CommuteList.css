@@ -27,6 +27,7 @@ body {
 .bar{
     position: relative;
     top: 40px;
+    width: 150px;
     border:0.5px solid #606060;
     
 }
@@ -95,6 +96,7 @@ body {
     position: absolute;
     height: 100px;
     left:60px;
+    top: 0px;
 }
 
 .vacation-image img{
@@ -106,7 +108,7 @@ body {
 
 .vacation-tile{
     position: relative;
-    top: 50px;
+    top: 55px;
     left: 0px;
     color: #414141;
     font-size: 16px;

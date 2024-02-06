@@ -67,7 +67,7 @@ body {
     height: 49px;
 }
 
-.vacation{
+.vacation2{
     position: absolute;
     font-size: 25px;
     left: 40px;
@@ -239,7 +239,7 @@ hr{
 .time-info{
     position: absolute;
     top: 170px;
-    left: 270px;
+    left: 30px;
     color: #606060;
     font-size: 16px;
 }
@@ -293,9 +293,10 @@ hr{
     width: 600px;
 }
 
-.calender-title{
+.calender-info{
     position: relative;
-    left: 185px;
+    left: 220px;
+    top: 0px;
 }
 
 .pre{
