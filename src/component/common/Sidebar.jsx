@@ -46,6 +46,13 @@ function SideBar() {
     } 
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
+        const texts = ['mail','attendance','calendar','project','approval','board','group'];
+        for(let i=0;i<texts.length;i++){
+            document.getElementById(texts[i]).style.color = '#606060';
+            if(value === texts[i]){
+                document.getElementById(texts[i]).style.color = 'white';
+            }
+        }
         box.style.opacity = '1';
 
         switch (value) {
@@ -100,25 +107,25 @@ function SideBar() {
                     <ul>
                         <div className="selected_box"></div>
                         <li onClick={() => { sidebarMenuSelectHandler('mail') }}>
-                            <div>메일</div>
+                            <div id="mail">메일</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('attendance') }}>
-                            <div>근태 관리</div>
+                            <div id="attendance">근태 관리</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('calendar') }}>
-                            <div>캘린더</div>
+                            <div id="calendar">캘린더</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('project') }}>
-                            <div>프로젝트</div>
+                            <div id="project">프로젝트</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('approval') }}>
-                            <div>전자 결재</div>
+                            <div id="approval">전자 결재</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('board') }}>
-                            <div>게시판</div>
+                            <div id="board">게시판</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('group') }}>
-                            <div>조직</div>
+                            <div id="group">조직</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('admin') }}>
                             <div>(임시)관리자</div>

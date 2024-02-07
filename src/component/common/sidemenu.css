@@ -35,6 +35,7 @@
     cursor: pointer;
 }
 .selected_box{
+    opacity: 0;
     top: 120px;
     pointer-events: none;
     background: #fa9a85;    
@@ -163,4 +164,8 @@
 .select_status select {
     width: 85%;
     height: 36px;
+}
+
+#mail,#attendance,#calendar,#project,#approval,#board,#group,#admin{
+    transition: color 1s ease;
 }
