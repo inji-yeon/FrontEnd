@@ -1,0 +1,154 @@
+*{
+    font-family: Pretendard-Regular;
+}
+.project_section {
+    position: absolute;
+    top: 0px;
+    left: 600px;
+    width: 100%;
+    display: grid;
+    grid-column: auto;
+}
+.project_input_wrap{
+    margin-left: 500px;
+}
+.project_body{
+    margin-top: 20px;
+}
+.project_header {
+    
+    justify-content: space-between;
+    margin-top: 100px;
+}
+
+.project_header_title {
+    font-size: 30px;
+    padding-left: 60px;
+}
+
+#search-options{
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    padding-left: 13px;
+    font-size: 16px;
+    width: 100px;
+    height: 100%;
+}
+
+
+.project_search_input {
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    padding-left: 13px;
+    margin-left: 15px;
+    font-size: 16px;
+    width: 195px;
+    height: 100%;
+}
+
+.project_search_button {
+    font-size: 20px;
+    width: 64px;
+    height: 100%;
+    border-radius: 5px;
+    margin-left: 20px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+}
+
+.project_create_button {
+    font-size: 20px;
+    width: 160px;
+    margin-left: 20px;
+    height: 100%;
+    border-radius: 5px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+}
+
+
+.project_footer > input[type=button] {
+    border-radius: 2px;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    cursor: pointer;
+}
+.boardList{
+    margin-left: 50px;
+    border-collapse: collapse;
+    color: #606060;
+}
+
+.boardList > thead{
+    border-top: 1px solid #A3A2A2;
+    border-bottom: 1px solid #A3A2A2;
+
+}
+
+.boardList > thead th{
+
+    font-weight: normal;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.boardList > tbody td{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+.boardList > tbody td:hover{
+    font-weight: bold;
+}
+
+
+.boardList > tbody td{
+    padding-right: 140px;
+}
+
+/* .boardList > td{
+    text-align: left;
+} */
+.test{
+    margin-right: 40px;
+}
+.read{
+    color: rgb(151, 150, 150);
+}
+
+.highlight td {
+    font-weight: bold;
+}
+th,td{
+    z-index: -1;
+}
+.send_time, .receiver{
+    font-size: 14px;
+}
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+  }
+  .fade-in:hover {
+    background-color: aliceblue;
+  }
+  
+  .fade-in.active {
+    opacity: 1;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+

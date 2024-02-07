@@ -6,6 +6,7 @@ import sidebarReducer from './SidebarModule';
 
 
 const rootReducer = combineReducers({
+    
     mail: mailReducer,
     sidebar: sidebarReducer,
 })

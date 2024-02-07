@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.error-message{
+    font-family: Pretendard-Regular;
+    z-index: 999;
+    position: fixed;
+    background-color: rgb(239, 238, 238);
+    box-shadow: 2px 2px 5px 2px gray;
+    font-size: 14px;
+    height: 70px;
+    width: 250px;
+    border-radius: 10px;
+    left: 40%;
+    top: 50%;
+    text-align: center;
+    padding-top: 20px;
+}
+.error-message-button{
+    margin-top: 10px;
+    cursor: pointer;
+    position: relative;
+    border-color: rgb(239, 238, 238);
+    background-color: none;
+    border-radius: 8px;
+    height: 20px;
+    width: 40px;
+    top: 0px;
+}
+.msg{
+    margin-top: 5px;
+    font-size: 10px;
+}
