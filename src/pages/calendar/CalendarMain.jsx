@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetCalendarAPI, callGetEventListAPI } from "../../apis/CalendarAPICalls";
 
-function Calendar() {
+function CalendarMain() {
     const dispatch = useDispatch();
     const calendar = useSelector((state) => state.calendar);
 
@@ -23,4 +23,4 @@ function Calendar() {
     )
 }
 
-export default Calendar;
+export default CalendarMain;

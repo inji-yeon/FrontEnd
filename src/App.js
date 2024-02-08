@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./layouts/Layout";
-import Main from "./pages/main/Main";
-import Mail from "./pages/mail/Mail";
-import Write from "./pages/mail/Write";
-import Group from "./pages/group/Group";
-import Board from "./pages/board/Board";
-import Calendar from "./pages/calendar/Calendar";
-import Project from "./pages/project/Project";
-import Approval from "./pages/approval/Approval";
-import MyPage from "./pages/mypage/Mypage";
-import Admin from "./pages/admin/Admin";
-import Attendance from "./pages/attendance/Attendance";
-import MailSidebar from "./pages/mail/common/MailSidebar";
-=======
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import Main from './pages/main/Main';
@@ -21,13 +5,13 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Calendar from './pages/calendar/CalendarMain';
+import Calendar from './pages/calendar/Calendar';
 import Project from './pages/project/Project';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
->>>>>>> junkyeong
+import MailSidebar from './pages/mail/common/MailSidebar';
 
 function App() {
     return (
@@ -35,20 +19,11 @@ function App() {
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Main />} />
-
-<<<<<<< HEAD
-
-            <Route path="mail" element={<MailSidebar />}>
-              <Route path="check" element={<Mail />} />
-              <Route path="write" element={<Write />} />
-            </Route>
-            <Route path="group" element={<Group/>}/>
-=======
-                    <Route path='mail' element={<Mail />} />
-                    <Route path='mail/write' element={<Write />} />
-
+                    <Route path='mail' element={<MailSidebar />}>
+                        <Route path='check' element={<Mail />} />
+                        <Route path='write' element={<Write />} />
+                    </Route>
                     <Route path='group' element={<Group />} />
->>>>>>> junkyeong
 
                     <Route path='board' element={<Board />} />
 
