@@ -41,61 +41,61 @@ const calendarReducer = handleActions(
         [GET_CALENDAR]: (state, { payload }) => {
             return {
                 ...state,
-                calendar: payload,
+                calendar: payload?.data,
             };
         },
         [GET_EVENTS]: (state, { payload }) => {
             return {
                 ...state,
-                eventList: payload,
+                eventList: payload?.data,
             };
         },
         [GET_EVENTS_SEARCH]: (state, { payload }) => {
             return {
                 ...state,
-                searchEventList: payload,
+                searchEventList: payload?.data,
             };
         },
         [GET_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                event: payload,
+                event: payload?.data,
             };
         },
         [GET_EMPLOYEES]: (state, { payload }) => {
             return {
                 ...state,
-                employeeList: payload,
+                employeeList: payload?.data,
             };
         },
         [POST_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload,
+                message: payload?.data,
             };
         },
         [PUT_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload,
+                message: payload?.data,
             };
         },
         [DELETE_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload,
+                message: payload?.data,
             };
         },
         [GET_TEMP_DELETED_EVENTS]: (state, { payload }) => {
             return {
                 ...state,
-                tempDeletedEventList: payload,
+                tempDeletedEventList: payload?.data,
             };
         },
         [PUT_TEMP_DELETED_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload,
+                message: payload?.data,
             };
         },
     },

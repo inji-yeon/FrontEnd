@@ -17,7 +17,7 @@ export const callGetCalendarAPI = () => {
 
     return async (dispatch, getState) => {
         const result = await axios
-            .get(requestURL, null, {
+            .get(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -27,12 +27,12 @@ export const callGetCalendarAPI = () => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callGetCalendarAPI RESULT : ', result)
 
-        dispatch({ type: GET_CALENDAR, payload: result.data })
+        dispatch({ type: GET_CALENDAR, payload: result?.data })
     }
 }
 
@@ -51,21 +51,19 @@ export const callGetEventListAPI = () => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
-
         console.log('[CalendarAPICalls] callGetEventListAPI RESULT : ', result)
 
-        dispatch({ type: GET_EVENTS, payload: result.data })
+        dispatch({ type: GET_EVENTS, payload: result?.data })
     }
 }
 
 export const callSearchEventListAPI = ({ searchValue, offset }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/search?search=${searchValue}&offset=${offset}`
-
     return async (dispatch, getState) => {
         const result = await axios
-            .get(requestURL, null, {
+            .get(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -75,21 +73,20 @@ export const callSearchEventListAPI = ({ searchValue, offset }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callSearchEventListAPI RESULT : ', result)
 
-        dispatch({ type: GET_EVENTS_SEARCH, payload: result.data })
+        dispatch({ type: GET_EVENTS_SEARCH, payload: result?.data })
     }
 }
-
 export const callGetEventAPI = ({ eventCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/${eventCode}`
 
     return async (dispatch, getState) => {
         const result = await axios
-            .get(requestURL, null, {
+            .get(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -99,12 +96,12 @@ export const callGetEventAPI = ({ eventCode }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callGetEventAPI RESULT : ', result)
 
-        dispatch({ type: GET_EVENT, payload: result.data })
+        dispatch({ type: GET_EVENT, payload: result?.data })
     }
 }
 
@@ -113,7 +110,7 @@ export const callGetEmployeeListAPI = () => {
 
     return async (dispatch, getState) => {
         const result = await axios
-            .get(requestURL, null, {
+            .get(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -123,12 +120,12 @@ export const callGetEmployeeListAPI = () => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callGetEmployeeListAPI RESULT : ', result)
 
-        dispatch({ type: GET_EMPLOYEES, payload: result.data })
+        dispatch({ type: GET_EMPLOYEES, payload: result?.data })
     }
 }
 
@@ -147,12 +144,12 @@ export const callCreateEventAPI = ({ eventOptions }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callCreateEventAPI RESULT : ', result)
 
-        dispatch({ type: POST_EVENT, payload: result.data })
+        dispatch({ type: POST_EVENT, payload: result?.data })
     }
 }
 
@@ -172,12 +169,12 @@ export const callModifyEventAPI = ({ eventOptions }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callModifyEventAPI RESULT : ', result)
 
-        dispatch({ type: PUT_EVENT, payload: result.data })
+        dispatch({ type: PUT_EVENT, payload: result?.data })
     }
 }
 
@@ -186,7 +183,7 @@ export const callDeleteEventAPI = ({ eventCode }) => {
 
     return async (dispatch, getState) => {
         const result = await axios
-            .delete(requestURL, null, {
+            .delete(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -196,12 +193,12 @@ export const callDeleteEventAPI = ({ eventCode }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callDeleteEventAPI RESULT : ', result)
 
-        dispatch({ type: DELETE_EVENT, payload: result.data })
+        dispatch({ type: DELETE_EVENT, payload: result?.data })
     }
 }
 
@@ -210,7 +207,7 @@ export const callGetTempDeletedEventListAPI = () => {
 
     return async (dispatch, getState) => {
         const result = await axios
-            .get(requestURL, null, {
+            .get(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -220,12 +217,12 @@ export const callGetTempDeletedEventListAPI = () => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callGetTempDeletedEventListAPI RESULT : ', result)
 
-        dispatch({ type: GET_TEMP_DELETED_EVENTS, payload: result.data })
+        dispatch({ type: GET_TEMP_DELETED_EVENTS, payload: result?.data })
     }
 }
 
@@ -234,7 +231,7 @@ export const callRollbackTempDeletedEventListAPI = ({ eventCode }) => {
 
     return async (dispatch, getState) => {
         const result = await axios
-            .put(requestURL, null, {
+            .put(requestURL, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -244,11 +241,11 @@ export const callRollbackTempDeletedEventListAPI = ({ eventCode }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
         console.log('[CalendarAPICalls] callRollbackTempDeletedEventListAPI RESULT : ', result)
 
-        dispatch({ type: PUT_TEMP_DELETED_EVENT, payload: result.data })
+        dispatch({ type: PUT_TEMP_DELETED_EVENT, payload: result?.data })
     }
 }

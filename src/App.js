@@ -5,13 +5,14 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Calendar from './pages/calendar/Calendar';
 import Project from './pages/project/Project';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
 import MailSidebar from './pages/mail/common/MailSidebar';
+import CalendarSidebar from './pages/calendar/CaledarSidebar';
+import CalendarMain from './pages/calendar/CalendarMain';
 
 function App() {
     return (
@@ -27,7 +28,9 @@ function App() {
 
                     <Route path='board' element={<Board />} />
 
-                    <Route path='calendar' element={<Calendar />}></Route>
+                    {/* <Route path='calendar' element={<CalendarSidebar />}>
+                        <Route index element={<CalendarMain />} />
+                    </Route> */}
 
                     <Route path='project' element={<Project />} />
 
@@ -39,6 +42,7 @@ function App() {
                 </Route>
 
                 <Route path='/admin' element={<Admin />} />
+                <Route path='calendar' element={<CalendarSidebar />} />
             </Routes>
         </BrowserRouter>
     );
