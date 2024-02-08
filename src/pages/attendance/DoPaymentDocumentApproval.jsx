@@ -1,5 +1,9 @@
-import './attendancePage/approvalPayment.css'
+import style from './attendancePage/ApprovalPayment.module.css'
 import { useNavigate  } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { callDoPaymentAPI } from '../../apis/AttendanceAPI';
+import { useEffect, useState } from 'react';
+
 
 function DoPaymentDocumentApproval () {
 
@@ -22,12 +26,48 @@ function DoPaymentDocumentApproval () {
     };
 
 
+    const dispatch = useDispatch();
+    const doPayment = useSelector((state => state.attendance));
+
+
+    const pageInfo = doPayment?.pageInfo;
+
+    console.log('pageInfo', pageInfo);
+
+
+    const doPaymentLists = doPayment?.data?.content; 
+
+    console.log('doPaymentLists888888', doPaymentLists);
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+
+    useEffect(() => {
+        setStart((currentPage - 1) * 5);
+        
+        dispatch(
+            callDoPaymentAPI({
+                currentPage: currentPage,
+            })
+        );
+    }, [currentPage]);
+
+
+
     return (
         <>
 
-    <div className="main">
-        <div className="main2">
-            <span className="main-title">내 결재 문서</span>
+    <div className={style.main}>
+        <div className={style.main2}>
+            <span className={style.main_title}>내 결재 문서</span>
             <div className="bar"></div>
             <div className="filter-area">
                 <div className="box-area">
@@ -57,6 +97,31 @@ function DoPaymentDocumentApproval () {
                         <td className="list-commute-detail">01-02 10:12</td>
                     </tr>
                 </table>
+            </div>
+
+            <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                {Array.isArray(doPaymentLists) && (
+                    <button
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={style.pagingBtn}> &lt;
+                    </button>
+                )}
+                {pageNumber.map((num) => (
+                    <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
+                        <button
+                            style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
+                            className={style.pagingBtn}>{num}
+                        </button>
+                    </li>
+                ))}
+                {Array.isArray(doPaymentLists) && (
+                    <button
+                        className={style.pagingBtn}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                    </button>
+                )}
             </div>
         </div>
     </div>
