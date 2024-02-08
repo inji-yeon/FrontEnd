@@ -12,6 +12,12 @@ import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
 import Attendance from "./pages/attendance/Attendance";
 
+import Notice from "./pages/board/Notice";
+import CreatePost from "./pages/board/CreatePost";
+import PostInfo from "./pages/board/PostInfo";
+import PostListOfBoard from "./pages/board/PostListOfBoard";
+
+
 function App() {
   return (
     
@@ -25,7 +31,11 @@ function App() {
 
             <Route path="group" element={<Group/>}/>
 
-            <Route path="board" element={<Board/>}/>
+            <Route path="board" element={<Board/>}>
+              <Route path="boardCode" element={<PostListOfBoard />} />
+              <Route path="posts/regist" element={<CreatePost />} />
+              <Route path="posts/postCode" element={<PostInfo />} />
+            </Route>
 
             <Route path="calendar" element={<Calendar/>}/>
 

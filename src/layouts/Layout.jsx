@@ -6,10 +6,10 @@ import './layout.css';
 function Layout(){
 
     return(
-        <>
+        <div style={{display: "flex"}}>
             <SideBar/>
-            <Outlet/>
-        </>
+            <Outlet />
+        </div>
     )
 }
 
