@@ -21,8 +21,7 @@ export const callGetCalendarAPI = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -45,8 +44,7 @@ export const callGetEventListAPI = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -67,8 +65,7 @@ export const callSearchEventListAPI = ({ searchValue, offset }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -90,8 +87,7 @@ export const callGetEventAPI = ({ eventCode }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -114,8 +110,7 @@ export const callGetEmployeeListAPI = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -138,8 +133,7 @@ export const callCreateEventAPI = ({ eventOptions }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -163,8 +157,7 @@ export const callModifyEventAPI = ({ eventOptions }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -187,8 +180,7 @@ export const callDeleteEventAPI = ({ eventCode }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -211,8 +203,7 @@ export const callGetTempDeletedEventListAPI = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
@@ -235,8 +226,7 @@ export const callRollbackTempDeletedEventListAPI = ({ eventCode }) => {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-                    Authorization: `Bearer ${process.env.REACT_APP_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
                 }
             })
             .then(response => {
