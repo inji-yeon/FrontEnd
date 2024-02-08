@@ -1,9 +1,9 @@
+.mail_wrapper {
+    display: grid;
+    grid-template-columns: 245px auto;
+}
+
 .sidemenu2 {
-    position: absolute;
-    top: 0px;
-    left: 320px;
-    width: 245px;
-    height: 1080px;
     display: flex;
     flex-direction: column;
     color: #606060;
@@ -47,7 +47,9 @@
 .sidemenu2 ul li:hover div {
     color: white;
 }
-#mail-write-button,#mail-write-button-to-me{
+
+#mail-write-button,
+#mail-write-button-to-me {
     cursor: pointer;
     margin-top: -20px;
     margin-left: 3px;
@@ -62,41 +64,58 @@
     transition-duration: 0.5s;
     transition-timing-function: ease;
 }
-#mail-write-button:hover,#mail-write-button-to-me:hover{
+
+#mail-write-button:hover,
+#mail-write-button-to-me:hover {
     background-color: #f87152;
 }
-#mail-write-button{left: 333px;}
-#mail-write-button-to-me{left: 450px;}
+
+#mail-write-button {
+    left: 333px;
+}
+
+#mail-write-button-to-me {
+    left: 450px;
+}
+
 .project_search_button {
     transition: background-color 0.5s ease;
 }
+
 .project_search_button:hover {
     background-color: #f87152;
 }
-.project_create_button{
+
+.project_create_button {
     transition: background-color 0.5s ease;
 }
-.project_create_button:hover{
+
+.project_create_button:hover {
     background-color: #f87152;
 }
-.mail-send-button:hover{
+
+.mail-send-button:hover {
     background-color: #f87152;
 }
-.mail-send-button{
+
+.mail-send-button {
     margin-left: 530px;
     transition: background-color 0.5s ease;
     height: 50px;
     width: 200px;
     margin-top: 30px;
     background-color: #FA9A85;
-    border: 0px; border-radius: 10px;
+    border: 0px;
+    border-radius: 10px;
     color: white;
 
 }
 
 
 
-#noread,#important,#trash{
+#noread,
+#important,
+#trash {
     cursor: pointer;
     margin-top: 15px;
     margin-left: 34px;
@@ -105,27 +124,34 @@
     text-align: center;
     color: #000000;
 }
-#noread-count{
+
+#noread-count {
     height: 23px;
 }
-#noread:hover,#important:hover,#trash:hover{
+
+#noread:hover,
+#important:hover,
+#trash:hover {
     font-weight: bold;
 }
-#information{
+
+#information {
     display: flex;
 }
 
 .fade-in {
     opacity: 0;
     transition: opacity 0.5s ease-in;
-  }
-  
-  .fade-in.active {
+}
+
+.fade-in.active {
     opacity: 1;
-  }
-  .check-box{
+}
+
+.check-box {
     margin-left: -20px;
-  }
-  .important-icon{
+}
+
+.important-icon {
     left: 20px;
-  }
+}

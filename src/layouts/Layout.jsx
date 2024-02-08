@@ -1,14 +1,14 @@
 import { Outlet } from "react-router-dom";
 import SideBar from "../component/common/Sidebar";   //사이드바를 import
-import './layout.css';
+import styles from './layout.module.css';
 
 //이 곳은 기본 홈페이지 엔드포인트 부분입니다.
-function Layout(){
+function Layout() {
 
-    return(
-        <div className="root2" style={{display:"flex"}}>
-            <SideBar/>
-            <Outlet/>
+    return (
+        <div className={styles.root}>
+            <SideBar />
+            <Outlet />
         </div>
     )
 }
