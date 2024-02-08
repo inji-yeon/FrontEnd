@@ -73,6 +73,7 @@ function MailSidebar(){
             
             <Outlet/>
             </div>
+           
         </>
     )
 }

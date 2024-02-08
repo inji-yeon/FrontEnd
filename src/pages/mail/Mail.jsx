@@ -4,9 +4,11 @@ import './mail.css';
 import '../../component/mail/errorMessage.css'
 import { useEffect, useState } from "react";
 import { fetchMail } from "../../modules/MailModule";
+import { useNavigate } from "react-router-dom";
 
 
 function Mail(){
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [active, setActive] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -22,8 +24,6 @@ function Mail(){
     
     useEffect(()=>{
     setLoading(mails.loading);
-    console.log("useEffect부분 메세지 :",mails.message);
-    console.log("useEffect부분 :",mails);
     if(mails.error === 1000){
         setMessage({show:true,message:"검색된 메일이 없습니다."});
             setTimeout(() => {
@@ -51,9 +51,6 @@ function Mail(){
                 option = 'receiver';
             }
             dispatch(fetchMailSearch(word,option))
-            .then(data => {
-                console.log('성공',data);
-            })
         } else {
             setMessage({show:true,message:"검색어를 입력해주세요."});
             setTimeout(() => {
@@ -63,8 +60,12 @@ function Mail(){
         }
    }
    const closeError = (e) => {
-        console.log(e.key);
+  
         setMessage({show:false, message:null});
+   }
+   const showMail = (key) => {
+        console.log(key);
+        navigate(`/mail/view/${key}`)
    }
     return(
         !loading && (
@@ -105,7 +106,7 @@ function Mail(){
                     { mails.data ? 
                         (
                             mails.data.data.map((mail) => (
-                            <tr onClick={()=>{alert("메일 조회")}} key={mail.emailCode} className={`fade-in ${active ? 'active' : ''}`}>
+                            <tr onClick={()=>{showMail(mail.emailCode)}} key={mail.emailCode} className={`fade-in ${active ? 'active' : ''}`}>
                                 <td><input type="checkbox"/></td>
                                 <td><img onClick={()=>{alert("중요 표시")}} alt="별" src="/mail/star_empty.png" style={{width: '20px', height: '20px'}}/></td>
                                 <td style={{color: mail.emailReadStatus === "Y" ? 'grey' : 'black'}} className="receiver">{mail.emailReceiver.employeeId}@witty.com</td>

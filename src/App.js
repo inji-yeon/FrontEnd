@@ -12,6 +12,7 @@ import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
 import Attendance from "./pages/attendance/Attendance";
 import MailSidebar from "./pages/mail/common/MailSidebar";
+import MailView from "./pages/mail/MailView";
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
             <Route path="mail" element={<MailSidebar />}>
               <Route path="check" element={<Mail />} />
               <Route path="write" element={<Write />} />
+              
             </Route>
+            <Route path="mail/view/:emailCode" element={<MailView/>}/>
+
             <Route path="group" element={<Group/>}/>
 
             <Route path="board" element={<Board/>}/>
