@@ -12,13 +12,13 @@ function DoPaymentDocumentReject() {
     };
     
     const doApplyApprovalClick = () => {
-        // 대기 페이지로 이동
+        // 결재 완료 페이지로 이동
         navigate('/attendance/doPaymentDocumentApproval')
     };
 
 
     const doApplyRejectClick = () => {
-        // 대기 페이지로 이동
+        // 반려한 페이지로 이동
         navigate('/attendance/doPaymentDocumentReject')
     };
 

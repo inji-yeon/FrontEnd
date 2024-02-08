@@ -60,6 +60,14 @@ body {
     background-color: #FA9A85;
 }
 
+.pre img {
+    position: relative;
+    left: 0px;
+    width: 15px;
+    height: 15px;
+}
+
+
 .now{
     position: relative;
     left: 10px;
@@ -72,10 +80,17 @@ body {
     background-color: #FA9A85;
 }
 
+.nex img {
+    position: relative;
+    left: 0px;
+    width: 15px;
+    height: 15px;
+}
+
 .count-box{
     position: absolute;
     top:70px;
-    left: 100px;
+    left: 30px;
     height: 130px;
     width: 1100px;
     background-color: #FFBE98;
@@ -96,12 +111,13 @@ body {
     position: absolute;
     height: 100px;
     left:60px;
-    top: 0px;
+    top: 5px;
 }
 
 .vacation-image img{
     position: absolute;
     top: 5px;
+    left: 0px;
     width: 39px;
     height: 39px;
 }
@@ -271,6 +287,16 @@ body {
     color: #414141;
     font-size: 20px;
 }
+
+.pagingBtn{
+    margin: 5px;
+    border-radius: 25px;
+    background-color: #FA9A85;
+    font-weight: bold;
+}
+
+
+
 
 
 a {
@@ -446,5 +472,7 @@ a {
 .tardyCount{
     font-size: 20px;
 }
+
+
 
 

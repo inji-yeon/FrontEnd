@@ -30,7 +30,7 @@ function Attendance() {
 
     const myPaymentClick = () => {
         // 결재 페이지로 이동
-        navigate('/');  //결재할 페이지 널기
+        navigate('/attendance/doPaymentDocumentWaiting')
     };
 
     const workApplyClick = () => {
@@ -127,7 +127,7 @@ function Attendance() {
                         <span className="today-time">{currentDateTime}</span>
                         <hr />
                         <div className="current-info">
-                            <span clclassNamess="userN" >ooo님, 안녕하세요.</span><br/>
+                            <span className="userN" >ooo님, 안녕하세요.</span><br/>
                             <span className="current">{current}</span>
                         </div>
                         <div className="time-info">
@@ -142,9 +142,9 @@ function Attendance() {
                 </div>
                 <div className="calender-area">
                     <div className="calender-info">
-                        <button className="pre" onClick="changeMonth(-1)"> + </button>
+                        <button className="pre" > + </button>
                         <span className="now"></span>
-                        <button className="nex" onClick="changeMonth(1)"> - </button>
+                        <button className="nex"> - </button>
                     </div>
                     <div className="calenderOption" id="calenderOption">
                         <div className="options-container">
