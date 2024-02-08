@@ -115,7 +115,6 @@ export const fetchMailSearch = (word, option) =>{
                     } else {
                         dispatch(success(data));
                     }
-                    
                 }
                 
             })
