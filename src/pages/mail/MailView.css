@@ -1,0 +1,132 @@
+
+.reveive_mail{
+    user-select: none;
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: white;
+    transition: font-size 0.3s ease;
+    text-align: center;
+    margin-right: 20px;
+}
+.unread_mail_link{
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: white;
+    color: blue;
+    transition: font-size 0.3s ease;
+    text-align: center;
+    margin-right: 20px;
+    text-decoration: underline;
+}
+.total{
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: white;
+    color: blue;
+    transition: font-size 0.3s ease;
+    text-align: center;
+    margin-right: 20px;
+    text-decoration: underline;
+}
+
+
+.receive_button,.non_read_change{
+    position: absolute;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background: #fa9a85;
+    height: 30px;
+    text-align: center;
+    margin-right: 20px;
+    transition-property: font-size,background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in, linear;
+}
+.non_read_change{
+    user-select: none;
+    top: 250px;
+    left: 470px;
+    width: 160px;
+}
+.receive_button{
+    user-select: none;
+    top: 250px;
+    width: 110px;
+}
+.non_read_change:hover, .receive_button:hover{
+    font-size: 17px;
+    background: #feaa97;
+}
+.receive_button{
+    user-select: none;
+    position: absolute;
+    width: 110px;
+}
+
+
+.current{
+    position: absolute;
+    font-size: 16px;
+    user-select: none;
+}
+.arrow{
+    user-select: none;
+    cursor: pointer;
+}
+
+.reveive_mail:hover{
+    font-size: 22px;
+    font-weight: bold;
+}
+.title_container{
+    top: 200px;
+    position: absolute;
+    width: 1720px;
+    background-color: rgb(238, 235, 235);
+    border-radius: 5px;
+    padding-left: 20px;
+}
+.email-title{
+    font-size: 26px;
+}
+.content-container{
+    border-radius: 15px;
+    position: absolute;
+    top: 300px;
+    height: 1080px;
+    width: 1720px;
+    background-color: rgb(238, 235, 235);
+    padding-left: 25px;
+    padding-top: 25px;
+}
+
+.send_time_text{
+    user-select: none;
+    font-size: 19px;
+    position: absolute;
+    top: 150px;
+}
+.email-send-time{
+    font-size: 16px;
+    position: absolute;
+    top: 152px;
+    left: 420px;
+}
+.email-sender{
+    position: absolute;
+    font-size: 18px;
+    top: 255px;
+    left: 650px;
+}
+.email-content{
+    font-size: 25px;
+}

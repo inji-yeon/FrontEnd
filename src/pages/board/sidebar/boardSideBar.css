@@ -1,0 +1,74 @@
+.BoardSideBar{
+
+    color: #606060;
+    width: 245px;
+    height: 100%;
+    box-shadow: 3px 0px 6px -5px rgba(0, 0, 0, 0.25);
+    text-align: center;
+
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+  
+.fade-in.active {
+    opacity: 1;
+}
+
+.board_name{
+    font-size: 28px;
+    text-align: center;
+    padding-top: 1.7em;
+    padding-bottom: 1.3em; /* 간격 보류 */
+    color: #414141;
+
+}
+
+.board_title_section { 
+	background-color:#F5F5F5;
+    padding: 15px 10px;
+	/* height:45px; */
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	cursor: pointer;
+}
+
+.board_title{
+
+    color:#606060;
+	text-align:center;
+	font-size:20px;
+	/* margin-right: 49px; */
+
+}
+
+.board_menu_section {
+	/* overflow: hidden; */
+	/* transition: 0.3s ease-in-out; */
+    /* display: none;
+    transition: display 0.3s ease-in-out; */
+	background-color: white;
+    
+}
+
+
+.board_menu_section > div{
+    list-style-type: none;
+    
+    height: 45px;
+    cursor: pointer;
+    padding-top: 20px;
+    /* padding-left: 50px; */
+}
+
+.board_menu_section li:hover{
+    /* background-color: rgba(255, 190, 152, 0.21); */
+}
+
+.board_menu_section > div > span{
+    font-size: 18px;
+    text-align: left;
+}

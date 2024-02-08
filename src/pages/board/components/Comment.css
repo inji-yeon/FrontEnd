@@ -1,0 +1,40 @@
+.inputComment{
+
+    width: 1000px;
+    min-height: 30px;
+    border: 1px solid #D9D9D9;
+    font-size: 15px;
+    padding: 10px 10px;
+}
+
+.addCommentBtn{
+
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    background-color: #FA9A85;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: 18px;
+    margin-left: 20px;
+    border: none;
+}
+
+.writer{
+
+    font-weight: 600;
+    margin-left: 14px;
+
+}
+
+.commentInfo{
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.comment{
+    margin-bottom: 25px;
+}

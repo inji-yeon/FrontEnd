@@ -2,10 +2,6 @@
     font-family: Pretendard-Regular;
 }
 .project_section {
-    position: absolute;
-    top: 0px;
-    left: 600px;
-    width: 100%;
     display: grid;
     grid-column: auto;
 }
