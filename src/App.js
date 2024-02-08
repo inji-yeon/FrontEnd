@@ -5,7 +5,7 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Calendar from './pages/calendar/Calendar';
+import Calendar from './pages/calendar/CalendarMain';
 import Project from './pages/project/Project';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
@@ -36,18 +36,14 @@ function App() {
 
                     <Route path='mypage' element={<MyPage />} />
 
-            <Route path="attendance" element={<Attendance/>}/>
+                    <Route path='attendance' element={<Attendance />} />
+                </Route>
 
-          </Route>
-
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/admin" element={<Admin/>}/>
-          
-
-      </Routes>
-    </BrowserRouter>
- 
-  );
+                <Route path='/login' element={<Login />} />
+                <Route path='/admin' element={<Admin />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 //이 곳은 주소(앤트포인트)를 통해 어떤 컴포넌트를 출력할 지를 정하는 곳 입니다.
 //각 컴포넌트는 ../FrontEnd/src/pages/.. 에 위치해 있습니다.
