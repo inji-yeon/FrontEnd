@@ -5,12 +5,13 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Calendar from './pages/calendar/Calendar';
+import Calendar from './pages/calendar/CalendarMain';
 import Project from './pages/project/Project';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
+import Login from './pages/login/Login';
 import MailSidebar from './pages/mail/common/MailSidebar';
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Main />} />
-
+                      
                     <Route path='mail' element={<MailSidebar />}>
                         <Route path='check' element={<Mail />} />
                         <Route path='write' element={<Write />} />
@@ -39,6 +40,7 @@ function App() {
                     <Route path='attendance' element={<Attendance />} />
                 </Route>
 
+                <Route path='/login' element={<Login />} />
                 <Route path='/admin' element={<Admin />} />
             </Routes>
         </BrowserRouter>
