@@ -1,5 +1,6 @@
 
 .reveive_mail{
+    user-select: none;
     position: absolute;
     font-size: 20px;
     cursor: pointer;
@@ -51,11 +52,13 @@
     transition-timing-function: ease-in, linear;
 }
 .non_read_change{
+    user-select: none;
     top: 250px;
     left: 470px;
     width: 160px;
 }
 .receive_button{
+    user-select: none;
     top: 250px;
     width: 110px;
 }
@@ -64,6 +67,7 @@
     background: #feaa97;
 }
 .receive_button{
+    user-select: none;
     position: absolute;
     width: 110px;
 }
@@ -72,8 +76,10 @@
 .current{
     position: absolute;
     font-size: 16px;
+    user-select: none;
 }
 .arrow{
+    user-select: none;
     cursor: pointer;
 }
 
@@ -84,7 +90,7 @@
 .title_container{
     top: 200px;
     position: absolute;
-    width: 100%;
+    width: 1720px;
     background-color: rgb(238, 235, 235);
     border-radius: 5px;
     padding-left: 20px;
@@ -96,14 +102,15 @@
     border-radius: 15px;
     position: absolute;
     top: 300px;
-    height: 100%;
-    width: 100%;
+    height: 1080px;
+    width: 1720px;
     background-color: rgb(238, 235, 235);
     padding-left: 25px;
     padding-top: 25px;
 }
 
 .send_time_text{
+    user-select: none;
     font-size: 19px;
     position: absolute;
     top: 150px;

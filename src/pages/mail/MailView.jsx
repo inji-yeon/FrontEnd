@@ -25,7 +25,7 @@ function MailView(){
 
     return(
     <>  
-        {email && email.data && email.data.data ? 
+        {email && email.data && email.data.data && email.data.data.emailTitle ? 
             (
             <div>
                 <div className="contents_header">

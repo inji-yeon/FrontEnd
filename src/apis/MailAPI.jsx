@@ -21,7 +21,7 @@ export const fetchMailByStatus = (status) =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${token}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             }
         )
@@ -41,7 +41,7 @@ function fet(url){
         headers: {
             'Content-Type': 'application/json',
             Accept: '*/*',
-            Authorization : `Bearer ${token}`
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
         }
     }
 )
@@ -73,7 +73,7 @@ export const fetchMailByReadStatus = () =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${process.env.REACT_APP_TOKEN_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             }
         )
