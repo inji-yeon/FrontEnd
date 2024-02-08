@@ -1,0 +1,13 @@
+.calendar_section {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.calendar_header {
+    display: flex;
+    justify-content: space-between
+}
+
+/* 여기에 헤더전용 추가 스타일 */
+
+/* 여기서부터 아래는 캘린더. */

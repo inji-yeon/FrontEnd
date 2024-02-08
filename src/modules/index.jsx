@@ -4,12 +4,16 @@ import { combineReducers } from 'redux';
 import mailReducer from './MailModule';
 import sidebarReducer from './SidebarModule';
 import attendanceReducer from './AttendanceModule';
-
+import employeeReducer from './EmployeeModules'
+import calendarReducer from './CalendarModule';
 
 const rootReducer = combineReducers({
+    
     mail: mailReducer,
     sidebar: sidebarReducer,
-    attendance: attendanceReducer
-})
+    attendance: attendanceReducer,
+    employeeReducer,
+    calendar: calendarReducer
+});
 
-export default rootReducer; 
+export default rootReducer;

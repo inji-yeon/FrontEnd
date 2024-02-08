@@ -1,4 +1,40 @@
-import { createActions, handleActions } from "redux-actions";
+import { createAction, createActions, handleActions } from "redux-actions";
+import { getData } from "./common";
+
+
+const REQUEST = 'REQUEST';
+const SUCCESS = 'SUCCESS';
+const FAIL = 'FAIL';
+
+export const request = createAction(REQUEST);
+export const success = createAction(SUCCESS);
+export const fail = createAction(FAIL);
+
+const initial = {
+    data: null,
+    loading: false,
+    error: null
+};
+
+export const mailReducer = handleActions({
+    [REQUEST]: (state,action) => ({
+        ...state,
+        loading: true,
+        error: null,
+    }),
+    [SUCCESS]: (state,action)=> ({
+        ...state,
+        loading: false,
+        data: action.payload,
+        error: 0,
+    }),
+    [FAIL]: (state,action)=>({
+        ...state,
+        loading: false,
+        error: 1000,
+    }),
+},initial)
+
 
 
 /*초기값*/
@@ -10,28 +46,70 @@ const initialState = {};
 const INCREASE = "mail/INCREASE";
 //cost DECREASE = "mail/DECREASE";
 
-export const GET_MAIL = "mail/GET_MAIL";
+const GET_MAIL = "mail/GET_MAIL";
+const GET_MAIL_BY_STATUS = "mail/GET_MAIL_BY_STATUS";
 
-const actions = createActions({
-    [GET_MAIL]: () => {},
-})
+export const fetchMail = (url,token) => {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(url,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization : `Bearer ${token}`
+                }
+            });
+            const mailData = await response.json(); 
+
+            console.log('데이터 가져오기 성공 : ',mailData);
+            dispatch({type: GET_MAIL,payload: mailData});
+        } catch(error){
+            console.log('데이터 가져오기 실패 : ',error);
+        }
+    }
+}
+// export const fetchMail = (url,action,token) => {
+//     return async (dispatch) => {
+//         try {
+//             const response = await fetch('http://localhost:1208/mail/find-receive-mail?condition=send',{
+//                 method: 'GET',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Accept: '*/*',
+//                     Authorization : `Bearer ${token}`
+//                 }
+//             });
+//             const mailData = await response.json();
+
+//             console.log('데이터 가져오기 성공 : ',mailData);
+//             dispatch({type: GET_MAIL,payload: mailData});
+//         } catch(error){
+//             console.log('데이터 가져오기 실패 : ',error);
+//         }
+//     }
+// }
+
+// export const fetchMailByStatus = () => {
+//     return async
+// }
 
 
 
 //mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
 /*리듀서*/
 //handleActions() 함수로 위에 정의한 각 액션에 의해 상태가 어떻게 변경되는지를 정의한다.
-const mailReducer = handleActions(
-    {
-        [INCREASE] : (state,action) => ({count: state.count + 1}),
-        [GET_MAIL] : (state, {payload}) => {
-            console.log("state : ",state);
-            console.log("payload : " ,payload);
-            return payload
-        },
-    }
-    ,initialState
-);
+// const mailReducer = handleActions(
+//     {
+//         [INCREASE] : (state,action) => ({count: state.count + 1}),
+//         [GET_MAIL] : (state, {payload}) => {
+//             console.log("state : ",state);
+//             console.log("payload : " ,payload);
+//             return payload
+//         },
+//     }
+//     ,initialState
+// );
 
 export default mailReducer;
 //액션은 어떻게 생겼는가?

@@ -3,6 +3,6 @@
     "userGroup": "개발 본부",
     "userDept": "개발 1팀",
     "userName": "정지섭",
-    "userProfileImg": "sidebar/sidebar_user_profile_img/profile1.png",
-    "statusImg": "sidebar/sidebar_user_status_img/office.png"
+    "userProfileImg": "../../../../sidebar/sidebar_user_profile_img/profile1.png",
+    "statusImg": "../../../../sidebar/sidebar_user_status_img/office.png"
 }

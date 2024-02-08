@@ -6,6 +6,17 @@
     font-style: normal;
 }
 
-body{
+*{
+    padding:0;
+    margin:0;
+}
+
+body {
     font-family: Pretendard-Regular;
+}
+
+
+.root {
+    display: grid;
+    grid-template-columns: 326px auto;
 }
