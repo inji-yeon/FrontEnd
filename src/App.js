@@ -20,6 +20,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Main />} />
+                      
                     <Route path='mail' element={<MailSidebar />}>
                         <Route path='check' element={<Mail />} />
                         <Route path='write' element={<Write />} />
