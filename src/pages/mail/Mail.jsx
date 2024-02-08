@@ -105,7 +105,7 @@ function Mail(){
                 <tbody> 
                      {mails.data ? 
                         (
-                            mails.data.data.map((mail) => (
+                            mails.data?.data?.map((mail) => (
                             <tr onClick={()=>{showMail(mail.emailCode)}} key={mail.emailCode} className={`fade-in ${active ? 'active' : ''}`}>
                                 <td><input type="checkbox"/></td>
                                 <td><img onClick={()=>{alert("중요 표시")}} alt="별" src="/mail/star_empty.png" style={{width: '20px', height: '20px'}}/></td>
