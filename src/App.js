@@ -16,7 +16,7 @@ import MailView from "./pages/mail/MailView";
 import Calendar from './pages/calendar/CaledarSidebar';
 
 import Notice from "./pages/board/Notice";
-// import CreatePost from "./pages/board/CreatePost";
+import CreatePost from './pages/board/CreatePost';
 import PostInfo from "./pages/board/PostInfo";
 import PostListOfBoard from "./pages/board/PostListOfBoard";
 
@@ -42,7 +42,6 @@ function App() {
                       <Route path='board' element={<Board />} >
                         <Route path="boardCode" element={<PostListOfBoard />} />
                         <Route path="posts/regist" element={<CreatePost />} />
-                        <Route path="boards/create" element={<CreatePost />} />
                         <Route path="posts/postCode" element={<PostInfo />} />
                     </Route>
 
