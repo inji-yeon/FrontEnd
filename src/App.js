@@ -11,8 +11,7 @@ import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
 import MailSidebar from './pages/mail/common/MailSidebar';
-import CalendarSidebar from './pages/calendar/CaledarSidebar';
-import CalendarMain from './pages/calendar/CalendarMain';
+import Calendar from './pages/calendar/CaledarSidebar';
 
 function App() {
     return (
@@ -28,8 +27,7 @@ function App() {
 
                     <Route path='board' element={<Board />} />
 
-                    {/* <Route path='calendar' element={<CalendarSidebar />}>
-                        <Route index element={<CalendarMain />} />
+                    {/* <Route path='calendar' element={<Calendar />}>
                     </Route> */}
 
                     <Route path='project' element={<Project />} />
@@ -41,8 +39,8 @@ function App() {
                     <Route path='attendance' element={<Attendance />} />
                 </Route>
 
-                <Route path='/admin' element={<Admin />} />
-                <Route path='calendar' element={<CalendarSidebar />} />
+                <Route path='admin' element={<Admin />} />
+                <Route path='calendar' element={<Calendar />} />
             </Routes>
         </BrowserRouter>
     );
