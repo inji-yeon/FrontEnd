@@ -10,25 +10,33 @@ import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
+import Login from './pages/login/Login';
 import MailSidebar from './pages/mail/common/MailSidebar';
+import MailView from "./pages/mail/MailView";
 import Calendar from './pages/calendar/CaledarSidebar';
 
 function App() {
     return (
+
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Layout />}>
-                    <Route index element={<Main />} />
-                    <Route path='mail' element={<MailSidebar />}>
-                        <Route path='check' element={<Mail />} />
-                        <Route path='write' element={<Write />} />
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<Main/>}/>
+
+
+                    <Route path="mail" element={<MailSidebar />}>
+                        <Route path="check" element={<Mail />} />
+                        <Route path="write" element={<Write />} />
+
                     </Route>
-                    <Route path='group' element={<Group />} />
+                    <Route path="mail/view/:emailCode" element={<MailView/>}/>
+
+                    <Route path="group" element={<Group/>}/>
 
                     <Route path='board' element={<Board />} />
 
-                    {/* <Route path='calendar' element={<Calendar />}>
-                    </Route> */}
+                    <Route path='calendar' element={<Calendar />}>
+                    </Route>
 
                     <Route path='project' element={<Project />} />
 
@@ -39,8 +47,8 @@ function App() {
                     <Route path='attendance' element={<Attendance />} />
                 </Route>
 
+                <Route path='login' element={<Login />} />
                 <Route path='admin' element={<Admin />} />
-                <Route path='calendar' element={<Calendar />} />
             </Routes>
         </BrowserRouter>
     );

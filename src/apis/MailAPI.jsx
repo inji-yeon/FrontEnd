@@ -13,7 +13,6 @@ import { fail, request, success } from "../modules/MailModule";
 
 export const fetchMailByStatus = (status) =>{
     return dispatch => {
-        console.log('디스패치 중');
         const token = 'eyJkYXRlIjoxNzA3MjY3MTk2NDIxLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJlbXBsb3llZU5hbWUiOiLsoJXsp4DshK0iLCJzdWIiOiJyb290IiwiZW1wbG95ZWVFbWFpbCI6IndqZHdsdGpxODQ4MkBnbWFpbC5jb20iLCJleHAiOjE3MDczMDMxOTYsImVtcGxveWVlUm9sZSI6W3siZW1wbG95ZWVObyI6MCwiYXV0aG9yaXR5Q29kZSI6MiwiYXV0aG9yaXR5Ijp7ImF1dGhvcml0eUNvZGUiOjIsImF1dGhvcml0eU5hbWUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXR5RGVzYyI6Iuq0gOumrOyekCJ9fV19.HgsJESI1u7CQo7kHmnGEPJt7cw80-2eNcxdnWewzvhU';
         dispatch(request());
         fetch(`http://localhost:1208/mail/find-receive-mail?condition=${status}`,
@@ -22,7 +21,7 @@ export const fetchMailByStatus = (status) =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${token}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             }
         )
@@ -32,6 +31,35 @@ export const fetchMailByStatus = (status) =>{
                 console.log(data);
             })
             .catch(error => dispatch(fail(error)))
+    }
+}
+function fet(url){
+    const token = 'eyJkYXRlIjoxNzA3MjY3MTk2NDIxLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJlbXBsb3llZU5hbWUiOiLsoJXsp4DshK0iLCJzdWIiOiJyb290IiwiZW1wbG95ZWVFbWFpbCI6IndqZHdsdGpxODQ4MkBnbWFpbC5jb20iLCJleHAiOjE3MDczMDMxOTYsImVtcGxveWVlUm9sZSI6W3siZW1wbG95ZWVObyI6MCwiYXV0aG9yaXR5Q29kZSI6MiwiYXV0aG9yaXR5Ijp7ImF1dGhvcml0eUNvZGUiOjIsImF1dGhvcml0eU5hbWUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXR5RGVzYyI6Iuq0gOumrOyekCJ9fV19.HgsJESI1u7CQo7kHmnGEPJt7cw80-2eNcxdnWewzvhU';
+    return fetch(url,
+    {   
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        }
+    }
+)
+}
+export const fetchMail = (emailCode) =>{
+    console.log("뭐하냐 씨바라");
+    return dispatch => {
+        fet(`http://localhost:1208/mail/find-a-mail?emailCode=${emailCode}`).then(res => res.json())
+            .then(data => {
+                if(data.status === 200){
+                    dispatch(success(data));
+                    console.log(data);
+                }
+            })
+            .catch(error => {
+                dispatch(fail(error))
+                console.log(error);
+            })
     }
 }
 export const fetchMailByReadStatus = () =>{
@@ -45,7 +73,7 @@ export const fetchMailByReadStatus = () =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${process.env.REACT_APP_TOKEN_KEY}`
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             }
         )
@@ -70,7 +98,7 @@ export const fetchMailSearch = (word, option) =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${process.env.REACT_APP_TOKEN_KEY}`
+                    Authorization : 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             })
             .then(res => res.json())
@@ -87,7 +115,6 @@ export const fetchMailSearch = (word, option) =>{
                     } else {
                         dispatch(success(data));
                     }
-                    
                 }
                 
             })
