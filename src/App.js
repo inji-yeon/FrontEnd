@@ -11,6 +11,7 @@ import Approval from "./pages/approval/Approval";
 import MyPage from "./pages/mypage/Mypage";
 import Admin from "./pages/admin/Admin";
 import Attendance from "./pages/attendance/Attendance";
+import Login from "./pages/login/Login";
 
 function App() {
   return (
@@ -38,8 +39,9 @@ function App() {
             <Route path="attendance" element={<Attendance/>}/>
 
           </Route>
-
+          <Route path="/login" element={<Login/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          
 
       </Routes>
     </BrowserRouter>
