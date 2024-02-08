@@ -34,6 +34,7 @@ function App() {
             <Route path="board" element={<Board/>}>
               <Route path="boardCode" element={<PostListOfBoard />} />
               <Route path="posts/regist" element={<CreatePost />} />
+              <Route path="boards/create" element={<CreatePost />} />
               <Route path="posts/postCode" element={<PostInfo />} />
             </Route>
 
