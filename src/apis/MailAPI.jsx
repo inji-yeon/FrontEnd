@@ -98,7 +98,7 @@ export const fetchMailSearch = (word, option) =>{
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
-                    Authorization : `Bearer ${process.env.REACT_APP_TOKEN_KEY}`
+                    Authorization : 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }
             })
             .then(res => res.json())
