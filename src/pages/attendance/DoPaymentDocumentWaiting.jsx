@@ -1,6 +1,9 @@
-import './attendancePage/myApplyWaiting.css'
-import React, { useState } from 'react';
+import React from 'react';
+import doWaiting from './attendancePage/myApplyWaiting.module.css'
 import { useNavigate  } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { callDoWaitingAPI } from '../../apis/AttendanceAPI';
+import { useEffect, useState } from 'react';
 
 
 function DoPaymentDocumentWaiting () {
@@ -34,6 +37,38 @@ function DoPaymentDocumentWaiting () {
       // 팝업 열기 동작
     };
 
+    const dispatch = useDispatch();
+    const doWaitingDocu = useSelector((state => state.attendance))
+
+    const pageInfo = doWaitingDocu?.pageInfo;
+
+    console.log('pageInfo', pageInfo);
+
+    const doWaitingDocuts = doWaitingDocu?.data?.content; 
+
+    console.log('doWaitingDocuts =====>', doWaitingDocuts);
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+
+    useEffect(() => {
+
+        setStart((currentPage - 1) * 5);
+        dispatch(
+            callDoWaitingAPI({
+                currentPage: currentPage,
+            })
+        );
+    }, [currentPage]);
+
 
     
 
@@ -42,23 +77,23 @@ function DoPaymentDocumentWaiting () {
 
         <>
 
-            <div className="main">
-                <div className="main2">
-                    <span className="main-title">내 결재 문서</span>
-                    <div clclassNameass="bar"></div>
-                    <div className="filter-area">
-                        <div className="box-area">
-                        <div className="my-apply-waiting-box" onClick={doApplyWaitingClick}>대기</div>
-                        <div className="approval-box" onClick={doApplyApprovalClick}>결재</div>
-                        <div className="reject-box" onClick={doApplyRejectClick}>반려</div>
+            <div className={doWaiting.main}>
+                <div className={doWaiting.main2}>
+                    <span className={doWaiting.main-title}>내 결재 문서</span>
+                    <div clclassNameass={doWaiting.bar}></div>
+                    <div className={doWaiting.filter-area}>
+                        <div className={doWaiting.box-area}>
+                        <div className={doWaiting.my-apply-waiting-box} onClick={doApplyWaitingClick}>대기</div>
+                        <div className={doWaiting.approval-box} onClick={doApplyApprovalClick}>결재</div>
+                        <div className={doWaiting.reject-box} onClick={doApplyRejectClick}>반려</div>
                         </div>
-                        <div className="bar2"></div>
+                        <div className={doWaiting.bar2}></div>
                     </div>
-                    <button className="approval">승인</button>
-                    <div className="list-commute-area">
+                    <button className={doWaiting.approval}>승인</button>
+                    <div className={doWaiting.list-commute-area}>
                         <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                            <tr className="list-commute-detail" style={{ backgroundColor: '#F5F5F5' }} >
-                                <td className="list-commute-detail">
+                            <tr className={doWaiting.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }} >
+                                <td className={doWaiting.list-commute-detail}>
                                     <input 
                                         type="checkbox" 
                                         id="selectAll" 
@@ -66,36 +101,21 @@ function DoPaymentDocumentWaiting () {
                                         onChange={toggleCheckboxes} // onClick 대신에 onChange를 사용합니다.
                                     />
                                 </td>
-                                <td className="list-commute-detail">신청기간</td>
-                                <td className="list-commute-detail">종류</td>
-                                <td className="list-commute-detail">신청자</td>
-                                <td className="list-commute-detail">소속</td>
-                                <td className="list-commute-detail">관리</td>
+                                <td className={doWaiting.list-commute-detail}>신청기간</td>
+                                <td className={doWaiting.list-commute-detail}>종류</td>
+                                <td className={doWaiting.list-commute-detail}>신청자</td>
+                                <td className={doWaiting.list-commute-detail}>소속</td>
+                                <td className={doWaiting.list-commute-detail}>관리</td>
                             </tr>
-                            <tr className="list-commute-detail">
-                                <td className="list-commute-detail">
+                            <tr className={doWaiting.list-commute-detail}>
+                                <td className={doWaiting.list-commute-detail}>
                                     <input type="checkbox" />
                                 </td>
-                                <td className="list-commute-detail">2023-01-05(금)~2023-01-05(금)</td>
-                                <td className="list-commute-detail">연차-오후 반차</td>
-                                <td className="list-commute-detail">홍길동사원</td>
-                                <td className="list-commute-detail">마케팅팀</td>
-                                <td className="list-commute-detail">
-                                    <button>승인</button>
-                                    <button onClick={openPopup}>반려</button>
-                                    <button onClick={openPopup}>상세보기</button>
-                                </td>
-                            </tr>
-
-                            <tr className="list-commute-detail">
-                                <td className="list-commute-detail">
-                                    <input type="checkbox" />
-                                </td>
-                                <td className="list-commute-detail">2023-01-05(금)~2023-01-05(금)</td>
-                                <td className="list-commute-detail">연차-오후 반차</td>
-                                <td className="list-commute-detail">홍길동사원</td>
-                                <td className="list-commute-detail">마케팅팀</td>
-                                <td className="list-commute-detail">
+                                <td className={doWaiting.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
+                                <td className={doWaiting.list-commute-detail}>연차-오후 반차</td>
+                                <td className={doWaiting.list-commute-detail}>홍길동사원</td>
+                                <td className={doWaiting.list-commute-detail}>마케팅팀</td>
+                                <td className={doWaiting.list-commute-detail}>
                                     <button>승인</button>
                                     <button onClick={openPopup}>반려</button>
                                     <button onClick={openPopup}>상세보기</button>
@@ -104,8 +124,30 @@ function DoPaymentDocumentWaiting () {
                         </table>
                     </div>
 
-                    {/* <div class="paging-po"> << < 1  2  3  4  5 > >></div> */}
-
+                    <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                        {Array.isArray(doWaitingDocuts) && (
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={doWaiting.pagingBtn}> &lt;
+                            </button>
+                        )}
+                        {pageNumber.map((num) => (
+                            <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
+                                <button
+                                    style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
+                                    className={doWaiting.pagingBtn}>{num}
+                                </button>
+                            </li>
+                        ))}
+                        {Array.isArray(doWaitingDocuts) && (
+                            <button
+                                className={doWaiting.pagingBtn}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         

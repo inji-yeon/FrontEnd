@@ -1,6 +1,10 @@
-import './attendancePage/myApplyWaiting.css'
-import React, { useState } from 'react';
+import myWaiting from './attendancePage/MyApplyWaiting.module.css'
 import { useNavigate  } from 'react-router-dom';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { callMyWaitingAPI } from '../../apis/AttendanceAPI';
+import { useEffect, useState } from 'react';
+
 
 
 function MyApplyDocumentWaiting () {
@@ -33,6 +37,42 @@ function MyApplyDocumentWaiting () {
             // 반려 페이지로 이동
             navigate('/attendance/myApplyDocumentRejction');  
         };
+
+
+        const dispatch = useDispatch();
+        const myWaitingdoc = useSelector((state => state.attendance))
+    
+        const pageInfo = myWaitingdoc?.pageInfo;
+    
+        console.log('pageInfo', pageInfo);
+    
+        const myWaitingdocuts = myWaitingdoc?.data?.content; 
+    
+        console.log('myWaitingdocuts =====>', myWaitingdocuts);
+    
+        const [start, setStart] = useState(0);
+        const [currentPage, setCurrentPage] = useState(1);
+        const [pageEnd, setPageEnd] = useState(1);
+    
+        const pageNumber = [];
+        if (pageInfo) {
+            for (let i = 1; i <= pageInfo.pageEnd; i++) {
+                pageNumber.push(i);
+            }
+        }
+    
+        useEffect(() => {
+    
+            setStart((currentPage - 1) * 5);
+            dispatch(
+                callMyWaitingAPI({
+                    currentPage: currentPage,
+                })
+            );
+        }, [currentPage]);
+
+
+
 
 
 
@@ -86,7 +126,31 @@ function MyApplyDocumentWaiting () {
                     )}
 
                 </div> 
-                {/* <div class="paging-po"> << < 1  2  3  4  5 > >></div> */}
+
+                <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                        {Array.isArray(myWaitingdocuts) && (
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={myWaiting.pagingBtn}> &lt;
+                            </button>
+                        )}
+                        {pageNumber.map((num) => (
+                            <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
+                                <button
+                                    style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
+                                    className={myWaiting.pagingBtn}>{num}
+                                </button>
+                            </li>
+                        ))}
+                        {Array.isArray(myWaitingdocuts) && (
+                            <button
+                                className={myWaiting.pagingBtn}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                            </button>
+                        )}
+                    </div>
 
             </div>
         </div>

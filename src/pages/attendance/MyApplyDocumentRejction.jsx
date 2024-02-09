@@ -1,6 +1,10 @@
-import './attendancePage/rejectPayment.css'
+import myRejec from './attendancePage/RejectPayment.module.css'
 import { useNavigate  } from 'react-router-dom';
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { callMyRejectAPI } from '../../apis/AttendanceAPI';
+import { useEffect, useState } from 'react';
+
 
 function MyApplyDocumentRejction() {
 
@@ -28,49 +32,108 @@ function MyApplyDocumentRejction() {
     }
 
 
+    const dispatch = useDispatch();
+    const myRejectDoc = useSelector((state => state.attendance))
+
+    const pageInfo = myRejectDoc?.pageInfo;
+
+    console.log('pageInfo', pageInfo);
+
+    const myRejectDocuts = myRejectDoc?.data?.content; 
+
+    console.log('myRejectDocuts =====>', myRejectDocuts);
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+
+    useEffect(() => {
+
+        setStart((currentPage - 1) * 5);
+        dispatch(
+            callMyRejectAPI({
+                currentPage: currentPage,
+            })
+        );
+    }, [currentPage]);
+
+
+
+
     return (
 
         <>
 
-            <div className="main">
+            <div className={myRejec.main}>
 
-                <div className="main2">
-                    <span className="main-title">내 신청 문서</span>
-                    <div className="bar"></div>
-                    <div className="filter-area">
-                        <div className="box-area">
-                            <div className="waiting-box" onClick={myApplyWaitingClick}>기안</div>
-                            <div className="approval-box" onClick={attenanceApprovalClick}>승인</div>
-                            <div className="my-document-reject-box" onClick={attenanceRejectClick}>반려</div>
+                <div className={myRejec.main2}>
+                    <span className={myRejec.main-title}>내 신청 문서</span>
+                    <div className={myRejec.bar}></div>
+                    <div className={myRejec.filter-area}>
+                        <div className={myRejec.box-area}>
+                            <div className={myRejec.waiting-box} onClick={myApplyWaitingClick}>기안</div>
+                            <div className={myRejec.approval-box} onClick={attenanceApprovalClick}>승인</div>
+                            <div className={myRejec.my-document-reject-box} onClick={attenanceRejectClick}>반려</div>
                         </div>
 
-                        <div className="bar2"></div>
+                        <div className={myRejec.bar2}></div>
                     </div>
 
-                    <div className="list-commute-area">
-                    <table className="list-commute-detail" style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
+                    <div className={myRejec.list-commute-area}>
+                    <table className={myRejec.list-commute-detail} style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
                         <tbody>
-                            <tr className="list-commute-detail" style={{ backgroundColor: '#F5F5F5' }}>
-                                <td className="list-commute-detail">문서번호</td>
-                                <td className="list-commute-detail">신청기간</td>
-                                <td className="list-commute-detail">종류</td>
-                                <td className="list-commute-detail">소속</td>
-                                <td className="list-commute-detail">결재일시</td>
-                                <td className="list-commute-detail"></td>
+                            <tr className={myRejec.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }}>
+                                <td className={myRejec.list-commute-detail}>문서번호</td>
+                                <td className={myRejec.list-commute-detail}>신청기간</td>
+                                <td className={myRejec.list-commute-detail}>종류</td>
+                                <td className={myRejec.list-commute-detail}>소속</td>
+                                <td className={myRejec.list-commute-detail}>결재일시</td>
+                                <td className={myRejec.list-commute-detail}></td>
                             </tr>
-                            <tr className="list-commute-detail">
-                                <td className="list-commute-detail">휴가-202301-00002</td>
-                                <td className="list-commute-detail">2023-01-05(금)~2023-01-05(금)</td>
-                                <td className="list-commute-detail">연차-오후 반차</td>
-                                <td className="list-commute-detail">마케팅팀</td>
-                                <td className="list-commute-detail">01-02 10:12 </td>
+                            <tr className={myRejec.list-commute-detail}>
+                                <td className={myRejec.list-commute-detail}>휴가-202301-00002</td>
+                                <td className={myRejec.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
+                                <td className={myRejec.list-commute-detail}>연차-오후 반차</td>
+                                <td className={myRejec.list-commute-detail}>마케팅팀</td>
+                                <td className={myRejec.list-commute-detail}>01-02 10:12 </td>
                                 <td> <button onClick={openPopup}>상세보기</button> </td>
                             </tr>
                         </tbody>
                     </table>
                     </div>
 
-                    {/* <div class="paging-po"> << < 1  2  3  4  5 > >></div> */}
+
+                    <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                        {Array.isArray(myRejectDocuts) && (
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={myRejec.pagingBtn}> &lt;
+                            </button>
+                        )}
+                        {pageNumber.map((num) => (
+                            <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
+                                <button
+                                    style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
+                                    className={myRejec.pagingBtn}>{num}
+                                </button>
+                            </li>
+                        ))}
+                        {Array.isArray(myRejectDocuts) && (
+                            <button
+                                className={myRejec.pagingBtn}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                            </button>
+                        )}
+                    </div>
 
                 </div>
             </div>
