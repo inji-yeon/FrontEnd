@@ -1,5 +1,5 @@
 
-import commuteMain from './attendancePage/CmmuteMain.module.css';
+import commuteMa from './attendancePage/CmmuteMain.module.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
@@ -96,57 +96,57 @@ function Attendance() {
 
     return(
         
-        <div className={commuteMain.main}>
-            <div className={commuteMain.main2}>
-                <span className={commuteMain.main-title}>내 근태 현황</span>
-                <div className={commuteMain.bar}></div>
-                <div className={commuteMain.box}>
-                    <div className={commuteMain.vacation-box}>
-                        <span className={commuteMain.vacation-leave}>남은 연차</span>
-                        <span className={commuteMain.vacation-image}></span>
-                        <div className={commuteMain.vacation}>3</div>
-                        <span className={commuteMain.vacation-day}>일</span>
-                        <button onClick={vacationApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMain.vacation-apply}>휴가 신청하기</button>
+        <div className={commuteMa.main}>
+            <div className={commuteMa.main2}>
+                <span className={commuteMa.mainTitle}>내 근태 현황</span>
+                <div className={commuteMa.bar}></div>
+                <div className={commuteMa.box}>
+                    <div className={commuteMa.vacation_box}>
+                        <span className={commuteMa.vacation_leave}>남은 연차</span>
+                        <span className={commuteMa.vacation_image}></span>
+                        <div className={commuteMa.vacation2}>3</div>
+                        <span className={commuteMa.vacation_day}>일</span>
+                        <button onClick={vacationApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.vacation_apply}>휴가 신청하기</button>
                     </div>
-                    <div className={commuteMain.payment-box}>
-                        <span className={commuteMain.payment-leave}>결재 대기</span>
-                        <span className={commuteMain.payment-image}></span>
-                        <div className={commuteMain.payment}>3</div>
-                        <span className={commuteMain.payment-count}>건</span>
-                        <button onClick={myPaymentClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMain.payment-check}>결제 확인하기</button>
+                    <div className={commuteMa.payment_box}>
+                        <span className={commuteMa.payment_leave}>결재 대기</span>
+                        <span className={commuteMa.payment_image}></span>
+                        <div className={commuteMa.payment}>3</div>
+                        <span className={commuteMa.payment_count}>건</span>
+                        <button onClick={myPaymentClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.payment_check}>결제 확인하기</button>
                     </div>
-                    <div className={commuteMain.work-box}>
-                        <span className={commuteMain.work-title}>근태 신청</span>
-                        <span className={commuteMain.work-image}></span>
-                        <button onClick={workApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMain.work-apply}>근태 신청하기</button>
+                    <div className={commuteMa.work_box}>
+                        <span className={commuteMa.work_title}>근태 신청</span>
+                        <span className={commuteMa.work_image}></span>
+                        <button onClick={workApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.vacation_apply}>근태 신청하기</button>
                     </div>
                 </div>
-                <div className={commuteMain.today-Info-box}>
-                    <div className={commuteMain.today-Info}>
-                        <span className={commuteMain.today}>오늘</span>
-                        <span className={commuteMain.today-time}>{currentDateTime}</span>
+                <div className={commuteMa.today_Info_box}>
+                    <div className={commuteMa.today_Info}>
+                        <span className={commuteMa.today}>오늘</span>
+                        <span className={commuteMa.today_time}>{currentDateTime}</span>
                         <hr />
-                        <div className={commuteMain.current-info}>
+                        <div className={commuteMa.current_info}>
                             <span className="userN" >ooo님, 안녕하세요.</span><br/>
-                            <span className={commuteMain.current}>{current}</span>
+                            <span className={commuteMa.current}>{current}</span>
                         </div>
-                        <div className={commuteMain.time-info}>
+                        <div className={commuteMa.time_info}>
                         <span className="workTime">출근: {workTime}</span><br />
                         <span className="leaveTime">퇴근: {leaveTime}</span>
                         </div>
-                        <button id="workCheckButton" className={commuteMain.work-check} onClick={arrivalTime}>출근</button>
-                        <button id="leaveCheckButton" className={commuteMain.leave-check} onClick={updateTime}>퇴근</button>
-                        <span className={commuteMain.worked}>{worked}</span><br/>
-                        <span className={commuteMain.workedHour}>{workedHour}</span>
+                        <button id="workCheckButton" className={commuteMa.work_check} onClick={arrivalTime}>출근</button>
+                        <button id="leaveCheckButton" className={commuteMa.leave_check} onClick={updateTime}>퇴근</button>
+                        <span className={commuteMa.worked}>{worked}</span><br/>
+                        <span className={commuteMa.workedHour}>{workedHour}</span>
                     </div>
                 </div>
-                <div className={commuteMain.calender-area}>
-                    <div className={commuteMain.calender-info}>
-                        <button className={commuteMain.pre} > + </button>
-                        <span className={commuteMain.now}></span>
-                        <button className={commuteMain.nex}> - </button>
+                <div className={commuteMa.calender_area}>
+                    <div className={commuteMa.calender_info}>
+                        <button className={commuteMa.pre} > + </button>
+                        <span className={commuteMa.now}></span>
+                        <button className={commuteMa.nex}> - </button>
                     </div>
-                    <div className={commuteMain.calenderOption} id="calenderOption">
+                    <div className={commuteMa.calenderOption} id="calenderOption">
                         <div className="options-container">
                             <label><input type="checkbox" value="vacation" /> 휴가</label>
                             <label><input type="checkbox" value="outside" /> 외근</label>
@@ -155,7 +155,7 @@ function Attendance() {
                             <label><input type="checkbox" value="home" /> 재택근무</label>
                         </div>
                     </div>
-                    <div className={commuteMain.calender}></div>
+                    <div className={commuteMa.calender}></div>
                 </div>
             </div>
         </div>

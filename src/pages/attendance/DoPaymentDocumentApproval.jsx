@@ -70,37 +70,37 @@ function DoPaymentDocumentApproval () {
         <div className={doPay.main2}>
             <span className={doPay.main_title}>내 결재 문서</span>
             <div className={doPay.bar}></div>
-            <div className={doPay.filter-area}>
-                <div className={doPay.box-area}>
-                    <div className={doPay.my-apply-waiting-box} onClick={doApplyWaitingClick}>대기</div>
-                    <div className={doPay.approval-box} onClick={doApplyApprovalClick}>결재</div>
-                    <div className={doPay.reject-box} onClick={doApplyRejectClick}>반려</div>
+            <div className={doPay.filter_area}>
+                <div className={doPay.box_area}>
+                    <div className={doPay.waiting_box} onClick={doApplyWaitingClick}>대기</div>
+                    <div className={doPay.document_approval_box} onClick={doApplyApprovalClick}>결재</div>
+                    <div className={doPay.reject_box} onClick={doApplyRejectClick}>반려</div>
                 </div>
 
                 <div className={doPay.bar2}></div>
             </div>
-            <div className={doPay.list-commute-area}>
+            <div className={doPay.list_commute_area}>
                 <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                    <tr className={doPay.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }} >
-                        <td className={doPay.list-commute-detail}>문서번호</td>
-                        <td className={doPay.list-commute-detail}>신청기간</td>
-                        <td className={doPay.list-commute-detail}>종류</td>
-                        <td className={doPay.list-commute-detail}>신청자</td>
-                        <td className={doPay.list-commute-detail}>소속</td>
-                        <td className={doPay.list-commute-detail}>결재일시</td>
+                    <tr className={doPay.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
+                        <td className={doPay.list_commute_detail}>문서번호</td>
+                        <td className={doPay.list_commute_detail}>신청기간</td>
+                        <td className={doPay.list_commute_detail}>종류</td>
+                        <td className={doPay.list_commute_detail}>신청자</td>
+                        <td className={doPay.list_commute_detail}>소속</td>
+                        <td className={doPay.list_commute_detail}>결재일시</td>
                     </tr>
-                    <tr className={doPay.list-commute-detail}>
-                        <td className={doPay.list-commute-detail}>휴가-202301-00002</td>
-                        <td className={doPay.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
-                        <td className={doPay.list-commute-detail}>연차-오후 반차</td>
-                        <td className={doPay.list-commute-detail}>홍길동사원</td>
-                        <td className={doPay.list-commute-detail}>마케팅팀</td>
-                        <td className={doPay.list-commute-detail}>01-02 10:12</td>
+                    <tr className={doPay.list_commute_detail}>
+                        <td className={doPay.list_commute_detail}>휴가-202301-00002</td>
+                        <td className={doPay.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
+                        <td className={doPay.list_commute_detail}>연차-오후 반차</td>
+                        <td className={doPay.list_commute_detail}>홍길동사원</td>
+                        <td className={doPay.list_commute_detail}>마케팅팀</td>
+                        <td className={doPay.list_commute_detail}>01-02 10:12</td>
                     </tr>
                 </table>
             </div>
 
-            <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+            <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                 {Array.isArray(doPaymentLists) && (
                     <button
                         onClick={() => setCurrentPage(currentPage - 1)}

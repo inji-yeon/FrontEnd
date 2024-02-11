@@ -1,5 +1,5 @@
 import React from 'react';
-import doWaiting from './attendancePage/myApplyWaiting.module.css'
+import doWaiting from './attendancePage/MyApplyWaiting.module.css'
 import { useNavigate  } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { callDoWaitingAPI } from '../../apis/AttendanceAPI';
@@ -79,21 +79,21 @@ function DoPaymentDocumentWaiting () {
 
             <div className={doWaiting.main}>
                 <div className={doWaiting.main2}>
-                    <span className={doWaiting.main-title}>내 결재 문서</span>
+                    <span className={doWaiting.main_title}>내 결재 문서</span>
                     <div clclassNameass={doWaiting.bar}></div>
-                    <div className={doWaiting.filter-area}>
-                        <div className={doWaiting.box-area}>
-                        <div className={doWaiting.my-apply-waiting-box} onClick={doApplyWaitingClick}>대기</div>
-                        <div className={doWaiting.approval-box} onClick={doApplyApprovalClick}>결재</div>
-                        <div className={doWaiting.reject-box} onClick={doApplyRejectClick}>반려</div>
+                    <div className={doWaiting.filter_area}>
+                        <div className={doWaiting.box_area}>
+                        <div className={doWaiting.apply_waiting_box} onClick={doApplyWaitingClick}>대기</div>
+                        <div className={doWaiting.approval_box} onClick={doApplyApprovalClick}>결재</div>
+                        <div className={doWaiting.reject_box} onClick={doApplyRejectClick}>반려</div>
                         </div>
                         <div className={doWaiting.bar2}></div>
                     </div>
                     <button className={doWaiting.approval}>승인</button>
-                    <div className={doWaiting.list-commute-area}>
+                    <div className={doWaiting.list_commute_area}>
                         <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                            <tr className={doWaiting.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }} >
-                                <td className={doWaiting.list-commute-detail}>
+                            <tr className={doWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }} >
+                                <td className={doWaiting.list_my_waiting}>
                                     <input 
                                         type="checkbox" 
                                         id="selectAll" 
@@ -101,21 +101,21 @@ function DoPaymentDocumentWaiting () {
                                         onChange={toggleCheckboxes} // onClick 대신에 onChange를 사용합니다.
                                     />
                                 </td>
-                                <td className={doWaiting.list-commute-detail}>신청기간</td>
-                                <td className={doWaiting.list-commute-detail}>종류</td>
-                                <td className={doWaiting.list-commute-detail}>신청자</td>
-                                <td className={doWaiting.list-commute-detail}>소속</td>
-                                <td className={doWaiting.list-commute-detail}>관리</td>
+                                <td className={doWaiting.list_my_waiting}>신청기간</td>
+                                <td className={doWaiting.list_my_waiting}>종류</td>
+                                <td className={doWaiting.list_my_waiting}>신청자</td>
+                                <td className={doWaiting.list_my_waiting}>소속</td>
+                                <td className={doWaiting.list_my_waiting}>관리</td>
                             </tr>
-                            <tr className={doWaiting.list-commute-detail}>
-                                <td className={doWaiting.list-commute-detail}>
+                            <tr className={doWaiting.list_my_waiting}>
+                                <td className={doWaiting.list_my_waiting}>
                                     <input type="checkbox" />
                                 </td>
-                                <td className={doWaiting.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
-                                <td className={doWaiting.list-commute-detail}>연차-오후 반차</td>
-                                <td className={doWaiting.list-commute-detail}>홍길동사원</td>
-                                <td className={doWaiting.list-commute-detail}>마케팅팀</td>
-                                <td className={doWaiting.list-commute-detail}>
+                                <td className={doWaiting.list_my_waiting}>2023-01-05(금)~2023-01-05(금)</td>
+                                <td className={doWaiting.list_my_waiting}>연차-오후 반차</td>
+                                <td className={doWaiting.list_my_waiting}>홍길동사원</td>
+                                <td className={doWaiting.list_my_waiting}>마케팅팀</td>
+                                <td className={doWaiting.list_my_waiting}>
                                     <button>승인</button>
                                     <button onClick={openPopup}>반려</button>
                                     <button onClick={openPopup}>상세보기</button>
@@ -124,7 +124,7 @@ function DoPaymentDocumentWaiting () {
                         </table>
                     </div>
 
-                    <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(doWaitingDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}

@@ -74,35 +74,35 @@ function MyApplyDocumentRejction() {
             <div className={myRejec.main}>
 
                 <div className={myRejec.main2}>
-                    <span className={myRejec.main-title}>내 신청 문서</span>
+                    <span className={myRejec.main_title}>내 신청 문서</span>
                     <div className={myRejec.bar}></div>
-                    <div className={myRejec.filter-area}>
-                        <div className={myRejec.box-area}>
-                            <div className={myRejec.waiting-box} onClick={myApplyWaitingClick}>기안</div>
-                            <div className={myRejec.approval-box} onClick={attenanceApprovalClick}>승인</div>
-                            <div className={myRejec.my-document-reject-box} onClick={attenanceRejectClick}>반려</div>
+                    <div className={myRejec.filter_area}>
+                        <div className={myRejec.box_area}>
+                            <div className={myRejec.waiting_box} onClick={myApplyWaitingClick}>기안</div>
+                            <div className={myRejec.approval_box} onClick={attenanceApprovalClick}>승인</div>
+                            <div className={myRejec.document_reject_box} onClick={attenanceRejectClick}>반려</div>
                         </div>
 
                         <div className={myRejec.bar2}></div>
                     </div>
 
-                    <div className={myRejec.list-commute-area}>
-                    <table className={myRejec.list-commute-detail} style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
+                    <div className={myRejec.list_commute_area}>
+                    <table className={myRejec.list_commute_detail} style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
                         <tbody>
-                            <tr className={myRejec.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }}>
-                                <td className={myRejec.list-commute-detail}>문서번호</td>
-                                <td className={myRejec.list-commute-detail}>신청기간</td>
-                                <td className={myRejec.list-commute-detail}>종류</td>
-                                <td className={myRejec.list-commute-detail}>소속</td>
-                                <td className={myRejec.list-commute-detail}>결재일시</td>
-                                <td className={myRejec.list-commute-detail}></td>
+                            <tr className={myRejec.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
+                                <td className={myRejec.list_commute_detail}>문서번호</td>
+                                <td className={myRejec.list_commute_detail}>신청기간</td>
+                                <td className={myRejec.list_commute_detail}>종류</td>
+                                <td className={myRejec.list_commute_detail}>소속</td>
+                                <td className={myRejec.list_commute_detail}>결재일시</td>
+                                <td className={myRejec.list_commute_detail}></td>
                             </tr>
-                            <tr className={myRejec.list-commute-detail}>
-                                <td className={myRejec.list-commute-detail}>휴가-202301-00002</td>
-                                <td className={myRejec.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
-                                <td className={myRejec.list-commute-detail}>연차-오후 반차</td>
-                                <td className={myRejec.list-commute-detail}>마케팅팀</td>
-                                <td className={myRejec.list-commute-detail}>01-02 10:12 </td>
+                            <tr className={myRejec.list_commute_detail}>
+                                <td className={myRejec.list_commute_detail}>휴가-202301-00002</td>
+                                <td className={myRejec.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
+                                <td className={myRejec.list_commute_detail}>연차-오후 반차</td>
+                                <td className={myRejec.list_commute_detail}>마케팅팀</td>
+                                <td className={myRejec.list_commute_detail}>01-02 10:12 </td>
                                 <td> <button onClick={openPopup}>상세보기</button> </td>
                             </tr>
                         </tbody>
@@ -110,7 +110,7 @@ function MyApplyDocumentRejction() {
                     </div>
 
 
-                    <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(myRejectDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}

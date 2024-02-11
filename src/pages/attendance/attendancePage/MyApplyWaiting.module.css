@@ -15,7 +15,7 @@ body {
     margin: 0;
     font-family: Pretendard;
 }
-.main-title{
+.main_title{
     position: relative;
     left: 10px;
     top: 30px;
@@ -30,7 +30,7 @@ body {
     
 }
 
-.filter-area{
+.filter_area{
     position: relative;
     top: 90px;
 }
@@ -41,13 +41,13 @@ body {
     
 }
 
-.box-area{
+.box_area{
     position: relative;
     width: 240px;
     height: 50px;
 }
 
-.my-apply-waiting-box{
+.apply_waiting_box{
     position: absolute;
     left: 0px;
     background-color: #FFBE98;
@@ -59,7 +59,7 @@ body {
     text-align: center;
 }
 
-.approval-box{
+.approval_box{
     position: absolute;
     left: 80px;
     background-color: #F5F5F5;
@@ -72,7 +72,7 @@ body {
     border:0.5px solid #606060;
 } 
 
-.reject-box{
+.reject_box{
     position: absolute;
     left: 160px;
     background-color: #F5F5F5;
@@ -99,7 +99,7 @@ body {
 
 
 
-.list-my-waiting table {
+.list_my_waiting table {
     position: relative;
     top: 190px;
     font-size: 16px;
@@ -108,20 +108,42 @@ body {
 
 }
 
-.list-my-waiting th, .list-my-waiting td {
+
+
+
+.list_my_waiting td {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
     font-size: 16px;
 }
 
-.paging-po{
+.list_my_waiting tr {
+    border-bottom: 1px solid #606060;
+    padding: 20px; /* 셀 내부 여백을 지정합니다. */
+    text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
+    font-size: 16px;
+}
+
+
+
+
+.paging_po{
     position: absolute;
-    top: 850px;
-    left: 450px;
+    top: 80px;
     color: #414141;
     font-size: 20px;
 }
+
+.pagingBtn{
+    margin: 5px;
+    border-radius: 25px;
+    background-color: #FA9A85;
+    font-weight: bold;
+}
+
+
+
 
 
 a {

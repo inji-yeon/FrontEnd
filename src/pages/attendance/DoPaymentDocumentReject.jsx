@@ -3,7 +3,6 @@ import { useNavigate  } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { callDoRejectAPI } from '../../apis/AttendanceAPI';
 import { useEffect, useState } from 'react';
-import React from 'react';
 
 
 
@@ -64,40 +63,40 @@ function DoPaymentDocumentReject() {
         <>
     <div className={doRej.main}>
         <div className={doRej.main2}>
-            <span className={doRej.main-title}>내 결재 문서</span>
+            <span className={doRej.main_title}>내 결재 문서</span>
             <div className={doRej.bar}></div>
-            <div className={doRej.filter-area}>
-                <div className={doRej.box-area}>
-                <div className={doRej.waiting-box} onClick={doApplyWaitingClick}>대기</div>
-                    <div className={doRej.approval-box} onClick={doApplyApprovalClick}>결재</div>
-                    <div className={doRej.my-document-reject-box} onClick={doApplyRejectClick}>반려</div>
+            <div className={doRej.filter_area}>
+                <div className={doRej.box_area}>
+                <div className={doRej.waiting_box} onClick={doApplyWaitingClick}>대기</div>
+                    <div className={doRej.approval_box} onClick={doApplyApprovalClick}>결재</div>
+                    <div className={doRej.document_reject_box} onClick={doApplyRejectClick}>반려</div>
                 </div>
 
                 <div className={doRej.bar2}></div>
             </div>
 
-            <div className={doRej.list-commute-area}>
+            <div className={doRej.list_commute_area}>
                 <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                    <tr className={doRej.list-commute-detail} style={{ backgroundColor: '#F5F5F5' }} >
-                        <td className={doRej.list-commute-detail}>문서번호</td>
-                        <td className={doRej.list-commute-detail}>신청기간</td>
-                        <td className={doRej.list-commute-detail}>종류</td>
-                        <td className={doRej.list-commute-detail}>신청자</td>
-                        <td className={doRej.list-commute-detail}>소속</td>
-                        <td className={doRej.list-commute-detail}>결재일시</td>
+                    <tr className={doRej.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
+                        <td className={doRej.list_commute_detail}>문서번호</td>
+                        <td className={doRej.list_commute_detail}>신청기간</td>
+                        <td className={doRej.list_commute_detail}>종류</td>
+                        <td className={doRej.list_commute_detail}>신청자</td>
+                        <td className={doRej.list_commute_detail}>소속</td>
+                        <td className={doRej.list_commute_detail}>결재일시</td>
                     </tr>
-                    <tr className={doRej.list-commute-detail}>
-                        <td className={doRej.list-commute-detail}>휴가-202301-00002</td>
-                        <td className={doRej.list-commute-detail}>2023-01-05(금)~2023-01-05(금)</td>
-                        <td className={doRej.list-commute-detail}>연차-오후 반차</td>
-                        <td className={doRej.list-commute-detail}>홍길동사원</td>
-                        <td className={doRej.list-commute-detail}>마케팅팀</td>
-                        <td className={doRej.list-commute-detail}>01-02 10:12</td>
+                    <tr className={doRej.list_commute_detail}>
+                        <td className={doRej.list_commute_detail}>휴가-202301-00002</td>
+                        <td className={doRej.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
+                        <td className={doRej.list_commute_detail}>연차-오후 반차</td>
+                        <td className={doRej.list_commute_detail}>홍길동사원</td>
+                        <td className={doRej.list_commute_detail}>마케팅팀</td>
+                        <td className={doRej.list_commute_detail}>01-02 10:12</td>
                     </tr>
                 </table>
             </div>
 
-                <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                <div className={doRej.paging_po} style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                     {Array.isArray(doRejects) && (
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
