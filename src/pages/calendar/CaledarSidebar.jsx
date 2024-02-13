@@ -7,12 +7,17 @@ import CalendarMain from "./CalendarMain";
 
 function CaledarSidebar() {
     const dispatch = useDispatch();
-    const [calendarData, setCalendarData] = useState(useSelector((state) => state.calendar));
+    const calendar = useSelector((state) => state.calendar);
+    const [calendarData, setCalendarData] = useState(null);
 
     useEffect(() => {
         dispatch(callGetCalendarAPI());
         dispatch(callGetEventListAPI());
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        calendar && setCalendarData(calendar);
+    }, [calendar])
 
     return (
         <>
