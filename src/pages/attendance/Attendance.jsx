@@ -41,15 +41,25 @@ function Attendance() {
     };
 
 
-      const arrivalTime = () => {
+    const arrivalTime = () => {
         if (isWorking) {
-          alert('이미 출근했습니다.');
-          return;
+            alert('이미 출근했습니다.');
+            return;
         }
     
-        setIsWorking(true);
-        setWorkTime(getCurrentDateTime());
-        setCurrent('출근 했습니다');
+        // 현재 시간을 문자열로 가져와서 arrivalTime에 저장
+        const currentTime = getCurrentDateTime();
+        setWorkTime(currentTime);
+    
+        // 시, 분, 초 추출
+        const [hours, minutes, seconds] = currentTime.split(' ')[1].split(':').map(Number);
+    
+        // API 호출 시 arrivalTime을 문자열로 전달
+        dispatch(callCommutInsertAPI({
+            arrivalTime: currentTime, // workTime 대신 arrivalTime으로 변경
+            late: hours >= 9 && minutes >= 1 && seconds >= 0 // 9:01:00 이후면 지각으로 설정
+        }));
+
       };
     
       const updateTime = () => {
@@ -118,29 +128,7 @@ function Attendance() {
     }, []);
 
 
-    const [form, setForm] = useState({
-        attendanceManagementCode: '',
-        attendanceEmployeeCode: '',
-        attendanceManagementArrivalTime: '',
-        attendanceManagementDepartureTime: '00:00:00',
-        attendanceManagementState: '', 
-        attendanceManagementWorkDay: {currentDay},
 
-    });
-
-
-        // form 데이터 세팅    
-        const onChangeHandler = (e) => {
-            setForm({
-                ...form,
-                [e.target.name]: e.target.value
-            });
-        };
-
-
-        dispatch(callCommutInsertAPI({	
-            form: form
-        }));  
 
 
 
