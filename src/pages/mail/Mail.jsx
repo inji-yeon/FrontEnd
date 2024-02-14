@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMailByStatus, fetchMailSearch, getMail } from "../../apis/MailAPI";
+import { fetchMailByStatus, fetchMailSearch, toggleImportant } from "../../apis/MailAPI";
 import './mail.css';
 import '../../component/mail/errorMessage.css'
 import { useEffect, useState } from "react";
@@ -15,9 +15,12 @@ function Mail() {
     const [word, setWord] = useState("");
     const [condition, setCondition] = useState('value1');
     const [message, setMessage] = useState({ show: false, message: null });
+    
+
     useEffect(() => {
         dispatch(fetchMailByStatus('send'));
         setActive(true);
+        
     }, [dispatch]);
 
     const mails = useSelector(state => state.mail); //state가 바뀌면 리렌더링
@@ -31,6 +34,7 @@ function Mail() {
             }, 1500); // 3000ms = 3초
         }
     }, [mails]);
+
     const searchBoxKeyHandler = (e) => {
         if (e.key === 'Enter') {
             searchMail();
@@ -67,6 +71,29 @@ function Mail() {
         console.log(key);
         navigate(`/mail/view/${key}`)
     }
+
+
+    const [emails, setEmails] = useState([]);
+    useEffect(() => {
+        if (mails.data) {   //mail.data가 있으면
+          setEmails(mails.data.data);   //state를 만든다.
+        }
+      }, [mails]);  //mails가 변경될 때 마다 실행한다.
+
+    const changeImportant = (emailCode) => {    //이메일 코드를 들고 와서
+            const updatedEmails = emails.map(mail => {  //state로 갖고 있는 emails를 mail이란 이름으로 펼친다
+              if (mail.emailCode === emailCode) {   //만약 가져온 이메일 코드와 같다면?
+                const result = { ...mail, emailStatus: mail.emailStatus === 'important' ? 'send' : 'important' };   //emailStatus가 important면 send로 바꾸고, 아니면 impotant로 바꾼다.
+
+                dispatch(toggleImportant(mail.emailCode,result.emailStatus));
+                return result;
+              }
+              return mail;  //updataEmails에 mail을 대입한다.
+            });
+            setEmails(updatedEmails);   //state에 반환받은 업데이트 된 emails를 set한다.
+    }
+
+
     return (
         !loading && (
             <>
@@ -88,34 +115,37 @@ function Mail() {
                                 </select>
                                 <input onKeyDown={searchBoxKeyHandler} onChange={searchBoxHandler} className="project_search_input" name="searchText" type="text" placeholder="메일 검색" value={word} />
                                 <input className="project_search_button" onClick={searchMail} type="button" value="검색" />
-                                <input className="project_create_button" type="button" value="예약 전송" />
+                                <input onClick={()=>{navigate('/mail/write')}} className="project_create_button" type="button" value="예약 전송" />
                             </div>
                         </div>
                         <div className="project_body">
-                            <table style={{ textAlign: "left" }} className="boardList">
+                            <table style={{ textAlign: "center", width: "100%" }} className="boardList">
                                 <thead>
                                     <tr>
-                                        <th><input id="selectAll" className="test" type="checkbox" /></th>
-                                        <th className="important-icon"><img alt="별" src="/mail/star.png" style={{ width: '25px', height: '25px' }} /></th>
-                                        <th>보낸 사람</th>
-                                        <th>제목</th>
-                                        <th>보낸 날짜</th>
+                                        {/* <th><input id="selectAll" className="test" type="checkbox" /></th> */}
+                                        <th className="important-icon"><img alt="별" src="/mail/star.png" style={{marginLeft:'25px', width: '25px', height: '25px' }} /></th>
+                                        <th style={{ paddingLeft:'65px'}}>보낸 사람</th>
+                                        <th style={{ paddingLeft:'60px'}}>제목</th>
+                                        <th style={{ paddingLeft:'135px'}}>보낸 날짜</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {mails.data ?
+                                    {emails?
                                         (
-                                            mails.data?.data?.map((mail) => (
-                                                <tr onClick={() => { showMail(mail.emailCode) }} key={mail.emailCode} className={`fade-in ${active ? 'active' : ''}`}>
-                                                    <td><input type="checkbox" /></td>
-                                                    <td><img onClick={() => { alert("중요 표시") }} alt="별" src="/mail/star_empty.png" style={{ width: '20px', height: '20px' }} /></td>
-                                                    <td style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="receiver">{mail.emailReceiver.employeeId}@witty.com</td>
-                                                    <td style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }}>{mail.emailTitle}</td>
-                                                    <td style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="send_time">{mail.emailSendTime}</td>
+                                            emails?.map((mail) => (
+                                                <tr key={mail.emailCode} className={`fadea-in ${active ? 'active' : ''}`}>
+                                                    {/* <td><input type="checkbox" /></td> */}
+                                                    <td>{mail.emailStatus === 'important' ? (
+                                                        <img onClick={()=>{changeImportant(mail.emailCode)}} alt="별" src="/mail/star.png" style={{ width: '20px', height: '20px' }} />
+                                                    ):(
+                                                        <img onClick={()=>{changeImportant(mail.emailCode)}} alt="별" src="/mail/star_empty.png" style={{ width: '20px', height: '20px' }} />)}</td>
+                                                    <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="receiver">{mail.emailSender.employeeId}@witty.com</td>
+                                                    <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }}>{mail.emailTitle}</td>
+                                                    <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="send_time">{mail.emailSendTime}</td>
                                                 </tr>
                                             )
                                             )
-                                        ) : (<tr><td><p>로딩 중...</p></td></tr>)
+                                        ) : (<tr className='non-email'><td colSpan="4">이메일이 없습니다.</td></tr>)
                                     }
                                 </tbody>
                             </table>
