@@ -5,8 +5,85 @@ import{
     GET_DO_WAITING,
     GET_MY_APPROVAL,
     GET_MY_COMPANION,
-    GET_MY_WAITING
+    GET_MY_WAITING,
+    GET_COMMUTE_MAIN,
+    POST_COMMUTE_INSERT
 } from '../modules/AttendanceModule'
+
+
+
+export const callCommuteMainAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callCommuteMainAPI RESULT : ', result);
+            dispatch({ type: GET_COMMUTE_MAIN, payload: result });
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+
+};
+
+
+
+export const callCommutInsertAPI = ({ workTime }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+            },
+            body: JSON.stringify({ workTime }),
+        });
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callCommutInsertAPI RESULT : ', result);
+            dispatch({ type: POST_COMMUTE_INSERT, payload: result });
+
+        } else {
+            console.log('insertFail');
+        }
+    };
+
+};
+
+
+
+
+
+
+
+
+
+
 
 
 export const callCommutesListAPI = ({ currentPage, now }) => {
@@ -15,7 +92,7 @@ export const callCommutesListAPI = ({ currentPage, now }) => {
     if(currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/lists?yearMonth=${now}&offset=${currentPage}`;
     } else {
-        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/lists`;
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/lists?yearMonth=${now}`;
     }
 
 

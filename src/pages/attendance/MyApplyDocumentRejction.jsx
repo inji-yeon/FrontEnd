@@ -88,29 +88,39 @@ function MyApplyDocumentRejction() {
 
                     <div className={myRejec.list_commute_area}>
                     <table className={myRejec.list_commute_detail} style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                        <tbody>
+                        <thead>
                             <tr className={myRejec.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
                                 <td className={myRejec.list_commute_detail}>문서번호</td>
-                                <td className={myRejec.list_commute_detail}>신청기간</td>
+                                <td className={myRejec.list_commute_detail}>기안일자</td>
                                 <td className={myRejec.list_commute_detail}>종류</td>
-                                <td className={myRejec.list_commute_detail}>소속</td>
-                                <td className={myRejec.list_commute_detail}>결재일시</td>
+                                <td className={myRejec.list_commute_detail}>반려일자</td>
                                 <td className={myRejec.list_commute_detail}></td>
                             </tr>
-                            <tr className={myRejec.list_commute_detail}>
-                                <td className={myRejec.list_commute_detail}>휴가-202301-00002</td>
-                                <td className={myRejec.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
-                                <td className={myRejec.list_commute_detail}>연차-오후 반차</td>
-                                <td className={myRejec.list_commute_detail}>마케팅팀</td>
-                                <td className={myRejec.list_commute_detail}>01-02 10:12 </td>
-                                <td> <button onClick={openPopup}>상세보기</button> </td>
-                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.isArray(myRejectDocuts) && myRejectDocuts.length > 0?
+                                myRejectDocuts.map((AttmyRej) => (
+                                    <tr className={myRejec.list_commute_detail} key={AttmyRej.approvalLineCode}>
+                                        <td className={myRejec.list_commute_detail}>{AttmyRej.approvalLineCode}</td>
+                                        <td className={myRejec.list_commute_detail}>{AttmyRej.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                        <td className={myRejec.list_commute_detail}>{AttmyRej.approvalLineDocumentCode?.approvalForm}</td>
+                                        <td className={myRejec.list_commute_detail}>{AttmyRej.approvalProcessDate}</td>
+                                        <td><button onclick="openPopup()">상세보기</button></td>
+                                    </tr>
+                                ))
+                                :
+                                (
+                                    <tr>
+                                        <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                    </tr>
+                                )                                    
+                            }
                         </tbody>
                     </table>
                     </div>
 
 
-                    <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className="paging_po" style={{  position: 'relative', top: '450px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(myRejectDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}
@@ -137,11 +147,6 @@ function MyApplyDocumentRejction() {
 
                 </div>
             </div>
-
-    <div id="popup">
-        <div id="close-btn" onclick="closePopup()">닫기</div>
-    
-    </div>
         
         </>
     );

@@ -28,7 +28,7 @@ function DoPaymentDocumentApproval () {
 
 
     const dispatch = useDispatch();
-    const doPayment = useSelector((state => state.attendanceReducer));
+    const doPayment = useSelector((state => state.attendance));
 
 
     const pageInfo = doPayment?.pageInfo;
@@ -81,26 +81,42 @@ function DoPaymentDocumentApproval () {
             </div>
             <div className={doPay.list_commute_area}>
                 <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                    <tr className={doPay.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
-                        <td className={doPay.list_commute_detail}>문서번호</td>
-                        <td className={doPay.list_commute_detail}>신청기간</td>
-                        <td className={doPay.list_commute_detail}>종류</td>
-                        <td className={doPay.list_commute_detail}>신청자</td>
-                        <td className={doPay.list_commute_detail}>소속</td>
-                        <td className={doPay.list_commute_detail}>결재일시</td>
-                    </tr>
-                    <tr className={doPay.list_commute_detail}>
-                        <td className={doPay.list_commute_detail}>휴가-202301-00002</td>
-                        <td className={doPay.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
-                        <td className={doPay.list_commute_detail}>연차-오후 반차</td>
-                        <td className={doPay.list_commute_detail}>홍길동사원</td>
-                        <td className={doPay.list_commute_detail}>마케팅팀</td>
-                        <td className={doPay.list_commute_detail}>01-02 10:12</td>
-                    </tr>
+                    <thead>
+                        <tr className={doPay.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
+                            <td className={doPay.list_commute_detail}>문서번호</td>
+                            <td className={doPay.list_commute_detail}>기안일자</td>
+                            <td className={doPay.list_commute_detail}>종류</td>
+                            <td className={doPay.list_commute_detail}>기안자</td>
+                            <td className={doPay.list_commute_detail}>소속</td>
+                            <td className={doPay.list_commute_detail}>결재일시</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {Array.isArray(doPaymentLists) && doPaymentLists.length > 0?
+                            doPaymentLists.map((AttPayment) => (
+                                <tr className={doPay.list_commute_detail} key={AttPayment.approvalLineCode}>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.approvalDocumentCode}</td>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.approvalForm}</td>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.employeeDepartmentCode?.departmentName}</td>
+                                    <td className={doPay.list_commute_detail}>{AttPayment.approvalProcessDate}</td>
+                                </tr>
+                            ))
+                            :
+                            (
+                                <tr>
+                                    <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                </tr>
+                            )                            
+                        }
+
+                    </tbody>
                 </table>
             </div>
 
-            <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+            <div className="paging_po" style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                 {Array.isArray(doPaymentLists) && (
                     <button
                         onClick={() => setCurrentPage(currentPage - 1)}

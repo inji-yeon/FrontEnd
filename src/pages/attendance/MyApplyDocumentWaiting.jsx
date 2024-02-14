@@ -93,26 +93,39 @@ function MyApplyDocumentWaiting () {
 
                     <div className={myWaiting.bar2}></div>
                 </div>
-                <div className={myWaiting.list_my_waiting}>
+                <div className={myWaiting.list_commute_area}>
                     <table className= {myWaiting.list_my_waiting}  style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                        <tr className={myWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }}>
-                            <td className={myWaiting.list_my_waiting}>신청기간</td>
-                            <td className={myWaiting.list_my_waiting}>종류</td>
-                            <td className={myWaiting.list_my_waiting}>상태</td>
-                            <td className={myWaiting.list_my_waiting}>소속</td>
-                            <td className={myWaiting.list_my_waiting}>관리</td>
-                        </tr>
-                        <tr className={myWaiting.list_my_waiting}>
-                            <td className={myWaiting.list_my_waiting}>2023-01-05(금)~2023-01-05(금)</td>
-                            <td className={myWaiting.list_my_waiting}>연차-오후 반차</td>
-                            <td className={myWaiting.list_my_waiting}>홍길동사원</td>
-                            <td className={myWaiting.list_my_waiting}>마케팅팀</td>
-                            <td className={myWaiting.list_my_waiting}>
-                                <button id="withdrawal">철회</button>
-                                <button id="detailDcoument" onClick={openPopup}>상세보기</button>
-   
-                            </td>
-                        </tr>
+                        <thead>    
+                            <tr className={myWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }}>
+                                <td className={myWaiting.list_my_waiting}>기안일자</td>
+                                <td className={myWaiting.list_my_waiting}>종류</td>
+                                <td className={myWaiting.list_my_waiting}>상태</td>
+                                <td className={myWaiting.list_my_waiting}>관리</td>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {Array.isArray(myWaitingdocuts) && myWaitingdocuts.length > 0?
+                                myWaitingdocuts.map((AttmyWait) => (
+                                    <tr className={myWaiting.list_my_waiting} key={AttmyWait.approvalLineCode}>
+                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
+                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
+                                        <td className={myWaiting.list_my_waiting}>
+                                            <button id="withdrawal">철회</button>
+                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                        </td>
+                                    </tr>
+                                    ))
+                                    :
+                                    (
+                                        <tr>
+                                            <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                        </tr>
+                                    )                                    
+                                }
+
+                        </tbody>
                     </table>
 
                     {isPopupOpen && (
@@ -127,7 +140,7 @@ function MyApplyDocumentWaiting () {
 
                 </div> 
 
-                <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                <div className="paging_po" style={{  position: 'relative', top: '450px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(myWaitingdocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}

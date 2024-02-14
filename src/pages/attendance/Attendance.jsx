@@ -2,7 +2,9 @@
 import commuteMa from './attendancePage/CmmuteMain.module.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { callCommuteMainAPI } from '../../apis/AttendanceAPI';
+import { callCommutInsertAPI } from '../../apis/AttendanceAPI';
 
 const getCurrentDateTime = () => {
     const now = new Date();
@@ -94,6 +96,56 @@ function Attendance() {
 
 
 
+    const dispatch = useDispatch();
+    const attendanceMain = useSelector((state => state.attendance));
+
+
+    const commuteMain = attendanceMain?.data;
+    console.log('commuteMain =====>', commuteMain);
+
+    const commuteVacation =attendanceMain?.data2;
+    console.log('commuteVacation =====>', commuteVacation);
+
+    const commuteWaiting = attendanceMain?.data3;
+    console.log('commuteWaiting ========>',commuteWaiting );
+
+    
+
+    useEffect(() => {
+        dispatch(
+            callCommuteMainAPI({})
+        );
+    }, []);
+
+
+    const [form, setForm] = useState({
+        attendanceManagementCode: '',
+        attendanceEmployeeCode: '',
+        attendanceManagementArrivalTime: '',
+        attendanceManagementDepartureTime: '00:00:00',
+        attendanceManagementState: '', 
+        attendanceManagementWorkDay: {currentDay},
+
+    });
+
+
+        // form 데이터 세팅    
+        const onChangeHandler = (e) => {
+            setForm({
+                ...form,
+                [e.target.name]: e.target.value
+            });
+        };
+
+
+        dispatch(callCommutInsertAPI({	
+            form: form
+        }));  
+
+
+
+
+
     return(
         
         <div className={commuteMa.main}>
@@ -104,14 +156,14 @@ function Attendance() {
                     <div className={commuteMa.vacation_box}>
                         <span className={commuteMa.vacation_leave}>남은 연차</span>
                         <span className={commuteMa.vacation_image}></span>
-                        <div className={commuteMa.vacation2}>3</div>
+                        <div className={commuteMa.vacation2}>{commuteVacation?.resultVacation}</div>
                         <span className={commuteMa.vacation_day}>일</span>
                         <button onClick={vacationApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.vacation_apply}>휴가 신청하기</button>
                     </div>
                     <div className={commuteMa.payment_box}>
                         <span className={commuteMa.payment_leave}>결재 대기</span>
                         <span className={commuteMa.payment_image}></span>
-                        <div className={commuteMa.payment}>3</div>
+                        <div className={commuteMa.payment}>{commuteWaiting?.countWaiting}</div>
                         <span className={commuteMa.payment_count}>건</span>
                         <button onClick={myPaymentClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.payment_check}>결제 확인하기</button>
                     </div>
@@ -131,8 +183,11 @@ function Attendance() {
                             <span className={commuteMa.current}>{current}</span>
                         </div>
                         <div className={commuteMa.time_info}>
-                        <span className="workTime">출근: {workTime}</span><br />
-                        <span className="leaveTime">퇴근: {leaveTime}</span>
+                        <span className="workTime">출근: {commuteMain?.attendanceManagementArrivalTime} </span>
+                        <input type="hidden" value={workTime} />
+                        <br />
+                        <span className="leaveTime">퇴근: {commuteMain?.attendanceManagementDepartureTime}</span>
+                        <input type="hidden" value={leaveTime} />
                         </div>
                         <button id="workCheckButton" className={commuteMa.work_check} onClick={arrivalTime}>출근</button>
                         <button id="leaveCheckButton" className={commuteMa.leave_check} onClick={updateTime}>퇴근</button>

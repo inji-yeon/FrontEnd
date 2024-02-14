@@ -77,26 +77,42 @@ function DoPaymentDocumentReject() {
 
             <div className={doRej.list_commute_area}>
                 <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                    <tr className={doRej.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
-                        <td className={doRej.list_commute_detail}>문서번호</td>
-                        <td className={doRej.list_commute_detail}>신청기간</td>
-                        <td className={doRej.list_commute_detail}>종류</td>
-                        <td className={doRej.list_commute_detail}>신청자</td>
-                        <td className={doRej.list_commute_detail}>소속</td>
-                        <td className={doRej.list_commute_detail}>결재일시</td>
-                    </tr>
-                    <tr className={doRej.list_commute_detail}>
-                        <td className={doRej.list_commute_detail}>휴가-202301-00002</td>
-                        <td className={doRej.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
-                        <td className={doRej.list_commute_detail}>연차-오후 반차</td>
-                        <td className={doRej.list_commute_detail}>홍길동사원</td>
-                        <td className={doRej.list_commute_detail}>마케팅팀</td>
-                        <td className={doRej.list_commute_detail}>01-02 10:12</td>
-                    </tr>
+                    <thead>
+                        <tr className={doRej.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }} >
+                            <td className={doRej.list_commute_detail}>문서번호</td>
+                            <td className={doRej.list_commute_detail}>기안일자</td>
+                            <td className={doRej.list_commute_detail}>종류</td>
+                            <td className={doRej.list_commute_detail}>기안자</td>
+                            <td className={doRej.list_commute_detail}>소속</td>
+                            <td className={doRej.list_commute_detail}>반려일시</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {Array.isArray(doRejects) && doRejects.length > 0?
+                            doRejects.map((AttReject) => (
+                                <tr className={doRej.list_commute_detail} key={AttReject.approvalLineCode}>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.approvalDocumentCode}</td>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.approvalForm}</td>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.employeeDepartmentCode?.departmentName}</td>
+                                    <td className={doRej.list_commute_detail}>{AttReject.approvalProcessDate}</td>
+                                </tr>
+                            ))
+                            :
+                            (
+                                <tr>
+                                    <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                </tr>
+                            )                            
+                        }
+
+                    </tbody>
                 </table>
             </div>
 
-                <div className={doRej.paging_po} style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                <div className={doRej.paging_po} style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                     {Array.isArray(doRejects) && (
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
@@ -116,7 +132,7 @@ function DoPaymentDocumentReject() {
                         <button
                             className={doRej.pagingBtn}
                             onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                            disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}> &gt;
                         </button>
                     )}
                 </div>

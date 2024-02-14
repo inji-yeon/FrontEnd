@@ -27,6 +27,7 @@ body {
     position: relative;
     top: 40px;
     border:0.5px solid #606060;
+    width: 150px;
     
 }
 
@@ -97,6 +98,13 @@ body {
 }
 
 
+.list_commute_area{
+    position: relative;
+    top: 110px;
+    left: 0px;
+    width: 1200px;
+}
+
 
 
 .list_my_waiting table {
@@ -105,6 +113,7 @@ body {
     font-size: 16px;
     width: 1200px; 
     border-collapse: collapse; /* 테이블 셀 간의 경계를 합칩니다. */
+    border: '1px solid black'
 
 }
 

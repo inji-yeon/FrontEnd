@@ -83,27 +83,40 @@ function MyApplyDocumentApproval () {
                     </div>
                     <div className={myAppro.list_commute_area}>
                         <table className={myAppro.list_commute_detail} style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                            <tr className={myAppro.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
-                                <td className={myAppro.list_commute_detail}>문서번호</td>
-                                <td className={myAppro.list_commute_detail}>신청기간</td>
-                                <td className={myAppro.list_commute_detail}>종류</td>
-                                <td className={myAppro.list_commute_detail}>소속</td>
-                                <td className={myAppro.list_commute_detail}>결재일시</td>
-                                <td className={myAppro.list_commute_detail}></td>
-                            </tr>
-                            <tr className={myAppro.list_commute_detail}>
-                                <td className={myAppro.list_commute_detail}>휴가-202301-00002</td>
-                                <td className={myAppro.list_commute_detail}>2023-01-05(금)~2023-01-05(금)</td>
-                                <td className={myAppro.list_commute_detail}>연차-오후 반차</td>
-                                <td className={myAppro.list_commute_detail}>마케팅팀</td>
-                                <td className={myAppro.list_commute_detail}> 01-02 10:12 </td>
-                                <td><button onclick="openPopup()">상세보기</button></td>
-                                
-                            </tr>
+                            <thead>
+                                <tr className={myAppro.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
+                                    <td className={myAppro.list_commute_detail}>문서번호</td>
+                                    <td className={myAppro.list_commute_detail}>기안일자</td>
+                                    <td className={myAppro.list_commute_detail}>종류</td>
+                                    <td className={myAppro.list_commute_detail}>결재일자</td>
+                                    <td className={myAppro.list_commute_detail}></td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {Array.isArray(myApprovalDocuts) && myApprovalDocuts.length > 0?
+                                    myApprovalDocuts.map((AttmyAppro) => (
+                                        <tr className={myAppro.list_commute_detail} key={AttmyAppro.approvalLineCode}>
+                                            <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineCode}</td>
+                                            <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                            <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineDocumentCode?.approvalForm}</td>
+                                            <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalProcessDate}</td>
+                                            <td><button onclick="openPopup()">상세보기</button></td>
+                                        </tr>
+                                    ))
+                                    :
+                                    (
+                                        <tr>
+                                            <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                        </tr>
+                                    )                                    
+                                }
+                            </tbody>
+
                         </table>
                     </div>
 
-                    <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className="paging_po" style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(myApprovalDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}
@@ -131,12 +144,6 @@ function MyApplyDocumentApproval () {
                 </div>
             </div>
 
-    
-    
-    <div id="popup">
-        <div id="close-btn" onclick="closePopup()">닫기</div>
-    
-    </div>
 
         
         </>

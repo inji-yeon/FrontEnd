@@ -41,7 +41,6 @@ function CommuteList() {
 
     console.log('pageInfo', pageInfo);
 
-    console.log('now ========',now)
 
     const commuteLists = commutes?.data?.content; 
 
@@ -85,7 +84,7 @@ function CommuteList() {
 
 
 
-    const formatArrivalTime = (dateTimeString) => {
+    const formatCommuteTime = (dateTimeString) => {
         const date = new Date(dateTimeString);
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -97,7 +96,7 @@ function CommuteList() {
         
     };
 
-    console.log('formatArrivalTime=========>',formatArrivalTime)
+    console.log('formatCommuteTime=========>',formatCommuteTime)
 
     
 
@@ -170,11 +169,11 @@ function CommuteList() {
                                         {Array.isArray(commuteLists) && commuteLists.length > 0?
                                             commuteLists.map((commute) => (
                                             <tr className={commuteList.list_commute_detail} key={commute.attendanceWorkTypeCode}>
-                                                <td className={commuteList.list_commute_detail}>{commute.attendanceManagementCode.attendanceManagementWorkDay}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute.attendanceManagementCode.attendanceManagementArrivalTime}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute.attendanceManagementCode.attendanceManagementDepartureTime}</td>
+                                                <td className={commuteList.list_commute_detail}>{formatWorkDate(commute?.attendanceManagementCode?.attendanceManagementWorkDay)}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementArrivalTime}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementDepartureTime}</td>
                                                 <td className={commuteList.list_commute_detail}>08h 00m</td>
-                                                <td className={commuteList.list_commute_detail}>{commute.attendanceManagementCode.attendanceManagementState}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementState}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute.attendanceWorkTypeStatus}</td>
                                             </tr>
                                             ))

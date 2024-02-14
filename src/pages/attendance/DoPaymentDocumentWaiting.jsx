@@ -16,13 +16,13 @@ function DoPaymentDocumentWaiting () {
     };
     
     const doApplyApprovalClick = () => {
-        // 대기 페이지로 이동
+        // 결재 페이지로 이동
         navigate('/attendance/doPaymentDocumentApproval')
     };
 
 
     const doApplyRejectClick = () => {
-        // 대기 페이지로 이동
+        // 반려 페이지로 이동
         navigate('/attendance/doPaymentDocumentReject')
     };
 
@@ -80,7 +80,7 @@ function DoPaymentDocumentWaiting () {
             <div className={doWaiting.main}>
                 <div className={doWaiting.main2}>
                     <span className={doWaiting.main_title}>내 결재 문서</span>
-                    <div clclassNameass={doWaiting.bar}></div>
+                    <div className={doWaiting.bar}></div>
                     <div className={doWaiting.filter_area}>
                         <div className={doWaiting.box_area}>
                         <div className={doWaiting.apply_waiting_box} onClick={doApplyWaitingClick}>대기</div>
@@ -91,40 +91,52 @@ function DoPaymentDocumentWaiting () {
                     </div>
                     <button className={doWaiting.approval}>승인</button>
                     <div className={doWaiting.list_commute_area}>
-                        <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
-                            <tr className={doWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }} >
-                                <td className={doWaiting.list_my_waiting}>
-                                    <input 
-                                        type="checkbox" 
-                                        id="selectAll" 
-                                        checked={isChecked} 
-                                        onChange={toggleCheckboxes} // onClick 대신에 onChange를 사용합니다.
-                                    />
-                                </td>
-                                <td className={doWaiting.list_my_waiting}>신청기간</td>
-                                <td className={doWaiting.list_my_waiting}>종류</td>
-                                <td className={doWaiting.list_my_waiting}>신청자</td>
-                                <td className={doWaiting.list_my_waiting}>소속</td>
-                                <td className={doWaiting.list_my_waiting}>관리</td>
-                            </tr>
-                            <tr className={doWaiting.list_my_waiting}>
-                                <td className={doWaiting.list_my_waiting}>
-                                    <input type="checkbox" />
-                                </td>
-                                <td className={doWaiting.list_my_waiting}>2023-01-05(금)~2023-01-05(금)</td>
-                                <td className={doWaiting.list_my_waiting}>연차-오후 반차</td>
-                                <td className={doWaiting.list_my_waiting}>홍길동사원</td>
-                                <td className={doWaiting.list_my_waiting}>마케팅팀</td>
-                                <td className={doWaiting.list_my_waiting}>
-                                    <button>승인</button>
-                                    <button onClick={openPopup}>반려</button>
-                                    <button onClick={openPopup}>상세보기</button>
-                                </td>
-                            </tr>
+                        <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px'}}>
+                            <thead>
+                                <tr className={doWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }} >
+                                    <td className={doWaiting.list_my_waiting}>
+                                        <input 
+                                            type="checkbox" 
+                                            id="selectAll" 
+                                            checked={isChecked} 
+                                            onChange={toggleCheckboxes} // onClick 대신에 onChange를 사용합니다.
+                                        />
+                                    </td>
+                                    <td className={doWaiting.list_my_waiting}>기안일자</td>
+                                    <td className={doWaiting.list_my_waiting}>종류</td>
+                                    <td className={doWaiting.list_my_waiting}>기안자</td>
+                                    <td className={doWaiting.list_my_waiting}>소속</td>
+                                    <td className={doWaiting.list_my_waiting}>관리</td>
+                                </tr>
+                            </thead>    
+
+                            <tbody>
+                                {Array.isArray(doWaitingDocuts) && doWaitingDocuts.length > 0?
+                                    doWaitingDocuts.map((AttWaiting) => (
+                                    <tr className={doWaiting.list_my_waiting} key={AttWaiting?.approvalLineCode}>
+                                        <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.approvalDocumentCode}</td>
+                                        <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                        <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.approvalForm}</td>
+                                        <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
+                                        <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeDepartmentCode?.departmentName}</td>
+                                        <td className={doWaiting.list_my_waiting}>
+                                            <button id="approval">승안</button>
+                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                        </td>
+                                    </tr>
+                                ))
+                                :
+                                    (
+                                        <tr>
+                                            <td colSpan='4'>조회된 내용이 없습니다.</td>
+                                        </tr>
+                                    )                            
+                                }
+                            </tbody>
                         </table>
                     </div>
 
-                    <div className="paging_po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className={doWaiting.paging_po}  style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                         {Array.isArray(doWaitingDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}
