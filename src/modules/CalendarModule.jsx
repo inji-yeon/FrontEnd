@@ -7,7 +7,7 @@ const initialState = {
     searchEventList: [],
     event: null,
     employeeList: [],
-    message: null,
+    returnData: null,
     tempDeletedEventList: []
 };
 
@@ -71,31 +71,32 @@ const calendarReducer = handleActions(
         [POST_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
         [PUT_EVENT]: (state, { payload }) => {
+            console.log(payload?.data);
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
         [DELETE_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
         [GET_TEMP_DELETED_EVENTS]: (state, { payload }) => {
             return {
                 ...state,
-                tempDeletedEventList: payload?.data,
+                tempDeletedEventList: payload
             };
         },
         [PUT_TEMP_DELETED_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
     },

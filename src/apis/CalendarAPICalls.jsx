@@ -150,7 +150,6 @@ export const callCreateEventAPI = ({ eventOptions }) => {
 export const callModifyEventAPI = ({ eventOptions }) => {
     const eventCode = eventOptions.event.eventCode
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/${eventCode}`
-
     return async (dispatch, getState) => {
         const result = await axios
             .put(requestURL, eventOptions, {

@@ -5,14 +5,13 @@ import 'tui-time-picker/dist/tui-time-picker.css'
 
 import styles from './CalendarMain.module.css'
 import { useEffect, useRef, useState } from 'react'
-import moment from 'moment/moment'
 import CalendarSearchPage from './CalendarSearchPage'
+import EventWindow from './EventWindow'
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()
     const min = calendar?.getDateRangeStart()
     const max = calendar?.getDateRangeEnd()
-    console.log(min, now, max)
     if (calendarTypeValue === 'month') {
         return `${now?.getFullYear()}년 ${now?.getMonth() + 1}월`
     } else if (calendarTypeValue === 'week') {
@@ -26,23 +25,33 @@ const formattedDateCalendar = (calendarTypeValue, calendar) => {
 }
 
 function CalendarMain({ calendarData, setCalendarData }) {
-    const calendarRef = useRef();
-    const [calendar, setCalendar] = useState(null);
-    const [rootElement, setRootElement] = useState(null);
-    const [calendarTypeValue, setCalendarTypaValue] = useState('month');
-    const [viewDate, setViewDate] = useState(null);
+    const calendarRef = useRef()
+    const [calendar, setCalendar] = useState(null)
+    const [rootElement, setRootElement] = useState(null)
+    const [calendarTypeValue, setCalendarTypaValue] = useState('month')
+    const [viewDate, setViewDate] = useState(null)
 
-    const [calendarTheme, setCalendarTheme] = useState(null);
-    const [employeeList, setEmployeeList] = useState([]);
-    const [eventList, setEventList] = useState(null);
-    const [message, setMessage] = useState(null);
-    const [searchEventList, setSearchEventList] = useState([]);
-    const [tempDeletedEventList, setTempDeletedEventList] = useState([]);
+    const [calendarTheme, setCalendarTheme] = useState(null)
+    const [employeeList, setEmployeeList] = useState([])
+    const [eventList, setEventList] = useState(null)
+    const [returnData, setReturnData] = useState(null)
+    const [searchEventList, setSearchEventList] = useState([])
+    const [tempDeletedEventList, setTempDeletedEventList] = useState([])
 
-    const [clickedData, setClickedData] = useState({ state: false });
-    const [selectedData, setSelectedData] = useState({ state: false });
-    const [movedData, setMovedData] = useState({ state: false });
+    const [clickedData, setClickedData] = useState({ state: false })
+    const [selectedData, setSelectedData] = useState({ state: false })
+    const [movedData, setMovedData] = useState({ state: false })
 
+    const weekOptions = { taskView: false }
+    const eventFilter = (event) => {
+        return event.isVisible && (event.raw.eventDeleteStatus === 'N')
+    }
+
+    const [eventWindow, setEventWindow] = useState({ state: null }) // 이벤트 정보 보여주는 부분(자식 컴포넌트로 넘긴다.)
+    // 이벤트 정보 보여주는 창
+    // 이벤트 수정 보여주는 창(정보창에서 수정 누를 경우)
+    // 이벤트 삭제 보여주는 창(정보창에서 삭제 누를 경우)
+    // 정보값과 함께 넘긴다.
 
     const calendarTypeChangeHandler = e => {
         setCalendarTypaValue(e.target.value)
@@ -52,150 +61,194 @@ function CalendarMain({ calendarData, setCalendarData }) {
     }
 
     const todayHandler = () => {
-        console.log('오늘로 이동한다.')
         calendar.today()
         setViewDate(formattedDateCalendar(calendarTypeValue, calendar))
     }
     const prevHandler = () => {
-        console.log('이전으로 이동한다.')
         calendar.prev()
         setViewDate(formattedDateCalendar(calendarTypeValue, calendar))
     }
     const nextHandler = () => {
-        console.log('이후로 이동한다.')
         calendar.next()
         setViewDate(formattedDateCalendar(calendarTypeValue, calendar))
     }
 
     useEffect(() => {
-        setCalendar(calendarRef.current.getInstance());
-        setRootElement(calendarRef.current.getRootElement());
-
+        setCalendar(calendarRef.current.getInstance())
+        setRootElement(calendarRef.current.getRootElement())
     }, [])
 
     useEffect(() => {
         // 이벤트를 누를 경우 다른 창이 다 꺼지고 이벤트 정보가 나와야 한다.
-        calendar?.on("clickEvent", ({ event, nativeEvent }) => {
+        calendar?.on('clickEvent', ({ event, nativeEvent }) => {
             setClickedData({ state: true, event, nativeEvent })
             setSelectedData({ state: false })
             setMovedData({ state: false })
-            console.log('클릭한 이벤트:', event);
-            console.log('실제 마우스 이벤트', nativeEvent);
-        })
-        // 빈 날짜를 누를 경우 다른 창이 다 꺼지고 이벤트 생성이 나와야 한다.
-        calendar?.on("selectDateTime", ({ start, end, isAllday, nativeEvent, gridSelectionElements }) => {
-            setClickedData({ state: false })
-            setSelectedData({ state: true, start, end, isAllday, nativeEvent, gridSelectionElements })
-            setMovedData({ state: false })
-            console.log('시작 위치:', start);
-            console.log('끝 위치:', end);
-            console.log('하루종일 부분인지:', isAllday);
-            console.log('마우스 뗸 경우에 발생하는 네이티브 이벤트:', nativeEvent);
-            console.log('선택 영역에 해당하는 엘리먼트 목록:', gridSelectionElements);
-            calendar.clearGridSelections(); // 임시. 나중에 처리해야 한다.
         })
 
+        // 빈 날짜를 누를 경우 다른 창이 다 꺼지고 이벤트 생성이 나와야 한다.
+        calendar?.on(
+            'selectDateTime',
+            ({ start, end, isAllday, nativeEvent, gridSelectionElements }) => {
+                setClickedData({ state: false })
+                setSelectedData({
+                    state: true,
+                    start,
+                    end,
+                    isAllday,
+                    nativeEvent,
+                    gridSelectionElements
+                })
+                setMovedData({ state: false })
+            }
+        )
+
         // 기존에 있던 이벤트 정보와 이후에 있던 이벤트 정보를 비교하여 적절한 행위를 한다.
-        calendar?.on("beforeUpdateEvent", ({ event, changes }) => {
+        calendar?.on('beforeUpdateEvent', ({ event, changes }) => {
             setClickedData({ state: false })
             setSelectedData({ state: false })
             setMovedData({ state: true, event, changes })
-            // 여기서 update query 전송
+        })
+
+        // 캘린더 관련해서 옵션을 넣는 부분.
+        calendar?.setOptions({
+            template: {}
         })
     }, [calendar])
 
+    // 이벤트 클릭할 경우 발생하는 useEffect
+    useEffect(() => {
+        if (clickedData.state) {
+            console.log('이벤트 클릭함!', clickedData)
+            const { event, nativeEvent } = clickedData
+            setEventWindow({ state: 'clicked', event, nativeEvent }) // 이벤트 정보 보여주는 창
+            setClickedData({ state: false })
+        }
+    }, [clickedData])
+
+    // 날짜(들)을 선택할 경우 발생하는 useEffect
+    useEffect(() => {
+        if (selectedData.state) {
+            console.log('날짜(들)을 선택함!', selectedData)
+            const { start, end, isAllday, nativeEvent } = selectedData
+            setEventWindow({ state: 'selected', start, end, isAllday, nativeEvent }) // 이벤트 정보 보여주는 창
+            setSelectedData({ state: false })
+        }
+    }, [selectedData])
+
+    // 일정을 이동(변화)할 경우 발생하는 useEffect
     useEffect(() => {
         if (movedData.state) {
-            console.log(movedData);
-            const { event, changes } = movedData;
-            console.log('업데이트 전:', event);
-            console.log('업데이트 후:', changes);
-            calendar.updateEvent(event.id, event.calendarId, changes);
+            console.log('일정을 이동(변화)함!', movedData)
+            const { event, changes } = movedData
+            calendar.updateEvent(event.id, event.calendarId, changes)
             // 여기서 dispatch가 발생함.
-            setMovedData({ state: false });
+            setMovedData({ state: false })
         }
-    }, [movedData, calendar])
+    }, [movedData])
 
-
+    // 날짜 출력 관련 useEffect
     useEffect(() => {
         setViewDate(formattedDateCalendar(calendarTypeValue, calendar))
-        calendar?.setOptions({
-            template: {
-                // allday(event) {
-                //     return `<span style="background-color: ${event.backgroundColor};"> ${event.title}</span>`;
-                // }
-            }
-        })
     }, [calendarTypeValue, calendar])
 
+    // Element 그 자체에 대한 useEffect
     useEffect(() => {
-        console.log('rootElement', rootElement)
+        // console.log('rootElement', rootElement)
     }, [rootElement])
+
+    // 캘린더 인스턴스와 API로 받은 캘린더 정보 관련 useEffect
     useEffect(() => {
-        calendarData && console.log('calendarData', calendarData)
+        // console.log('calendarData', calendarData);
     }, [calendarData, calendar])
+
+    // API로 받은 캘린더 정보 관련중 캘린더 정보
     useEffect(() => {
-        const calendarInfo = calendarData?.calendar;
-        console.log(calendarInfo);
-        calendarInfo && setCalendarTheme([{
-            id: calendarInfo.calendarCode.toString(),
-            name: calendarInfo.calendarName,
-            color: calendarInfo.calendarColor,
-            backgroundColor: calendarInfo.calendarBackgroundColor,
-            dragBackgroundColor: calendarInfo.calendarDragBackgroundColor,
-            borderColor: calendarInfo.calendarBorderColor
-        }])
-        console.log('calendarData?.calendar', calendarData?.calendar);
+        const calendarInfo = calendarData?.calendar
+        calendarInfo &&
+            setCalendarTheme([
+                {
+                    id: calendarInfo.calendarCode.toString(),
+                    name: calendarInfo.calendarName,
+                    color: calendarInfo.calendarColor,
+                    backgroundColor: calendarInfo.calendarBackgroundColor,
+                    dragBackgroundColor: calendarInfo.calendarDragBackgroundColor,
+                    borderColor: calendarInfo.calendarBorderColor
+                }
+            ])
     }, [calendarData?.calendar])
+
+    // 직원 목록 관련(초대할때 필요하고. 이미 포함되어 있다면 react 측에서 제거해야됨)
     useEffect(() => {
         setEmployeeList(calendarData?.employeeList)
     }, [calendarData?.employeeList])
+
+    // 일정 목록. 이 데이터는 처음에만 읽어온다. 나머지는 react 추가와 db 추가를 따로 한다. 또한, 여기서 필터링 작업도 직접 한다. 일단 계정 관련 일정 다 가져옴
     useEffect(() => {
-        setEventList(calendarData?.eventList?.map(e => {
-            const event = e.event
-            console.log('event', event);
-            const attendeeList = e.eventAttendeeList
-            console.log('attendeeList', attendeeList);
-            return {
-                id: event.eventCode.toString(),
-                calendarId: event.calendarCode.toString(),
+        setEventList(
+            calendarData?.eventList?.map(e => {
+                const event = e.event
+                const attendeeList = e.eventAttendeeList
+                return {
+                    id: event.eventCode.toString(),
+                    calendarId: event.calendarCode.toString(),
+                    title: event.eventTitle,
+                    body: event.eventContent,
+                    start: new Date(event.eventStartDate),
+                    end: new Date(event.eventEndDate),
+                    location: event.eventLocation,
+                    category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                    recurrenceRule: event.eventRecurrenceRule,
+                    isReadOnly: event.eventEditable === 'N' ? true : false,
+                    color: event.eventColor,
+                    backgroundColor: event.eventBackgroundColor,
+                    dragBackgroundColor: event.eventDragBackgroundColor,
+                    borderColor: event.eventBorderColor,
+                    raw: {
+                        // departmentName: event.departmentName,
+                        eventAttendeeCount: event.eventAttendeeCount,
+                        eventAttendeeList: attendeeList,
+                        eventDeleteTime: event.eventDeleteTime,
+                        eventDeleteStatus: event.eventDeleteStatus
+                    }
+                }
+            })
+        )
+    }, [calendarData?.eventList])
+
+    // backend 관련해서 성공여부를 여기로 전달 받는다.
+    useEffect(() => {
+        setReturnData(calendarData?.returnData)
+    }, [calendarData?.returnData])
+    useEffect(() => {
+        if (returnData?.message === '일정 수정 성공') {
+            const event = returnData?.data.event
+            const attendeeList = returnData?.data.eventAttendeeList
+            console.log(event);
+            console.log(attendeeList);
+            calendar.updateEvent(event.eventCode.toString(), event.calendarCode.toString(), {
                 title: event.eventTitle,
                 body: event.eventContent,
-                isAllday: event.eventIsAllDay === 'Y' ? true : false,
-                start: event.eventStartDate,
-                end: event.eventEndDate,
+                start: new Date(event.eventStartDate),
+                end: new Date(event.eventEndDate),
                 location: event.eventLocation,
-                attendees: event.eventAttendeeList?.map(
-                    attendee => attendee.employee.employeeName
-                ),
                 category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
                 recurrenceRule: event.eventRecurrenceRule,
-                isVisible: event.eventDeleteStatus === 'N' ? true : false,
                 isReadOnly: event.eventEditable === 'N' ? true : false,
                 color: event.eventColor,
                 backgroundColor: event.eventBackgroundColor,
                 dragBackgroundColor: event.eventDragBackgroundColor,
                 borderColor: event.eventBorderColor,
                 raw: {
-                    departmentName: event.departmentName,
+                    // departmentName: event.departmentName,
                     eventAttendeeCount: event.eventAttendeeCount,
                     eventAttendeeList: attendeeList,
                     eventDeleteTime: event.eventDeleteTime,
                     eventDeleteStatus: event.eventDeleteStatus
-                },
-            }
-        }))
-    }, [calendarData?.eventList])
-    useEffect(() => {
-        setMessage(calendarData?.message)
-    }, [calendarData?.message])
-    useEffect(() => {
-        setSearchEventList(calendarData?.searchEventList)
-    }, [calendarData?.searchEventList])
-    useEffect(() => {
-        setTempDeletedEventList(calendar?.tempDeletedEventList)
-    }, [calendar?.tempDeletedEventList])
-
+                }
+            })
+        }
+    }, [returnData])
     return (
         <>
             <div className={styles.calendar_section}>
@@ -227,10 +280,21 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         calendars={calendarRef.current && calendarTheme}
                         events={eventList}
                         usageStatistics={false}
+                        week={weekOptions}
+                        eventFilter={eventFilter}
                     />
                     {calendarTypeValue === 'list' && (
-                        <CalendarSearchPage
-                            events={eventList}
+                        <CalendarSearchPage events={eventList} />
+                    )}
+                    {eventWindow.state !== null && (
+                        <EventWindow
+                            eventWindow={eventWindow}
+                            setEventWindow={setEventWindow}
+                            calendar={calendar}
+                            employeeList={employeeList}
+                            setEmployeeList={setEmployeeList}
+                            returnData={returnData}
+                            setReturnData={setReturnData}
                         />
                     )}
                 </div>
