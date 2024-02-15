@@ -9,7 +9,8 @@ import {
     PUT_EVENT,
     DELETE_EVENT,
     GET_TEMP_DELETED_EVENTS,
-    PUT_TEMP_DELETED_EVENT
+    PUT_TEMP_DELETED_EVENT,
+    PUT_EVENT_ABOUT_TIME
 } from '../modules/CalendarModule'
 
 export const callGetCalendarAPI = () => {
@@ -170,7 +171,32 @@ export const callModifyEventAPI = ({ eventOptions }) => {
     }
 }
 
+export const callModifyEventAboutDateAPI = ({ eventOptionsAboutDate }) => {
+    console.log(eventOptionsAboutDate);
+    const eventCode = eventOptionsAboutDate.eventCode
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/${eventCode}/date`
+    return async (dispatch, getState) => {
+        const result = await axios
+            .put(requestURL, eventOptionsAboutDate, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            }).catch(error => console.error(error))
+        // 에러 처리 해야 된다.
+
+        console.log('[CalendarAPICalls] callModifyEventAboutDateAPI RESULT : ', result)
+
+        dispatch({ type: PUT_EVENT_ABOUT_TIME, payload: result?.data })
+    }
+}
+
 export const callDeleteEventAPI = ({ eventCode }) => {
+    console.log(eventCode);
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/${eventCode}`
 
     return async (dispatch, getState) => {
@@ -217,11 +243,12 @@ export const callGetTempDeletedEventListAPI = () => {
 }
 
 export const callRollbackTempDeletedEventListAPI = ({ eventCode }) => {
+    console.log(eventCode);
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/calendar/events/${eventCode}/deleted-rollback`
-
+    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
-            .put(requestURL, {
+            .put(requestURL, null, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',

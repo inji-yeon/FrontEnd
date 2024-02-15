@@ -5,8 +5,11 @@ import 'tui-time-picker/dist/tui-time-picker.css'
 
 import styles from './CalendarMain.module.css'
 import { useEffect, useRef, useState } from 'react'
-import CalendarSearchPage from './CalendarSearchPage'
+import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
+import { useDispatch } from 'react-redux'
+import { callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
+import { format } from 'date-fns';
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()
@@ -25,10 +28,11 @@ const formattedDateCalendar = (calendarTypeValue, calendar) => {
 }
 
 function CalendarMain({ calendarData, setCalendarData }) {
+    const dispatch = useDispatch();
     const calendarRef = useRef()
     const [calendar, setCalendar] = useState(null)
     const [rootElement, setRootElement] = useState(null)
-    const [calendarTypeValue, setCalendarTypaValue] = useState('month')
+    const [calendarTypeValue, setCalendarTypeValue] = useState('month')
     const [viewDate, setViewDate] = useState(null)
 
     const [calendarTheme, setCalendarTheme] = useState(null)
@@ -42,6 +46,10 @@ function CalendarMain({ calendarData, setCalendarData }) {
     const [selectedData, setSelectedData] = useState({ state: false })
     const [movedData, setMovedData] = useState({ state: false })
 
+    const [isSearch, setIsSearch] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [isTempDeletedPage, setIsTempDeletedPage] = useState(false);
+
     const weekOptions = { taskView: false }
     const eventFilter = (event) => {
         return event.isVisible && (event.raw.eventDeleteStatus === 'N')
@@ -54,7 +62,8 @@ function CalendarMain({ calendarData, setCalendarData }) {
     // 정보값과 함께 넘긴다.
 
     const calendarTypeChangeHandler = e => {
-        setCalendarTypaValue(e.target.value)
+        setCalendarTypeValue(e.target.value)
+        setIsSearch(false)
         e.target.value === 'list'
             ? (rootElement.style.display = 'none')
             : (rootElement.style.display = 'block')
@@ -131,7 +140,8 @@ function CalendarMain({ calendarData, setCalendarData }) {
         if (selectedData.state) {
             console.log('날짜(들)을 선택함!', selectedData)
             const { start, end, isAllday, nativeEvent } = selectedData
-            setEventWindow({ state: 'selected', start, end, isAllday, nativeEvent }) // 이벤트 정보 보여주는 창
+            setEventWindow({ state: 'created', start, end, isAllday, nativeEvent }) // 이벤트 생성 창
+            calendar.clearGridSelections();
             setSelectedData({ state: false })
         }
     }, [selectedData])
@@ -141,9 +151,22 @@ function CalendarMain({ calendarData, setCalendarData }) {
         if (movedData.state) {
             console.log('일정을 이동(변화)함!', movedData)
             const { event, changes } = movedData
-            calendar.updateEvent(event.id, event.calendarId, changes)
-            // 여기서 dispatch가 발생함.
-            setMovedData({ state: false })
+            console.log('event>>>', event);
+            console.log('changes>>>', changes);
+            /* 
+                두가지 경우의 수
+                1. 일정 자체를 옮길 경우 -> start, end 둘다 존재
+                2. 일정을 늘리거나 줄일 경우 -> end만 존재함
+            */
+            changes['start'] = changes?.start ?? null;
+            const eventOptionsAboutDate = {
+                eventCode: event.id,
+                calendarCode: event.calendarId,
+                isAllday: event.isAllday ? 'Y' : 'N',
+                startDate: changes?.start?.toDate(),
+                endDate: changes?.end?.toDate(),
+            }
+            dispatch(callModifyEventAboutDateAPI({ eventOptionsAboutDate }))// 여기서 dispatch가 발생함.
         }
     }, [movedData])
 
@@ -155,6 +178,9 @@ function CalendarMain({ calendarData, setCalendarData }) {
     // Element 그 자체에 대한 useEffect
     useEffect(() => {
         // console.log('rootElement', rootElement)
+        const style = rootElement?.style;
+        console.log(style);
+        style && (style.display = 'block');
     }, [rootElement])
 
     // 캘린더 인스턴스와 API로 받은 캘린더 정보 관련 useEffect
@@ -222,16 +248,21 @@ function CalendarMain({ calendarData, setCalendarData }) {
     }, [calendarData?.returnData])
     useEffect(() => {
         if (returnData?.message === '일정 수정 성공') {
+            console.log(returnData?.message);
             const event = returnData?.data.event
             const attendeeList = returnData?.data.eventAttendeeList
             console.log(event);
             console.log(attendeeList);
+            console.log(event.eventIsAllDay);
+            console.log(event.eventCode);
+            console.log(event.calendarCode);
             calendar.updateEvent(event.eventCode.toString(), event.calendarCode.toString(), {
                 title: event.eventTitle,
                 body: event.eventContent,
                 start: new Date(event.eventStartDate),
                 end: new Date(event.eventEndDate),
                 location: event.eventLocation,
+                isAllday: event.eventIsAllDay === 'Y' ? true : false,
                 category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
                 recurrenceRule: event.eventRecurrenceRule,
                 isReadOnly: event.eventEditable === 'N' ? true : false,
@@ -247,8 +278,138 @@ function CalendarMain({ calendarData, setCalendarData }) {
                     eventDeleteStatus: event.eventDeleteStatus
                 }
             })
+            console.log('변경된 이벤트', calendar.getEvent(event.eventCode.toString(), event.calendarCode.toString()));
+            setReturnData(null);
+        } else if (returnData?.message === '일정 생성 성공') {
+            console.log(returnData?.message);
+            const event = returnData?.data.event
+            const attendeeList = returnData?.data.eventAttendeeList
+            console.log(event);
+            console.log(attendeeList);
+            console.log(event.eventIsAllDay);
+            console.log(event.eventCode);
+            console.log(event.calendarCode);
+            calendar.createEvents([{
+                id: event.eventCode.toString(),
+                calendarId: event.calendarCode.toString(),
+                title: event.eventTitle,
+                body: event.eventContent,
+                start: new Date(event.eventStartDate),
+                end: new Date(event.eventEndDate),
+                location: event.eventLocation,
+                isAllday: event.eventIsAllDay === 'Y' ? true : false,
+                category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                recurrenceRule: event.eventRecurrenceRule,
+                isReadOnly: event.eventEditable === 'N' ? true : false,
+                color: event.eventColor,
+                backgroundColor: event.eventBackgroundColor,
+                dragBackgroundColor: event.eventDragBackgroundColor,
+                borderColor: event.eventBorderColor,
+                raw: {
+                    // departmentName: event.departmentName,
+                    eventAttendeeCount: event.eventAttendeeCount,
+                    eventAttendeeList: attendeeList,
+                    eventDeleteTime: event.eventDeleteTime,
+                    eventDeleteStatus: event.eventDeleteStatus
+                }
+            }])
+            console.log('생성된 이벤트', calendar.getEvent(event.eventCode.toString(), event.calendarCode.toString()));
+        }
+        else if (returnData?.message === '일정 시간 수정 성공') {
+            const { event, changes } = movedData;
+            calendar.updateEvent(event.id, event.calendarId, {
+                end: changes?.end
+            })
+            if (changes?.start) {
+                calendar.updateEvent(event.id, event.calendarId, {
+                    start: changes?.start
+                })
+            }
+            console.log('이벤트 정보>>>', calendar.getEvent(event.id, event.calendarId));
+            setMovedData({ state: false })
+            setReturnData(null);
+        } else if (returnData?.message === '일정 삭제 성공') {
+            const { eventCode, calendarCode, state } = returnData.data;
+            if (state === 'tempDelete') { // 임시 삭제 성공
+                calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+                    raw: {
+                        eventDeleteStatus: "T",
+                        eventDeleteTime: new Date()
+                    }
+                })
+
+                const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
+                const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+                modifyEvent[0].raw.eventDeleteStatus = "T";
+                modifyEvent[0].raw.eventDeleteTime = new Date();
+                modifyEventList.push(modifyEvent[0]);
+                console.log('e', eventList);
+                console.log('m', modifyEventList);
+                setEventList(modifyEventList);
+            } else { // 완전 삭제 성공
+                calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+                    raw: {
+                        eventDeleteStatus: "Y",
+                        eventDeleteTime: null
+                    }
+                })
+
+                const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
+                const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+                modifyEvent[0].raw.eventDeleteStatus = "Y";
+                modifyEvent[0].raw.eventDeleteTime = null;
+                modifyEventList.push(modifyEvent[0]);
+                setEventList(modifyEventList);
+            }
+        } else if (returnData?.message === '일정 롤백 성공') {
+            const { eventCode, calendarCode } = returnData.data;
+            calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+                raw: {
+                    eventDeleteStatus: "N",
+                    eventDeleteTime: null
+                }
+            })
+            const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
+            const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+            modifyEvent[0].raw.eventDeleteStatus = "N";
+            modifyEvent[0].raw.eventDeleteTime = null;
+            modifyEventList.push(modifyEvent[0]);
+            setEventList(modifyEventList);
         }
     }, [returnData])
+
+    const searchHandler = () => {
+        if (!isSearch) {
+            setIsSearch(true);
+            setIsTempDeletedPage(false);
+            setEventWindow({ state: null })
+            setCalendarTypeValue('list');
+            rootElement.style.display = 'none';
+        } else {
+            setIsSearch(false);
+            setCalendarTypeValue('month');
+            rootElement.style.display = 'block';
+        }
+    }
+    const searchTextHandler = (e) => {
+        setSearchText(e.target.value)
+    }
+    useEffect(() => {
+        !isSearch && setSearchText('');
+    }, [isSearch])
+    const tempDeletedPageHandler = (e) => {
+        if (!isTempDeletedPage) {
+            setIsTempDeletedPage(true);
+            setIsSearch(false);
+            setEventWindow({ state: null })
+            setCalendarTypeValue('list');
+            rootElement.style.display = 'none';
+        } else {
+            setIsTempDeletedPage(false);
+            setCalendarTypeValue('month');
+            rootElement.style.display = 'block';
+        }
+    }
     return (
         <>
             <div className={styles.calendar_section}>
@@ -260,8 +421,9 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         <span>{viewDate}</span>
                     </div>
                     <div>
-                        <button>쓰레기통</button>
-                        <button>검색버튼</button>
+                        <button onClick={tempDeletedPageHandler}>{isTempDeletedPage ? '임시삭제목록닫기' : '임시삭제목록'}</button>
+                        {isSearch && <input type="text" value={searchText} onChange={searchTextHandler} />}
+                        <button onClick={searchHandler}>{isSearch ? '검색닫기' : '검색버튼'}</button>
                         <select
                             value={calendarTypeValue}
                             onChange={calendarTypeChangeHandler}
@@ -284,7 +446,14 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         eventFilter={eventFilter}
                     />
                     {calendarTypeValue === 'list' && (
-                        <CalendarSearchPage events={eventList} />
+                        <CalendarListPage
+                            events={eventList}
+                            setEvents={setEventList}
+                            searchText={searchText}
+                            isTempDeletedPage={isTempDeletedPage}
+                            calendar={calendar}
+                            returnData={returnData}
+                            setReturnData={setReturnData} />
                     )}
                     {eventWindow.state !== null && (
                         <EventWindow

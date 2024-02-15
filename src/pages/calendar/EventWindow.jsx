@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { callGetEmployeeListAPI, callModifyEventAPI } from '../../apis/CalendarAPICalls'
+import { callCreateEventAPI, callDeleteEventAPI, callGetEmployeeListAPI, callModifyEventAPI } from '../../apis/CalendarAPICalls'
 import { useDispatch } from 'react-redux'
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
 function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setEmployeeList, returnData, setReturnData }) {
     /* 
@@ -49,6 +49,20 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
             setDragBackgroundColor(eventWindow.event.dragBackgroundColor ?? '')
             setBorderColor(eventWindow.event.borderColor ?? '')
             setAttendeeList(eventWindow.event.raw.eventAttendeeList ?? [])
+        } else if (eventWindow.state === 'created') {
+            setTitle('')
+            setBody('')
+            setStartDateTime(eventWindow.start)
+            setEndDateTime(eventWindow.end)
+            setLocation('')
+            setRecurrenceRule('')
+            setIsAllday(eventWindow.isAllday ? 'true' : 'false')
+            setBackgroundColor('')
+            setColor('')
+            setDragBackgroundColor('')
+            setBorderColor('')
+            setAttendeeList([])
+            dispatch(callGetEmployeeListAPI());
         }
     }, [eventWindow])
 
@@ -73,7 +87,7 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
     }
 
     useEffect(() => {
-        if (employeeList.length) {
+        if (employeeList?.length) {
             const alreadyEmployeeCodeList = attendeeList.map(attendee => attendee.employee.employeeCode);
             const newEmployeeCheckedList = employeeList.map(employee => ({ isChecked: (alreadyEmployeeCodeList.includes(employee.employeeCode) ? true : false), employee }))
             setEmployeeCheckedList(newEmployeeCheckedList);
@@ -82,6 +96,35 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
     useEffect(() => {
         // employeeCheckedList.length && console.log('employeeCheckedList>>>', employeeCheckedList);
     }, [employeeCheckedList])
+
+    const eventCreateAcceptHandler = (e) => {
+        const eventOptions = {
+            event: {
+                eventAttendeeCount: employeeCheckedList
+                    .filter(employeeChecked => employeeChecked.isChecked).length,
+                eventTitle: title,
+                eventContent: body,
+                eventStartDate: startDateTime,
+                eventEndDate: endDateTime,
+                eventLocation: location,
+                eventRecurrenceRule: recurrenceRule,
+                eventIsAllDay: isAllday === 'true' ? 'Y' : 'N',
+                eventColor: color,
+                eventBackgroundColor: backgroundColor,
+                eventDragBackgroundColor: dragBackgroundColor,
+                eventBorderColor: borderColor
+            },
+            eventAttendeeEmployeeCodeList: employeeCheckedList
+                .filter(employeeChecked => employeeChecked.isChecked)
+                .map(employeeChecked => employeeChecked.employee.employeeCode),
+            // eventAlert: {
+
+            // }
+        }
+        console.log('생성버튼 눌렀어!', eventOptions);
+        dispatch(callCreateEventAPI({ eventOptions }));
+        eventWindowExitHandler()
+    }
 
     const eventModifyAcceptHandler = event => {
         console.log('수정 적용버튼 눌렀어!', event)
@@ -96,6 +139,7 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
                 eventEndDate: endDateTime,
                 eventLocation: location,
                 eventRecurrenceRule: recurrenceRule,
+                eventIsAllDay: isAllday === 'true' ? 'Y' : 'N',
                 eventColor: color,
                 eventBackgroundColor: backgroundColor,
                 eventDragBackgroundColor: dragBackgroundColor,
@@ -146,6 +190,8 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
     const eventDeleteHandler = event => {
         // 삭제 버튼 누를경우 dispatch를 전달한다. -> 이때 eventCode를 전달해야 함.
         console.log('삭제버튼 눌렀어!', event)
+        const eventCode = event.id;
+        dispatch(callDeleteEventAPI({ eventCode }))
         eventWindowExitHandler()
     }
 
@@ -296,7 +342,160 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
                     </button>
                 </div>
             )}
-            {eventWindow.state === 'selected' && <div>날짜들을 클릭한 경우에</div>}
+            {eventWindow.state === 'created' && <div>
+                <ul>
+                    <li>
+                        제목: <input type='text' onChange={titleHandler} value={title} />
+                    </li>
+                    <li>
+                        내용: <input type='text' onChange={bodyHandler} value={body} />
+                    </li>
+                    <li>
+                        시작시간:{' '}
+                        {isAllday === 'true' ? (
+                            <input
+                                type='date'
+                                onChange={startDateTimeHandler}
+                                value={format(startDateTime, 'yyyy-MM-dd', { timeZone: 'Asia/Seoul' })}
+                            />
+                        ) : (
+                            <input
+                                type='datetime-local'
+                                onChange={startDateTimeHandler}
+                                value={format(startDateTime, 'yyyy-MM-dd HH:mm', { timeZone: 'Asia/Seoul' })}
+                            />
+                        )}
+                    </li>
+                    <li>
+                        끝시간:
+                        {isAllday === 'true' ? (
+                            <input
+                                type='date'
+                                onChange={endDateTimeHandler}
+                                value={format(endDateTime, 'yyyy-MM-dd', { timeZone: 'Asia/Seoul' })}
+                            />
+                        ) : (
+                            <input
+                                type='datetime-local'
+                                onChange={endDateTimeHandler}
+                                value={format(endDateTime, 'yyyy-MM-dd HH:mm', { timeZone: 'Asia/Seoul' })}
+                            />
+                        )}
+                    </li>
+                    <li>
+                        위치:
+                        <input type='text' onChange={locationHandler} value={location} />
+                    </li>
+                    <li>
+                        반복여부:
+                        <input
+                            type='text'
+                            onChange={recurrenceRuleHandler}
+                            value={recurrenceRule}
+                        />
+                    </li>
+                    <li>
+                        하루종일여부:
+                        <select onChange={isAlldayHandler} value={isAllday}>
+                            <option value='true'>O</option>
+                            <option value='false'>X</option>
+                        </select>
+                    </li>
+                    <li>
+                        배경색상:
+                        <input
+                            type='text'
+                            onChange={backgroundColorHandler}
+                            value={backgroundColor}
+                        />
+                    </li>
+                    <li>
+                        색상: <input type='text' onChange={colorHandler} value={color} />
+                    </li>
+                    <li>
+                        드래그할때 색상:
+                        <input
+                            type='text'
+                            onChange={dragBackgroundColorHandler}
+                            value={dragBackgroundColor}
+                        />
+                    </li>
+                    <li>
+                        경계선 색상:
+                        <input
+                            type='text'
+                            onChange={borderColorHandler}
+                            value={borderColor}
+                        />
+                    </li>
+                    <div>여기는 현재 이 이벤트에 들어있는 사원 목록</div>
+                    {employeeCheckedList
+                        .filter(employeeChecked => employeeChecked.isChecked)
+                        .map(employeeChecked => {
+                            const employee = employeeChecked.employee;
+                            return (
+                                <ul
+                                    key={employee.employeeCode}
+                                    style={{ border: '1px solid black' }}
+                                    onClick={() => employeeClickHandler(employee.employeeCode)}
+                                >
+                                    {/* <li>사원번호: {employee.employeeAssignedCode}</li> */}
+                                    <li>사원번호: {employee.employeeCode}</li>
+                                    <li>이름: {employee.employeeName}</li>
+                                    <li>부서: {employee?.department?.departmentName ?? '부서이름이 없다.'}</li>
+                                    <li>직책: {employee?.job?.jobName ?? '직책이름이 없다.'}</li>
+                                    <li>
+                                        프로필 이미지:
+                                        {employee.profileImageURL ?? '기본이미지입니다.'}
+                                    </li>
+                                </ul>
+                            )
+                        })
+                    }
+                    <div>여기서부터는 사원 목록</div>
+                    <div>검색할거야: <input type='text' onChange={searchHandler} value={searchValue} /></div>
+                    <div
+                        style={{ height: "200px", overflowY: "auto" }}>
+                        {employeeCheckedList
+                            .filter(employeeChecked => {
+                                const employee = employeeChecked.employee;
+                                const name = employee.employeeName;
+                                const deptName = employee?.department?.departmentName ?? '';
+                                const jobName = employee?.job?.jobName ?? '';
+                                return !employeeChecked.isChecked && (
+                                    name.includes(searchValue)
+                                    || deptName.includes(searchValue)
+                                    || jobName.includes(searchValue)
+                                )
+                            })
+                            .map(employeeChecked => {
+                                const employee = employeeChecked.employee;
+                                return (
+                                    <ul
+                                        key={employee.employeeCode}
+                                        style={{ border: '1px solid black', backgroundColor: 'pink' }}
+                                        onClick={() => employeeClickHandler(employee.employeeCode)}
+                                    >
+                                        {/* <li>사원번호: {employee.employeeAssignedCode}</li> */}
+                                        <li>사원번호: {employee.employeeCode}</li>
+                                        <li>이름: {employee.employeeName}</li>
+                                        <li>부서: {employee?.department?.departmentName ?? '부서이름이 없다.'}</li>
+                                        <li>직책: {employee?.job?.jobName ?? '직책이름이 없다.'}</li>
+                                        <li>
+                                            프로필 이미지:
+                                            {employee.profileImageURL ?? '기본이미지입니다.'}
+                                        </li>
+                                    </ul>
+                                )
+                            })
+                        }
+                    </div>
+                </ul>
+                <button onClick={eventCreateAcceptHandler}>
+                    생성
+                </button>
+                <button onClick={eventWindowExitHandler}>취소</button>
+            </div>}
             {eventWindow.state === 'modify' && (
                 <div>
                     <ul>
@@ -410,39 +609,42 @@ function EventWindow({ eventWindow, setEventWindow, calendar, employeeList, setE
                         }
                         <div>여기서부터는 사원 목록</div>
                         <div>검색할거야: <input type='text' onChange={searchHandler} value={searchValue} /></div>
-                        {employeeCheckedList
-                            .filter(employeeChecked => {
-                                const employee = employeeChecked.employee;
-                                const name = employee.employeeName;
-                                const deptName = employee?.department?.departmentName ?? '';
-                                const jobName = employee?.job?.jobName ?? '';
-                                return !employeeChecked.isChecked && (
-                                    name.includes(searchValue)
-                                    || deptName.includes(searchValue)
-                                    || jobName.includes(searchValue)
-                                )
-                            })
-                            .map(employeeChecked => {
-                                const employee = employeeChecked.employee;
-                                return (
-                                    <ul
-                                        key={employee.employeeCode}
-                                        style={{ border: '1px solid black', backgroundColor: 'pink' }}
-                                        onClick={() => employeeClickHandler(employee.employeeCode)}
-                                    >
-                                        {/* <li>사원번호: {employee.employeeAssignedCode}</li> */}
-                                        <li>사원번호: {employee.employeeCode}</li>
-                                        <li>이름: {employee.employeeName}</li>
-                                        <li>부서: {employee?.department?.departmentName ?? '부서이름이 없다.'}</li>
-                                        <li>직책: {employee?.job?.jobName ?? '직책이름이 없다.'}</li>
-                                        <li>
-                                            프로필 이미지:
-                                            {employee.profileImageURL ?? '기본이미지입니다.'}
-                                        </li>
-                                    </ul>
-                                )
-                            })
-                        }
+                        <div
+                            style={{ height: "200px", overflowY: "auto" }}>
+                            {employeeCheckedList
+                                .filter(employeeChecked => {
+                                    const employee = employeeChecked.employee;
+                                    const name = employee.employeeName;
+                                    const deptName = employee?.department?.departmentName ?? '';
+                                    const jobName = employee?.job?.jobName ?? '';
+                                    return !employeeChecked.isChecked && (
+                                        name.includes(searchValue)
+                                        || deptName.includes(searchValue)
+                                        || jobName.includes(searchValue)
+                                    )
+                                })
+                                .map(employeeChecked => {
+                                    const employee = employeeChecked.employee;
+                                    return (
+                                        <ul
+                                            key={employee.employeeCode}
+                                            style={{ border: '1px solid black', backgroundColor: 'pink' }}
+                                            onClick={() => employeeClickHandler(employee.employeeCode)}
+                                        >
+                                            {/* <li>사원번호: {employee.employeeAssignedCode}</li> */}
+                                            <li>사원번호: {employee.employeeCode}</li>
+                                            <li>이름: {employee.employeeName}</li>
+                                            <li>부서: {employee?.department?.departmentName ?? '부서이름이 없다.'}</li>
+                                            <li>직책: {employee?.job?.jobName ?? '직책이름이 없다.'}</li>
+                                            <li>
+                                                프로필 이미지:
+                                                {employee.profileImageURL ?? '기본이미지입니다.'}
+                                            </li>
+                                        </ul>
+                                    )
+                                })
+                            }
+                        </div>
                     </ul>
                     <button onClick={() => eventModifyAcceptHandler(eventWindow.event)}>
                         적용
