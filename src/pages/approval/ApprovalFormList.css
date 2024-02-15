@@ -1,0 +1,108 @@
+*{
+    font-family: Pretendard-Regular;
+}
+.project_section {
+    display: grid;
+    grid-column: auto;
+}
+.new_form_title_section {
+    height: 100px;
+    width: 1335px;
+    background-color: white;
+    display: flex;
+	align-items: center;
+}
+.new_form_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 68px;
+}
+.go_to_new_form{
+    text-decoration: none;
+}
+.form_search_section {
+    display: flex;
+    align-items: center;
+    margin-left: 23px;
+    margin-top: 7px;
+    width: 315px;
+}
+.form_search {
+    width: 311px;
+    height: 38px;
+    border-radius: 5px;
+    border-color: #606060;
+    border-width: 1.5px;
+    font-size: 16px;
+    color: #D3D3D3;
+}
+.search_icon {
+    width: 20px;
+    margin-left: -30px;
+}
+.form_list_section {
+    width: 315px;
+    height: 894px;
+    background-color: white;
+    margin-left: 23px;
+    margin-top: 7px;
+    border: 1px solid #D3D3D3;
+}
+.form_list {
+    position: relative;
+    height: 50px;
+    display: flex;
+	align-items: center;
+    border-bottom: 1px solid #D3D3D3;
+    cursor: pointer;
+}
+.form_list_title {
+    font-size: 16px;
+    color: #606060;
+    margin-left: 18px;
+}
+.selected {
+    font-weight: bold;
+}
+
+.selection_indicator {
+    width: 4px;
+    height: 35px;
+    background-color: #FA9A85;
+}
+.form_preview_section {
+    width: 957px;
+    height: 944px;
+    background-color: white;
+    margin-top: 7px;
+    margin-left: 18px;
+}
+.form_content {
+    display: flex;
+    flex-direction: row;
+    background-color: #F5F5F5;
+    width: 1335px;
+}
+.writing_section {
+    height: 70px;
+    background-color: white;
+    display: flex;
+	align-items: center;
+    border-bottom: 1px solid #D3D3D3;
+}
+.list_writing_button {
+    width: 126px;
+    height: 37px;
+    border-radius: 5px;
+    background-color: #FA9A85;
+    margin-left: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.list_writing_text {
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}

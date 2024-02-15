@@ -6,7 +6,7 @@ import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
 import Project from './pages/project/Project';
-import Approval from './pages/approval/Approval';
+import ApprovalSidebar from './pages/approval/ApprovalSidebar';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
 import Attendance from './pages/attendance/Attendance';
@@ -27,6 +27,7 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import ApprovalFormList from './pages/approval/ApprovalFormList';
 
 function App() {
     return (
@@ -63,8 +64,10 @@ function App() {
                     </Route>
                     <Route path='project' element={<Project />} />
 
-                    <Route path='approval' element={<Approval />} />
-
+                    <Route path='approval' element={<ApprovalSidebar />}>
+                        <Route path='writing' element={<ApprovalFormList />} />
+                    </Route>
+                    
                     <Route path='mypage' element={<MyPage />} />
 
                     <Route path='attendance' element={<Attendance />} />
