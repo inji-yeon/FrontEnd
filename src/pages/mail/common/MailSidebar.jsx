@@ -1,16 +1,19 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import './mailSidebar.css';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { request } from "../../../modules/MailModule";
-import { fetchMailByStatus, fetchMailByReadStatus } from "../../../apis/MailAPI";
+import { fetchMailByStatus, fetchMailByReadStatus, getUnreadMail } from "../../../apis/MailAPI";
 
 function MailSidebar() {
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const [active, setActive] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(100);
+
     useEffect(() => {
         setActive(true);
+        getUnreadMail().then(text => setUnreadCount(text));
     }, [])
     const mailWriteButton = (condition) => {
         if (condition === 'to') {
@@ -21,8 +24,10 @@ function MailSidebar() {
     }
     const getMailByStatus = (condition) => {
         if (condition === 'unread') {
+            navigate('/mail/check');
             dispatch(fetchMailByReadStatus());
         } else {
+            navigate('/mail/check');
             dispatch(fetchMailByStatus(condition));
         }
     }
@@ -37,7 +42,7 @@ function MailSidebar() {
                         <div id="information">
 
                             <div id="noread" onClick={() => { getMailByStatus('unread') }}>
-                                <div id="noread-count">24</div>
+                                {<div id="noread-count">{unreadCount}</div>}
                                 <div>안읽음</div>
                             </div>
 
