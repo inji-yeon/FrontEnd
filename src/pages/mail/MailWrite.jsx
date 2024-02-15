@@ -35,24 +35,7 @@ function MailWrite() {
     },[])
 
     function showErrorMsg(msg){     //메세지 출력하기
-        console.log(msg);
-        
-        if(wc){
-            wc.publish({
-                destination: '/app/mail/alert/send',    //엔드포인트
-                body: JSON.stringify({
-                    emailTitle: "처음으로 하는 메세지 매핑입니다.",
-                    emailContent: "<span>제발 잘 되었으면 좋겠어요 그쵸?<span>",
-                    emailReceiver: {
-                  
-                      employeeId: "inji2349@gmail.com"
-                    }
-                  })
-            });
-            console.log('정상적으로 요청은 했습니다.');
-        } else {
-            console.log('wc가 비었습니다.');
-        }
+        console.log('showError :',msg);
     }
     
     const sendEmail = (status) => {   //이메일 보내기 버튼 눌럿을 때
@@ -62,9 +45,23 @@ function MailWrite() {
                     if(!isSendMe){
                         console.log('일반 적인 전송입니다');
                         console.log(title,receiver,content); 
-                        // dispatch(sendMail({emailTitle:title,
-                        //                    emailReceiver:receiver,
-                        //                    emailContent:content}))
+                        if(wc){
+                            wc.publish({
+                                destination: '/app/mail/alert/send',    //엔드포인트
+                                headers : {Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')},
+                                body: JSON.stringify({
+                                    emailTitle: title,
+                                    emailContent: content,
+                                    emailReceiver: {
+                                  
+                                      employeeId: receiver+'@witty.com'
+                                    }
+                                  })
+                            });
+                            console.log(`클라에서 정상적으로 보냈습니다.\n보낸 내용 : \n emailTitle : ${title}\nemailContent : ${content}\nemailReceiver : ${receiver}`);
+                        } else {
+                            console.log('웹소켓과 연결되지 않은 상태입니다.');
+                        }
                     } else {
                         console.log('내게 쓰기 입니다.');
                     }
