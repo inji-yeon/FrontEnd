@@ -337,7 +337,6 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         eventDeleteTime: new Date()
                     }
                 })
-
                 const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
                 const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
                 modifyEvent[0].raw.eventDeleteStatus = "T";
