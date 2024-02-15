@@ -1,0 +1,218 @@
+.project_main {
+    display: grid;
+    grid-template-columns: 245px auto;
+}
+
+.sidemenu2 {
+    width: 245px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #606060;
+    background-color: #F5F5F5;
+}
+
+.sidemenu2_title {
+    color: #414141;
+    margin: 60px 0px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.sidemenu2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0px auto;
+}
+
+.sidemenu2 ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0px;
+    height: 60px;
+    width: 180px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.sidemenu2 ul li div {
+    font-size: 20px;
+    text-align: center;
+}
+
+.sidemenu2 ul li:hover {
+    background-color: HSL(12, 83%, 80%);
+}
+
+.sidemenu2 ul li:hover div {
+    color: white;
+}
+
+.project_section {
+    width: 100%;
+    display: grid;
+    grid-column: auto;
+    min-width: 1300px;
+}
+
+.project_header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+}
+
+.project_header_title {
+    font-size: 30px;
+    padding-left: 60px;
+}
+
+.project_input_wrap {
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right: 60px;
+}
+
+.project_search_input {
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    padding-left: 13px;
+    font-size: 16px;
+    width: 195px;
+    height: 100%;
+}
+
+.project_search_button {
+    font-size: 20px;
+    width: 64px;
+    height: 100%;
+    border-radius: 10px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+}
+
+.project_create_button {
+    font-size: 20px;
+    width: 160px;
+    height: 100%;
+    border-radius: 10px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+}
+
+.project_body {
+    width: 100%;
+}
+
+.project_list_wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 43px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.project_list_wrap>div {
+    position: relative;
+    height: 284px;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    /*수정 예정*/
+    /*우선적으로 값을 고정했다.*/
+    width: 380px;
+    /*수정 예정*/
+}
+
+.project_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 20px;
+}
+
+.project_footer>input[type=button] {
+    border-radius: 2px;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    cursor: pointer;
+}
+
+.project_footer>input[type=button]:hover {
+    background: #d9d9d9;
+}
+
+.project_contains_me {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    box-sizing: border-box;
+    border-top: 40px solid #fa9a85;
+    border-right: 40px solid #fa9a85;
+    border-bottom: 40px solid transparent;
+    border-left: 40px solid transparent;
+}
+
+.project_contains_me_text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+div[class^="project_element"]>table {
+    padding: 40px 30px;
+    width: 100%;
+    height: 100%;
+}
+
+div[class^="project_element"] table div {
+    height: 100%;
+}
+
+.project_element_row_1 div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.project_element_row_2,
+.project_element_row_3 {
+    height: 0;
+}
+
+.project_element_info div,
+.project_element_duedate div {
+    text-align: right;
+    line-height: 24px;
+}
+
+.project_element_title {
+    font-size: 20px;
+}
+
+.project_element_dept {
+    font-size: 14px;
+}
+
+.project_element_status {
+    font-size: 20px;
+    color: #ff843f;
+}
+
+.project_element_duedate {
+    font-size: 16px;
+}
+
+.project_list_wrap>div:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}

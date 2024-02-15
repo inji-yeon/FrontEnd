@@ -5,7 +5,7 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Project from './pages/project/Project';
+import Project from './pages/project/ProjectMain';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import Admin from './pages/admin/Admin';
@@ -27,6 +27,8 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import ProjectBoard from './pages/project/ProjectBoard';
+import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
 function App() {
     return (
@@ -49,7 +51,7 @@ function App() {
                         <Route path='posts/postCode' element={<PostInfo />} />
                     </Route>
 
-                    <Route path='calendar' element={<Calendar />}></Route>
+                    <Route path='calendar' element={<Calendar />} />
 
                     <Route path='attendance' element={<AttendanceSide />}>
                         <Route path='attendance' element={<Attendance />} />
@@ -61,7 +63,11 @@ function App() {
                         <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                         <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
                     </Route>
-                    <Route path='project' element={<Project />} />
+                    <Route path='projects' element={<Project />}>
+                        <Route path=':projectCode' element={<ProjectBoard />}>
+                            <Route path='posts/:postCode' elemet={<ProjectBoardDetail />} />
+                        </Route>
+                    </Route>
 
                     <Route path='approval' element={<Approval />} />
 
