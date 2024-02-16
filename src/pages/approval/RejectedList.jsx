@@ -1,8 +1,8 @@
-import './OnProcessList.css';
+import './RejectedList.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function OnProcessList(){
+function RejectedList(){
     const [active, setActive] = useState(false);
     const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ function OnProcessList(){
         <>
         <section className="project_section">
     <div className="awaiting_title_section">
-        <span className="awaiting_title">결재 진행함</span>
+        <span className="awaiting_title">반려 문서함</span>
         <select className="doc_search-options">
             <option value="search_by_title">제목</option>
             <option value="search_by_name">이름</option>
@@ -84,4 +84,4 @@ function OnProcessList(){
     );
 }
 
-export default OnProcessList;
+export default RejectedList;

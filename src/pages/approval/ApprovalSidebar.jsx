@@ -62,7 +62,19 @@ function ApprovalSidebar() {
         case 'onProcessList':
           navigate('onProcessList');
           break;
-        
+
+        case 'completed':
+          navigate('completed');
+          break;
+
+        case 'rejected':
+          navigate('rejected');
+          break;
+
+        case 'retrieved':
+          navigate('retrieved');
+          break;
+          
         default:
           break;
       }
@@ -98,13 +110,13 @@ function ApprovalSidebar() {
           <div className="on_process" onClick={() => { inboxHandler('onProcessList')}}>
             <span className="inbox_text">결재 진행함</span>
           </div>
-          <div className="completed">
+          <div className="completed" onClick={() => { inboxHandler('completed')}}>
             <span className="inbox_text">결재 완료함</span>
           </div>
-          <div className="rejected">
+          <div className="rejected" onClick={() => { inboxHandler('rejected')}}>
             <span className="inbox_text">반려 문서함</span>
           </div>
-          <div className="retrieved">
+          <div className="retrieved" onClick={() => { inboxHandler('retrieved')}}>
             <span className="inbox_text">회수 문서함</span>
           </div>
           <div className="saved">

@@ -47,71 +47,70 @@
     margin-left: 730px;
     padding: 2px;
 }
-.awaiting_list_content{
+.completed_list_content{
     width: 1295px;
     height: 980px;
     background-color: white;
     padding-top: 38px;
 }
-.awaiting_list{
+.completed_list{
     font-size: 16px;
     color: #606060;
     margin-left: 40px;
     border-collapse: collapse;
 }
-.awaiting_list thead th,
-.awaiting_list tbody td {
+.completed_list thead th,
+.completed_list tbody td {
     border-bottom: 1px solid #606060;
     padding: 15px;
 }
-.awaiting_list tbody tr:last-child td {
+.completed_list tbody tr:last-child td {
     border-bottom: none;
 }
-.awaiting_list th:first-child,
-.awaiting_list td:first-child {
+.completed_list th:first-child,
+.completed_list td:first-child {
     width: 188px;
     padding-left: 40px;
 }
 
-.awaiting_list th:nth-child(2),
-.awaiting_list td:nth-child(2) {
+.completed_list th:nth-child(2),
+.completed_list td:nth-child(2) {
     width: 500px;
     padding-left: 11.25px;
 }
-.awaiting_list td:nth-child(2) {
+.completed_list td:nth-child(2) {
     cursor: pointer;
 }
-.awaiting_list th:nth-child(3),
-.awaiting_list td:nth-child(3) {
+.completed_list th:nth-child(3),
+.completed_list td:nth-child(3) {
     width: 100px;
     padding-left: 11.25px;
 }
-.awaiting_list th:nth-child(4),
-.awaiting_list td:nth-child(4) {
+.completed_list th:nth-child(4),
+.completed_list td:nth-child(4) {
     width: 130px;
     padding-left: 11.25px;
 }
-.awaiting_list th:nth-child(5),
-.awaiting_list td:nth-child(5) {
+.completed_list th:nth-child(5),
+.completed_list td:nth-child(5) {
     width: 100px;
     padding-right: 40px;
     padding-left: 11.25px;
     padding-top:4px;
     padding-bottom: 4px;
 }
-.process_check_button{
+.completed_process_check_button{
     width: 126px;
     height: 37px;
     border-radius: 5px;
-    background-color: #FA9A85;
+    background-color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
     cursor: pointer;
 }
-.process_check_text{
+.completed_process_check_text{
     font-size: 16px;
-    color: white;
+    color: #606060;
 }
 .awaiting_list_footer {
     display: flex;

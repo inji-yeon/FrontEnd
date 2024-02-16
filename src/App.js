@@ -29,6 +29,9 @@ import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval'
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
 import ApprovalFormList from './pages/approval/ApprovalFormList';
 import OnProcessList from './pages/approval/OnProcessList';
+import CompletedList from './pages/approval/CompletedList';
+import RejectedList from './pages/approval/RejectedList';
+import RetrievedList from './pages/approval/RetrievedList';
 
 function App() {
     return (
@@ -68,6 +71,9 @@ function App() {
                     <Route path='approval' element={<ApprovalSidebar />}>
                         <Route path='writing' element={<ApprovalFormList />} />
                         <Route path='onProcessList' element={<OnProcessList />} />
+                        <Route path='completed' element={<CompletedList />} />
+                        <Route path='rejected' element={<RejectedList />} />
+                        <Route path='retrieved' element={<RetrievedList />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPage />} />

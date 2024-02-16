@@ -1,8 +1,8 @@
-import './OnProcessList.css';
+import './CompletedList.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function OnProcessList(){
+function CompletedList(){
     const [active, setActive] = useState(false);
     const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ function OnProcessList(){
         <>
         <section className="project_section">
     <div className="awaiting_title_section">
-        <span className="awaiting_title">결재 진행함</span>
+        <span className="awaiting_title">결재 완료함</span>
         <select className="doc_search-options">
             <option value="search_by_title">제목</option>
             <option value="search_by_name">이름</option>
@@ -25,8 +25,8 @@ function OnProcessList(){
         </div>
     </div>
 
-    <div className="awaiting_list_content">
-        <table style={{textAlign: "left"}} className="awaiting_list">
+    <div className="completed_list_content">
+        <table style={{textAlign: "left"}} className="completed_list">
             <thead>
             <tr>
                 <th>분류</th>
@@ -43,8 +43,8 @@ function OnProcessList(){
                 <td>연인지</td>
                 <td>2024.01.05</td>
                 <td>
-                    <div className="process_check_button">
-                        <span className="process_check_text">결재 현황 확인</span>
+                    <div className="completed_process_check_button">
+                        <span className="completed_process_check_text">뭐지?</span>
                     </div>
                 </td>
             </tr>
@@ -55,8 +55,8 @@ function OnProcessList(){
                 <td>연인지</td>
                 <td>2024.01.11</td>
                 <td>
-                    <div className="process_check_button">
-                        <span className="process_check_text">결재 현황 확인</span>
+                    <div className="completed_process_check_button">
+                        <span className="completed_process_check_text">결재 현황 확인</span>
                     </div>
                 </td>
             </tr>
@@ -84,4 +84,4 @@ function OnProcessList(){
     );
 }
 
-export default OnProcessList;
+export default CompletedList;
