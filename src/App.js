@@ -32,6 +32,8 @@ import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
 import {WebSocketProvider} from "./component/WebSocketContext";
 import AdminSidebar from "./pages/admin/common/Sidbar";
+import CreateBoard from './pages/board/CreateBoard';
+import BoardLayout from './pages/board/BoardLayout';
 
 
 function App() {
@@ -52,10 +54,11 @@ function App() {
 
                     <Route path='group' element={<Group />} />
 
-                    <Route path='board' element={<Board />}>
-                        <Route path='boardCode' element={<PostListOfBoard />} />
-                        <Route path='posts/regist' element={<CreatePost />} />
-                        <Route path='posts/postCode' element={<PostInfo />} />
+                    <Route path='board' element={<BoardLayout />} >
+                        <Route path=":boardCode" element={<PostListOfBoard />} />
+                        <Route path="posts/regist" element={<CreatePost />} />
+                        <Route path="boards/create" element={<CreateBoard />} />
+                        <Route path="posts/:postCode" element={<PostInfo />} />
                     </Route>
 
                     <Route path='calendar' element={<Calendar />} />
@@ -70,7 +73,7 @@ function App() {
                         <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                         <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
                     </Route>
-                    
+
                     <Route path='projects' element={<Project />} />
                     <Route path='projects/:projectCode' element={<ProjectBoard />} />
                     <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
