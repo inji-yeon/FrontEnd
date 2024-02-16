@@ -1,11 +1,19 @@
 import { Client } from "@stomp/stompjs";
 import { createContext, useContext, useEffect, useState } from "react";
+import { fet } from "../apis/MailAPI";
 
 const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({children}) => {
-    const [wc, setWc] = useState(null);
-
+    const [websocket, setWebsocket] = useState(null);   //웹소켓이다.
+    const [me, setMe] = useState(null);                 //유저의 코드이다.
+    useEffect(()=>{
+        if(websocket){
+            websocket.subscribe(`/topic/mail/alert/${me}`, (message) => {
+                console.log('메세지 받음 :',message.body);
+            });
+        }
+    },[me,websocket])
     useEffect(()=>{
         const client = new Client({
             brokerURL: 'ws://localhost:1208/websocket', //웹소켓 연결 엔드포인트
@@ -15,17 +23,18 @@ export const WebSocketProvider = ({children}) => {
           });
           
           client.activate();    //연결을 시도한다.
-
-          /**
-           * 서버와 연결에 성공하면 이 함수가 호출된다.
-           */
+ 
+          //서버와 연결에 성공하면 이 함수가 호출된다.
           client.onConnect = () => {
             console.log('웹 소켓 서버와 연결 됨');
-
-            // 서버로부터 메시지를 수신하기 위한 구독
-            client.subscribe('/topic/greetings');   //이 곳에서 useEffect로 구독할 정보를 모두 수집하여 구독하자.
-            setWc(client);
-            //구독은 패키지이름/세부내용/유저코드 형식으로 한다.
+            fet('http://localhost:1208/get-user-code')
+            .then(res => res.json())
+            .then(data => {
+                if(data.data){
+                    setMe(data.data.employeeCode);
+                }
+            })
+            setWebsocket(client);
           };
           /**
            * 연결에 실패하면 이 함수가 호출된다.
@@ -38,7 +47,7 @@ export const WebSocketProvider = ({children}) => {
           //최대한 알아보기 쉽게 필요없는거 다 줄였음.
     },[])
     return (
-        <WebSocketContext.Provider value={wc}>
+        <WebSocketContext.Provider value={websocket}>
             {children}
         </WebSocketContext.Provider>
     )

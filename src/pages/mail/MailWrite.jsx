@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import style from './mailWrite.module.css';
 import { fet } from '../../apis/MailAPI';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useWebSocket } from '../../component/WebSocketContext';
 
 function MailWrite() {
     window.jQuery = require('jquery');
     const wc = useWebSocket();
+    const navigate = useNavigate();
     const RichTextEditor = require('../../component/common/SummerNote').default;
     const [reserveDate,setReserveDate] = useState('');  //선택한 예약 날짜
     const [receiver, setReceiver] = useState('');
@@ -42,28 +43,25 @@ function MailWrite() {
         if(title && receiver){          //insert작업인데 @MessageMapping으로 보내야한다.
             switch(status){
                 case 'send': 
-                    if(!isSendMe){
-                        console.log('일반 적인 전송입니다');
-                        console.log(title,receiver,content); 
-                        if(wc){
-                            wc.publish({
-                                destination: '/app/mail/alert/send',    //엔드포인트
-                                headers : {Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')},
-                                body: JSON.stringify({
-                                    emailTitle: title,
-                                    emailContent: content,
-                                    emailReceiver: {
-                                  
-                                      employeeId: receiver+'@witty.com'
-                                    }
-                                  })
-                            });
-                            console.log(`클라에서 정상적으로 보냈습니다.\n보낸 내용 : \n emailTitle : ${title}\nemailContent : ${content}\nemailReceiver : ${receiver}`);
-                        } else {
-                            console.log('웹소켓과 연결되지 않은 상태입니다.');
-                        }
+                    console.log('일반 적인 전송입니다');
+                    console.log(title,receiver,content); 
+                    if(wc){
+                        wc.publish({
+                            destination: '/app/mail/alert/send',    //엔드포인트
+                            headers : {Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')},
+                            body: JSON.stringify({
+                                emailTitle: title,
+                                emailContent: content,
+                                emailReceiver: {
+                                
+                                    employeeId: receiver+'@witty.com'
+                                }
+                                })
+                        });
+                        console.log(`클라에서 정상적으로 보냈습니다.\n보낸 내용 : \n emailTitle : ${title}\nemailContent : ${content}\nemailReceiver : ${receiver}`);
+                        navigate('/mail/check');
                     } else {
-                        console.log('내게 쓰기 입니다.');
+                        console.log('웹소켓과 연결되지 않은 상태입니다.');
                     }
                     break;
                 case 'reserve': 

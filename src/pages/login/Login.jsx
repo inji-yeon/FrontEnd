@@ -1,6 +1,6 @@
 import Loginstyles from './Login.module.css'; 
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from "react-router-dom";
 
@@ -8,10 +8,11 @@ import {
     callLoginAPI
 } from '../../apis/EmployeeAPICalls'
 import { POST_LOGIN } from '../../modules/EmployeeModules';
+import { useWebSocket } from '../../component/WebSocketContext';
 
 
 function Login(){
-
+    const wc = useWebSocket();
     const navigate = useNavigate();
 
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
@@ -28,7 +29,14 @@ function Login(){
         
         if(loginEmployee.status === 200){
             console.log("[Login] Login SUCCESS {}", loginEmployee);
+            console.log(wc);
+            if(wc){
+                wc.subscribe(`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`, (message) => {
+                console.log('메세지 받음 :',message.body);
+            });
+        }
             navigate("/", { replace: true });
+
         }
     }
     ,[loginEmployee]);
@@ -52,10 +60,12 @@ function Login(){
     // }  
 
     // 로그인 버튼 클릭시 디스패처 실행 및 메인 페이지로 이동
+    //여기서 구독 하면 좋을 듯
     const onClickLoginHandler = () => { 
         dispatch(callLoginAPI({	// 로그인
             form: form
         }));
+
     }
 
     

@@ -13,6 +13,7 @@ function SideBar() {
     useEffect(()=>{
         dispatch(getUserInformation());
     })
+    const loginEmployee = useSelector(state => state.employeeReducer);
 
     // const userName = useSelector(state => state.sidebar.userName);
     // const userGroup = useSelector(state => state.sidebar.userGroup);
@@ -132,6 +133,8 @@ function SideBar() {
                         </li>
                     </ul>
                 </div>
+                {
+                loginEmployee.userInfo ?
                 <div className="working_status_wrap">
                     <table className="working_status">
                         <thead>
@@ -150,7 +153,7 @@ function SideBar() {
                             </td>
                             <td className="status_name_and_team">
                                 <div>
-                                    <span className="status_name_text">{userName}</span>
+                                    <span className="status_name_text">{loginEmployee.userInfo.employeeName}</span>
                                     <img id="status_img" src={statusImg} alt="상태이미지" />
                                 </div>
                                 <br />
@@ -172,6 +175,7 @@ function SideBar() {
                         </thead>
                     </table>
                 </div>
+                : <></>}
             </div>
         </>
     )

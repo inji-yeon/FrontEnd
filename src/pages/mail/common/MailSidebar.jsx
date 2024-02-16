@@ -68,7 +68,7 @@ function MailSidebar() {
                             <div>예약한 메일</div>
                         </li>
                         <li>
-                            <div>뭐 넣지?</div>
+                            <div onClick={() => { getMailByStatus('me') }}>전송한 메일</div>
                         </li>
                         <li>
                             <div>뭐 넣지?2</div>
