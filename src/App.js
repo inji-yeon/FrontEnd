@@ -15,10 +15,11 @@ import MailSidebar from './pages/mail/common/MailSidebar';
 import MailView from "./pages/mail/MailView";
 import Calendar from './pages/calendar/CaledarSidebar';
 
-import Notice from "./pages/board/Notice";
 import CreatePost from './pages/board/CreatePost';
 import PostInfo from "./pages/board/PostInfo";
 import PostListOfBoard from "./pages/board/PostListOfBoard";
+import {WebSocketProvider} from "./component/WebSocketContext";
+import AdminSidebar from "./pages/admin/common/Sidbar";
 
 
 function App() {

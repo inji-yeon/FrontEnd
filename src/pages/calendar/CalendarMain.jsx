@@ -5,7 +5,7 @@ import 'tui-time-picker/dist/tui-time-picker.css';
 
 import styles from './CalendarMain.module.css';
 import { useEffect, useRef, useState } from 'react';
-import moment from 'moment/moment';
+// import moment from 'moment/moment';
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate();
