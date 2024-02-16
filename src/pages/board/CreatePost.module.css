@@ -1,4 +1,6 @@
 .CreatePost{
+
+    margin-top: 20px;
     color: #606060;
 
 }
@@ -20,17 +22,19 @@ label{
     margin-right: 140px;
 }
 
-th{
+.CreatePost th{
     text-align: left;
     padding-right: 20px;
     font-weight: 700;
+    padding-bottom: 30px;
+
 }
 
-th, td{
+.CreatePost td{
     padding-bottom: 30px;
 }
 
-.btn{
+.CreatePost .btn{
     display: inline-block;
     width: 90px;
     height: 35px;
