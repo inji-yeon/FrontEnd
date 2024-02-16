@@ -44,6 +44,7 @@ function MailWrite() {
         if(title && receiver){          //insert작업인데 @MessageMapping으로 보내야한다.
             switch(status){
                 case 'send': 
+                console.log(wc);
                     console.log('일반 적인 전송입니다');
                     console.log(title,receiver,content); 
                     if(wc){

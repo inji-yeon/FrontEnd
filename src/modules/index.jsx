@@ -6,6 +6,7 @@ import sidebarReducer from './SidebarModule';
 import attendanceReducer from './AttendanceModule';
 import employeeReducer from './EmployeeModules'
 import calendarReducer from './CalendarModule';
+import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
 import boardReducer from './BoardModule';
 
@@ -16,10 +17,9 @@ const rootReducer = combineReducers({
     attendance: attendanceReducer,
     employeeReducer,
     calendar: calendarReducer,
+    groupreducer,
     project: projectReducer,
     board: boardReducer,
-
-
 });
 
 export default rootReducer;

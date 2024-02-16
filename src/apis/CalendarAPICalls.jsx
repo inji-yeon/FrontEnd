@@ -33,6 +33,8 @@ export const callGetCalendarAPI = () => {
         console.log('[CalendarAPICalls] callGetCalendarAPI RESULT : ', result)
 
         dispatch({ type: GET_CALENDAR, payload: result?.data })
+
+        dispatch(callGetEventListAPI());
     }
 }
 
