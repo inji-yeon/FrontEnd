@@ -1,0 +1,48 @@
+.category{
+    color: #414141;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.postCnt{
+    color: #606060;
+    text-align: center;
+    font-size: 23px;
+    font-weight: 400;
+
+}
+
+.boardContext{
+    margin-top: 30px;
+    padding: 20px 20px 20px 20px;
+    background: #F5F5F5;
+    color: #606060;
+
+}
+
+.createPostBtn{
+    width: 150px;
+    height: 40px;
+    border-radius: 8px;
+    display:grid;
+    align-items:center; /* 방향이 row 기준: 세로 중앙 정렬*/
+    color: #FFFFFF ;
+    background: #FA9A85;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+}
+
+
+.search{
+    width: 230px;
+    height: 30px;
+    border: 1px solid #D9D9D9;
+    font-size: 15px;
+    margin-top: 4px;
+    margin-right: 35px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
