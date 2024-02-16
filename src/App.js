@@ -32,12 +32,15 @@ import { WebSocketProvider } from './component/WebSocketContext';
 import AdminSidebar from './pages/admin/common/Sidbar';
 import CreateBoard from './pages/board/CreateBoard';
 import BoardLayout from './pages/board/BoardLayout';
+import GroupChart from './pages/group/sidebar/GroupSideBar';
+import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
 
 function App() {
     return (
         <WebSocketProvider>
             <BrowserRouter>
                 <Routes>
+            <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -47,7 +50,9 @@ function App() {
                         </Route>
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                        <Route path='group' element={<Group />} />
+                    <Route path='group' element={<GroupChart/>} >
+                        
+                    </Route>
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />
@@ -75,12 +80,14 @@ function App() {
 
                         <Route path='approval' element={<Approval />} />
 
-                        <Route path='mypage' element={<MyPage />} />
+                    <Route path='mypage' element={<MyPageSideBar />}>
+                        
+                    </Route>
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>
 
-                    <Route path='login' element={<Login />} />
+                    {/* <Route path='login' element={<Login />} /> */}
 
                     <Route path='admin' element={<AdminSidebar />}>
                         <Route path='mail' element={<AdminMail />} />

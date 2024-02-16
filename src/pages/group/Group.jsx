@@ -1,11 +1,17 @@
+// import GroupChart from "./sidebar/GroupSideBar";
 
-function Group(){
-    return(
+
+function Group() {
+  return (
     <>
-    {/* 이 곳은 그룹 페이지입니다. */}
-        <div>그룹</div>
+   
+    {/* <GroupChart/> */}
+      {/* 이 곳은 그룹 페이지입니다. */}
+      {/* <div><GroupChart/></div> */}
+      
+
     </>
-    )
+  );
 }
 
 export default Group;
