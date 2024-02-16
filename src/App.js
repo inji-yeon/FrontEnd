@@ -4,8 +4,9 @@ import Main from './pages/main/Main';
 import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
 import Group from './pages/group/Group';
-import Project from './pages/project/ProjectMain';
-import Approval from './pages/approval/Approval';
+import Board from './pages/board/Board';
+import Project from './pages/project/Project';
+import ApprovalSidebar from './pages/approval/ApprovalSidebar';
 import MyPage from './pages/mypage/Mypage';
 import AdminMail from './pages/admin/AdminMail';
 import Attendance from './pages/attendance/Attendance';
@@ -25,6 +26,11 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import ApprovalFormList from './pages/approval/ApprovalFormList';
+import OnProcessList from './pages/approval/OnProcessList';
+import CompletedList from './pages/approval/CompletedList';
+import RejectedList from './pages/approval/RejectedList';
+import RetrievedList from './pages/approval/RetrievedList';
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
@@ -78,11 +84,15 @@ function App() {
                         <Route path='projects/:projectCode' element={<ProjectBoard />} />
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
-                        <Route path='approval' element={<Approval />} />
-
-                    <Route path='mypage' element={<MyPageSideBar />}>
-                        
+                    <Route path='approval' element={<ApprovalSidebar />}>
+                        <Route path='writing' element={<ApprovalFormList />} />
+                        <Route path='onProcessList' element={<OnProcessList />} />
+                        <Route path='completed' element={<CompletedList />} />
+                        <Route path='rejected' element={<RejectedList />} />
+                        <Route path='retrieved' element={<RetrievedList />} />
                     </Route>
+                    
+                    <Route path='mypage' element={<MyPage />} />
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>
