@@ -25,6 +25,7 @@ function MailWrite() {
                 if(data.status === 200){
                     console.log(data);
                     setReceiver(data.data.emailSender.employeeId);
+                    setTitle(`re : ${data.data.emailTitle} `);
                 }
             })
         }

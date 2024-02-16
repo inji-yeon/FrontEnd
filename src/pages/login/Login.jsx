@@ -35,6 +35,8 @@ function Login(){
                 console.log('메세지 받음 :',message.body);
             });
             console.log('구독함 :',`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`);
+        } else {
+            console.log('웹소켓이 없음');
         }
             navigate("/", { replace: true });
 

@@ -4,7 +4,6 @@ import Main from './pages/main/Main';
 import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
 import Group from './pages/group/Group';
-import Board from './pages/board/Board';
 import Project from './pages/project/ProjectMain';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
@@ -15,7 +14,6 @@ import MailSidebar from './pages/mail/common/MailSidebar';
 import MailView from './pages/mail/MailView';
 import Calendar from './pages/calendar/CaledarSidebar';
 
-import Notice from './pages/board/Notice';
 import CreatePost from './pages/board/CreatePost';
 import PostInfo from './pages/board/PostInfo';
 import PostListOfBoard from './pages/board/PostListOfBoard';
