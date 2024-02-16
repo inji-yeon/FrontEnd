@@ -124,16 +124,16 @@ function CommuteList() {
                             <div className={commuteList.count_box}>
                                 <div className={commuteList.box}>
                                     <div className={commuteList.vacation}>
-                                        <span className={commuteList.vacation_image}><img src='/AttendanceManagement/vacation.png' alt="Vacation" /></span>
-                                        <span className={commuteList.vacation_tile}>휴가</span>
+                                        {/* <span className={commuteList.vacation_image}><img src='/AttendanceManagement/vacation.png' alt="Vacation" /></span> */}
+                                        <span className={commuteList.vacation_tile}>정상</span>
                                         <div className={commuteList.vacationCount}>3</div>
                                     </div>
                                     <div className={commuteList.outside}>
-                                        <span className={commuteList.outside_image}> <img src='/AttendanceManagement/outside.png' alt="Outside" /> </span>
-                                        <span className={commuteList.outside_tile}>외근</span>
+                                        {/* <span className={commuteList.outside_image}> <img src='/AttendanceManagement/outside.png' alt="Outside" /> </span> */}
+                                        <span className={commuteList.outside_tile}>지각 및 조퇴</span>
                                         <div className={commuteList.outsideCount}>3</div>
                                     </div>
-                                    <div className={commuteList.extension}>
+                                    {/* <div className={commuteList.extension}>
                                         <span className={commuteList.extension_image}><img src='/AttendanceManagement/extension.png' alt='Extention' /></span>
                                         <span className={commuteList.extension_tile}>연장근무</span>
                                         <div className={commuteList.extensionCount}>3</div>
@@ -147,7 +147,7 @@ function CommuteList() {
                                         <span className={commuteList.home_image}> <img src='/AttendanceManagement/home.png' alt='Home' /> </span>
                                         <span className={commuteList.home_tile}>재택근무</span>
                                         <div className={commuteList.homeCount} >3</div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 
@@ -174,7 +174,7 @@ function CommuteList() {
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementDepartureTime}</td>
                                                 <td className={commuteList.list_commute_detail}>08h 00m</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementState}</td>
-                                                <td className={commuteList.list_commute_detail}>{}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceWorkTypeStatus}</td>
                                             </tr>
                                             ))
                                             :
@@ -189,7 +189,7 @@ function CommuteList() {
                                 </table>
                             </div>
                        
-                            <div className={commuteList.paging_po}  style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                            <div className={commuteList.paging_po}  style={{  position: 'relative',left: '500px'  ,top: '600px', listStyleType: 'none', display: 'flex' }}> 
                                 {Array.isArray(commuteLists) && (
                                     <button
                                         onClick={() => setCurrentPage(currentPage - 1)}
