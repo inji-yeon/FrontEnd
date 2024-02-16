@@ -5,12 +5,12 @@
 
 }
 
-input[type="text"]{
+.CreatePost input[type="text"]{
     border: 1px solid #D9D9D9;
     height: 25px;
 }
 
-select{
+.CreatePost select{
     border: 1px solid #D9D9D9;
     height: 33px;
     width: 190px;
@@ -18,7 +18,7 @@ select{
 
 }
 
-label{
+.CreatePost label{
     margin-right: 140px;
 }
 

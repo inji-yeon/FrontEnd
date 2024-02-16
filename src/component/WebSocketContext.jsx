@@ -27,14 +27,14 @@ export const WebSocketProvider = ({children}) => {
           //서버와 연결에 성공하면 이 함수가 호출된다.
           client.onConnect = () => {
             console.log('웹 소켓 서버와 연결 됨');
-            fet('http://localhost:1208/get-user-code')
-            .then(res => res.json())
-            .then(data => {
-                if(data.data){
-                    setMe(data.data.employeeCode);
-                }
-            })
-            setWebsocket(client);
+            // fet('http://localhost:1208/get-user-code')
+            // .then(res => res.json())
+            // .then(data => {
+            //     if(data.data){
+            //         setMe(data.data.employeeCode);
+            //     }
+            // })
+            // setWebsocket(client);
           };
           /**
            * 연결에 실패하면 이 함수가 호출된다.
