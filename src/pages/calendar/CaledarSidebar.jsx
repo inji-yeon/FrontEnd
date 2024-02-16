@@ -12,7 +12,6 @@ function CaledarSidebar() {
 
     useEffect(() => {
         dispatch(callGetCalendarAPI());
-        dispatch(callGetEventListAPI());
     }, []);
 
     useEffect(() => {

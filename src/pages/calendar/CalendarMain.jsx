@@ -212,29 +212,29 @@ function CalendarMain({ calendarData, setCalendarData }) {
     useEffect(() => {
         setEventList(
             calendarData?.eventList?.map(e => {
-                const event = e.event
-                const attendeeList = e.eventAttendeeList
+                const event = e?.event
+                const attendeeList = e?.eventAttendeeList
                 return {
-                    id: event.eventCode.toString(),
-                    calendarId: event.calendarCode.toString(),
-                    title: event.eventTitle,
-                    body: event.eventContent,
-                    start: new Date(event.eventStartDate),
-                    end: new Date(event.eventEndDate),
-                    location: event.eventLocation,
-                    category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                    recurrenceRule: event.eventRecurrenceRule,
-                    isReadOnly: event.eventEditable === 'N' ? true : false,
-                    color: event.eventColor,
-                    backgroundColor: event.eventBackgroundColor,
-                    dragBackgroundColor: event.eventDragBackgroundColor,
-                    borderColor: event.eventBorderColor,
+                    id: event?.eventCode?.toString(),
+                    calendarId: event?.calendarCode?.toString(),
+                    title: event?.eventTitle,
+                    body: event?.eventContent,
+                    start: new Date(event?.eventStartDate),
+                    end: new Date(event?.eventEndDate),
+                    location: event?.eventLocation,
+                    category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                    recurrenceRule: event?.eventRecurrenceRule,
+                    isReadOnly: event?.eventEditable === 'N' ? true : false,
+                    color: event?.eventColor,
+                    backgroundColor: event?.eventBackgroundColor,
+                    dragBackgroundColor: event?.eventDragBackgroundColor,
+                    borderColor: event?.eventBorderColor,
                     raw: {
                         // departmentName: event.departmentName,
-                        eventAttendeeCount: event.eventAttendeeCount,
+                        eventAttendeeCount: event?.eventAttendeeCount,
                         eventAttendeeList: attendeeList,
-                        eventDeleteTime: event.eventDeleteTime,
-                        eventDeleteStatus: event.eventDeleteStatus
+                        eventDeleteTime: event?.eventDeleteTime,
+                        eventDeleteStatus: event?.eventDeleteStatus
                     }
                 }
             })
