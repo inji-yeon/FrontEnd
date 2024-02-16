@@ -12,7 +12,12 @@ function ApprovalFormList(){
     
     return(
         <>
+        <div>
         <section className="project_section">
+        <div className="new_form_title_section">
+            <div className="new_form_title_box"></div>
+            <span className="new_form_title">기안서 작성</span>
+        </div>
     <div className="form_content">
         <div className="form_search_and_list">
             <div className="form_search_section">
@@ -65,6 +70,7 @@ function ApprovalFormList(){
         </div>
     </div>
     </section>
+    </div>
         </>
     );
 }

@@ -28,6 +28,7 @@ import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
 import ApprovalFormList from './pages/approval/ApprovalFormList';
+import OnProcessList from './pages/approval/OnProcessList';
 
 function App() {
     return (
@@ -66,6 +67,7 @@ function App() {
 
                     <Route path='approval' element={<ApprovalSidebar />}>
                         <Route path='writing' element={<ApprovalFormList />} />
+                        <Route path='onProcessList' element={<OnProcessList />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPage />} />

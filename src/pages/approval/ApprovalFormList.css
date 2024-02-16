@@ -4,6 +4,7 @@
 .project_section {
     display: grid;
     grid-column: auto;
+    height: 100%;
 }
 .new_form_title_section {
     height: 100px;
@@ -11,6 +12,7 @@
     background-color: white;
     display: flex;
 	align-items: center;
+    margin-top: 23px;
 }
 .new_form_title {
     font-size: 20px;

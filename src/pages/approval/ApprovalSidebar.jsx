@@ -1,6 +1,6 @@
 import './ApprovalSidebar.css'
 import { useEffect, useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { Outlet, useNavigate } from "react-router-dom";
 
 function ApprovalSidebar() {
     const [active, setActive] = useState(false);
@@ -56,8 +56,21 @@ function ApprovalSidebar() {
       navigate('writing');
     }
 
+    const inboxHandler = (value) => {
+
+      switch (value) {
+        case 'onProcessList':
+          navigate('onProcessList');
+          break;
+        
+        default:
+          break;
+      }
+    }
+
     return (
         <>
+        <div className={`approval_wrapper ${active ? 'active' : ''}`}>
               <div className="approval_sidemenu">
     <div className="approval_sidemenu_on">
       <div className="title">전자 결재</div>
@@ -82,7 +95,7 @@ function ApprovalSidebar() {
           <div className="inbox_title" onClick={handleInboxClick}>결재 상신함</div>
         </div>
         <div className="inbox_menu_section" style={{height: inboxMenuHeight}}>
-          <div className="on_process">
+          <div className="on_process" onClick={() => { inboxHandler('onProcessList')}}>
             <span className="inbox_text">결재 진행함</span>
           </div>
           <div className="completed">
@@ -129,6 +142,8 @@ function ApprovalSidebar() {
           </div>
         </div>
       </div>
+  </div>
+  <Outlet />
   </div>
         </>
     );
