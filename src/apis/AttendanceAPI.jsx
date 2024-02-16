@@ -25,7 +25,7 @@ export const callCommuteMainAPI = () => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -62,7 +62,7 @@ export const callCommutInsertAPI = ({ arrivalTime, late }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
             body: JSON.stringify(requestBody),
         });
@@ -98,7 +98,7 @@ export const callCommuteUpdateAPI = ({ departureTime, early }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
             body: JSON.stringify(requestBody),
         });
@@ -142,7 +142,7 @@ export const callCommutesListAPI = ({ currentPage, now }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -179,7 +179,7 @@ export const callDoPaymentAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -216,7 +216,7 @@ export const callDoRejectAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -252,7 +252,7 @@ export const callDoWaitingAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -289,7 +289,7 @@ export const callMyApprovalAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -326,7 +326,7 @@ export const callMyRejectAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
@@ -362,7 +362,7 @@ export const callMyWaitingAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,//window.localStorage.getItem('accessToken'),
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
         }).then((response) => response.json());
         console.log(result)
