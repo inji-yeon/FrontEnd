@@ -9,14 +9,12 @@
 
 .addCommentBtn{
 
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 5px;
+
+    min-width: 70px;
     background-color: #FA9A85;
     border-radius: 5px;
     color: #FFF;
-    font-size: 18px;
+    font-size: 17px;
     margin-left: 20px;
     border: none;
 }
@@ -37,4 +35,6 @@
 
 .comment{
     margin-bottom: 25px;
+    padding-left: 10px;
+    border-left: 4px solid #D9D9D9;
 }

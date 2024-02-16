@@ -5,13 +5,17 @@ import mailReducer from './MailModule';
 import sidebarReducer from './SidebarModule';
 import employeeReducer from './EmployeeModules'
 import calendarReducer from './CalendarModule';
+import boardReducer from './BoardModule';
 
 const rootReducer = combineReducers({
     
     mail: mailReducer,
     sidebar: sidebarReducer,
     employeeReducer,
-    calendar: calendarReducer
+    calendar: calendarReducer,
+    board: boardReducer,
+
+
 });
 
 export default rootReducer;

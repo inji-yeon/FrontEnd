@@ -1,10 +1,22 @@
-import './PostList.css';
+import { useEffect, useState } from 'react';
+import styles from './PostList.module.css';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const PostList = () => {
+const PostList = ({data}) => {
+
+
+    console.log('+++postList 컴포넌트에서 받은 ++++++>>> : ', data);
+   
+        // optional chaining
+    // console.log('postList 컴포넌트 : ', data?.data?.content);
+    
+    const navigate = useNavigate();
+
 
 
     return <>
-         <table style={{textAlign: 'left', marginTop: 70}} className="PostList">
+         <table className={styles.PostList}>
             <thead>
                 <tr>
                     <th>번호</th>
@@ -17,23 +29,23 @@ const PostList = () => {
             </thead>
 
             <tbody>
-                <tr>
-                    <td>21</td>
-                    <td>자율시간제 공지</td>
-                    <td>차윤하 본부장</td>
-                    <td>2024-01-09</td>
-                    <td>6</td>
-                    <td>3</td>
-                </tr>
 
-                <tr>
-                    <td>20</td>
-                    <td>사내 결제 시스템 안내</td>
-                    <td>차윤하 본부장</td>
-                    <td>2024-01-09</td>
-                    <td>5</td>
-                    <td>39</td>
-                </tr>
+                
+             {data.data?.content.map((post, idx) => (
+
+                    <tr key={post.postCode} onClick={() => navigate(`/board/posts/${post.postCode}`)}>
+                        <td>{post.postCode}</td>
+                        <td>{post.postTitle}</td>
+                        <td style={{width: 100,}}>{post.employee.employeeName}</td>
+                        <td>{post.postDate}</td>
+                        <td>{post.postViews}</td>
+                        <td>3</td>
+                    </tr>
+
+                ))
+                
+                }
+
 
             </tbody>
         </table>

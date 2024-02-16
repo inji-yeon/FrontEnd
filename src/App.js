@@ -4,7 +4,6 @@ import Main from './pages/main/Main';
 import Mail from './pages/mail/Mail';
 import Write from './pages/mail/Write';
 import Group from './pages/group/Group';
-import Board from './pages/board/Board';
 import Project from './pages/project/Project';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
@@ -15,10 +14,11 @@ import MailSidebar from './pages/mail/common/MailSidebar';
 import MailView from "./pages/mail/MailView";
 import Calendar from './pages/calendar/CaledarSidebar';
 
-import Notice from "./pages/board/Notice";
 import CreatePost from './pages/board/CreatePost';
 import PostInfo from "./pages/board/PostInfo";
 import PostListOfBoard from "./pages/board/PostListOfBoard";
+import CreateBoard from './pages/board/CreateBoard';
+import BoardLayout from './pages/board/BoardLayout';
 
 
 function App() {
@@ -39,10 +39,11 @@ function App() {
 
                     <Route path="group" element={<Group/>}/>
 
-                      <Route path='board' element={<Board />} >
-                        <Route path="boardCode" element={<PostListOfBoard />} />
+                    <Route path='board' element={<BoardLayout />} >
+                        <Route path=":boardCode" element={<PostListOfBoard />} />
                         <Route path="posts/regist" element={<CreatePost />} />
-                        <Route path="posts/postCode" element={<PostInfo />} />
+                        <Route path="boards/create" element={<CreateBoard />} />
+                        <Route path="posts/:postCode" element={<PostInfo />} />
                     </Route>
 
                     <Route path='calendar' element={<Calendar />}>
