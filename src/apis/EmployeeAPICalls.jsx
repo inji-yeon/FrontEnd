@@ -4,7 +4,6 @@ export const callGetEmployeeAPI = ({ employeeId }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/employee/employeeinfo${employeeId}`;
 
 
-
     return async (dispatch, getState) => {
         // 클라이언트 fetch mode : no-cors 사용시 application/json 방식으로 요청이 불가능
         // 서버에서 cors 허용을 해주어야 함
