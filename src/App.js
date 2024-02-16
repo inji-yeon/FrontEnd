@@ -63,11 +63,10 @@ function App() {
                         <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                         <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
                     </Route>
-                    <Route path='projects' element={<Project />}>
-                        <Route path=':projectCode' element={<ProjectBoard />}>
-                            <Route path='posts/:postCode' elemet={<ProjectBoardDetail />} />
-                        </Route>
-                    </Route>
+                    
+                    <Route path='projects' element={<Project />} />
+                    <Route path='projects/:projectCode' element={<ProjectBoard />} />
+                    <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
                     <Route path='approval' element={<Approval />} />
 

@@ -2,7 +2,7 @@ import { createActions, handleActions } from 'redux-actions';
 
 /* 초기값 */
 const initialState = {
-    projectList: []
+    projectListWithPaging: { data: [], pageInfo: null },
 };
 
 /* 액션 */
@@ -17,7 +17,7 @@ const projectReducer = handleActions(
         [GET_PROJECTS]: (state, { payload }) => {
             return {
                 ...state,
-                projectList: payload?.data
+                projectListWithPaging: payload?.data
             };
         },
     },
