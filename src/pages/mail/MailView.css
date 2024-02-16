@@ -36,7 +36,7 @@
 }
 
 
-.receive_button,.non_read_change{
+.receive_button,.non_read_change,.remove_button{
     position: absolute;
     font-size: 16px;
     cursor: pointer;
@@ -60,6 +60,12 @@
 .receive_button{
     user-select: none;
     top: 250px;
+    width: 110px;
+}
+.remove_button{
+    user-select: none;
+    top: 250px;
+    left: 1050px;
     width: 110px;
 }
 .non_read_change:hover, .receive_button:hover{

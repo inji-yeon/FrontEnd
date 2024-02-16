@@ -1,18 +1,26 @@
 //공통으로 사용하는 사이드바 부분입니다. 
 
-import {useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './sidemenu.css';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+
 import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate  } from 'react-router-dom';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function SideBar() {
     let navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getUserInformation());
     })
+
+const token = decodeJwt(window.localStorage.getItem("accessToken"))
+console.log('--------',token)
+
+    const loginEmployee = useSelector(state => state.employeeReducer);
+
 
     // const userName = useSelector(state => state.sidebar.userName);
     // const userGroup = useSelector(state => state.sidebar.userGroup);
@@ -20,12 +28,12 @@ function SideBar() {
     // const userProfileImg = useSelector(state => state.sidebar.userProfileImg);
 
     const user = useSelector(state => state.sidebar);
-    const {userName, userGroup, userDept, userProfileImg} = user;
+    const { userName, userGroup, userDept, userProfileImg } = user;
 
 
     const [statusImg, setStatusImg] = useState("../../../../sidebar/sidebar_user_status_img/office.png");
 
-//유저 근무 상태 이미지 넣기
+    //유저 근무 상태 이미지 넣기
 
     const changeStatusImg = (e) => {
         const status = e.target.value;  //이벤트 가져와서 status에 넣기
@@ -43,13 +51,13 @@ function SideBar() {
             default:    //기본(에러)는 오피스 근무로
                 setStatusImg('../../../../sidebar/sidebar_user_status_img/office.png');
         }
-    } 
+    }
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
-        const texts = ['mail','attendance','calendar','project','approval','board','group'];
-        for(let i=0;i<texts.length;i++){
+        const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
+        for (let i = 0; i < texts.length; i++) {
             document.getElementById(texts[i]).style.color = '#606060';
-            if(value === texts[i]){
+            if (value === texts[i]) {
                 document.getElementById(texts[i]).style.color = 'white';
             }
         }
@@ -60,41 +68,41 @@ function SideBar() {
                 box.style.opacity = '0';
                 navigate('/');
                 break;
-            case 'mail': 
-                box.style.top = '125px'; 
+            case 'mail':
+                box.style.top = '125px';
                 navigate('/mail/check');
                 break;
-            case 'attendance': 
-                box.style.top = '210px'; 
+            case 'attendance':
+                box.style.top = '210px';
                 navigate('/attendance');
                 break;
-            case 'calendar': 
-                box.style.top = '293px'; 
+            case 'calendar':
+                box.style.top = '293px';
                 navigate('/calendar');
                 break;
-            case 'project': 
-                box.style.top = '376px'; 
-                navigate('/project');
+            case 'project':
+                box.style.top = '376px';
+                navigate('/projects');
                 break;
-            case 'approval': 
-                box.style.top = '462px'; 
+            case 'approval':
+                box.style.top = '462px';
                 navigate('/approval');
                 break;
-            case 'board': 
+            case 'board':
                 box.style.top = '546px';
                 navigate('/board');
                 break;
-            case 'group': 
-                box.style.top = '630px'; 
+            case 'group':
+                box.style.top = '630px';
                 navigate('/group');
                 break;
-            case 'admin': 
+            case 'admin':
                 box.style.top = '714px';
                 navigate('/admin');
                 break;
             default:
                 box.style.display = 'none';
-            
+
         }
 
     }
@@ -102,7 +110,7 @@ function SideBar() {
     return (
         <>
             <div className="sidemenu">
-                <div onClick={()=>{sidebarMenuSelectHandler('main')}} className="company_name">Witty Wave</div>
+                <div onClick={() => { sidebarMenuSelectHandler('main') }} className="company_name">Witty Wave</div>
                 <div className="sidemenu_list">
                     <ul>
                         <div className="selected_box"></div>
@@ -132,6 +140,8 @@ function SideBar() {
                         </li>
                     </ul>
                 </div>
+                {
+                loginEmployee.userInfo ?
                 <div className="working_status_wrap">
                     <table className="working_status">
                         <thead>
@@ -150,7 +160,7 @@ function SideBar() {
                             </td>
                             <td className="status_name_and_team">
                                 <div>
-                                    <span className="status_name_text">{userName}</span>
+                                    <span className="status_name_text">{loginEmployee.userInfo.employeeName}</span>
                                     <img id="status_img" src={statusImg} alt="상태이미지" />
                                 </div>
                                 <br />
@@ -172,6 +182,7 @@ function SideBar() {
                         </thead>
                     </table>
                 </div>
+                : <></>}
             </div>
         </>
     )

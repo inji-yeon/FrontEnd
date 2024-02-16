@@ -128,12 +128,18 @@ th,td{
     opacity: 0;
     transition: opacity 0.5s ease-in;
   }
-  .fade-in:hover {
+  .fadea-in:hover {
+    background-color: aliceblue;
+  }
+  .mail-container{
     background-color: aliceblue;
   }
   
   .fade-in.active {
     opacity: 1;
+  }
+  .non-email{
+
   }
 
 

@@ -1,14 +1,16 @@
 .CreatePost{
+
+    margin-top: 20px;
     color: #606060;
 
 }
 
-input[type="text"]{
+.CreatePost input[type="text"]{
     border: 1px solid #D9D9D9;
     height: 25px;
 }
 
-select{
+.CreatePost select{
     border: 1px solid #D9D9D9;
     height: 33px;
     width: 190px;
@@ -16,21 +18,23 @@ select{
 
 }
 
-label{
+.CreatePost label{
     margin-right: 140px;
 }
 
-th{
+.CreatePost th{
     text-align: left;
     padding-right: 20px;
     font-weight: 700;
+    padding-bottom: 30px;
+
 }
 
-th, td{
+.CreatePost td{
     padding-bottom: 30px;
 }
 
-.btn{
+.CreatePost .btn{
     display: inline-block;
     width: 90px;
     height: 35px;

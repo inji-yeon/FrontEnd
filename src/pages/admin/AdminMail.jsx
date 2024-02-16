@@ -1,4 +1,4 @@
-function Admin(){
+function AdminMail(){
     return(
         <>
             <div>어드민 페이지</div>
@@ -6,4 +6,4 @@ function Admin(){
     )
 }
 
-export default Admin;
+export default AdminMail;

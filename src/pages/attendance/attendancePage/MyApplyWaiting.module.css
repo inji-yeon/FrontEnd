@@ -4,8 +4,8 @@
     width: 95%;
     grid-template-columns: 326px 245px auto;
 
-}
 
+}
 
 .main2{
     position: relative;
@@ -16,8 +16,7 @@ body {
     margin: 0;
     font-family: Pretendard;
 }
-
-.main-title{
+.main_title{
     position: relative;
     left: 10px;
     top: 30px;
@@ -29,10 +28,11 @@ body {
     position: relative;
     top: 40px;
     border:0.5px solid #606060;
+    width: 150px;
     
 }
 
-.filter-area{
+.filter_area{
     position: relative;
     top: 90px;
 }
@@ -43,15 +43,27 @@ body {
     
 }
 
-.box-area{
+.box_area{
     position: relative;
     width: 240px;
     height: 50px;
 }
 
-.waiting-box{
+.apply_waiting_box{
     position: absolute;
     left: 0px;
+    background-color: #FFBE98;
+    width: 80px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+}
+
+.approval_box{
+    position: absolute;
+    left: 80px;
     background-color: #F5F5F5;
     width: 80px;
     height: 50px;
@@ -62,20 +74,7 @@ body {
     border:0.5px solid #606060;
 } 
 
-.document-approval-box{
-    position: absolute;
-    left: 80px;
-    background-color: #FFBE98;
-    width: 80px;
-    height: 50px;
-    color: #414141;
-    font-size: 20px;
-    line-height: 50px; /* 적절한 높이를 설정합니다. */
-    text-align: center;
-}
-
-
-.reject-box{
+.reject_box{
     position: absolute;
     left: 160px;
     background-color: #F5F5F5;
@@ -91,57 +90,74 @@ body {
 .approval{
     position: relative;
     top:140px;
-    width: 80px;
+    width: 100px;
     height: 25px;
     background-color: white;
     border:0.5px solid #606060;
     color: #414141;
     font-size: 16px;
-}
-
-.rejection{
-    position: relative;
-    top:140px;
-    width: 80px;
-    height: 25px;
     left: 20px;
-    background-color: white;
-    border:0.5px solid #606060;
-    color: #414141;
-    font-size: 16px;
 }
 
-.list-commute-area{
+
+.list_commute_area{
     position: relative;
-    top: 190px;
-    left: 0px;
+    top: 110px;
+    left: 20px;
     width: 1200px;
 }
 
-.list-commute-detail td {
+
+
+.list_my_waiting table {
+    position: relative;
+    top: 190px;
+    font-size: 16px;
+    width: 1200px; 
+    border-collapse: collapse; /* 테이블 셀 간의 경계를 합칩니다. */
+    border: '1px solid black'
+
+}
+
+
+
+
+.list_my_waiting td {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
     font-size: 16px;
 }
 
-.list-commute-detail tr {
+.list_my_waiting tr {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
     font-size: 16px;
 }
 
-.paging-po{
+
+
+
+.paging_po{
     position: absolute;
-    top: 850px;
-    left: 450px;
+    top: 80px;
     color: #414141;
     font-size: 20px;
 }
 
+.pagingBtn{
+    margin: 5px;
+    border-radius: 25px;
+    background-color: #FA9A85;
+    font-weight: bold;
+}
 
-a {
+
+
+
+
+.a {
     text-decoration: none; /* 밑줄 제거 */
 }
 

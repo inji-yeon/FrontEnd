@@ -7,9 +7,9 @@ function AttendanceLayout() {
         position: 'absolute',
         display: 'grid',
         width: '95%',
-        gridTemplateColumns: '326px 245px auto',
+        gridTemplateColumns: '245px auto',
         top: '5px',
-        left: '326px',
+        left: '360px',
 
     };
 

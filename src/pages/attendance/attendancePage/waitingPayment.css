@@ -155,8 +155,16 @@ body {
     font-size: 20px;
 }
 
+.pagingBtn{
+    margin: 5px;
+    border-radius: 25px;
+    background-color: #FA9A85;
+    font-weight: bold;
+}
 
-a {
+
+
+.a {
     text-decoration: none; /* 밑줄 제거 */
 }
 
