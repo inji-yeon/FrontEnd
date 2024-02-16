@@ -51,7 +51,7 @@ function CalendarMain({ calendarData, setCalendarData }) {
 
     const weekOptions = { taskView: false }
     const eventFilter = (event) => {
-        return event.isVisible && (event.raw.eventDeleteStatus === 'N')
+        return event?.isVisible && (event?.raw.eventDeleteStatus === 'N')
     }
 
     const [eventWindow, setEventWindow] = useState({ state: null }) // 이벤트 정보 보여주는 부분(자식 컴포넌트로 넘긴다.)
@@ -159,9 +159,9 @@ function CalendarMain({ calendarData, setCalendarData }) {
             */
             changes['start'] = changes?.start ?? null;
             const eventOptionsAboutDate = {
-                eventCode: event.id,
-                calendarCode: event.calendarId,
-                isAllday: event.isAllday ? 'Y' : 'N',
+                eventCode: event?.id,
+                calendarCode: event?.calendarId,
+                isAllday: event?.isAllday ? 'Y' : 'N',
                 startDate: changes?.start?.toDate(),
                 endDate: changes?.end?.toDate(),
             }
@@ -230,7 +230,7 @@ function CalendarMain({ calendarData, setCalendarData }) {
                     dragBackgroundColor: event?.eventDragBackgroundColor,
                     borderColor: event?.eventBorderColor,
                     raw: {
-                        // departmentName: event.departmentName,
+                        // departmentName: event?.departmentName,
                         eventAttendeeCount: event?.eventAttendeeCount,
                         eventAttendeeList: attendeeList,
                         eventDeleteTime: event?.eventDeleteTime,
@@ -252,32 +252,32 @@ function CalendarMain({ calendarData, setCalendarData }) {
             const attendeeList = returnData?.data.eventAttendeeList
             console.log(event);
             console.log(attendeeList);
-            console.log(event.eventIsAllDay);
-            console.log(event.eventCode);
-            console.log(event.calendarCode);
-            calendar.updateEvent(event.eventCode.toString(), event.calendarCode.toString(), {
-                title: event.eventTitle,
-                body: event.eventContent,
-                start: new Date(event.eventStartDate),
-                end: new Date(event.eventEndDate),
-                location: event.eventLocation,
-                isAllday: event.eventIsAllDay === 'Y' ? true : false,
-                category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                recurrenceRule: event.eventRecurrenceRule,
-                isReadOnly: event.eventEditable === 'N' ? true : false,
-                color: event.eventColor,
-                backgroundColor: event.eventBackgroundColor,
-                dragBackgroundColor: event.eventDragBackgroundColor,
-                borderColor: event.eventBorderColor,
+            console.log(event?.eventIsAllDay);
+            console.log(event?.eventCode);
+            console.log(event?.calendarCode);
+            calendar.updateEvent(event?.eventCode.toString(), event?.calendarCode.toString(), {
+                title: event?.eventTitle,
+                body: event?.eventContent,
+                start: new Date(event?.eventStartDate),
+                end: new Date(event?.eventEndDate),
+                location: event?.eventLocation,
+                isAllday: event?.eventIsAllDay === 'Y' ? true : false,
+                category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                recurrenceRule: event?.eventRecurrenceRule,
+                isReadOnly: event?.eventEditable === 'N' ? true : false,
+                color: event?.eventColor,
+                backgroundColor: event?.eventBackgroundColor,
+                dragBackgroundColor: event?.eventDragBackgroundColor,
+                borderColor: event?.eventBorderColor,
                 raw: {
-                    // departmentName: event.departmentName,
-                    eventAttendeeCount: event.eventAttendeeCount,
+                    // departmentName: event?.departmentName,
+                    eventAttendeeCount: event?.eventAttendeeCount,
                     eventAttendeeList: attendeeList,
-                    eventDeleteTime: event.eventDeleteTime,
-                    eventDeleteStatus: event.eventDeleteStatus
+                    eventDeleteTime: event?.eventDeleteTime,
+                    eventDeleteStatus: event?.eventDeleteStatus
                 }
             })
-            console.log('변경된 이벤트', calendar.getEvent(event.eventCode.toString(), event.calendarCode.toString()));
+            console.log('변경된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
             setReturnData(null);
         } else if (returnData?.message === '일정 생성 성공') {
             console.log(returnData?.message);
@@ -285,46 +285,46 @@ function CalendarMain({ calendarData, setCalendarData }) {
             const attendeeList = returnData?.data.eventAttendeeList
             console.log(event);
             console.log(attendeeList);
-            console.log(event.eventIsAllDay);
-            console.log(event.eventCode);
-            console.log(event.calendarCode);
+            console.log(event?.eventIsAllDay);
+            console.log(event?.eventCode);
+            console.log(event?.calendarCode);
             calendar.createEvents([{
-                id: event.eventCode.toString(),
-                calendarId: event.calendarCode.toString(),
-                title: event.eventTitle,
-                body: event.eventContent,
-                start: new Date(event.eventStartDate),
-                end: new Date(event.eventEndDate),
-                location: event.eventLocation,
-                isAllday: event.eventIsAllDay === 'Y' ? true : false,
-                category: event.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                recurrenceRule: event.eventRecurrenceRule,
-                isReadOnly: event.eventEditable === 'N' ? true : false,
-                color: event.eventColor,
-                backgroundColor: event.eventBackgroundColor,
-                dragBackgroundColor: event.eventDragBackgroundColor,
-                borderColor: event.eventBorderColor,
+                id: event?.eventCode.toString(),
+                calendarId: event?.calendarCode.toString(),
+                title: event?.eventTitle,
+                body: event?.eventContent,
+                start: new Date(event?.eventStartDate),
+                end: new Date(event?.eventEndDate),
+                location: event?.eventLocation,
+                isAllday: event?.eventIsAllDay === 'Y' ? true : false,
+                category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                recurrenceRule: event?.eventRecurrenceRule,
+                isReadOnly: event?.eventEditable === 'N' ? true : false,
+                color: event?.eventColor,
+                backgroundColor: event?.eventBackgroundColor,
+                dragBackgroundColor: event?.eventDragBackgroundColor,
+                borderColor: event?.eventBorderColor,
                 raw: {
-                    // departmentName: event.departmentName,
-                    eventAttendeeCount: event.eventAttendeeCount,
+                    // departmentName: event?.departmentName,
+                    eventAttendeeCount: event?.eventAttendeeCount,
                     eventAttendeeList: attendeeList,
-                    eventDeleteTime: event.eventDeleteTime,
-                    eventDeleteStatus: event.eventDeleteStatus
+                    eventDeleteTime: event?.eventDeleteTime,
+                    eventDeleteStatus: event?.eventDeleteStatus
                 }
             }])
-            console.log('생성된 이벤트', calendar.getEvent(event.eventCode.toString(), event.calendarCode.toString()));
+            console.log('생성된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
         }
         else if (returnData?.message === '일정 시간 수정 성공') {
             const { event, changes } = movedData;
-            calendar.updateEvent(event.id, event.calendarId, {
+            calendar.updateEvent(event?.id, event?.calendarId, {
                 end: changes?.end
             })
             if (changes?.start) {
-                calendar.updateEvent(event.id, event.calendarId, {
+                calendar.updateEvent(event?.id, event?.calendarId, {
                     start: changes?.start
                 })
             }
-            console.log('이벤트 정보>>>', calendar.getEvent(event.id, event.calendarId));
+            console.log('이벤트 정보>>>', calendar.getEvent(event?.id, event?.calendarId));
             setMovedData({ state: false })
             setReturnData(null);
         } else if (returnData?.message === '일정 삭제 성공') {
@@ -336,8 +336,8 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         eventDeleteTime: new Date()
                     }
                 })
-                const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
-                const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+                const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
+                const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
                 modifyEvent[0].raw.eventDeleteStatus = "T";
                 modifyEvent[0].raw.eventDeleteTime = new Date();
                 modifyEventList.push(modifyEvent[0]);
@@ -352,8 +352,8 @@ function CalendarMain({ calendarData, setCalendarData }) {
                     }
                 })
 
-                const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
-                const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+                const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
+                const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
                 modifyEvent[0].raw.eventDeleteStatus = "Y";
                 modifyEvent[0].raw.eventDeleteTime = null;
                 modifyEventList.push(modifyEvent[0]);
@@ -367,8 +367,8 @@ function CalendarMain({ calendarData, setCalendarData }) {
                     eventDeleteTime: null
                 }
             })
-            const modifyEvent = eventList.filter(event => event.id === eventCode.toString() && event.calendarId === calendarCode.toString());
-            const modifyEventList = eventList.filter(event => !(event.id === eventCode.toString() && event.calendarId === calendarCode.toString()));
+            const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
+            const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
             modifyEvent[0].raw.eventDeleteStatus = "N";
             modifyEvent[0].raw.eventDeleteTime = null;
             modifyEventList.push(modifyEvent[0]);
