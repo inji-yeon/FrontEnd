@@ -1,0 +1,69 @@
+.container{
+    margin-left: 30px;
+}
+.customHr{
+    border: none;
+
+    background-color: red;
+}
+.title{
+    font-size: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+.sendButton,.reserveSend,.temporarySave{
+    background-color: #fa9a85;
+    border: none;
+    border-radius: 4px;
+    width: 100px;
+    height: 30px;
+    margin-left: 20px;
+    color: white;
+}
+.inputDate{
+    width: 200px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border-color: white;
+}
+
+.receiverText, .titleText{
+    width: 100px;
+    font-size: 18px;
+    margin-left: 20px;  
+}
+.receiverInput, .titleInput{
+    width: 600px;
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.receiverInput{
+    width: 400px;
+}
+.sendMeText{
+    position: absolute;
+    width: 100px;
+    left: 1200px;
+    font-size: 17px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.sendMeCheckBox{
+    position: absolute;
+    left: 1290px;
+    top: 185px;
+}
+.fileInput{
+    margin-left: 20px;
+}
+
+input[type=file]::file-selector-button {
+    Width: 100px;
+    height: 30px;
+    background-color: #fa9a85;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

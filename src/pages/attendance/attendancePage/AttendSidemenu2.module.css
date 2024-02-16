@@ -1,0 +1,101 @@
+.sidemenu2 {
+    width: 245px;
+    height: 141%;
+    display: flex;
+    flex-direction: column;
+    color: #606060;
+    background-color: #F5F5F5;
+ 
+}
+
+.sidemenu_back {
+    width: 89%;
+    height: 94%;
+    position: relative;
+    left: 14px;
+    top: 30px;
+    background-color: white;
+}
+
+
+.sidemenu2_area {
+    
+    position: relative;
+    left: 14px;
+    top: 90px;
+   
+}
+
+.sidemenu2_title {
+    color: #414141;
+    margin: 60px 0px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.sidemenu2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0px auto;
+}
+
+.sidemenu2 ul li {
+    display: flex;
+    top: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0px;
+    height: 60px;
+    width: 180px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.sidemenu2 ul div {
+    font-size: 20px;
+    width: 190px;
+    height: 50px;
+    text-align: center;
+    background-color: #F5F5F5;
+    color: #606060;
+    line-height: 50px;
+    position: relative;
+    right: 0px;
+}
+
+/* .sidemenu2 ul li:hover {
+    background-color: #fa9a85;
+    width: 100%;
+} */
+
+.sidemenu2 ul li:hover div {
+    color: white;
+}
+
+a{
+    color: #606060;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+  }
+  
+  .fade-in.active {
+    opacity: 1;
+  }
+
+  .attendance_selected_box{
+    top: 105px;
+    pointer-events: none;
+    background: #fa9a85;    
+    position: absolute;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    width: 190px;
+    height: 80px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}

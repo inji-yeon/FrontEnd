@@ -7,7 +7,7 @@ const initialState = {
     searchEventList: [],
     event: null,
     employeeList: [],
-    message: null,
+    returnData: null,
     tempDeletedEventList: []
 };
 
@@ -19,6 +19,7 @@ export const GET_EVENT = 'calendar/GET_EVENT';
 export const GET_EMPLOYEES = 'calendar/GET_EMPLOYEES';
 export const POST_EVENT = 'calendar/POST_EVENT';
 export const PUT_EVENT = 'calendar/PUT_EVENT';
+export const PUT_EVENT_ABOUT_TIME = 'calendar/PUT_EVENT_ABOUT_TIME'
 export const DELETE_EVENT = 'calendar/DELETE_EVENT';
 export const GET_TEMP_DELETED_EVENTS = 'calendar/GET_TEMP_DELETED_EVENTS';
 export const PUT_TEMP_DELETED_EVENT = 'calendar/PUT_TEMP_DELETED_EVENT';
@@ -31,6 +32,7 @@ const action = createActions({
     [GET_EMPLOYEES]: () => { },
     [POST_EVENT]: () => { },
     [PUT_EVENT]: () => { },
+    [PUT_EVENT_ABOUT_TIME]: () => { },
     [DELETE_EVENT]: () => { },
     [GET_TEMP_DELETED_EVENTS]: () => { },
     [PUT_TEMP_DELETED_EVENT]: () => { },
@@ -71,31 +73,37 @@ const calendarReducer = handleActions(
         [POST_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
         [PUT_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
+            };
+        },
+        [PUT_EVENT_ABOUT_TIME]: (state, { payload }) => {
+            return {
+                ...state,
+                returnData: payload
             };
         },
         [DELETE_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
         [GET_TEMP_DELETED_EVENTS]: (state, { payload }) => {
             return {
                 ...state,
-                tempDeletedEventList: payload?.data,
+                tempDeletedEventList: payload
             };
         },
         [PUT_TEMP_DELETED_EVENT]: (state, { payload }) => {
             return {
                 ...state,
-                message: payload?.data,
+                returnData: payload
             };
         },
     },
