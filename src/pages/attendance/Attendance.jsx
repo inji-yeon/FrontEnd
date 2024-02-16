@@ -108,7 +108,7 @@ function Attendance() {
         // API 호출 시 arrivalTime을 문자열로 전달
         dispatch(callCommuteUpdateAPI({
             departureTime: currentTime.replace(' ', 'T'), // ISO 형식으로 변경, 
-            early: hours <= 9 && minutes <= 59 && seconds <= 59
+            early: hours <= 17 && minutes <= 59 && seconds <= 59
         
         })); 
             
@@ -209,7 +209,7 @@ function Attendance() {
                     <div className={commuteMa.today_Info}>
                         <span className={commuteMa.today}>오늘</span>
                         <span className={commuteMa.today_time}>{currentDateTime}</span>
-                        <hr />
+                        <hr className={commuteMa.hr} />
                         <div className={commuteMa.current_info}>
                             <span className="userN" >{commuteVacation?.vacationEmployeeCode?.employeeName}님 안녕하세요.</span><br/>
                             <span className={commuteMa.current}>{current}</span>
