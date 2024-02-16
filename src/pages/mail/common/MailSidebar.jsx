@@ -1,8 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import './mailSidebar.css';
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { request } from "../../../modules/MailModule";
+import { useDispatch } from "react-redux";
 import { fetchMailByStatus, fetchMailByReadStatus, getUnreadMail } from "../../../apis/MailAPI";
 
 function MailSidebar() {
@@ -34,8 +33,8 @@ function MailSidebar() {
     return (
         <>
             <div className={`fade-in mail_wrapper ${active ? 'active' : ''}`}>
-                <div className="sidemenu2">
-                    <div className="sidemenu2_title">이메일</div>
+                <div className="mail-sidemenu2">
+                    <div className="mail-sidemenu2_title">이메일</div>
                     <div id="mail-sidebar-header">
                         <button id="mail-write-button" onClick={() => { mailWriteButton('to') }}>메일 쓰기</button>
                         <button id="mail-write-button-to-me" onClick={() => { mailWriteButton('toMe') }}>내게 쓰기</button>

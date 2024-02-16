@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function AdminSidebar(){
     let navigate = useNavigate();
@@ -43,7 +43,7 @@ function AdminSidebar(){
 
     return (
         <>
-            <div className="sidemenu">
+            <div className="sidemenu" style={{display: 'flex'}}>
                 <div onClick={()=>{sidebarMenuSelectHandler('main')}} className="company_name">Admin Page</div>
                 <div className="sidemenu_list">
                     <ul>
@@ -64,6 +64,7 @@ function AdminSidebar(){
                 </div>
 
             </div>
+            <Outlet/>
         </>
     )
 }
