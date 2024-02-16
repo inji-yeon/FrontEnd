@@ -151,7 +151,7 @@ export const callCommutesListAPI = ({ currentPage, now }) => {
         if (result.status === 200) {
             
             console.log('[AttendanceAPI] callCommutesListAPI RESULT : ', result);
-            dispatch({ type: GET_COMMUTE_LIST, payload: result.data });
+            dispatch({ type: GET_COMMUTE_LIST, payload: result });
 
         } else {
             console.log('dkdk');

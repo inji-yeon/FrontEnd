@@ -136,7 +136,7 @@ function DoPaymentDocumentWaiting () {
                         </table>
                     </div>
 
-                    <div className={doWaiting.paging_po}  style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                    <div className={doWaiting.paging_po}  style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
                         {Array.isArray(doWaitingDocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}

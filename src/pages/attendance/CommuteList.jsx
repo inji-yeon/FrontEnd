@@ -37,15 +37,18 @@ function CommuteList() {
         }, [currentDate]);
     
 
-    const pageInfo = commutes?.pageInfo;
+    const pageInfo = commutes?.data?.pageInfo;
 
     console.log('pageInfo', pageInfo);
 
 
-    const commuteLists = commutes?.data?.content; 
+    const commuteLists = commutes?.data?.data?.content; 
 
     console.log('commuteLists888888', commuteLists);
-    
+
+    const attendanceCount = commutes?.data2;
+    console.log('attendanceCount', attendanceCount);
+
 
 
     const [start, setStart] = useState(0);
@@ -98,6 +101,21 @@ function CommuteList() {
 
     console.log('formatCommuteTime=========>',formatCommuteTime)
 
+
+
+    
+    function calculateTimeDifference(arrivalTime, departureTime) {
+        const arrivalDate = new Date(arrivalTime);
+        const departureDate = new Date(departureTime);
+    
+        const differenceMs = departureDate - arrivalDate;
+        const hours = Math.floor(differenceMs / (1000 * 60 * 60));
+        const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
+    
+        return `${hours}h ${minutes}m`;
+    }
+    
+    
     
 
 
@@ -126,19 +144,20 @@ function CommuteList() {
                                     <div className={commuteList.vacation}>
                                         {/* <span className={commuteList.vacation_image}><img src='/AttendanceManagement/vacation.png' alt="Vacation" /></span> */}
                                         <span className={commuteList.vacation_tile}>정상</span>
-                                        <div className={commuteList.vacationCount}>3</div>
+                                        <div className={commuteList.vacationCount}>{attendanceCount?.normal}</div>
                                     </div>
                                     <div className={commuteList.outside}>
                                         {/* <span className={commuteList.outside_image}> <img src='/AttendanceManagement/outside.png' alt="Outside" /> </span> */}
-                                        <span className={commuteList.outside_tile}>지각 및 조퇴</span>
-                                        <div className={commuteList.outsideCount}>3</div>
+                                        <span className={commuteList.outside_tile}>지각</span>
+                                        <div className={commuteList.outsideCount}>{attendanceCount?.late}</div>
                                     </div>
-                                    {/* <div className={commuteList.extension}>
-                                        <span className={commuteList.extension_image}><img src='/AttendanceManagement/extension.png' alt='Extention' /></span>
-                                        <span className={commuteList.extension_tile}>연장근무</span>
-                                        <div className={commuteList.extensionCount}>3</div>
+                                    <div className={commuteList.extension}>
+                                        {/* <span className={commuteList.extension_image}><img src='/AttendanceManagement/extension.png' alt='Extention' /></span> */}
+                                        <span className={commuteList.extension_tile}>조퇴</span>
+                                        <div className={commuteList.extensionCount}>{attendanceCount?.early}</div>
                                     </div>
-                                    <div className={commuteList.business}>
+
+                                    {/* <div className={commuteList.business}>
                                         <span className={commuteList.business_image}> <img src='/AttendanceManagement/business.png' alt='Business'/> </span>
                                         <span className={commuteList.business_tile}>출장</span>
                                         <div className={commuteList.businessCount}>3</div>
@@ -172,7 +191,7 @@ function CommuteList() {
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementWorkDay}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementArrivalTime}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementDepartureTime}</td>
-                                                <td className={commuteList.list_commute_detail}>08h 00m</td>
+                                                <td className={commuteList.list_commute_detail}>{commute ? calculateTimeDifference(commute.attendanceManagementArrivalTime, commute.attendanceManagementDepartureTime) : ''}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementState}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceWorkTypeStatus}</td>
                                             </tr>
@@ -189,7 +208,7 @@ function CommuteList() {
                                 </table>
                             </div>
                        
-                            <div className={commuteList.paging_po}  style={{  position: 'relative',left: '500px'  ,top: '600px', listStyleType: 'none', display: 'flex' }}> 
+                            <div className={commuteList.paging_po}  style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
                                 {Array.isArray(commuteLists) && (
                                     <button
                                         onClick={() => setCurrentPage(currentPage - 1)}

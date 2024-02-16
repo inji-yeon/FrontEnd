@@ -116,7 +116,7 @@ function DoPaymentDocumentApproval () {
                 </table>
             </div>
 
-            <div className="paging_po" style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+            <div className="paging_po" style={{  position: 'relative', top: '450px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                 {Array.isArray(doPaymentLists) && (
                     <button
                         onClick={() => setCurrentPage(currentPage - 1)}
