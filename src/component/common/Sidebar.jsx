@@ -5,6 +5,7 @@ import './sidemenu.css';
 import {useEffect, useState} from 'react';
 import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate  } from 'react-router-dom';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function SideBar() {
@@ -13,7 +14,8 @@ function SideBar() {
     useEffect(()=>{
         dispatch(getUserInformation());
     })
-
+const token = decodeJwt(window.localStorage.getItem("accessToken"))
+console.log('--------',token)
     // const userName = useSelector(state => state.sidebar.userName);
     // const userGroup = useSelector(state => state.sidebar.userGroup);
     // const userDept = useSelector(state => state.sidebar.userDept);

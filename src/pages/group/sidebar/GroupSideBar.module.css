@@ -1,0 +1,102 @@
+
+/* .fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+  }
+  
+  .fade-in.active {
+    opacity: 1;
+  } */
+
+  .GroupSideBar{
+
+    color: #606060;
+    width: 280px;
+    height: 100%;
+    box-shadow: 3px 0px 6px -5px rgba(0, 0, 0, 0.25);
+    text-align: center;
+
+}
+
+/* 애니메이션 주기 */
+
+.groupcontent {
+    display: flex;
+    /* margin-left: 326px;  */
+    margin-top: 30px;
+    padding: 20px; 
+    box-sizing: border-box; 
+    flex-direction: column;
+
+}
+
+
+.groupchart {
+    width: 250px;
+    border-color: bisque;
+    border-radius: 1px;
+    border: 1px solid rgb(178, 177, 177);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: center;
+    padding-bottom: 30px;
+}
+
+#orgchartbox {
+    width: 230px;
+    max-height: 600px;
+    border-color: bisque;
+    border-radius: 1px;
+    border: 1px solid rgb(178, 177, 177);
+    box-sizing: border-box;
+    margin: 0 auto;
+    /* padding-bottom: 30px; */
+    display: flex;
+    /* flex-direction: column;  이거때문에 조직도 css이상해짐  */
+    overflow-y: auto; /* 스크롤 추가 */
+}
+
+
+
+#orgchart{
+    margin-top: 15px;
+    height: 500px;
+    max-height: 800px;
+}
+
+.searchcontainer {
+    display: flex;
+    width: 95%;
+    max-width: 230px;
+    margin: 20px auto;
+    /* position: sticky;
+    top: 0; */
+
+}
+
+#searchInput {
+    flex: 1;
+    padding: 8px;
+}
+
+#searchButton {
+    padding: 8px 12px;
+    background-color:#FFBE98 ;
+    color: white;
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+.groupname{
+    width: 245px;
+    color: #414141;
+    margin: 60px 0px;
+    font-size: 24px;
+    text-align: center;
+    
+}
+
+.groupname2{
+    margin-left: 30px;
+}

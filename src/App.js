@@ -27,11 +27,14 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import GroupChart from './pages/group/sidebar/GroupSideBar';
+import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
+            <Route path='/login' element={<Login />} />
                 <Route path='/' element={<Layout />}>
                     <Route index element={<Main />} />
 
@@ -41,7 +44,9 @@ function App() {
                     </Route>
                     <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                    <Route path='group' element={<Group />} />
+                    <Route path='group' element={<GroupChart/>} >
+                        
+                    </Route>
 
                     <Route path='board' element={<Board />}>
                         <Route path='boardCode' element={<PostListOfBoard />} />
@@ -65,12 +70,14 @@ function App() {
 
                     <Route path='approval' element={<Approval />} />
 
-                    <Route path='mypage' element={<MyPage />} />
+                    <Route path='mypage' element={<MyPageSideBar />}>
+                        
+                    </Route>
 
                     <Route path='attendance' element={<Attendance />} />
                 </Route>
 
-                <Route path='login' element={<Login />} />
+                {/* <Route path='login' element={<Login />} /> */}
                 <Route path='admin' element={<Admin />} />
             </Routes>
         </BrowserRouter>
