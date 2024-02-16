@@ -8,11 +8,11 @@ export const WebSocketProvider = ({children}) => {
     const [websocket, setWebsocket] = useState(null);   //웹소켓이다.
     const [me, setMe] = useState(null);                 //유저의 코드이다.
     useEffect(()=>{
-        if(websocket){
-            websocket.subscribe(`/topic/mail/alert/${me}`, (message) => {
-                console.log('메세지 받음 :',message.body);
-            });
-        }
+        // if(websocket){
+        //     websocket.subscribe(`/topic/mail/alert/${me}`, (message) => {
+        //         console.log('메세지 받음 :',message.body);
+        //     });
+        // }
     },[me,websocket])
     useEffect(()=>{
         const client = new Client({

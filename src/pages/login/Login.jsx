@@ -34,6 +34,7 @@ function Login(){
                 wc.subscribe(`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`, (message) => {
                 console.log('메세지 받음 :',message.body);
             });
+            console.log('구독함 :',`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`);
         }
             navigate("/", { replace: true });
 
