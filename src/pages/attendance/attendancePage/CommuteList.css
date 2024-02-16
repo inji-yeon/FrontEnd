@@ -1,0 +1,478 @@
+.main {
+    position: relative;
+    display: grid;
+    width: 95%;
+    grid-template-columns: 326px 245px auto;
+
+}
+
+.main2{
+    position: relative;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Pretendard;
+}
+
+.main-title{
+    position: relative;
+    left: 10px;
+    top: 30px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.bar{
+    position: relative;
+    top: 40px;
+    width: 150px;
+    border:0.5px solid #606060;
+    
+}
+
+.month-filter-area{
+    position: absolute;
+    top: 90px;
+    height: 930px;
+    width: 1380px;
+}
+
+.monthFilter{
+    position: relative;
+    top: 0px;
+    height: 930px;
+    width: 1380px;
+}
+
+.calender-title{
+    position: relative;
+    left: 530px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.pre{
+    position: relative;
+    left: 0px;
+    border-color: #FA9A85;
+    background-color: #FA9A85;
+}
+
+.pre img {
+    position: relative;
+    left: 0px;
+    width: 15px;
+    height: 15px;
+}
+
+
+.now{
+    position: relative;
+    left: 10px;
+}
+
+.nex{
+    position: relative;
+    left: 20px;
+    border-color: #FA9A85;
+    background-color: #FA9A85;
+}
+
+.nex img {
+    position: relative;
+    left: 0px;
+    width: 15px;
+    height: 15px;
+}
+
+.count-box{
+    position: absolute;
+    top:70px;
+    left: 30px;
+    height: 130px;
+    width: 1100px;
+    background-color: #FFBE98;
+    border-top-left-radius:9px;
+    border-top-right-radius:9px;
+    border-bottom-left-radius:9px;
+    border-bottom-right-radius:9px;
+}
+
+
+.box{
+    position: relative;
+    left:0px;
+}
+
+
+.vacation{
+    position: absolute;
+    height: 100px;
+    left:60px;
+    top: 5px;
+}
+
+.vacation-image img{
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    width: 39px;
+    height: 39px;
+}
+
+.vacation-tile{
+    position: relative;
+    top: 55px;
+    left: 0px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.vacationCount{
+    position: relative;
+    top: 60px;
+    left: 8px;
+    color: #414141;
+    font-size: 25px;
+}
+
+.outside{
+    position: absolute;
+    height: 100px;
+    left:300px;
+    top: 5px;
+}
+.outside-image img{
+    position: absolute;
+    top: 5px;
+    width: 39px;
+    height: 39px;
+}
+
+.outside-tile{
+    position: relative;
+    top: 50px;
+    left: 0px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.outsideCount{
+    position: relative;
+    top: 60px;
+    left: 8px;
+    color: #414141;
+    font-size: 25px;
+}
+
+
+.extension{
+    position: absolute;
+    height: 100px;
+    left:520px;
+    top: 5px;
+}
+.extension-image img{
+    position: absolute;
+    top: 5px;
+    width: 39px;
+    height: 39px;
+    right: 15px;
+}
+
+.extension-tile{
+    position: relative;
+    top: 50px;
+    left: 0px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.extensionCount{
+    position: relative;
+    top: 60px;
+    left: 20px;
+    color: #414141;
+    font-size: 25px;
+}
+
+.business{
+    position: absolute;
+    height: 100px;
+    left:780px;
+    top: 5px;
+}
+.business-image img{
+    position: absolute;
+    top: 5px;
+    width: 39px;
+    height: 39px;
+}
+
+.business-tile{
+    position: relative;
+    top: 50px;
+    left: 0px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.businessCount{
+    position: relative;
+    top: 60px;
+    left: 8px;
+    color: #414141;
+    font-size: 25px;
+}
+
+.home{
+    position: absolute;
+    height: 100px;
+    left:1000px;
+    top: 5px;
+}
+.home-image img{
+    position: absolute;
+    top: 5px;
+    width: 39px;
+    height: 39px;
+    right: 15px;
+}
+
+.home-tile{
+    position: relative;
+    top: 50px;
+    left: 0px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.homeCount{
+    position: relative;
+    top: 60px;
+    left: 20px;
+    color: #414141;
+    font-size: 25px;
+}
+
+.list-commute-area{
+    position: relative;
+    top: 190px;
+    left: 50px;
+    width: 1200px;
+}
+
+.list-commute-detail td {
+    border-bottom: 1px solid #606060;
+    padding: 20px; /* 셀 내부 여백을 지정합니다. */
+    text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
+    font-size: 16px;
+}
+
+.list-commute-detail tr {
+    border-bottom: 1px solid #606060;
+    padding: 20px; /* 셀 내부 여백을 지정합니다. */
+    text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
+    font-size: 16px;
+}
+
+
+
+.paging-po{
+    position: absolute;
+    top: 850px;
+    left: 480px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.pagingBtn{
+    margin: 5px;
+    border-radius: 25px;
+    background-color: #FA9A85;
+    font-weight: bold;
+}
+
+
+
+
+
+a {
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    width: 450px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+}
+
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.apply-info{
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    width: 400px;
+    color: #414141;
+    font-size: 16px;
+}
+
+.apply-title{
+    position: absolute;
+}
+
+
+.applicant{
+    position: absolute;
+    left: 270px;
+    top: 40px;
+}
+
+.applicantDay{
+    position: absolute;
+    top: 60px;
+}
+
+.applicantWork{
+    position: absolute;
+    top: 130px;
+}
+    
+.applicantHome{
+    position: absolute;
+    top: 190px;
+}
+
+.reason{
+    position: absolute;
+    top: 250px;
+}
+
+#applicantReason{
+    position: absolute;
+    top: 280px;
+    width: 400px;
+    height: 80px;
+    background-color: #fff;
+    border: 1px solid #414141; /* 테두리 색상을 여기에 지정합니다. */
+    padding: 5px; 
+    resize: vertical;
+    color: #414141;
+    font-size: 16px;
+}
+#charCount{
+    position: absolute;
+    top: 380px;
+    left: 330px;
+}
+
+.approver-area{
+    position: absolute;
+    top: 420px;
+    height: 130px;
+    width: 100px;
+    color: #414141;
+    font-size: 16px;
+}
+.approver{
+    position: relative;
+    left: 22px;
+    text-align: center;
+}
+
+.approver-image img{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    left: 20px;
+}
+
+.approverName{
+    position: absolute;
+    top: 80px;
+    width: 100px;
+    left: 0px;
+    text-align: center; /* 글자 수 표시 가운데 정렬 설정 */
+    font-size: 14px;
+}
+
+.approverdept{
+    position: absolute;
+    top: 100px;
+    width: 100px;
+    left: 0px;
+    text-align: center; /* 글자 수 표시 가운데 정렬 설정 */
+    font-size: 11px;
+}
+
+.apply-bnt{
+    position: relative;
+    top: 550px;
+    left: 150px;
+    background-color: #FA9A85;
+    border: #FA9A85;
+    text-align: center;
+    width: 100px;
+    height: 25px;
+    color: #fff;
+}
+
+/********************/
+
+
+.calender-title2{
+    position: relative;
+    left: 530px;
+    color: #414141;
+    font-size: 20px;
+    top: 80px;
+}
+.tardy{
+    position: relative;
+    text-align: center;
+    width: 200px;
+    top: 30px;
+    left: 0px;
+    color: #414141;
+}
+
+.tardy-tile{
+    font-size: 16px;
+}
+
+.tardyCount{
+    font-size: 20px;
+}
+
+
+
+

@@ -1,0 +1,345 @@
+.main {
+    position: relative;
+    display: grid;
+    width: 95%;
+    grid-template-columns: 326px 245px auto;
+
+}
+
+.main2{
+    position: relative;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Pretendard;
+}
+
+
+.main-title{
+    position: relative;
+    left: 10px;
+    top: 30px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.bar{
+    position: relative;
+    width: 100%;
+    top: 40px;
+    border:0.5px solid #606060;
+    
+}
+
+.box{
+    position: absolute;
+    left: 30px;
+}
+
+.vacation-box{
+    position: absolute;
+    left: 0px;
+    top: 88px;
+    height: 100px;
+    width: 280px;
+    background-color: #FFBE98;
+    border-top-left-radius:9px;
+    border-top-right-radius:9px;
+    border-bottom-left-radius:9px;
+    border-bottom-right-radius:9px;
+}
+
+.vacation-leave{
+    position: relative;
+    font-size: 16px;
+    color: #414141;
+    left: 20px;
+    top: 10px;
+}
+
+.vacation-image img{
+    position: absolute;
+    left: 200px;
+    top: 5px;
+    width: 49px;
+    height: 49px;
+}
+
+.vacation2{
+    position: absolute;
+    font-size: 25px;
+    left: 40px;
+    top: 48px;
+}
+
+
+.vacation-day{
+    position: relative;
+    font-size: 16px;
+    top: 60px;
+    color: #414141;
+}
+
+.vacation-apply{
+    position: relative;
+    font-size: 16px;
+    top: 60px;
+    left: 50px;
+    color: #414141;
+}
+
+
+
+.payment-box{
+    position: absolute;
+    left: 400px;
+    top: 88px;
+    height: 100px;
+    width: 280px;
+    background-color: #FFBE98;
+    border-top-left-radius:9px;
+    border-top-right-radius:9px;
+    border-bottom-left-radius:9px;
+    border-bottom-right-radius:9px;
+}
+
+.payment-leave{
+    position: relative;
+    font-size: 16px;
+    color: #414141;
+    left: 20px;
+    top: 10px;
+}
+
+.payment-image img{
+    position: absolute;
+    left: 200px;
+    top: 5px;
+    width: 49px;
+    height: 49px;
+}
+
+.payment{
+    position: absolute;
+    font-size: 25px;
+    left: 40px;
+    top: 48px;
+}
+
+.payment-count{
+    position: relative;
+    font-size: 16px;
+    top: 60px;
+    color: #414141;
+}
+
+.payment-check{
+    position: relative;
+    font-size: 16px;
+    top: 60px;
+    left: 50px;
+    color: #414141;
+}
+
+
+.work-box{
+    position: absolute;
+    left: 800px;
+    top: 88px;
+    height: 100px;
+    width: 280px;
+    background-color: #FFBE98;
+    border-top-left-radius:9px;
+    border-top-right-radius:9px;
+    border-bottom-left-radius:9px;
+    border-bottom-right-radius:9px;
+}
+
+.work-image img{
+    position: absolute;
+    left: 200px;
+    top: 5px;
+    width: 49px;
+    height: 49px;
+}
+
+.work-title{
+    position: relative;
+    font-size: 16px;
+    color: #414141;
+    left: 20px;
+    top: 10px;
+}
+
+
+.work-apply{
+    position: relative;
+    font-size: 16px;
+    top: 60px;
+    left: 60px;
+    color: #414141;
+}
+
+
+.today-Info-box{
+    position: absolute;
+    left: 30px;
+    height: 580px;
+    width: 480px;
+    top: 300px;
+    border:0.5px solid #606060;
+    border-top-left-radius:9px;
+    border-top-right-radius:9px;
+    border-bottom-left-radius:9px;
+    border-bottom-right-radius:9px;
+}
+
+.today-Info{
+    position: relative;
+    left: 30px;
+    top: 30px;
+}
+
+.today{
+    color: #606060;
+    position: relative;
+    left: 20px;
+}
+
+.today-time{
+    position: relative;
+    color: #606060;
+    left: 200px;
+}
+
+hr{
+    position: absolute;
+    top: 40px;
+    width: 430px;
+    left: 0px;
+    
+}
+
+.current-info{
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.current{
+    position: relative;
+    left: 20px;
+    top: 10px;
+}
+
+.time-info{
+    position: absolute;
+    top: 170px;
+    left: 30px;
+    color: #606060;
+    font-size: 16px;
+}
+
+.work-check{
+    position: absolute;
+    left: 20px;
+    top: 240px;
+    height: 50px;
+    width: 150px;
+    background-color: rgba(250, 154, 133, 1);
+    border-color: rgba(250, 154, 133, 1);
+    color: #414141;
+    font-size: 20px;
+}
+
+.leave-check{
+    position: absolute;
+    left: 240px;
+    top: 240px;
+    height: 50px;
+    width: 150px;
+    background-color: #F5F5F5;
+    border-color: #F5F5F5;
+    color: #414141;
+    font-size: 20px;
+}
+
+.worked{
+    position: absolute;
+    top: 360px;
+    left: 160px;
+    color: #414141;
+    font-size: 20px;
+}
+
+.workedHour{
+    position: absolute;
+    top: 400px;
+    left: 160px;
+    color: #414141;
+    font-size: 20px;
+}
+
+
+.calender-area{
+    position: absolute;
+    top: 300px;
+    left: 630px;
+    height: 630px;
+    width: 600px;
+}
+
+.calender-info{
+    position: relative;
+    left: 220px;
+    top: 0px;
+}
+
+.pre{
+    position: relative;
+    left: 0px;
+    border-color: #FA9A85;
+    background-color: #FA9A85;
+}
+
+.now{
+    position: relative;
+    left: 10px;
+}
+
+.nex{
+    position: relative;
+    left: 20px;
+    border-color: #FA9A85;
+    background-color: #FA9A85;
+}
+.calenderOption{
+    position: relative;
+    top: 15px;
+    left: 80px;
+    height: 30px;
+    width: 400px;
+    border: 0.5px solid #414141;
+    display: inline-block;
+    cursor: pointer;
+}
+
+
+.calender{
+    position: relative;
+    top: 30px;
+    width: 560px;
+    height: 550px;
+    background-color: aquamarine;
+}
+
+
+
+
+a {
+    text-decoration: none; /* 밑줄 제거 */
+  }
