@@ -43,7 +43,7 @@ const PostInfo = () => {
     return <>
         <PostHeader />
 
-        <hr style={{ marginTop:70, marginBottom: 15 }} />
+        <hr style={{ marginTop:300, marginBottom: 15 }} />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.postTitle}>{post?.postTitle}</div>
             <div className="heartBtn">
@@ -96,9 +96,7 @@ const PostInfo = () => {
 
         <Comment comments = {post?.postCommentList}/>
 
-        
-    
-    
+
     </>
 }
 
