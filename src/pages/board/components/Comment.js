@@ -1,19 +1,40 @@
+import { useDispatch } from 'react-redux';
 import styles from './Comment.module.css';
+import { callRegistCommentAPI } from '../../../apis/BoardAPICalls';
+import { useState } from 'react';
 
-const Comment = ({comments}) => {
+const Comment = ({comments, postCode}) => {
+
+    const dispatch = useDispatch();
+
+    const [content, setContent] = useState('');
+
+    const commentRegistHandler = () => {
+
+        dispatch(callRegistCommentAPI({
+            postCode,
+            postCommentContext: content
+
+        }));
+
+        setContent('');
+
+    }
+
+    console.log('comments: ', comments);
 
 
     return <>
     
         <div style={{ display: "flex", marginTop: 70, marginBottom: 70 }}>
-            <textarea className={styles.inputComment} placeholder='댓글' />
-            <button className={styles.addCommentBtn}>등록</button>
+            <textarea className={styles.inputComment} placeholder='댓글' onChange={(e) => setContent(e.target.value)}/>
+            <button className={styles.addCommentBtn} onClick={commentRegistHandler}>등록</button>
         </div>
 
 
         {/* 댓글 */}
 
-        {comments?.map((comment, idx) => (
+        {/* {comments?.map((comment, idx) => (
               <div className={styles.comment}>
               <div className={styles.commentInfo}>
                   <div style={{ display: "flex", fontSize: 16 }}>
@@ -45,7 +66,7 @@ const Comment = ({comments}) => {
 
 
         ))}
-      
+       */}
     
     </>
 

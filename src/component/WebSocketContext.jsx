@@ -34,7 +34,7 @@ export const WebSocketProvider = ({children}) => {
             //         setMe(data.data.employeeCode);
             //     }
             // })
-            // setWebsocket(client);
+            setWebsocket(client);
           };
           /**
            * 연결에 실패하면 이 함수가 호출된다.

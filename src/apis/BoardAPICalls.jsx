@@ -8,7 +8,10 @@ import {
     DELETE_POST,
     PUT_MOVE_POST,
     GET_POSTS_SEARCH,
-    POST_LIKE
+    POST_LIKE,
+    POST_COMMENT,
+    PUT_COMMENT,
+    DELETE_COMMENT,
 } from '../modules/BoardModule.jsx'
 
 
@@ -178,4 +181,34 @@ export const callRegistLikeAPI = ({postCode}) => {
 
 }
 
+
+
+/* 댓글 등록 */
+export const callRegistCommentAPI = ({postCode, postCommentContext}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/comment/regist`;
+
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .post(requestURL
+                ,{ postCommentContext }
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log(result);
+
+            dispatch({type: POST_COMMENT, payload: result});
+
+    }
+}
 

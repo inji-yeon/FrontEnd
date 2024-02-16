@@ -9,7 +9,7 @@ const initialState = {
     postLike: null,
 
     board: null,
-    commentList: [],
+    postComment:null,
     loading: false,
     error: null,
 
@@ -94,6 +94,7 @@ const boardReducer = handleActions({
             }
 
         },
+
         [POST_POST]: (state, {payload}) => {
 
             return {
@@ -102,22 +103,22 @@ const boardReducer = handleActions({
             }
 
         },
-        [PUT_POST]: (state, {payload}) => {
+        // [PUT_POST]: (state, {payload}) => {
 
-            return {
-                ...state,
-                post : payload,
-            }
+        //     return {
+        //         ...state,
+        //         post : payload,
+        //     }
 
-        },
-        [DELETE_POST]: (state, {payload}) => {
+        // },
+        // [DELETE_POST]: (state, {payload}) => {
 
-            return {
-                ...state,
-                post : payload,
-            }
+        //     return {
+        //         ...state,
+        //         post : payload,
+        //     }
 
-        },
+        // },
         // [PUT_MOVE_POST]: (state, {payload}) => {
 
         //     return {
@@ -143,9 +144,36 @@ const boardReducer = handleActions({
             }
 
         },
-        // [POST_COMMENT]: () => {},
-        // [PUT_COMMENT]: () => {},
-        // [DELETE_COMMENT]: () => {},
+
+        [POST_COMMENT]: () => (state, {payload}) => {
+
+            return {
+                ...state,
+                postComment : payload,
+            }
+
+        },
+
+
+        [PUT_COMMENT]: () => (state, {payload}) => {
+
+            return {
+                ...state,
+                postComment : payload,
+            }
+
+        },
+
+        [DELETE_COMMENT]: () => (state, {payload}) => {
+
+            return {
+                ...state,
+                postComment : payload,
+            }
+
+        },
+
+
         // [POST_BOARD]: () => {},
         // [PUT_BOARD]: () => {},
         // [DELETE_BOARD]: () => {},

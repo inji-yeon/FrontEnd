@@ -20,7 +20,7 @@ const PostListOfBoard = () => {
             boardCode : boardCode,
         }));
         
-    }, [boardCode]);
+    }, []);
 
 
     return <>

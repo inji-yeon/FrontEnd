@@ -19,6 +19,7 @@ const PostInfo = () => {
    const dispatch = useDispatch();
 
 
+
    useEffect(() => {
     dispatch(callGetPostInfoAPI({
         postCode : postCode
@@ -43,7 +44,9 @@ const PostInfo = () => {
     return <>
         <PostHeader />
 
-        <hr style={{ marginTop:300, marginBottom: 15 }} />
+
+        {/* hr 안먹혀서 깨짐 */}
+        <hr style={{ marginTop:70, marginBottom: 15 }} />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.postTitle}>{post?.postTitle}</div>
             <div className="heartBtn">
@@ -94,9 +97,11 @@ const PostInfo = () => {
         </div>
 
 
-        <Comment comments = {post?.postCommentList}/>
+        <Comment comments = {post?.postCommentList} postCode={postCode}/>
 
-
+        
+    
+    
     </>
 }
 
