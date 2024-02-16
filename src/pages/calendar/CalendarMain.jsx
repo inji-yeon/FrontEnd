@@ -9,7 +9,6 @@ import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
 import { useDispatch } from 'react-redux'
 import { callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
-import { format } from 'date-fns';
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()

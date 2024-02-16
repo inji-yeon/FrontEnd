@@ -1,4 +1,4 @@
-import CommuteListCSS from './attendancePage/CommuteList.css';
+import commuteList from './attendancePage/CommuteList.module.css';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { callCommutesListAPI } from '../../apis/AttendanceAPI';
@@ -41,7 +41,6 @@ function CommuteList() {
 
     console.log('pageInfo', pageInfo);
 
-    console.log('now ========',now)
 
     const commuteLists = commutes?.data?.content; 
 
@@ -85,7 +84,7 @@ function CommuteList() {
 
 
 
-    const formatArrivalTime = (dateTimeString) => {
+    const formatCommuteTime = (dateTimeString) => {
         const date = new Date(dateTimeString);
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -97,7 +96,7 @@ function CommuteList() {
         
     };
 
-    console.log('formatArrivalTime=========>',formatArrivalTime)
+    console.log('formatCommuteTime=========>',formatCommuteTime)
 
     
 
@@ -107,75 +106,75 @@ function CommuteList() {
 
     return(
         <>
-            <div className="main">
-                <div className="main2">
-                    <span className="main-title">내 출퇴근 내역</span>
-                    <div className="bar"></div>
-                    <div className="month-filter-area">
-                        <div className="monthFilter">
-                            <div className="calender-title">
-                                <button className="pre" onClick={handlePrevClick}>
+            <div className={commuteList.main}>
+                <div className={commuteList.main2}>
+                    <span className={commuteList.main_title}>내 출퇴근 내역</span>
+                    <div className={commuteList.bar}></div>
+                    <div className={commuteList.month_filter_area}>
+                        <div className={commuteList.monthFilter}>
+                            <div className={commuteList.calender_title}>
+                                <button className={commuteList.pre} onClick={handlePrevClick}>
                                     <img src='/AttendanceManagement/prev.png' alt='pre'/>
                                 </button>
-                                <span className="now">{now}</span>
-                                <button className="nex" onClick={handleNextClick}> 
+                                <span className={commuteList.now}>{now}</span>
+                                <button className={commuteList.nex} onClick={handleNextClick}> 
                                     <img src='/AttendanceManagement/next.png' alt='nex'/>
                                 </button>
                             </div>
-                            <div className="count-box">
-                                <div className="box">
-                                    <div className="vacation">
-                                        <span className="vacation-image"><img src='/AttendanceManagement/vacation.png' alt="Vacation" /></span>
-                                        <span className="vacation-tile">휴가</span>
-                                        <div className="vacationCount" >3</div>
+                            <div className={commuteList.count_box}>
+                                <div className={commuteList.box}>
+                                    <div className={commuteList.vacation}>
+                                        <span className={commuteList.vacation_image}><img src='/AttendanceManagement/vacation.png' alt="Vacation" /></span>
+                                        <span className={commuteList.vacation_tile}>휴가</span>
+                                        <div className={commuteList.vacationCount}>3</div>
                                     </div>
-                                    <div className="outside">
-                                        <span className="outside-image"> <img src='/AttendanceManagement/outside.png' alt="Outside" /> </span>
-                                        <span className="outside-tile">외근</span>
-                                        <div className="outsideCount" >3</div>
+                                    <div className={commuteList.outside}>
+                                        <span className={commuteList.outside_image}> <img src='/AttendanceManagement/outside.png' alt="Outside" /> </span>
+                                        <span className={commuteList.outside_tile}>외근</span>
+                                        <div className={commuteList.outsideCount}>3</div>
                                     </div>
-                                    <div className="extension">
-                                        <span className="extension-image"><img src='/AttendanceManagement/extension.png' alt='Extention' /></span>
-                                        <span className="extension-tile">연장근무</span>
-                                        <div className="extensionCount" >3</div>
+                                    <div className={commuteList.extension}>
+                                        <span className={commuteList.extension_image}><img src='/AttendanceManagement/extension.png' alt='Extention' /></span>
+                                        <span className={commuteList.extension_tile}>연장근무</span>
+                                        <div className={commuteList.extensionCount}>3</div>
                                     </div>
-                                    <div className="business">
-                                        <span className="business-image"> <img src='/AttendanceManagement/business.png' alt='Business'/> </span>
-                                        <span className="business-tile">출장</span>
-                                        <div className="businessCount">3</div>
+                                    <div className={commuteList.business}>
+                                        <span className={commuteList.business_image}> <img src='/AttendanceManagement/business.png' alt='Business'/> </span>
+                                        <span className={commuteList.business_tile}>출장</span>
+                                        <div className={commuteList.businessCount}>3</div>
                                     </div>
-                                    <div className="home">
-                                        <span className="home-image"> <img src='/AttendanceManagement/home.png' alt='Home' /> </span>
-                                        <span className="home-tile">재택근무</span>
-                                        <div className="homeCount" >3</div>
+                                    <div className={commuteList.home}>
+                                        <span className={commuteList.home_image}> <img src='/AttendanceManagement/home.png' alt='Home' /> </span>
+                                        <span className={commuteList.home_tile}>재택근무</span>
+                                        <div className={commuteList.homeCount} >3</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="list-commute-area">
+                            <div className={commuteList.list_commute_area}>
                                 <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
 
                                     <thead>
-                                        <tr className="list-commute-detail" style={{ backgroundColor: '#F5F5F5' }}>
-                                            <td className="list-commute-detail">날짜</td>
-                                            <td className="list-commute-detail">출근시간</td>
-                                            <td className="list-commute-detail">퇴근시간</td>
-                                            <td className="list-commute-detail">총 근로시간</td>
-                                            <td className="list-commute-detail">출퇴근 상태</td>
-                                            <td className="list-commute-detail">근무 상태</td>
+                                        <tr className={commuteList.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
+                                            <td className={commuteList.list_commute_detail}>날짜</td>
+                                            <td className={commuteList.list_commute_detail}>출근시간</td>
+                                            <td className={commuteList.list_commute_detail}>퇴근시간</td>
+                                            <td className={commuteList.list_commute_detail}>총 근로시간</td>
+                                            <td className={commuteList.list_commute_detail}>출퇴근 상태</td>
+                                            <td className={commuteList.list_commute_detail}>근무 상태</td>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         {Array.isArray(commuteLists) && commuteLists.length > 0?
                                             commuteLists.map((commute) => (
-                                            <tr className="list-commute-detail" key={commute.attendanceWorkTypeCode}>
-                                                <td className="list-commute-detail">{formatWorkDate(commute.attendanceManagementCode.attendanceManagementWorkDay)}</td>
-                                                <td className="list-commute-detail">{commute.attendanceManagementCode.attendanceManagementArrivalTime}</td>
-                                                <td className="list-commute-detail">{commute.attendanceManagementCode.attendanceManagementDepartureTime}</td>
-                                                <td className="list-commute-detail">08h 00m</td>
-                                                <td className="list-commute-detail">{commute.attendanceManagementCode.attendanceManagementState}</td>
-                                                <td className="list-commute-detail">{commute.attendanceWorkTypeStatus}</td>
+                                            <tr className={commuteList.list_commute_detail} key={commute.attendanceManagementCode}>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementWorkDay}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementArrivalTime}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementDepartureTime}</td>
+                                                <td className={commuteList.list_commute_detail}>08h 00m</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementState}</td>
+                                                <td className={commuteList.list_commute_detail}>{}</td>
                                             </tr>
                                             ))
                                             :
@@ -190,12 +189,12 @@ function CommuteList() {
                                 </table>
                             </div>
                        
-                            <div className="paging-po" style={{ listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                            <div className={commuteList.paging_po}  style={{  position: 'relative', top: '600px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
                                 {Array.isArray(commuteLists) && (
                                     <button
                                         onClick={() => setCurrentPage(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className={CommuteListCSS.pagingBtn}> &lt;
+                                        className={commuteList.pagingBtn}> &lt;
                                     </button>
                                 )}
 
@@ -203,14 +202,14 @@ function CommuteList() {
                                     <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
                                         <button
                                             style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
-                                            className={CommuteListCSS.pagingBtn}>{num}
+                                            className={commuteList.pagingBtn}>{num}
                                         </button>
                                     </li>
                                 ))}
 
                                 {Array.isArray(commuteLists) && (
                                     <button
-                                        className={CommuteListCSS.pagingBtn}
+                                        className={commuteList.pagingBtn}
                                         onClick={() => setCurrentPage(currentPage + 1)}
                                         disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
                                     </button>

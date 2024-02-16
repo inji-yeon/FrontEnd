@@ -1,5 +1,5 @@
 
-import './attendancePage/AttendSidemenu2.css';
+import attendSide from './attendancePage/AttendSidemenu2.module.css';
 import { useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 
@@ -55,11 +55,11 @@ function AttendanceSide() {
         <>
         
             <div className={`fade-in ${active ? 'active' : ''}`}>
-                <div className="sidemenu2">
-                    <div className="sidemenu_back">
+                <div className={attendSide.sidemenu2}>
+                    <div className={attendSide.sidemenu_back}>
                     {/* <div className="attendance_selected_box"></div> */}
-                        <div className="sidemenu2_area">
-                            <div className="sidemenu2_title">근태 관리</div>
+                        <div className={attendSide.sidemenu2_area}>
+                            <div className={attendSide.sidemenu2_title}>근태 관리</div>
                             <ul>
                             <li onClick={() => { attendanceSidebarSelectHandler('attendance') }}>내 근태 현황</li>
                                 <li onClick={() => { attendanceSidebarSelectHandler('commuteList') }}>내 출퇴근 내역</li>

@@ -5,7 +5,7 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
 import Group from './pages/group/Group';
 import Board from './pages/board/Board';
-import Project from './pages/project/Project';
+import Project from './pages/project/ProjectMain';
 import Approval from './pages/approval/Approval';
 import MyPage from './pages/mypage/Mypage';
 import AdminMail from './pages/admin/AdminMail';
@@ -27,6 +27,8 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import ProjectBoard from './pages/project/ProjectBoard';
+import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
 import {WebSocketProvider} from "./component/WebSocketContext";
 import AdminSidebar from "./pages/admin/common/Sidbar";
@@ -56,7 +58,7 @@ function App() {
                         <Route path='posts/postCode' element={<PostInfo />} />
                     </Route>
 
-                    <Route path='calendar' element={<Calendar />}></Route>
+                    <Route path='calendar' element={<Calendar />} />
 
                     <Route path='attendance' element={<AttendanceSide />}>
                         <Route path='attendance' element={<Attendance />} />
@@ -68,8 +70,10 @@ function App() {
                         <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                         <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
                     </Route>
-
-                    <Route path='project' element={<Project />} />
+                    
+                    <Route path='projects' element={<Project />} />
+                    <Route path='projects/:projectCode' element={<ProjectBoard />} />
+                    <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
                     <Route path='approval' element={<Approval />} />
 

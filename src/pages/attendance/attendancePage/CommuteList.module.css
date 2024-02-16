@@ -16,7 +16,7 @@ body {
     font-family: Pretendard;
 }
 
-.main-title{
+.main_title{
     position: relative;
     left: 10px;
     top: 30px;
@@ -32,7 +32,7 @@ body {
     
 }
 
-.month-filter-area{
+.month_filter_area{
     position: absolute;
     top: 90px;
     height: 930px;
@@ -46,7 +46,7 @@ body {
     width: 1380px;
 }
 
-.calender-title{
+.calender_title{
     position: relative;
     left: 530px;
     color: #414141;
@@ -87,7 +87,7 @@ body {
     height: 15px;
 }
 
-.count-box{
+.count_box{
     position: absolute;
     top:70px;
     left: 30px;
@@ -114,7 +114,7 @@ body {
     top: 5px;
 }
 
-.vacation-image img{
+.vacation_image img{
     position: absolute;
     top: 5px;
     left: 0px;
@@ -122,7 +122,7 @@ body {
     height: 39px;
 }
 
-.vacation-tile{
+.vacation_tile{
     position: relative;
     top: 55px;
     left: 0px;
@@ -144,14 +144,14 @@ body {
     left:300px;
     top: 5px;
 }
-.outside-image img{
+.outside_image img{
     position: absolute;
     top: 5px;
     width: 39px;
     height: 39px;
 }
 
-.outside-tile{
+.outside_tile{
     position: relative;
     top: 50px;
     left: 0px;
@@ -174,7 +174,7 @@ body {
     left:520px;
     top: 5px;
 }
-.extension-image img{
+.extension_image img{
     position: absolute;
     top: 5px;
     width: 39px;
@@ -182,7 +182,7 @@ body {
     right: 15px;
 }
 
-.extension-tile{
+.extension_tile{
     position: relative;
     top: 50px;
     left: 0px;
@@ -204,14 +204,14 @@ body {
     left:780px;
     top: 5px;
 }
-.business-image img{
+.business_image img{
     position: absolute;
     top: 5px;
     width: 39px;
     height: 39px;
 }
 
-.business-tile{
+.business_tile{
     position: relative;
     top: 50px;
     left: 0px;
@@ -233,7 +233,7 @@ body {
     left:1000px;
     top: 5px;
 }
-.home-image img{
+.home_image img{
     position: absolute;
     top: 5px;
     width: 39px;
@@ -241,7 +241,7 @@ body {
     right: 15px;
 }
 
-.home-tile{
+.home_tile{
     position: relative;
     top: 50px;
     left: 0px;
@@ -257,21 +257,21 @@ body {
     font-size: 25px;
 }
 
-.list-commute-area{
+.list_commute_area{
     position: relative;
     top: 190px;
     left: 50px;
     width: 1200px;
 }
 
-.list-commute-detail td {
+.list_commute_detail td {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
     font-size: 16px;
 }
 
-.list-commute-detail tr {
+.list_commute_detail tr {
     border-bottom: 1px solid #606060;
     padding: 20px; /* 셀 내부 여백을 지정합니다. */
     text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
@@ -281,12 +281,14 @@ body {
 
 
 .paging-po{
-    position: absolute;
-    top: 850px;
-    left: 480px;
+    position: relative;
+    top: 50px;
+    left: 10px;
     color: #414141;
     font-size: 20px;
 }
+
+
 
 .pagingBtn{
     margin: 5px;
