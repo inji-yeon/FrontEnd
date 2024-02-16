@@ -168,13 +168,13 @@ function CommuteList() {
                                     <tbody>
                                         {Array.isArray(commuteLists) && commuteLists.length > 0?
                                             commuteLists.map((commute) => (
-                                            <tr className={commuteList.list_commute_detail} key={commute.attendanceWorkTypeCode}>
-                                                <td className={commuteList.list_commute_detail}>{formatWorkDate(commute?.attendanceManagementCode?.attendanceManagementWorkDay)}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementArrivalTime}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementDepartureTime}</td>
+                                            <tr className={commuteList.list_commute_detail} key={commute.attendanceManagementCode}>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementWorkDay}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementArrivalTime}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementDepartureTime}</td>
                                                 <td className={commuteList.list_commute_detail}>08h 00m</td>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementCode?.attendanceManagementState}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute.attendanceWorkTypeStatus}</td>
+                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementState}</td>
+                                                <td className={commuteList.list_commute_detail}>{}</td>
                                             </tr>
                                             ))
                                             :

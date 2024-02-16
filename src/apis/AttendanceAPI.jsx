@@ -7,7 +7,8 @@ import{
     GET_MY_COMPANION,
     GET_MY_WAITING,
     GET_COMMUTE_MAIN,
-    POST_COMMUTE_INSERT
+    POST_COMMUTE_INSERT,
+    PUT_COMMUTE_UPDATE
 } from '../modules/AttendanceModule'
 
 
@@ -53,7 +54,7 @@ export const callCommutInsertAPI = ({ arrivalTime, late }) => {
     return async (dispatch, getState) => {
         const requestBody = {
             arrivalTime,
-            status: late ? '지각' : '정상' // late가 true면 '지각', 아니면 '정상'으로 설정
+            late // late가 true면 '지각', 아니면 '정상'으로 설정
         };
 
         const result = await fetch(requestURL, {
@@ -73,6 +74,42 @@ export const callCommutInsertAPI = ({ arrivalTime, late }) => {
             dispatch({ type: POST_COMMUTE_INSERT, payload: result });
         } else {
             console.log('insertFail');
+        }
+    };
+};
+
+
+
+export const callCommuteUpdateAPI = ({ departureTime, early }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+
+    return async (dispatch, getState) => {
+        const requestBody = {
+            departureTime,
+            early, // late가 true면 '조퇴', 아니면 '정상'으로 설정
+            
+        };
+
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        console.log(result);
+
+        if (result.status === 200) {
+            console.log('[AttendanceAPI] callCommuteUpdateAPI RESULT : ', result);
+            dispatch({ type: PUT_COMMUTE_UPDATE, payload: result });
+        } else {
+            console.log('updateFail');
         }
     };
 };

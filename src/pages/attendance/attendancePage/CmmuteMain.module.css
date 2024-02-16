@@ -2,7 +2,6 @@
     position: relative;
     display: grid;
     width: 95%;
-    grid-template-columns: 326px 245px auto;
 
 }
 

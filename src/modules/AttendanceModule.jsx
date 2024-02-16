@@ -13,6 +13,7 @@ export const GET_MY_COMPANION = 'attendance/GET_MY_COMPANION';
 export const GET_MY_WAITING = 'attendance/GET_MY_WAITING';
 export const GET_COMMUTE_MAIN = 'attendance/GET_COMMUTE_MAIN';
 export const POST_COMMUTE_INSERT = 'attendance/POST_COMMUTE_INSERT';
+export const PUT_COMMUTE_UPDATE = 'attendance/PUT_COMMUTE_UPDATE';
 
 
 const actions = createActions({
@@ -24,7 +25,8 @@ const actions = createActions({
     [GET_MY_COMPANION]: () => {},
     [GET_MY_WAITING]: () => {},
     [GET_COMMUTE_MAIN]: () => {},
-    [POST_COMMUTE_INSERT]: () => {}
+    [POST_COMMUTE_INSERT]: () => {},
+    [PUT_COMMUTE_UPDATE]: () => {}
 });
 
 
@@ -57,6 +59,9 @@ const attendanceReducer = handleActions(
             return payload;
         },
         [POST_COMMUTE_INSERT]: (state, { payload }) => {
+            return payload;
+        },
+        [PUT_COMMUTE_UPDATE]: (state, { payload }) => {
             return payload;
         }
 

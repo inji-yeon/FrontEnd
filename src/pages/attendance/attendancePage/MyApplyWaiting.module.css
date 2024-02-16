@@ -4,6 +4,7 @@
     width: 95%;
     grid-template-columns: 326px 245px auto;
 
+
 }
 
 .main2{
@@ -95,13 +96,14 @@ body {
     border:0.5px solid #606060;
     color: #414141;
     font-size: 16px;
+    left: 20px;
 }
 
 
 .list_commute_area{
     position: relative;
     top: 110px;
-    left: 0px;
+    left: 20px;
     width: 1200px;
 }
 
