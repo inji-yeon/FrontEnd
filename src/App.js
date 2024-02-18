@@ -39,13 +39,16 @@ import BoardLayout from './pages/board/BoardLayout';
 import GroupChart from './pages/group/sidebar/GroupSideBar';
 import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
 
+import Messenger from './component/messenger/Messenger';
+
 function App() {
     return (
         <WebSocketProvider>
             <BrowserRouter>
                 <Routes>
-            <Route path='/login' element={<Login />} />
+                    <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
+                        <Route path='messenger' element={<Messenger />} />
                         <Route index element={<Main />} />
 
                         <Route path='mail' element={<MailSidebar />}>
@@ -54,9 +57,7 @@ function App() {
                         </Route>
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                    <Route path='group' element={<GroupChart/>} >
-                        
-                    </Route>
+                        <Route path='group' element={<GroupChart />}></Route>
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />
@@ -82,15 +83,15 @@ function App() {
                         <Route path='projects/:projectCode' element={<ProjectBoard />} />
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
-                    <Route path='approval' element={<ApprovalSidebar />}>
-                        <Route path='writing' element={<ApprovalFormList />} />
-                        <Route path='onProcessList' element={<OnProcessList />} />
-                        <Route path='completed' element={<CompletedList />} />
-                        <Route path='rejected' element={<RejectedList />} />
-                        <Route path='retrieved' element={<RetrievedList />} />
-                    </Route>
-                    
-                    <Route path='mypage' element={<MyPage />} />
+                        <Route path='approval' element={<ApprovalSidebar />}>
+                            <Route path='writing' element={<ApprovalFormList />} />
+                            <Route path='onProcessList' element={<OnProcessList />} />
+                            <Route path='completed' element={<CompletedList />} />
+                            <Route path='rejected' element={<RejectedList />} />
+                            <Route path='retrieved' element={<RetrievedList />} />
+                        </Route>
+
+                        <Route path='mypage' element={<MyPage />} />
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>
