@@ -2,25 +2,23 @@ import './OnProcessList.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { callApprovalDocListAPI } from '../../apis/ApprovalAPICalls';
 
 
 function OnProcessList(){
-    const [active, setActive] = useState(false);
     const dispatch = useDispatch();
     const document = useSelector((state) => state.approvalReducer);
-    const documentList = document?.data?.content;
+    const documentList = document?.data;
     const navigate = useNavigate();
     // const documentList = useSelector(state => {
     //     console.log('Redux State:', state); // 전체 상태를 확인
     //     return state.approvalReducer; // 원하는 상태만 선택
     // });
+    
     console.log('document Redux State======', document);
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        
         dispatch(callApprovalDocListAPI());
     }, []);
 
@@ -88,12 +86,12 @@ function OnProcessList(){
      
                     </ul> */}
             <tbody>
-                {documentList && documentList.map((documents) => (
+            {documentList && documentList.map((documents) => (
             <tr key = {documents.approvalDocCode}>
                 <td>{documents.approvalForm}</td>
                 <td>[개발 1팀] 연차 사용 신청서</td>
                 <td>연인지</td>
-                <td>2024.01.05</td>
+                <td>{documents.approvalRequestDate}</td>
                 <td>
                     <div className="process_check_button">
                         <span className="process_check_text">결재 현황 확인</span>
