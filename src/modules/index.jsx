@@ -9,6 +9,7 @@ import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
 import boardReducer from './BoardModule';
+import approvalReducer from './ApprovalModule';
 
 const rootReducer = combineReducers({
     
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     groupreducer,
     project: projectReducer,
     board: boardReducer,
+    approvalReducer,
 });
 
 export default rootReducer;

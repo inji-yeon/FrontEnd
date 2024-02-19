@@ -1,14 +1,52 @@
 import './OnProcessList.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { callApprovalDocListAPI } from '../../apis/ApprovalAPICalls';
+
 
 function OnProcessList(){
     const [active, setActive] = useState(false);
+    const dispatch = useDispatch();
+    const document = useSelector((state) => state.approvalReducer);
+    const documentList = document?.data?.content;
     const navigate = useNavigate();
+    // const documentList = useSelector(state => {
+    //     console.log('Redux State:', state); // 전체 상태를 확인
+    //     return state.approvalReducer; // 원하는 상태만 선택
+    // });
+    console.log('document Redux State======', document);
+    console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        setActive(true);
+        
+        dispatch(callApprovalDocListAPI());
     }, []);
+
+    // const pageInfo = documentList.pageInfo;
+
+    // const [start, setStart] = useState(0);
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [pageEnd, setPageEnd] = useState(1);
+
+    // const pageNumber = [];
+    // if (pageInfo) {
+    //     for (let i = 1; i <= pageInfo.pageEnd; i++) {
+    //         pageNumber.push(i);
+    //     }
+    // }
+
+
+
+    // useEffect(() => {
+    //     setStart((currentPage - 1) * 5);
+    //     dispatch(
+    //         callApprovalDocListAPI({
+    //             currentPage: currentPage,
+    //         })
+    //     );
+    // }, [currentPage]);
     
     return(
         <>
@@ -36,9 +74,23 @@ function OnProcessList(){
                 <th>상태</th>
             </tr>
             </thead>
+            {/* <ul>
+                    {calendarList && calendarList.map((calendar) => (
+                    calendar.calType === "개인 캘린더" && // calType이 개인 캘린더인 경우에만 해당
+                    <li key={calendar.calNo}>
+                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
+                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
+                            {calendar.calName}
+                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
+                        </label>
+                    </li>
+                        ))}
+     
+                    </ul> */}
             <tbody>
-            <tr>
-                <td>휴가 신청서</td>
+                {documentList && documentList.map((documents) => (
+            <tr key = {documents.approvalDocCode}>
+                <td>{documents.approvalForm}</td>
                 <td>[개발 1팀] 연차 사용 신청서</td>
                 <td>연인지</td>
                 <td>2024.01.05</td>
@@ -48,36 +100,36 @@ function OnProcessList(){
                     </div>
                 </td>
             </tr>
-
-            <tr>
-                <td>재택근무 신청서</td>
-                <td>[개발 1팀] 재택근무 신청서</td>
-                <td>연인지</td>
-                <td>2024.01.11</td>
-                <td>
-                    <div className="process_check_button">
-                        <span className="process_check_text">결재 현황 확인</span>
-                    </div>
-                </td>
-            </tr>
+                ))}
             </tbody>
         </table>
-        <div className="awaiting_list_footer">
-            <input type="button" value="<<"/>
-            <input type="button" value="<"/>
-            <input type="button" value="1"/>
-            <input type="button" value="2"/>
-            <input type="button" value="3"/>
-            <input type="button" value="4"/>
-            <input type="button" value="5"/>
-            <input type="button" value="6"/>
-            <input type="button" value="7"/>
-            <input type="button" value="8"/>
-            <input type="button" value="9"/>
-            <input type="button" value="10"/>
-            <input type="button" value=">"/>
-            <input type="button" value=">>"/>
-        </div>
+        {/* {documentList && (
+        <button className="awaiting_list_footer"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            >
+                &lt;
+        </button>
+        )}
+            {pageNumber.map((num) => (
+        <li key={num} onClick={() => setCurrentPage(num)}>
+            <button
+                className="awaiting_list_footer"
+                style={currentPage === num ? { backgroundColor: 'orange' } : null}
+            >
+                {num}
+            </button>
+        </li>
+    ))}
+    {Array.isArray(documentList) && (
+        <button
+            className="awaiting_list_footer"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}
+        >
+            &gt;
+        </button>
+    )} */}
     </div>
     </section>
         </>
