@@ -95,7 +95,7 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
         <>
             <div className={styles.chatroom_main}>
                 <div className={styles.chatroom_header}>
-                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `/${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : "/messenger/temp_messenger_img.png"}
+                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : "/messenger/temp_messenger_img.png"}
                         alt="채팅방프로필" className={styles.chatroom_header_1}
                         onClick={profileClickHandler} />
                     <input

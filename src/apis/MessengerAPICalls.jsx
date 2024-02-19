@@ -10,7 +10,7 @@ import {
     GET_EMPLOYEES,
     POST_CHATROOM_MEMBER,
     GET_PREV_CHATS,
-    PUT_CHATROOM_PROFILE
+    PUT_CHATROOM_PROFILE,
 } from '../modules/MessengerModule'
 
 export const callGetLoginSettingsAPI = () => {
@@ -29,7 +29,7 @@ export const callGetLoginSettingsAPI = () => {
             }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
-        console.log('[MessengerAPICalls] callGetProjectsAPI RESULT : ', result)
+        console.log('[MessengerAPICalls] callGetLoginSettingsAPI RESULT : ', result)
 
         dispatch({ type: GET_LOGIN_SETTINGS, payload: result?.data })
     }

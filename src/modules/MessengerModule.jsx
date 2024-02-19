@@ -65,7 +65,7 @@ const action = createActions({
     [GET_PREV_CHATS]: () => { },
     [GET_EMPLOYEES]: () => { },
     [POST_CHATROOM_MEMBER]: () => { },
-    [PUT_CHATROOM_PROFILE]: () => { }
+    [PUT_CHATROOM_PROFILE]: () => { },
 })
 
 const messengerReducer = handleActions(
@@ -172,7 +172,7 @@ const messengerReducer = handleActions(
                     chatroomProfileFileURL: payload?.data,
                 },
             }
-        }
+        },
     },
     initialState
 )

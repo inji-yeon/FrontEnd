@@ -3,8 +3,9 @@ import styles from './messenger.module.css'
 import ChatroomCreateWindow from './ChatroomCreateWindow'
 import Chatroom from './Chatroom'
 import { useDispatch, useSelector } from 'react-redux'
-import { callGetLoginSettingsAPI, callGetMessengerMainAPI, callGetMessengerOptionsAPI } from '../../apis/MessengerAPICalls'
+import { callGetLoginSettingsAPI, callGetMessengerMainAPI, callGetMessengerOptionsAPI, callSubscribeChatrooms } from '../../apis/MessengerAPICalls'
 import { format, isToday } from 'date-fns'
+import MessengerWebSocket from './MessengerWebSocket'
 // dispatch(callPinnedChatroomAPI({chatroomCode}));
 
 function Messenger() {
@@ -25,6 +26,7 @@ function Messenger() {
     useEffect(() => {
         isConnect && dispatch(callGetLoginSettingsAPI());
         isConnect && dispatch(callGetMessengerMainAPI());
+        // isConnect && dispatch(callMessengerSubscribe());
     }, [])
     useEffect(() => {
         messengerData?.chatroomCode
@@ -78,6 +80,7 @@ function Messenger() {
 
     return (
         <>
+            <MessengerWebSocket chatroomList={chatroomList} />
             <div className={styles.messenger_wrap}>
                 {!isMessengerOpen ? (
                     <img
