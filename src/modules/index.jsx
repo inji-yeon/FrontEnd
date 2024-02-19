@@ -9,9 +9,10 @@ import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
 import boardReducer from './BoardModule';
+import messengerReducer from './MessengerModule';
 
 const rootReducer = combineReducers({
-    
+
     mail: mailReducer,
     sidebar: sidebarReducer,
     attendance: attendanceReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     groupreducer,
     project: projectReducer,
     board: boardReducer,
+    messenger: messengerReducer
 });
 
 export default rootReducer;

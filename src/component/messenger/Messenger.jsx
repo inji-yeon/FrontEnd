@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import styles from './messenger.module.css'
 import ChatroomCreateWindow from './ChatroomCreateWindow'
 import Chatroom from './Chatroom'
+import { useDispatch, useSelector } from 'react-redux'
+import { callGetLoginSettingsAPI, callGetMessengerMainAPI, callGetMessengerOptionsAPI } from '../../apis/MessengerAPICalls'
+import { format, isToday } from 'date-fns'
+// dispatch(callPinnedChatroomAPI({chatroomCode}));
 
 function Messenger() {
     const [searchText, setSearchText] = useState('')
@@ -11,9 +15,40 @@ function Messenger() {
     // const [isMessengerOpen, setIsMessengerOpen] = useState(true)
     // const [isChatroomCreateWindow, setIsChatroomCreateWindow] = useState(true) // 채팅방 생성 창
     // const [isChatroomOpen, setIsChatroomOpen] = useState(true)
+    const dispatch = useDispatch();
+    const messengerData = useSelector(state => state.messenger);
+    const [chatroomList, setChatroomList] = useState([]);
+    const [chatroomCode, setChatroomCode] = useState(null);
 
-    const chatroomClickHandler = () => {
+    // const isConnect = false; // 리액트 자동 새로고침을 통해 여러번 연결되는걸 방지.
+    const isConnect = true;
+    useEffect(() => {
+        isConnect && dispatch(callGetLoginSettingsAPI());
+        isConnect && dispatch(callGetMessengerMainAPI());
+    }, [])
+    useEffect(() => {
+        messengerData?.chatroomCode
+            && console.log('messengerData?.chatroomCode', messengerData?.chatroomCode);
+        // messengerData?.chatroomCode
+        //     && setIsChatroomOpen(true);
+    }, [messengerData?.chatroomCode])
+    useEffect(() => {
+        messengerData?.messengerLoginSettings
+            && console.log('messengerData?.messengerLoginSettings', messengerData?.messengerLoginSettings);
+    }, [messengerData?.messengerLoginSettings])
+    useEffect(() => {
+        messengerData?.messengerMain
+            && console.log('messengerData?.messengerMain', messengerData?.messengerMain);
+    }, [messengerData?.messengerMain])
+    useEffect(() => {
+        console.log('messengerData?.messengerMain?.chatroomList', messengerData?.messengerMain?.chatroomList);
+        messengerData?.messengerMain?.chatroomList &&
+            setChatroomList(messengerData?.messengerMain?.chatroomList);
+    }, [messengerData?.messengerMain?.chatroomList])
+
+    const chatroomClickHandler = (chatroomCode) => {
         setIsChatroomOpen(true);
+        setChatroomCode(chatroomCode)
     }
     const chatroomCreateWindowHandler = () => {
         setIsChatroomCreateWindow(true)
@@ -34,6 +69,9 @@ function Messenger() {
         setIsMessengerOpen(true)
     }
 
+    useEffect(() => {
+        chatroomList && console.log('chatroomList', chatroomList);
+    }, [chatroomList])
     useEffect(() => {
         console.log(isChatroomOpen);
     }, [isChatroomOpen])
@@ -64,7 +102,7 @@ function Messenger() {
                                         채팅방 만들기
                                     </div>
                                 </div>
-                                <ChatroomCreateWindow />
+                                <ChatroomCreateWindow setIsChatroomCreateWindow={setIsChatroomCreateWindow} />
                             </>
                         ) : (
                             <>
@@ -101,55 +139,69 @@ function Messenger() {
                                 </div>
                                 <div className={styles.messenger_body}>
                                     <div className={styles.chatroom_list}>
-                                        {/* 여기서 매핑 */}
-                                        <div className={styles.chatroom_info}
-                                            onClick={chatroomClickHandler}>
-                                            <div className={styles.chatroom_info_1}>
-                                                <img
-                                                    src='/messenger/chatroom_profile.png'
-                                                    alt='채팅방프로필'
-                                                    className={styles.chatroom_img}
-                                                />
-                                                <div className={styles.chatroom_unread_count}>1</div>
-                                            </div>
-                                            <div className={styles.chatroom_info_2}>
-                                                <span>마케팅팀</span>
-                                                <img src='/messenger/tack.png' alt='고정' />
-                                                <span className={styles.chatroom_info_people}>5</span>
-                                            </div>
-                                            <div className={styles.chatroom_info_3}>오후 2:25</div>
-                                            <div className={styles.chatroom_info_4}>
-                                                <img src='/messenger/temp_photo.png' alt='사진' />
-                                                <span>사진을 보냈습니다.</span>
-                                            </div>
-                                        </div>
-                                        <div className={styles.chatroom_info}>
-                                            <div className={styles.chatroom_info_1}>
-                                                <img
-                                                    src='/messenger/chatroom_profile.png'
-                                                    alt='채팅방프로필'
-                                                    className={styles.chatroom_img}
-                                                />
-                                                <div className={styles.chatroom_unread_count}>1</div>
-                                            </div>
-                                            <div className={styles.chatroom_info_2}>
-                                                <span>마케팅팀</span>
-                                                <img src='/messenger/tack.png' alt='고정' />
-                                                <span className={styles.chatroom_info_people}>5</span>
-                                            </div>
-                                            <div className={styles.chatroom_info_3}>오후 2:25</div>
-                                            <div className={styles.chatroom_info_4}>
-                                                <img src='/messenger/temp_photo.png' alt='사진' />
-                                                <span>사진을 보냈습니다.</span>
-                                            </div>
-                                        </div>
+                                        {chatroomList
+                                            ?.sort((chatroom1, chatroom2) => {
+                                                if (chatroom1.chatroomFixedStatus === 'N' && chatroom2.chatroomFixedStatus === 'Y') {
+                                                    return 1;
+                                                }
+                                                if (chatroom1.chatroomFixedStatus === 'Y' && chatroom2.chatroomFixedStatus === 'N') {
+                                                    return -1;
+                                                }
+                                                if (chatroom1.chatroomChatDate === null && chatroom2.chatroomChatDate !== null) {
+                                                    return 1;
+                                                }
+                                                if (chatroom1.chatroomChatDate !== null && chatroom2.chatroomChatDate === null) {
+                                                    return -1;
+                                                }
+                                                return new Date(chatroom2.chatroomChatDate) - new Date(chatroom1.chatroomChatDate);
+                                            })
+                                            ?.map(chatroom => {
+                                                console.log(chatroom);
+                                                return (
+                                                    <div className={styles.chatroom_info}
+                                                        key={chatroom.chatroomCode}
+                                                        onClick={() => chatroomClickHandler(chatroom.chatroomCode)}>
+                                                        <div className={styles.chatroom_info_1}>
+                                                            <img
+                                                                src={`${chatroom.chatroomProfileFileURL ?? '/messenger/chatroom_profile.png'}`}
+                                                                alt='채팅방프로필'
+                                                                className={styles.chatroom_img}
+                                                            />
+                                                            {chatroom.notReadChatCount !== 0 && <div className={styles.chatroom_unread_count}>{chatroom.notReadChatCount}</div>}
+                                                        </div>
+                                                        <div className={styles.chatroom_info_2}>
+                                                            <span>{chatroom.chatroomTitle}</span>
+                                                            {chatroom.chatroomFixedStatus === 'Y'
+                                                                ? <img src='/messenger/pinned.png' alt='고정' />
+                                                                : <img src='/messenger/not_pinned.png' alt='고정해제' />}
+                                                            <span className={styles.chatroom_info_people}>{chatroom.chatroomMemberCount}</span>
+                                                        </div>
+                                                        <div className={styles.chatroom_info_3}>{
+                                                            chatroom.chatroomChatDate
+                                                                ? (format(chatroom.chatroomChatDate, isToday(chatroom.chatroomDate) ? '오늘 h:mm a' : 'yyyy-MM-dd', { timeZone: 'Asia/Seoul' }))
+                                                                : ''
+                                                        }</div>
+                                                        <div className={styles.chatroom_info_4}>
+                                                            {!chatroom.chatroomChatDate
+                                                                &&
+                                                                (
+                                                                    !chatroom.chatroomContent
+                                                                        ? <span>{chatroom.chatroomContent?.length > 10 ? chatroom.chatroomContent?.substring(0, 10) + '...' : chatroom.chatroomContent}</span>
+                                                                        : (<>
+                                                                            <img src='/messenger/temp_photo.png' alt='사진' />
+                                                                            <span>사진을 보냈습니다.</span>
+                                                                        </>))}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
                                     </div>
                                 </div>
                             </>
                         )}
                     </div>
                 ) : (
-                    <Chatroom setIsChatroomOpen={setIsChatroomOpen} />
+                    <Chatroom setIsChatroomOpen={setIsChatroomOpen} chatroomCode={chatroomCode} setChatroomCode={setChatroomCode} />
                 ))}
             </div>
         </>

@@ -1,81 +1,63 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './chatroomCreateWindow.module.css'
+import { callCreateChatroomAPI, callGetMessengerMainAPI } from '../../apis/MessengerAPICalls';
+import { useDispatch } from 'react-redux';
 
-function ChatroomCreateWindow() {
-    const [title, setTitle] = useState('');
+function ChatroomCreateWindow({ setIsChatroomCreateWindow }) {
+    const dispatch = useDispatch();
+    const [form, setForm] = useState({
+        chatroomTitle: '',
+        chatroomFixedStatus: 'N',
+    })
+    const createHandler = (e) => {
+        dispatch(callCreateChatroomAPI({ form }));
+        setIsChatroomCreateWindow(false);
+    }
+    const gobackHandler = (e) => {
+        setIsChatroomCreateWindow(false);
+    }
+    // callCreateChatroomAPI
+    const formHandler = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        })
+    }
+    useEffect(() => {
+        form && console.log(form);
+    }, [form])
     return (
         <>
             <div className={styles.messenger_body}>
                 <div className={styles.messenger_body_1}>
-                    <label>제목</label>
+                    <span>제목</span>
                     <input
                         type='text'
-                        value={title}
+                        value={form.chatroomTitle}
+                        onChange={formHandler}
+                        name='chatroomTitle' />
+                </div>
+                <div className={styles.messenger_body_1}>
+                    <span>고정여부</span>
+                    <select
+                        value={form.chatroomFixedStatus}
+                        onChange={formHandler}
+                        name='chatroomFixedStatus'>
+                        <option value='Y'>O</option>
+                        <option value='N'>X</option>
+                    </select>
+                </div>
 
-                    />
+                <div className={styles.button_wrap}>
+                    <input type='button'
+                        value='뒤로가기'
+                        className={styles.goback}
+                        onClick={gobackHandler} />
+                    <input type='button'
+                        value='만들기'
+                        className={styles.create}
+                        onClick={createHandler} />
                 </div>
-                <div className={styles.messenger_body_2}>
-                    <div className={styles.messenger_member_checked_list}>
-                        <div>
-                            <img
-                                src='/messenger/temp_messenger_img.png'
-                                alt='프로필사진'
-                                className={styles.member_img}
-                            />
-                            <div className={styles.member_name}>OOO</div>
-                            <div className={styles.member_cancel}>x</div>
-                        </div>
-                        <div>
-                            <img
-                                src='/messenger/temp_messenger_img.png'
-                                alt='프로필사진'
-                                className={styles.member_img}
-                            />
-                            <div className={styles.member_name}>OOO</div>
-                            <div className={styles.member_cancel}>x</div>
-                        </div>
-                    </div>
-                    <div className={styles.messenger_member_search}>
-                        <label>검색</label>
-                        <input type='button' value='x' />
-                        <input type='text' />
-                    </div>
-                    <div className={styles.messenger_member_list}>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div className={styles.member_list_img_and_name}>
-                                        <img
-                                            src='/messenger/temp_messenger_img.png'
-                                            alt='멤버사진'
-                                        />
-                                        <span>OOO</span>
-                                    </div>
-                                    <div className={styles.member_list_dept_and_position}>
-                                        <span>개발본부</span>
-                                        <span>팀장</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div className={styles.member_list_img_and_name}>
-                                        <img
-                                            src='/messenger/temp_messenger_img.png'
-                                            alt='멤버사진'
-                                        />
-                                        <span>OOO</span>
-                                    </div>
-                                    <div className={styles.member_list_dept_and_position}>
-                                        <span>개발본부</span>
-                                        <span>팀장</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <input type='button' value='만들기' className={styles.create} />
             </div>
         </>
     )

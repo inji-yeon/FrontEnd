@@ -3,13 +3,20 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 30px;
+    padding-top: 40px;
+    gap: 20px;
 }
 
-.messenger_body .create {
+.button_wrap {
     position: absolute;
     right: 20px;
     bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.button_wrap input[type='button'] {
     padding: 8px 12px;
     font-size: 20px;
     color: white;
@@ -26,9 +33,10 @@
     padding: 0em 16px;
 }
 
-.messenger_body_1>label {
-    width: 3em;
+.messenger_body_1>span {
+    width: 6em;
     margin: 0;
+    font-weight: bold;
 }
 
 .messenger_body_1>input {
@@ -40,125 +48,11 @@
     border: 2px solid #a3a2a2;
 }
 
-.messenger_body_2 {
-    vertical-align: top;
-    font-size: 16px;
-    display: grid;
-    gap: 5px;
-    grid-template-rows: auto 30px 300px;
-}
-
-.messenger_member_checked_list {
-    display: flex;
-    gap: 5px;
-    overflow-x: auto;
-}
-
-.messenger_member_checked_list>div {
-    position: relative;
-    display: grid;
-    grid-template-columns: 48px;
-    justify-content: center;
-    align-items: center;
-}
-
-.messenger_member_checked_list img {
-    width: 40px;
-    margin: 4px 4px;
-    /*text-align: center;*/
-}
-
-.messenger_member_checked_list .member_name {
-    width: 100%;
-    text-align: center;
-}
-
-.messenger_member_checked_list .member_cancel {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 12px;
-    height: 12px;
-    line-height: 12px;
-    font-size: 0.7em;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 6px;
-    background-color: #FA9A85;
-    border: 0;
-}
-
-.messenger_member_search {
-    position: relative;
-    font-size: 16px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 0em 16px;
-}
-
-.messenger_member_search>label {
-    width: 3em;
-    margin: 0;
-}
-
-.messenger_member_search>input[type=text] {
-    padding: 5px 36px 5px 6px;
+.messenger_body_1>select {
+    padding: 3px 0px 7px 6px;
     width: 100%;
     height: 30px;
     border-radius: 15px;
     box-sizing: border-box;
     border: 2px solid #a3a2a2;
-}
-
-.messenger_member_search>input[type=button] {
-    position: absolute;
-    right: 24px;
-    top: 0;
-    margin: 5px;
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    background-color: #ffffffff;
-    border: 0;
-}
-
-.messenger_member_list {
-    overflow-y: auto;
-}
-
-.messenger_member_list>table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.messenger_member_list td {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px 5px 5px;
-    border-bottom: 1px solid #A3A2A2;
-}
-
-.member_list_img_and_name {
-    display: flex;
-    align-items: center;
-}
-
-.member_list_img_and_name>img {
-    width: 50px;
-}
-
-.member_list_img_and_name>span {
-    padding-left: 20px;
-    font-size: 16px;
-    color: #606060;
-}
-
-.member_list_dept_and_position {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 14px;
 }
