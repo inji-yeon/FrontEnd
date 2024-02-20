@@ -9,7 +9,10 @@ import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
 import boardReducer from './BoardModule';
-
+import mypagereducer from './MypageModule';
+import groupchartreducer from './GroupchartModule';
+import mypagepwdupdatereducer from './MypagepwdupdateModule';
+import mypageinfoupdatereducer from './MypageinfoupdateModule';
 const rootReducer = combineReducers({
     
     mail: mailReducer,
@@ -20,6 +23,11 @@ const rootReducer = combineReducers({
     groupreducer,
     project: projectReducer,
     board: boardReducer,
+    mypagereducer,
+    groupchartreducer,
+    mypagepwdupdatereducer,
+    mypageinfoupdatereducer,
+    
 });
 
 export default rootReducer;

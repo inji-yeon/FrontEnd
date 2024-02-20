@@ -1,4 +1,6 @@
 import { GET_EMPLOYEE, POST_LOGIN, POST_REGISTER, POST_LOGOUT, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../modules/EmployeeModules';
+import decode from 'jwt-decode';
+
 
 export const callGetEmployeeAPI = ({ employeeId }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/employee/employeeinfo${employeeId}`;

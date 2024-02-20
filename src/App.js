@@ -37,14 +37,16 @@ import AdminSidebar from './pages/admin/common/Sidbar';
 import CreateBoard from './pages/board/CreateBoard';
 import BoardLayout from './pages/board/BoardLayout';
 import GroupChart from './pages/group/sidebar/GroupSideBar';
-import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
+import MyPageSideBar from './pages/mypage/MypageLayout';
+import Group from './pages/group/Group';
+import MyPagePassword from './pages/mypage/Mypagepassword';
 
 function App() {
     return (
         <WebSocketProvider>
             <BrowserRouter>
                 <Routes>
-            <Route path='/login' element={<Login />} />
+                    <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -55,7 +57,7 @@ function App() {
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
                     <Route path='group' element={<GroupChart/>} >
-                        
+                        {/* <Route path='grouplist' element={<Group/>}/> */}
                     </Route>
 
                         <Route path='board' element={<BoardLayout />}>
@@ -90,7 +92,10 @@ function App() {
                         <Route path='retrieved' element={<RetrievedList />} />
                     </Route>
                     
-                    <Route path='mypage' element={<MyPage />} />
+                    <Route path='mypage' element={<MyPageSideBar />} >
+                    <Route path='mypageinfo' element={<MyPage/>} />
+                    <Route path='mypagepassword' element={<MyPagePassword/>} />
+                    </Route>
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>

@@ -8,13 +8,7 @@ function Main() {
   const showLoginPage = () => {
     navigate("/login");
   };
-  // const handleLogout = () => {
-  //     // 사용자의 인증 정보를 삭제하는 작업을 수행 (예: 로컬 스토리지에서 토큰 삭제)
-  //     localStorage.removeItem('accessToken');
-
-  //     // 로그아웃 후 로그인 페이지로 이동
-  //     navigate('/login');
-  // }
+  
   const dispatch = useDispatch();
   //   // 로그아웃 버튼 클릭 시 처리하는 함수
   const handleLogout = async () => {
@@ -35,11 +29,16 @@ function Main() {
     }
   };
 
+  const goToMypage = () => {
+    navigate('/mypage/mypageinfo');
+};
+
   return (
     <>
       {/* 이 곳은 메인 화면입니다. */}
       <button onClick={showLoginPage}>로그인 하기</button>
       <button onClick={handleLogout}>로그아웃</button>
+      <button onClick={goToMypage}>마이페이지</button>
     </>
   );
 }
