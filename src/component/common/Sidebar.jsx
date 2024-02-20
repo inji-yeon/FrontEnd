@@ -67,7 +67,7 @@ function SideBar() {
                 break;
             case 'attendance': 
                 box.style.top = '210px'; 
-                navigate('/attendance');
+                navigate('attendance/attendance');
                 break;
             case 'calendar': 
                 box.style.top = '293px'; 

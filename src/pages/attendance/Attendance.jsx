@@ -20,9 +20,7 @@ function Attendance() {
     const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime());
     const [workTime, setWorkTime] = useState('');
     const [leaveTime, setLeaveTime] = useState('');
-    const [isWorking, setIsWorking] = useState(false);
     const [current, setCurrent] = useState('출근전 입니다');
-    const [workedHour, setWorkedHour] = useState('');
     const [worked, setWorked] = useState('');
 
 
@@ -40,6 +38,11 @@ function Attendance() {
     const workApplyClick = () => {
         // 근태 신청 페이지로 이동
         navigate('/');  //근태 신청 페이지 널기
+    };
+
+    const adminAttendance = () => {
+        //관리자 페이지 이동
+        navigate('/')
     };
 
 
@@ -92,9 +95,14 @@ function Attendance() {
         }
 
     
-        if (commuteMain?.attendanceManagementDepartureTime > commuteMain?.attendanceManagementArrivalTime) {
-            alert('이미 퇴근했습니다.');
-            return;
+        if (commuteMain?.attendanceManagementArrivalTime && commuteMain?.attendanceManagementDepartureTime) {
+            const arrivalTime = new Date(...commuteMain.attendanceManagementArrivalTime);
+            const departureTime = new Date(...commuteMain.attendanceManagementDepartureTime);
+        
+            if (departureTime > arrivalTime) {
+                alert('이미 퇴근했습니다.');
+                return;
+            }
         }
 
         // 현재 시간을 문자열로 가져와서 departureTime 저장
@@ -113,23 +121,6 @@ function Attendance() {
         })); 
             
     
-        setWorked('근무시간');
-        // 출근 시간과 퇴근 시간
-        const arrivalTime = new Date(commuteMain?.attendanceManagementArrivalTime);
-        const departureTime = new Date(commuteMain?.attendanceManagementDepartureTime);
-
-        // 근무 시간 계산 (밀리초 단위로 반환됨)
-        const workDuration = departureTime.getTime() - arrivalTime.getTime();
-
-        // 근무 시간을 시간, 분, 초로 변환
-        const Whours = Math.floor(workDuration / (1000 * 60 * 60));
-        const Wminutes = Math.floor((workDuration % (1000 * 60 * 60)) / (1000 * 60));
-        const Wseconds = Math.floor((workDuration % (1000 * 60)) / 1000);
-
-        // 근무 시간 출력
-        console.log(`근무 시간: ${Whours}시간 ${Wminutes}분 ${Wseconds}초`);
-
-        setWorkedHour(workDuration);
 
         window.location.reload();
    
@@ -161,7 +152,10 @@ function Attendance() {
     const commuteWaiting = attendanceMain?.data3;
     console.log('commuteWaiting ========>',commuteWaiting );
 
-    
+    const commuteName = attendanceMain?.data4;
+    console.log('========= commuteName ===========', commuteName)
+
+
 
     useEffect(() => {
         dispatch(
@@ -169,7 +163,34 @@ function Attendance() {
         );
     }, []);
 
-   
+    function formatDateTime(dateTimeArray) {
+        if (!dateTimeArray || !Array.isArray(dateTimeArray)) return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
+    
+        // 배열의 길이가 충분하지 않으면 나머지 시간 정보를 0으로 설정하여 Date 객체 생성
+        const year = dateTimeArray[0] || 0;
+        const month = (dateTimeArray[1] || 0) - 1;
+        const day = dateTimeArray[2] || 0;
+        const hours = dateTimeArray[3] || 0;
+        const minutes = dateTimeArray[4] || 0;
+        const seconds = dateTimeArray[5] || 0;
+    
+        // Date 객체 생성
+        const dateTime = new Date(year, month, day, hours, minutes, seconds);
+    
+        // 년, 월, 일, 시, 분, 초를 추출
+        const formattedYear = dateTime.getFullYear();
+        const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
+        const formattedDay = dateTime.getDate().toString().padStart(2, '0');
+        const formattedHours = dateTime.getHours().toString().padStart(2, '0');
+        const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
+        const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
+    
+        // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
+        return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    }
+
+
+
 
 
 
@@ -183,6 +204,7 @@ function Attendance() {
         <div className={commuteMa.main}>
             <div className={commuteMa.main2}>
                 <span className={commuteMa.mainTitle}>내 근태 현황</span>
+                <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button>
                 <div className={commuteMa.bar}></div>
                 <div className={commuteMa.box}>
                     <div className={commuteMa.vacation_box}>
@@ -211,19 +233,18 @@ function Attendance() {
                         <span className={commuteMa.today_time}>{currentDateTime}</span>
                         <hr className={commuteMa.hr} />
                         <div className={commuteMa.current_info}>
-                            <span className="userN" >{commuteVacation?.vacationEmployeeCode?.employeeName}님 안녕하세요.</span><br/>
+                            <span className="userN" >{commuteName?.employeeName}님 안녕하세요.</span><br/>
                             <span className={commuteMa.current}>{current}</span>
                         </div>
                         <div className={commuteMa.time_info}>
-                        <span className="workTime">출근: {commuteMain?.attendanceManagementArrivalTime}</span>
+                        <span className="workTime">출근: {formatDateTime(commuteMain?.attendanceManagementArrivalTime)}</span>
                         <br />
-                        <span className="leaveTime">퇴근: {commuteMain?.attendanceManagementDepartureTime}</span>
+                        <span className="leaveTime">퇴근: {formatDateTime(commuteMain?.attendanceManagementDepartureTime)}</span>
                         <input type="hidden" value={leaveTime} />
                         </div>
                         <button id="workCheckButton" className={commuteMa.work_check} onClick={arrivalTime}>출근</button>
                         <button id="leaveCheckButton" className={commuteMa.leave_check} onClick={updateTime}>퇴근</button>
                         <span className={commuteMa.worked}>{worked}</span><br/>
-                        <span className={commuteMa.workedHour}>{workedHour}</span>
                     </div>
                 </div>
                 <div className={commuteMa.calender_area}>

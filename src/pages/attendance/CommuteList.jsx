@@ -39,6 +39,8 @@ function CommuteList() {
 
     const pageInfo = commutes?.data?.pageInfo;
 
+
+
     console.log('pageInfo', pageInfo);
 
 
@@ -87,35 +89,55 @@ function CommuteList() {
 
 
 
-    const formatCommuteTime = (dateTimeString) => {
-        const date = new Date(dateTimeString);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-        const second = date.getSeconds();
-        return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분 ${second}초`;
-        
-    };
-
-    console.log('formatCommuteTime=========>',formatCommuteTime)
-
-
-
+    function formatDateTime(dateTimeArray) {
+        if (!dateTimeArray || !Array.isArray(dateTimeArray)) return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
     
-    function calculateTimeDifference(arrivalTime, departureTime) {
-        const arrivalDate = new Date(arrivalTime);
-        const departureDate = new Date(departureTime);
+        // 배열의 길이가 충분하지 않으면 나머지 시간 정보를 0으로 설정하여 Date 객체 생성
+        const year = dateTimeArray[0] || 0;
+        const month = (dateTimeArray[1] || 0) - 1;
+        const day = dateTimeArray[2] || 0;
+        const hours = dateTimeArray[3] || 0;
+        const minutes = dateTimeArray[4] || 0;
+        const seconds = dateTimeArray[5] || 0;
     
-        const differenceMs = departureDate - arrivalDate;
-        const hours = Math.floor(differenceMs / (1000 * 60 * 60));
-        const minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
+        // Date 객체 생성
+        const dateTime = new Date(year, month, day, hours, minutes, seconds);
     
-        return `${hours}h ${minutes}m`;
+        // 년, 월, 일, 시, 분, 초를 추출
+        const formattedYear = dateTime.getFullYear();
+        const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
+        const formattedDay = dateTime.getDate().toString().padStart(2, '0');
+        const formattedHours = dateTime.getHours().toString().padStart(2, '0');
+        const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
+        const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
+    
+        // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
+        return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     }
-    
-    
+
+
+    // 두 시간 간의 차이를 구하는 함수
+    function calculateTimeDifference(arrivalTimeArray, departureTimeArray) {
+    if (arrivalTimeArray > departureTimeArray ||
+        !Array.isArray(arrivalTimeArray) || !Array.isArray(departureTimeArray)) {
+        return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
+    }
+
+    // 배열을 기반으로 Date 객체 생성
+    const arrivalTime = new Date(arrivalTimeArray[0], arrivalTimeArray[1] - 1, arrivalTimeArray[2], arrivalTimeArray[3], arrivalTimeArray[4], arrivalTimeArray[5]);
+    const departureTime = new Date(departureTimeArray[0], departureTimeArray[1] - 1, departureTimeArray[2], departureTimeArray[3], departureTimeArray[4], departureTimeArray[5]);
+
+    // 두 시간의 차이를 밀리초 단위로 계산
+    const timeDifferenceMs = departureTime - arrivalTime;
+
+    // 시간과 분으로 변환
+    const hours = Math.floor(timeDifferenceMs / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifferenceMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    // 시간 차이 문자열 반환
+    return `${hours}시간 ${minutes}분`;
+}
+
     
 
 
@@ -188,10 +210,10 @@ function CommuteList() {
                                         {Array.isArray(commuteLists) && commuteLists.length > 0?
                                             commuteLists.map((commute) => (
                                             <tr className={commuteList.list_commute_detail} key={commute.attendanceManagementCode}>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementWorkDay}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementArrivalTime}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementDepartureTime}</td>
-                                                <td className={commuteList.list_commute_detail}>{commute ? calculateTimeDifference(commute.attendanceManagementArrivalTime, commute.attendanceManagementDepartureTime) : ''}</td>
+                                                <td className={commuteList.list_commute_detail}>{formatWorkDate(commute?.attendanceManagementWorkDay)}</td>
+                                                <td className={commuteList.list_commute_detail}>{formatDateTime(commute?.attendanceManagementArrivalTime)}</td>
+                                                <td className={commuteList.list_commute_detail}>{formatDateTime(commute?.attendanceManagementDepartureTime)}</td>
+                                                <td className={commuteList.list_commute_detail}>{calculateTimeDifference(commute?.attendanceManagementArrivalTime, commute?.attendanceManagementDepartureTime)} </td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceManagementState}</td>
                                                 <td className={commuteList.list_commute_detail}>{commute?.attendanceWorkTypeStatus}</td>
                                             </tr>
