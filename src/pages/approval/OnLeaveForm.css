@@ -1,0 +1,74 @@
+.form_body {
+	width:957px;
+	height:944px;
+}
+.form_title_section {
+    height: 196px;
+    display: flex;
+	align-items: center;
+    justify-content: center;
+}
+.form_title {
+    font-family: pretendard;
+    font-size: 30px;
+    font-weight: bold;
+}
+.form_table {
+    width: 827px;
+    margin-left: 65px;
+}
+.A{
+    width: 170px;
+    height: 70px;
+    border: solid;
+    border-width: 1px;
+    padding-left: 15px;
+    padding-right: 5px;
+    border-color: #cecece;
+    background-color: #f0f0f0;
+    vertical-align: middle;
+    font-family: pretendard;
+    font-size: 16px;
+    font-weight: bold;
+}
+.B{
+    border: solid;
+    border-width: 1px;
+    padding-left: 15px;
+    padding-right: 5px;
+    border-color: #cecece;
+    vertical-align: middle;
+    font-family: pretendard;
+    font-size: 16px;
+}
+
+.input_box {
+    margin-left: 8px;
+    font-family: pretendard;
+    font-size: 16px;
+    width: 580px;
+    height: 25px;
+}
+#start-date, #end-date {
+    margin-left: 8px;
+    margin-right: 8px;
+    font-family: pretendard;
+    font-size: 16px;
+}
+.total_day {
+    margin-left: 8px;
+    font-family: pretendard;
+    font-size: 16px;
+    width: 50px;
+    height: 18px;
+}
+.B select {
+    margin-left: 8px;
+    font-family: pretendard;
+    font-size: 16px;
+    width: 588px;
+    height: 33px;
+}
+.table{
+    height: 120px;
+}

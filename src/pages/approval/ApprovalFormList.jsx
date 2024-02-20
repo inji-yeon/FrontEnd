@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
 import AwayForm from './AwayForm';
 import BusinessTripForm from './BusinessTripForm';
+import OnLeaveForm from './OnLeaveForm';
+import OvertimeForm from './OvertimeForm';
+import WFHForm from './WFHForm';
 
 function ApprovalFormList(){
     const navigate = useNavigate();
@@ -54,14 +57,17 @@ function ApprovalFormList(){
 
         <div className="form_preview_section">
             <div className="writing_section">
-                <div className="writing_button">
-                    <span className="writing_text">작성하기</span>
+                <div className="list_writing_button">
+                    <span className="list_writing_text">작성하기</span>
                 </div>
             </div>
 
             <div className="preview_section">
                 {selectedForm === '외근신청서' && <AwayForm />}
                 {selectedForm === '출장신청서' && <BusinessTripForm />}
+                {selectedForm === '휴가신청서' && <OnLeaveForm />}
+                {selectedForm === '연장근로신청서' && <OvertimeForm />}
+                {selectedForm === '재택근무신청서' && <WFHForm />}
             </div>
         </div>
     </div>
