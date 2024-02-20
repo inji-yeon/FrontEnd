@@ -29,6 +29,12 @@ import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
 import RejectedList from './pages/approval/RejectedList';
 import RetrievedList from './pages/approval/RetrievedList';
+import AwayForm from './pages/approval/AwayForm';
+import BusinessTripForm from './pages/approval/BusinessTripForm';
+import OnLeaveForm from './pages/approval/OnLeaveForm';
+import OvertimeForm from './pages/approval/OvertimeForm';
+import SWForm from './pages/approval/SWForm';
+import WFHForm from './pages/approval/WFHForm';
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
@@ -83,7 +89,14 @@ function App() {
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
                     <Route path='approval' element={<ApprovalSidebar />}>
-                        <Route path='writing' element={<ApprovalFormList />} />
+                        <Route path='writing' element={<ApprovalFormList />}>
+                            <Route path='AwayForm' element={<AwayForm />} />
+                            <Route path='BusinessTripForm' element={<BusinessTripForm />} />
+                            <Route path='OnLeaveForm' element={<OnLeaveForm />} />
+                            <Route path='OvertimeForm' element={<OvertimeForm />} />
+                            <Route path='SWForm' element={<SWForm />} />
+                            <Route path='WFHForm' element={<WFHForm />} />
+                        </Route>
                         <Route path='onProcessList' element={<OnProcessList />} />
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />

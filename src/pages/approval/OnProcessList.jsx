@@ -89,8 +89,8 @@ function OnProcessList(){
             {documentList && documentList.map((documents) => (
             <tr key = {documents.approvalDocCode}>
                 <td>{documents.approvalForm}</td>
-                <td>[개발 1팀] 연차 사용 신청서</td>
-                <td>연인지</td>
+                <td>{documents.approvalTitle}</td>
+                <td>{documents.employeeCode?.employeeName}</td>
                 <td>{documents.approvalRequestDate}</td>
                 <td>
                     <div className="process_check_button">

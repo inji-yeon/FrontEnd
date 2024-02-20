@@ -154,9 +154,9 @@ function ApprovalSidebar() {
           </div>
         </div>
       </div>
-  </div>
+              </div>
   <Outlet />
-  </div>
+        </div>
         </>
     );
 }
