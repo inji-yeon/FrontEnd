@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate  } from 'react-router-dom';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function SideBar() {
@@ -15,8 +16,6 @@ function SideBar() {
         dispatch(getUserInformation());
     })
 
-// const token = decodeJwt(window.localStorage.getItem("accessToken"))
-// console.log('--------',token)
 
     const loginEmployee = useSelector(state => state.employeeReducer);
 
@@ -52,14 +51,14 @@ function SideBar() {
         }
     }
     const sidebarMenuSelectHandler = (value) => {
-        // const token = decodeJwt(window.localStorage.getItem("accessToken"));
-        //         console.log('[onClickPurchaseHandler] token : ', token);
-        //         if(token === undefined || token === null) {
-        //             alert('로그인을 먼저해주세요');
+        const token = decodeJwt(window.localStorage.getItem("accessToken"));
+                console.log('[onClickPurchaseHandler] token : ', token);
+                if(token === undefined || token === null) {
+                    alert('로그인을 먼저해주세요');
 
                     
-        //             return navigate('/login'); ;
-        //         }
+                    return navigate('/login'); ;
+                }
         const box = document.querySelector('.selected_box');
         const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
         for (let i = 0; i < texts.length; i++) {

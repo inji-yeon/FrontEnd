@@ -47,7 +47,7 @@ function App() {
         <WebSocketProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
+                    <Route path='login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
