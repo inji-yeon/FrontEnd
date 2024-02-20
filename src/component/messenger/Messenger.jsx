@@ -80,7 +80,7 @@ function Messenger() {
 
     return (
         <>
-            <MessengerWebSocket chatroomList={chatroomList} />
+            {chatroomList?.length && <MessengerWebSocket isChatroomOpen={isChatroomOpen} chatroomList={chatroomList} />}
             <div className={styles.messenger_wrap}>
                 {!isMessengerOpen ? (
                     <img
@@ -159,14 +159,14 @@ function Messenger() {
                                                 return new Date(chatroom2.chatroomChatDate) - new Date(chatroom1.chatroomChatDate);
                                             })
                                             ?.map(chatroom => {
-                                                console.log(chatroom);
+                                                console.log('chatroom.chatroomCode', chatroom.chatroomCode);
                                                 return (
                                                     <div className={styles.chatroom_info}
                                                         key={chatroom.chatroomCode}
                                                         onClick={() => chatroomClickHandler(chatroom.chatroomCode)}>
                                                         <div className={styles.chatroom_info_1}>
                                                             <img
-                                                                src={`${chatroom.chatroomProfileFileURL ?? '/messenger/chatroom_profile.png'}`}
+                                                                src={`${chatroom.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chatroom.chatroomProfileFileURL}` : '/messenger/chatroom_profile.png'}`}
                                                                 alt='채팅방프로필'
                                                                 className={styles.chatroom_img}
                                                             />
@@ -185,11 +185,11 @@ function Messenger() {
                                                                 : ''
                                                         }</div>
                                                         <div className={styles.chatroom_info_4}>
-                                                            {!chatroom.chatroomChatDate
+                                                            {chatroom.chatroomChatDate
                                                                 &&
                                                                 (
-                                                                    !chatroom.chatroomContent
-                                                                        ? <span>{chatroom.chatroomContent?.length > 10 ? chatroom.chatroomContent?.substring(0, 10) + '...' : chatroom.chatroomContent}</span>
+                                                                    chatroom.chatroomContent
+                                                                        ? <span>{chatroom.chatroomContent.length <= 10 ? chatroom.chatroomContent : chatroom.chatroomContent.length + "..."}</span>
                                                                         : (<>
                                                                             <img src='/messenger/temp_photo.png' alt='사진' />
                                                                             <span>사진을 보냈습니다.</span>
@@ -204,7 +204,7 @@ function Messenger() {
                         )}
                     </div>
                 ) : (
-                    <Chatroom setIsChatroomOpen={setIsChatroomOpen} chatroomCode={chatroomCode} setChatroomCode={setChatroomCode} />
+                    <Chatroom chatroomList={chatroomList} setIsChatroomOpen={setIsChatroomOpen} chatroomCode={chatroomCode} setChatroomCode={setChatroomCode} />
                 ))}
             </div>
         </>

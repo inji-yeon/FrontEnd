@@ -21,6 +21,8 @@
 
 .chatroom_header_1 {
     border-radius: 50%;
+    width: 52px;
+    height: 52px;
 }
 
 .chatroom_header_2 {
@@ -80,6 +82,7 @@
     width: 378px;
     height: 510px;
     overflow-y: scroll;
+    position: relative;
 }
 
 .chat_element {
@@ -97,9 +100,14 @@
     gap: 10px;
 }
 
-.chat_element_row_row_1 {
-    width: 55px;
-    height: 55px;
+.read_status {
+    background-color: hsl(22, 100%, 80%);
+    border-radius:5px;
+}
+
+.chat_element_row_1 {
+    width: 52px;
+    height: 52px;
 }
 
 .chat_element_row_2 {
@@ -157,6 +165,25 @@
     cursor: pointer;
 }
 
+.scroll_to_bottom {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    bottom: 70px;
+    right: 40px;
+    margin-bottom: 20px;
+}
+
+.scroll_to_bottom img {
+    width: 36px;
+    height: 36px;
+    transform: rotate(180deg);
+    background-color: hsl(22, 100%, 97%);
+    border-radius: 18px;
+    cursor: pointer;
+}
+
 .chat_elements_divide {
     display: flex;
     height: 1px;
@@ -185,7 +212,7 @@
 }
 
 .chatroom_body_write {
-    width: 303px;
+    width: 323px;
     height: 68px;
     resize: none;
     overflow-y: auto;

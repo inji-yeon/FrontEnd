@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './chatroom.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callChangeChatroomProfileAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetPrevChats, callInviteChatroomMemberAPI } from '../../apis/MessengerAPICalls';
+import { callChangeChatroomProfileAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetPrevChats, callInviteChatroomMemberAPI, callUpdateChatReadStatus } from '../../apis/MessengerAPICalls';
 import { userEmployeeCode } from '../../utils/tokenUtils';
 import { format } from 'date-fns';
+import { useWebSocket } from '../WebSocketContext';
+import { RESET_SCROLLING_TO_CHATCODE, RESET_SHOW_RECEIVED_CHAT } from '../../modules/MessengerModule';
 
-function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
+function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCode }) {
+    const websocket = useWebSocket();
     const messengerData = useSelector(state => state.messenger);
     const [isInviteWindow, setIsInviteWindow] = useState(false);
     const [isSearchInput, setIsSearchInput] = useState(false);
+    const [flag2, setFlag2] = useState(false);
     const dispatch = useDispatch();
     // const isConnect = false; // 리액트 자동 새로고침을 통해 여러번 연결되는걸 방지.
     const isConnect = true;
@@ -20,6 +24,50 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
     const [searchName, setSearchName] = useState('');
     const [isMemberWindow, setIsMemberWindow] = useState(false);
     const profileInputRef = useRef(null);
+    const [chatTextValue, setChatTextValue] = useState('');
+
+    const [flag, setFlag] = useState(true);
+
+    const chatContainerRef = useRef(null);
+
+
+    useEffect(() => {
+        console.log('messengerData?.scrollingToChatCode', messengerData?.scrollingToChatCode);
+        if (messengerData?.scrollingToChatCode) {
+            console.log('들어온 경우');
+            scrollingToBottom();
+        }
+    }, [messengerData?.scrollingToChatCode])
+    useEffect(() => {
+        console.log('여기도 오는지 >>> messengerData?.messengerMain?.chatroomList >>>', messengerData?.messengerMain?.chatroomList);
+        if (messengerData?.scrollingToChatCode) {
+            scrollingToBottom();
+            dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
+        }
+    }, [chatroomList])
+    const scrollingToBottom = () => {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+    const chatTextValueHandler = (e) => {
+        setChatTextValue(e.target.value);
+    }
+    const sendChatHandler = () => {
+        console.log('전송버튼 눌렀다!');
+        const chatroomCode = messengerData?.chatroomData?.chatroomCode;
+
+        websocket?.publish({
+            destination: `/app/messenger/chatrooms/${chatroomCode}/send`,
+            headers: { Authorization: 'Bearer ' + window.localStorage.getItem('accessToken') },
+            body: JSON.stringify({
+                chatContent: chatTextValue,
+                chatFileName: '파일이름이다.', // 파일 이름이 있다면 여기에 설정
+                chatFile: '사진데이터 예정', // 파일 데이터가 있다면 여기에 설정
+                // chatFileURL: '', // 파일 URL이 있다면 여기에 설정
+                isFileSend: 'N' // 파일을 전송했는지 여부에 대한 플래그
+            })
+        })
+        setChatTextValue('');
+    }
 
     const resetSearchNameHandler = (e) => {
         setSearchName('');
@@ -31,6 +79,12 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
         const minChatCode = chatList?.reduce((min, chat) => Math.min(min, chat?.chatCode), Infinity);
         dispatch(callGetPrevChats({ chatroomCode, minChatCode }))
     }
+    const scrollingToChat = (chatCode) => {
+        const chatElement = chatContainerRef.current.querySelector(`#chat_${chatCode}`);
+        if (chatElement) {
+            chatElement.scrollIntoView({ block: 'start' });
+        }
+    };
     const searchButtonHandler = () => {
         setIsSearchInput(!isSearchInput)
         setIsInviteWindow(false);
@@ -48,9 +102,18 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
         messengerData?.employees && setEmployeeList(messengerData?.employees);
     }, [messengerData?.employees])
     useEffect(() => {
+        if (!flag2 && messengerData?.chatroomData?.lastReadChatCode) {
+            console.log('실제로 이동하는가');
+            scrollingToChat(messengerData?.chatroomData?.lastReadChatCode);
+            setFlag2(true);
+        }
+    }, [chatroomList])
+    useEffect(() => {
         isInviteWindow && dispatch(callGetEmployeesAPI());
     }, [isInviteWindow])
-
+    useEffect(() => {
+        chatContainerRef && console.log('chatConteinerRef.current', chatContainerRef.current);
+    }, [chatContainerRef])
     useEffect(() => {
         oldEmployeeList
             && setOldEmployeeCodeList(oldEmployeeList?.map(oldEmployee => oldEmployee?.employeeCode));
@@ -60,14 +123,24 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
     }, [oldEmployeeCodeList])
     useEffect(() => {
         // 이곳이 생성되면 일단 chatroomCode를 통해 채팅 목록을 가지고 옴.(여기가 문제)
-        isConnect
-            && chatroomCode
+        chatroomCode
             && dispatch(callGetChatroomAPI({ chatroomCode }))
+        // chatroomCode
+        //     && dispatch(callUpdateChatReadStatus({ chatroomCode, chatCode }));
     }, [])
 
     useEffect(() => {
         messengerData?.chatroomData?.chatList && setChatList(messengerData?.chatroomData?.chatList)
     }, [messengerData?.chatroomData?.chatList])
+    useEffect(() => {
+        if (flag && chatList?.length) {
+            console.log('chatList', chatList);
+            const maxChatCode = Math.max(...chatList.map(chat => chat.chatCode));
+            console.log('maxChatCode', maxChatCode);
+            dispatch(callUpdateChatReadStatus({ chatroomCode, maxChatCode }));
+            setFlag(false);
+        }
+    }, [chatList])
     useEffect(() => {
         const chatroomMemberList = messengerData?.chatroomData?.chatroomMemberList;
         setOldEmployeeList(chatroomMemberList?.map(chatroomMember => chatroomMember?.employee))
@@ -91,6 +164,12 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
         const file = e.target.files[0];
         dispatch(callChangeChatroomProfileAPI({ chatroomCode, file }))
     }
+    const scrollingToBottomButtonHandler = () => {
+        scrollingToBottom();
+        dispatch({ type: RESET_SHOW_RECEIVED_CHAT })
+        dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
+    }
+
     return (
         <>
             <div className={styles.chatroom_main}>
@@ -130,14 +209,21 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
                     chat_element_divide -> 채팅일자가 넘어가는 부분에서 발생
                     chat_element_me -> 현재 가지고 있는 토큰값을 이용해서 code값이 동일할 경우 생기는 스타일
                  */}
-                    <div className={styles.chat_body_text}>
+                    <div ref={chatContainerRef} className={styles.chat_body_text}>
                         <div className={styles.chat_elements_paging}>
                             <img src="/messenger/arrowToTop.png" alt="이전 채팅 불러오기" onClick={chatLoadingHandler} />
                         </div>
                         {chatList?.map(chat => {
+                            console.log('불린', messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode);
                             return (
-                                <div className={`${chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() ? styles.chat_element : styles.chat_element_me}`} key={chat?.chatCode}>
-                                    <img src={chat?.chatroomMember?.employee?.profileList ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile ?? "/messenger/temp_messenger_img.png") : "/messenger/temp_messenger_img.png"}
+                                <div className={`${chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() ? styles.chat_element : styles.chat_element_me} ${messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode ? styles.read_status : ''}`}
+                                    key={chat?.chatCode}
+                                    id={`chat_${chat?.chatCode}`}>
+                                    <img src={chat?.chatroomMember?.employee?.profileList
+                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
+                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
+                                            : "/messenger/temp_messenger_img.png")
+                                        : "/messenger/temp_messenger_img.png"}
                                         alt="프로필사진" className={styles.chat_element_row_1} />
                                     <div className={styles.chat_element_row_2}>
                                         <div className={styles.sender}>
@@ -149,108 +235,25 @@ function Chatroom({ setIsChatroomOpen, chatroomCode, setChatroomCode }) {
                                     </div>
                                     <div className={styles.chat_element_row_3}>
                                         {format(chat?.chatWriteDate, "yyyy-MM-dd HH:mm", { timeZone: 'Asia/Seoul' })}
+                                        <br />
+                                        {messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode ? '[최근에 읽은 채팅]' : ''}
                                     </div>
                                 </div>)
                         })}
-                        {/*<div className={styles.chat_elements_divide}>
-                            <div>2024년 1월 3일</div>
-                        </div>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_elements_divide}>
-                        //     <div>2024년 1월 3일</div>
-                        </div>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element_me}>
-                            <div className={styles.letter}>
-                                안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                드립니다 :)<br />
-                                2024 All-Hands 관련 안내사항을 공지 게시
-                                판에 업로드 하였으며, 문의사항이 있으실 경
-                                우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                더불어, Witty Wave 구성원분들의 새해 계
-                                획을 공유하는 세션이 마련되어 있으니 댓글
-                                로 많은 참여 부탁드립니다!
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element_me}>
-                            <div className={styles.letter}>
-                                안녕합니다
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div> */}
                     </div>
+                    {messengerData?.receivedChat
+                        && <div className={styles.scroll_to_bottom} >
+                            <img src="/messenger/arrowToTop.png" alt="맨 아래로 내려가기" onClick={scrollingToBottomButtonHandler} />
+                        </div>}
                     <div className={styles.chatroom_body_write_wrap}>
-                        <textarea className={styles.chatroom_body_write} />
+                        <textarea className={styles.chatroom_body_write}
+                            value={chatTextValue}
+                            onChange={chatTextValueHandler} />
                         <div className={styles.chatroom_body_write_button_wrap}>
-                            <img src="/messenger/temp_photo.png" alt="" className={styles.photo} />
-                            <input type="button" value="사진전송" className={styles.hidden_photo_button} />
-                            <input type="button" value="전송" className={styles.submit} />
+                            {/* <img src="/messenger/temp_photo.png" alt="" className={styles.photo} /> */}
+                            {/* <input type="button" value="사진전송" className={styles.hidden_photo_button} /> */}
+                            <input type="button" value="전송" className={styles.submit}
+                                onClick={sendChatHandler} />
                         </div>
                     </div>
                 </div>
