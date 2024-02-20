@@ -2,10 +2,19 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import GroupStyle from './Group.module.css';
-import { GET_GROUPLIST, GET_GROUPSEARCH } from '../../modules/GroupModule';
+import { useNavigate } from 'react-router-dom';
 import { callGroupListAPI, callSearchEmpAPI } from '../../apis/GroupAPI';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
+const accessToken = localStorage.getItem('accessToken');
+const decodeToken = decodeJwt(accessToken);
+console.log(decodeToken);
+const empCode = decodeToken?.empCode;
+const EmployeeRole = decodeToken?.employeeRole[0]?.authority?.authorityName;
+
+console.log('조직도에서 empcode나오나 한 번 보자',empCode);
+console.log('조직도에서 authorityCode나오나 한 번 보자',EmployeeRole);
 
 function Group() {
 
@@ -63,7 +72,22 @@ function Group() {
         }
     };
 
+    const navigate = useNavigate();
 
+
+    const adminEmployeeClick = () => {
+        // 관리자 여부 확인
+        if (EmployeeRole === 'ROLE_ADMIN') {
+            navigate(`/adminchart`); // 관리자인 경우에만 /adminchart로 이동
+        } 
+    };
+
+
+
+    const isAdmin = decodeToken.employeeRole.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때
+
+
+    
 
 
 
@@ -76,6 +100,7 @@ function Group() {
                 <div className={GroupStyle.grouptable}>
                     <div className={GroupStyle.contentbox}>
                         {/* 여기는 테이블 내리는 용 div */}
+                        {isAdmin && < button className={GroupStyle.adminbtn} >관리자용 버튼</button>}
                     </div>
               
               <div className={GroupStyle.searchcontainer}>
@@ -104,7 +129,7 @@ function Group() {
                         <tbody>
                             
                             {searchResults.map((employee) => (
-                                <tr key={employee.empCode}>
+                                <tr key={employee.empCode} onClick={() => adminEmployeeClick(employee)}>
                                     <td>{employee.empCode}</td>
                                     <td>{employee.empName}</td>
                                     <td>{employee.department.departmentName}</td>
@@ -133,7 +158,7 @@ function Group() {
                         
                         <tbody>
                         {groupList && groupList.map((employee) => (
-                            <tr key={employee.empCode}>
+                            <tr key={employee.empCode} onClick={() => adminEmployeeClick(employee)} >
                                     <td>{employee.empCode}</td>
                                     <td>{employee.empName}</td>
                                     <td>{employee.department.departmentName}</td>

@@ -5,7 +5,7 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
 import Project from './pages/project/ProjectMain';
 import ApprovalSidebar from './pages/approval/ApprovalSidebar';
-import MyPage from './pages/mypage/Mypage';
+import MyPage from './pages/mypage/Mypage';  
 import AdminMail from './pages/admin/AdminMail';
 import Attendance from './pages/attendance/Attendance';
 import Login from './pages/login/Login';
@@ -38,8 +38,9 @@ import CreateBoard from './pages/board/CreateBoard';
 import BoardLayout from './pages/board/BoardLayout';
 import GroupChart from './pages/group/sidebar/GroupSideBar';
 import MyPageSideBar from './pages/mypage/MypageLayout';
-import Group from './pages/group/Group';
 import MyPagePassword from './pages/mypage/Mypagepassword';
+import Adminchart from './pages/admin/\bAdminchart';
+
 
 function App() {
     return (
@@ -105,6 +106,8 @@ function App() {
                     <Route path='admin' element={<AdminSidebar />}>
                         <Route path='mail' element={<AdminMail />} />
                     </Route>
+
+                    <Route path='adminchart' element={<Adminchart />} />
                 </Routes>
             </BrowserRouter>
         </WebSocketProvider>

@@ -3,13 +3,13 @@ import MypageInfoStyle from './Mypage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { callMypageGetSpreadAPI } from '../../apis/MypageinfoupdateAPI';
 import { callMypageUpdateInfoAPI } from '../../apis/MypageinfoupdateAPI';
-import jwtDecode from 'jwt-decode';
+
 
 function MyPage() {
     const dispatch = useDispatch();
     const accessToken = localStorage.getItem('accessToken');
-    const decodeToken = jwtDecode(accessToken);
-    const employeeCode = decodeToken.empCode;
+    console.log('-----[MyPage] accessToken : ', accessToken);
+
 
     const mypageemps = useSelector((state) => state.mypagereducer);
 
@@ -33,7 +33,6 @@ function MyPage() {
             phone: mypageemps.data?.phone || '',
             empEmail: mypageemps.data?.empEmail || '',
             address: mypageemps.data?.empAddress || '',
-            // empCode: mypageemps.data?.empCode,
         });
     }, [mypageemps.data]);
 
@@ -91,7 +90,7 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
                     />
                     <br />
                     <div className={MypageInfoStyle.update_btn}>
-                        <button className={MypageInfoStyle.update_btn2} onClick={handleUpdate}>수정하기</button>
+                        <button className={MypageInfoStyle.update_btn2} onClick={() => handleUpdate()} >수정하기</button>
                     </div>
                 </div>
             </div>
@@ -100,3 +99,4 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
 }
 
 export default MyPage;
+

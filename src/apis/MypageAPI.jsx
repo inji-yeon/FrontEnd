@@ -1,9 +1,10 @@
 import {GET_MYPAGE_EMP} from '../modules/MypageModule';
-import jwtDecode from 'jwt-decode';
+import { decodeJwt } from '../utils/tokenUtils';
+
 
 const accessToken = localStorage.getItem('accessToken');
-const decodeToken = jwtDecode(accessToken);
-const empCode = decodeToken.empCode;
+const decodeToken = decodeJwt(accessToken);
+const empCode = decodeToken?.empCode;
 console.log('empcode나오나 한 번 보자',empCode);
 
 

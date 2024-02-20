@@ -6,6 +6,7 @@ import { callLogoutAPI } from "../../apis/EmployeeAPICalls"; // 로그아웃 API
 function Main() {
   const navigate = useNavigate();
   const showLoginPage = () => {
+
     navigate("/login");
   };
   
@@ -31,7 +32,7 @@ function Main() {
 
   const goToMypage = () => {
     navigate('/mypage/mypageinfo');
-};
+  };
 
   return (
     <>

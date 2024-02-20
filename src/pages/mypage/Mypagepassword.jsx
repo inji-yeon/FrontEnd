@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MypagePassUpdate from './Mypagepassword.module.css';
 import { callMypageUpdatePwdAPI } from '../../apis/MypagepwdupdateAPI';
-import jwtDecode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import { decodeJwt } from '../../utils/tokenUtils';
 
@@ -10,8 +10,8 @@ function MyPagePassword() {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
-  const decodeToken = jwtDecode(accessToken);
-  const employeeCode = decodeToken.empCode;
+  const decodeToken = jwt_decode(accessToken);
+  const employeeCode = decodeToken?.empCode;
 
     // state 설정
     const [currentPassword, setCurrentPassword] = useState('');

@@ -115,3 +115,10 @@ th{
     justify-content: center;
     text-align: center;
 }
+.adminbtn{
+    
+height: 30px;
+width: 100px;
+margin-top: 100px;
+margin-right: 500px;
+}

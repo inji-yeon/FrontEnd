@@ -7,8 +7,7 @@ import $ from 'jquery';
 import 'jstree'
 import { Outlet } from 'react-router-dom';
 import Group from '../Group';
-import { decodeJwt } from '../../../utils/tokenUtils';
-import { GET_GROUPCHART } from '../../../modules/GroupchartModule';
+
 
 const GroupChart = () => {
     const orgData = useSelector(state => state.groupchartreducer);

@@ -1,5 +1,4 @@
 import { GET_EMPLOYEE, POST_LOGIN, POST_REGISTER, POST_LOGOUT, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE } from '../modules/EmployeeModules';
-import decode from 'jwt-decode';
 
 
 export const callGetEmployeeAPI = ({ employeeId }) => {
@@ -47,6 +46,7 @@ export const callLoginAPI = ({ form }) => {
 
         console.log('[EmployeeAPICalls] callLoginAPI RESULT : ', result);
         if (result.status === 200) {
+
             window.localStorage.setItem('accessToken', result.userInfo.accessToken);
         }
         else{
@@ -110,8 +110,8 @@ export const callLogoutAPI = () => {
     return async (dispatch, getState) => {
         try {
             // 여기에 로그아웃 작업을 추가합니다. (예: 로컬 스토리지에서 토큰 제거 등)
-            localStorage.removeItem('accessToken');
-            
+            // localStorage.removeItem('accessToken');
+            localStorage.clear();
             // 로그아웃 작업이 성공적으로 완료되면 로그를 출력합니다.
             console.log('[EmployeeAPICalls] callLogoutAPI RESULT : SUCCESS');
 
@@ -120,7 +120,7 @@ export const callLogoutAPI = () => {
         } catch (error) {
             // 오류가 발생한 경우 오류를 콘솔에 출력합니다.
             console.error('[EmployeeAPICalls] callLogoutAPI ERROR:', error);
-            
+            localStorage.clear();
             // 오류가 발생했음을 리덕스 스토어에도 알립니다. (필요한 경우)
             dispatch({ type: POST_LOGOUT, payload: error });
         }

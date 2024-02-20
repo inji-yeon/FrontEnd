@@ -3,9 +3,7 @@ import MyPageSideBarstyle from './MyPageSideBar.module.css';
 import { useNavigate  } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { callMypageGetInfoAPI } from '../../../apis/MypageAPI';
-import jwtDecode from 'jwt-decode';
-// import MyPage from '../Mypage';
-// import { Outlet } from "react-router-dom";
+import { decodeJwt } from '../../../utils/tokenUtils.jsx';
 
 const MyPageSideBar = () => {
 
@@ -21,8 +19,8 @@ const MyPageSideBar = () => {
     };
 
     const accessToken = localStorage.getItem('accessToken');//로그인한 사용자 정보에서 사원코드값 뽑아오기 
-const decodeToken = jwtDecode(accessToken);
-const employeeCode = decodeToken.empCode;
+const decodeToken = decodeJwt(accessToken);
+const employeeCode = decodeToken?.empCode;
 console.log('사이드바 employeeCode나오나 한 번 보자',employeeCode);
 
 
@@ -79,7 +77,6 @@ console.log('사이드바 employeeCode나오나 한 번 보자',employeeCode);
                 </div>
             </div>
         </div>
-        {/* <MyPage/> */}
        </div>
         </>
     );

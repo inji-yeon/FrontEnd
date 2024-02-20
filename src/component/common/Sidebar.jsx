@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 
 import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate  } from 'react-router-dom';
-import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function SideBar() {
@@ -168,7 +167,7 @@ function SideBar() {
                             </td>
                             <td className="status_name_and_team">
                                 <div>
-                                    <span className="status_name_text">{loginEmployee.userInfo.employeeName}</span>
+                                    <span className="status_name_text">{loginEmployee?.userInfo.employeeName}</span>
                                     <img id="status_img" src={statusImg} alt="상태이미지" />
                                 </div>
                                 <br />
