@@ -17,7 +17,7 @@ function MyPage() {
         dispatch(callMypageGetSpreadAPI({ form: null }));
     }, [dispatch]);
 
-    const timestamp = mypageemps.data?.empBirth;
+    const timestamp = mypageemps.empInfo?.data?.empBirth;
     const date = new Date(timestamp);
     const formattedDate = date.toLocaleDateString();
 
@@ -30,11 +30,11 @@ function MyPage() {
 
     useEffect(() => {
         setUserInfo({
-            phone: mypageemps.data?.phone || '',
-            empEmail: mypageemps.data?.empEmail || '',
-            address: mypageemps.data?.empAddress || '',
+            phone: mypageemps.empInfo?.data?.phone || '',
+            empEmail: mypageemps.empInfo?.data?.empEmail || '',
+            address: mypageemps.empInfo?.data?.empAddress || '',
         });
-    }, [mypageemps.data]);
+    }, [mypageemps.empInfo?.data]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -46,7 +46,11 @@ function MyPage() {
 console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) )
 
     const handleUpdate = () => {
-        dispatch(callMypageUpdateInfoAPI({ form: JSON.stringify(userInfo) })).then(() => {
+        dispatch(callMypageUpdateInfoAPI({
+            phone: userInfo.phone,
+            empEmail: userInfo.empEmail,
+            address: userInfo.address
+        })).then(() => {
             console.log('수정한 사용자 정보 여기 안에서도 나오는지 ',userInfo)
             alert('수정되었습니다.');
         }).catch((error) => {
@@ -62,9 +66,9 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
                 <div className={MypageInfoStyle.myinfo_chart}>
                     <div className={MypageInfoStyle.myinfotext}>&lt;내 정보&gt;</div>
                     <h2>이름</h2>
-                    <input type="text" value={mypageemps.data?.empName || ''} readOnly />
+                    <input type="text" value={mypageemps.empInfo?.data?.empName || ''} readOnly />
                     <h2>부서</h2>
-                    <input type="text" value={mypageemps.data?.department?.departmentName || ''} readOnly />
+                    <input type="text" value={mypageemps.empInfo?.data?.department?.departmentName || ''} readOnly />
                     <h2>생년월일</h2>
                     <input type="text" value={formattedDate} readOnly />
                     <h2>전화번호</h2>
