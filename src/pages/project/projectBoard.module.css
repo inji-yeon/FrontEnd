@@ -1,0 +1,240 @@
+.project_section {
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 10px 10px 10px;
+}
+
+.title {
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.manager_title {
+    font-size: 30px;
+}
+
+.body {
+    display: grid;
+    grid-template-columns: 450px auto;
+    grid-template-rows: 150px auto auto;
+    gap: 10px;
+    grid-template-areas:
+        "a d"
+        "b d"
+        "c d";
+}
+
+.body>div {
+    border: 1px solid #d9d9d9;
+}
+
+.manager {
+    grid-area: a;
+    padding: 10px;
+}
+
+.member {
+    grid-area: c;
+}
+
+.post_list_wrap {
+    grid-area: d;
+}
+
+.manager_info {
+    width: 100%;
+    height: 100%;
+}
+
+.employee_info {
+    width: 100%;
+    min-height: 70px;
+}
+
+.employee_name {
+    text-align: start;
+    font-size: 20px;
+}
+
+.employee_col_2>td .employee_col_3>td {
+    padding: 10px;
+}
+
+.manager_title {
+    height: 0%;
+}
+
+.employee_profile {
+    width: 80px;
+}
+
+.employee_profile>img {
+    height: 60px;
+}
+
+.employee_job_name,
+.employee_dept_name {
+    text-align: end;
+}
+
+.info {
+    grid-area: b;
+    padding: 10px;
+}
+
+.project_info {
+    width: 100%;
+}
+
+.project_info th {
+    font-size: 16px;
+    width: 5em;
+    padding-top: 0px;
+}
+
+.project_section input,
+.project_section select {
+    border: 1px solid #d9d9d9;
+    padding: 5px;
+    font-size: 16px;
+    color: #606060;
+}
+
+.project_info_row_6 {
+    text-align: right;
+}
+
+.project_info_row_6 button {
+    margin-left: 10px;
+}
+
+.project_info_row_5 td,
+.project_info_row_4 td,
+.project_info_row_3 td,
+.project_info_row_2 td,
+.project_info_row_1 td {
+    padding: 5px;
+}
+
+.project_info_row_2 textarea {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #d9d9d9;
+    padding: 5px;
+    font-size: 16px;
+    color: #606060;
+    resize: none;
+}
+
+.member {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.member_row_1 {
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+}
+
+.member_row_1_title {
+    font-size: 24px;
+    padding: 5px 0px;
+}
+
+.invite_button_wrap>button {
+    margin-left: 10px;
+}
+
+.member_row_2 {
+    height: 35px;
+}
+
+.member_row_2>input {
+    width: 100%;
+}
+
+.member_row_3 {
+    height: 200px;
+    overflow-y: scroll;
+    padding: 0px 10px;
+}
+
+.post_list_wrap {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px auto 60px;
+}
+
+.post_list_header {
+    text-align: end;
+}
+
+.post_list_body {
+    height: 100%;
+    width: 100%;
+}
+
+.post_list_thead th {
+    text-align: center;
+    height: 30px;
+}
+
+.post_list_tbody tr {
+    border-top: 1px solid #606060;
+    border-bottom: 1px solid #606060;
+}
+
+.post_list_tbody tr:nth-child(2n-1) {
+    background-color: hsl(11, 92%, 90%);
+}
+
+.post_list_tbody td {
+    height: 50px;
+    text-align: center;
+}
+
+.post_list_title {
+    font-size: 20px;
+    text-align: start;
+    height: 20px;
+}
+
+.post_list_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 20px;
+    margin: 20px 0px;
+}
+
+.post_list_footer button {
+    border-radius: 2px;
+    font-size: 14px;
+    width: 2em;
+    border: 1px solid #d9d9d9;
+    background: white;
+}
+
+.post_list_footer button:hover {
+    background: #d9d9d9;
+}
+
+.page_button_clicked {
+    background: hsl(11, 92%, 75%);
+}
+
+.title button {
+    width: 1.3em;
+    height: 1.3em;
+    border: 0;
+    background: #00000000
+}
+
+.title button:hover {
+    background: hsl(11, 92%, 75%);
+}

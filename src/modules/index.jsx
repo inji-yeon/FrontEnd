@@ -19,6 +19,7 @@ import { adminReducer } from './AdminModule';
 import { mainReducer } from './MainModule';
 
 import approvalReducer from './ApprovalModule';
+import messengerReducer from './MessengerModule';
 
 const rootReducer = combineReducers({
     mainPost: mainReducer,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
     approvalReducer,
 
 
+    messenger: messengerReducer
 });
 
 export default rootReducer;

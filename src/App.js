@@ -56,6 +56,7 @@ import AdminGroup from './pages/admin/AdminGroup';
 import AdminApproval from './pages/admin/AdminApproval';
 import { AlertProvider } from './component/common/AlertContext';
 import { Alert } from './component/common/Alert';
+import Messenger from './component/messenger/Messenger';
 
 
 function App() {
@@ -65,7 +66,7 @@ function App() {
             
             <BrowserRouter>
                 <Routes>
-                    <Route path='login' element={<Login />} />
+                            <Route path='login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -75,9 +76,7 @@ function App() {
                         </Route>
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                    <Route path='group' element={<GroupChart/>} >
-                        
-                    </Route>
+                        <Route path='group' element={<GroupChart />}></Route>
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />
