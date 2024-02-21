@@ -9,6 +9,7 @@ import MessengerWebSocket from './MessengerWebSocket'
 // dispatch(callPinnedChatroomAPI({chatroomCode}));
 
 function Messenger() {
+    const [messengerSubscription, setMessengerSubscription] = useState([]); // 구독 정보를 저장하고 있기 위함.
     const [searchText, setSearchText] = useState('')
     const [isMessengerOpen, setIsMessengerOpen] = useState(false)
     const [isChatroomCreateWindow, setIsChatroomCreateWindow] = useState(false); // 채팅방 생성 창
@@ -84,7 +85,11 @@ function Messenger() {
     }
     return (
         <>
-            {chatroomList&& <MessengerWebSocket isChatroomOpen={isChatroomOpen} chatroomList={chatroomList} />}
+            {chatroomList?.length && <MessengerWebSocket
+                isChatroomOpen={isChatroomOpen}
+                chatroomList={chatroomList}
+                messengerSubscription={messengerSubscription}
+                setMessengerSubscription={setMessengerSubscription} />}
             <div className={styles.messenger_wrap}>
                 {!isMessengerOpen ? (
                     <img

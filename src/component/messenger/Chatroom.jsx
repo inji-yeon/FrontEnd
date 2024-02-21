@@ -66,6 +66,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                 isFileSend: 'N' // 파일을 전송했는지 여부에 대한 플래그
             })
         })
+
         setChatTextValue('');
     }
 

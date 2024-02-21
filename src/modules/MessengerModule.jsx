@@ -109,17 +109,30 @@ const messengerReducer = handleActions(
             }
         },
         [GET_MESSENGER_MAIN_BY_INVITE]: (state, { payload }) => {
+            console.log('여기로 오면 안됨', payload, state);
+            // console.log('갱신될 데이터', {
+            //     ...state,
+            //     messengerMain: {
+            //         ...state.messengerMain,
+            //         chatroomList: [
+            //             ...state.messengerMain.chatroomList,
+            //             {
+            //                 ...payload,
+            //                 chatroomMemberCount: payload.chatroomMemberCount + 1
+            //             }
+            //         ]
+            //     }
+            // });
             return {
                 ...state,
                 messengerMain: {
                     ...state.messengerMain,
-                    chatroomList: [
-                        ...state.messengerMain.chatroomList,
-                        {
-                            ...payload,
-                            chatroomMemberCount: payload.chatroomMemberCount + 1
-                        }
-                    ]
+                    chatroomList: [...[...state.messengerMain.chatroomList]
+                        ?.filter(chatroom => chatroom.chatroomCode !== payload.chatroomCode)
+                        , {
+                        ...payload,
+                        chatroomMemberCount: payload.chatroomMemberCount + 1
+                    }                    ]
                 }
             }
         },
