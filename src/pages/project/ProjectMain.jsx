@@ -14,8 +14,8 @@ function ProjectMain() {
     const [projectType, setProjectType] = useState('all');
     const [searchValue, setSearchValue] = useState('');
     const [pageRange, setPageRange] = useState([]);
-    // const [isCreateWindow, setIsCreateWindow] = useState(false);
-    const [isCreateWindow, setIsCreateWindow] = useState(true);
+    const [isCreateWindow, setIsCreateWindow] = useState(false);
+    // const [isCreateWindow, setIsCreateWindow] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [descriptionValue, setDescriptionValue] = useState('');
     const [deadlineValue, setDeadlineValue] = useState(format(new Date(), "yyyy-MM-dd", { timeZone: 'Asia/Seoul' }));
@@ -125,7 +125,7 @@ function ProjectMain() {
                                     const { projectCode, projectDeadline, projectDescription, projectLockedStatus, projectManagerDeptName, projectManagerName, projectMemberCount, projectProgressStatus, projectTitle } = project;
                                     return (
                                         <div key={projectCode} onClick={() => projectClickHandler(projectCode)}>
-                                            <table>
+                                            <table className={styles.project_list_wrap_table}>
                                                 <tbody>
                                                     <tr className={styles.project_element_row_1}>
                                                         <td colSpan='2'>
@@ -141,7 +141,7 @@ function ProjectMain() {
                                                     </tr>
                                                     <tr className={styles.project_element_row_2}>
                                                         <td>
-                                                            <div>관리자: {projectManagerName}</div>
+                                                            <div className={styles.project_manager}>관리자: {projectManagerName}</div>
                                                         </td>
                                                         <td className={styles.project_element_duedate}>
                                                             <div>~ {format(projectDeadline, "yyyy-MM-dd", { timeZone: 'Asia/Seoul' })} 까지</div>
@@ -166,7 +166,6 @@ function ProjectMain() {
                         </div>
                     </div>
                     <div className={styles.project_footer}>
-                        {/* ${styles.page_button_clicked} */}
                         <input type='button' value='<<' onClick={() => { pagingButtonHandler(1) }} className={`${styles.page_button}`} />
                         <input type='button' value='<' onClick={() => { projectPageInfo?.prev && pagingButtonHandler(projectPageInfo?.cri.pageNum - 1) }} className={`${styles.page_button}`} />
                         {

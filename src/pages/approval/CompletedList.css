@@ -1,0 +1,132 @@
+.project_section {
+    display: grid;
+    grid-column: auto;
+}
+.on_process_section{
+    width: 100%;
+    background-color: #F5F5F5;
+}
+.awaiting_title_section {
+    height: 100px;
+    width: 1335px;
+    background-color: white;
+    display: flex;
+	align-items: center;
+}
+.awaiting_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 68px;
+}
+.doc_search_section {
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+.doc_search {
+    width: 272px;
+    height: 26px;
+    border-color: #606060;
+    border-width: 1.5px;
+    font-size: 16px;
+    color: #606060;
+    margin-left: 2px;
+    padding: 2px;
+}
+.search_icon {
+    width: 17px;
+    margin-left: -30px;
+}
+.doc_search-options{
+    width: 55px;
+    height: 30px;
+    border-color: #606060;
+    border-width: 1.5px;
+    font-size: 16px;
+    color: #606060;
+    margin-left: 730px;
+    padding: 2px;
+}
+.completed_list_content{
+    width: 1295px;
+    height: 980px;
+    background-color: white;
+    padding-top: 38px;
+}
+.completed_list{
+    font-size: 16px;
+    color: #606060;
+    margin-left: 40px;
+    border-collapse: collapse;
+}
+.completed_list thead th,
+.completed_list tbody td {
+    border-bottom: 1px solid #606060;
+    padding: 15px;
+}
+.completed_list tbody tr:last-child td {
+    border-bottom: none;
+}
+.completed_list th:first-child,
+.completed_list td:first-child {
+    width: 188px;
+    padding-left: 40px;
+}
+
+.completed_list th:nth-child(2),
+.completed_list td:nth-child(2) {
+    width: 500px;
+    padding-left: 11.25px;
+}
+.completed_list td:nth-child(2) {
+    cursor: pointer;
+}
+.completed_list th:nth-child(3),
+.completed_list td:nth-child(3) {
+    width: 100px;
+    padding-left: 11.25px;
+}
+.completed_list th:nth-child(4),
+.completed_list td:nth-child(4) {
+    width: 130px;
+    padding-left: 11.25px;
+}
+.completed_list th:nth-child(5),
+.completed_list td:nth-child(5) {
+    width: 100px;
+    padding-right: 40px;
+    padding-left: 11.25px;
+    padding-top:4px;
+    padding-bottom: 4px;
+}
+.completed_process_check_button{
+    width: 126px;
+    height: 37px;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.completed_process_check_text{
+    font-size: 16px;
+    color: #606060;
+}
+.awaiting_list_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 20px;
+    margin-top: 30px;
+}
+.awaiting_list_footer > input[type=button] {
+    border-radius: 2px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    cursor: pointer;
+}
+
+.awaiting_list_footer > input[type=button]:hover {
+    background: #d9d9d9;
+}

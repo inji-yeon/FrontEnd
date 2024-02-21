@@ -174,25 +174,21 @@
     font-size: 20px;
 }
 
-div[class^="project_element"]>table {
+.project_list_wrap_table {
     padding: 40px 30px;
     width: 100%;
     height: 100%;
 }
 
-div[class^="project_element"] table div {
-    height: 100%;
+.project_list_wrap_table div {
+    /* height: 100%; */
 }
+
 
 .project_element_row_1 div {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-
-.project_element_row_2,
-.project_element_row_3 {
-    height: 0;
 }
 
 .project_element_duedate div {
@@ -219,6 +215,11 @@ div[class^="project_element"] table div {
 
 .project_element_title {
     font-size: 20px;
+    padding-left: 20px;
+}
+
+.project_manager {
+    padding-left: 30px;
 }
 
 .project_element_dept {
@@ -228,10 +229,12 @@ div[class^="project_element"] table div {
 .project_element_status {
     font-size: 20px;
     color: #ff843f;
+    padding-left: 20px;
 }
 
 .project_element_duedate {
     font-size: 16px;
+    padding-right: 30px;
 }
 
 .project_list_wrap>div:hover {

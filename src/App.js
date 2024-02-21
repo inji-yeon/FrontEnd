@@ -3,9 +3,8 @@ import Layout from './layouts/Layout';
 import Main from './pages/main/Main';
 import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
-import Group from './pages/group/Group';
 import Project from './pages/project/ProjectMain';
-import Approval from './pages/approval/Approval';
+import ApprovalSidebar from './pages/approval/ApprovalSidebar';
 import MyPage from './pages/mypage/Mypage';
 import AdminMail from './pages/admin/AdminMail';
 import Attendance from './pages/attendance/Attendance';
@@ -26,6 +25,11 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import ApprovalFormList from './pages/approval/ApprovalFormList';
+import OnProcessList from './pages/approval/OnProcessList';
+import CompletedList from './pages/approval/CompletedList';
+import RejectedList from './pages/approval/RejectedList';
+import RetrievedList from './pages/approval/RetrievedList';
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
@@ -33,12 +37,15 @@ import { WebSocketProvider } from './component/WebSocketContext';
 import AdminSidebar from './pages/admin/common/Sidbar';
 import CreateBoard from './pages/board/CreateBoard';
 import BoardLayout from './pages/board/BoardLayout';
+import GroupChart from './pages/group/sidebar/GroupSideBar';
+import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
 
 function App() {
     return (
         <WebSocketProvider>
             <BrowserRouter>
                 <Routes>
+            <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -48,7 +55,9 @@ function App() {
                         </Route>
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                        <Route path='group' element={<Group />} />
+                    <Route path='group' element={<GroupChart/>} >
+                        
+                    </Route>
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />
@@ -75,14 +84,20 @@ function App() {
                         <Route path='projects/:projectCode' element={<ProjectBoard />} />
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
-                        <Route path='approval' element={<Approval />} />
-
-                        <Route path='mypage' element={<MyPage />} />
+                    <Route path='approval' element={<ApprovalSidebar />}>
+                        <Route path='writing' element={<ApprovalFormList />} />
+                        <Route path='onProcessList' element={<OnProcessList />} />
+                        <Route path='completed' element={<CompletedList />} />
+                        <Route path='rejected' element={<RejectedList />} />
+                        <Route path='retrieved' element={<RetrievedList />} />
+                    </Route>
+                    
+                    <Route path='mypage' element={<MyPage />} />
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>
 
-                    <Route path='login' element={<Login />} />
+                    {/* <Route path='login' element={<Login />} /> */}
 
                     <Route path='admin' element={<AdminSidebar />}>
                         <Route path='mail' element={<AdminMail />} />
