@@ -38,26 +38,26 @@
     padding-right: 5px;
     border-color: #cecece;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
 }
 
 .input_box {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 580px;
     height: 25px;
 }
 #start_date, #end_date {
-    font-family: pretendard;
     font-size: 16px;
     width: 130px;
     height: 25px;
+    margin-left: 8px
+}
+.dateTotal{
+    margin-left:2px;
 }
 .total_day {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 50px;
     height: 25px;

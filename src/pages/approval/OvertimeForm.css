@@ -27,7 +27,6 @@
     border-color: #cecece;
     background-color: #f0f0f0;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
     font-weight: bold;
 }
@@ -38,7 +37,6 @@
     padding-right: 5px;
     border-color: #cecece;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
 }
 
@@ -48,7 +46,8 @@
     width: 580px;
     height: 25px;
 }
-#start_time, #end_date, #working_date {
+#ov_start_time, #ov_end_time, #ov_working_date {
+    margin-left: 8px;
     font-size: 16px;
     width: 130px;
     height: 25px;

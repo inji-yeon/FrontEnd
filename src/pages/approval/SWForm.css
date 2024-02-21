@@ -30,7 +30,6 @@
     border-color: #cecece;
     background-color: #f0f0f0;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
     font-weight: bold;
 }
@@ -42,26 +41,26 @@
     padding-right: 5px;
     border-color: #cecece;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
 }
 
 .sw_input_box {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 580px;
     height: 25px;
 }
 #sw_start_date, #end_date {
-    font-family: pretendard;
     font-size: 16px;
     width: 130px;
     height: 25px;
+    margin-left: 8px
+}
+.dateTotal{
+    margin-left:2px;
 }
 .total_day {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 50px;
     height: 25px;
