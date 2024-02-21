@@ -32,6 +32,9 @@ import RejectedList from './pages/approval/RejectedList';
 import RetrievedList from './pages/approval/RetrievedList';
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
+import AdminVacationList from './pages/attendance/AdminVacationList';
+import AdminNoVacationList from './pages/attendance/AdminNoVacationList';
+
 
 import { WebSocketProvider } from './component/WebSocketContext';
 import AdminSidebar from './pages/admin/common/Sidbar';
@@ -87,7 +90,9 @@ function App() {
                             <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                             <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                             <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
-                        </Route>
+                        <Route path='adminVacationList' element={<AdminVacationList />} />
+                        <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
+                    </Route>
 
                         <Route path='projects' element={<Project />} />
                         <Route path='projects/:projectCode' element={<ProjectBoard />} />

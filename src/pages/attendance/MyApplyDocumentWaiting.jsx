@@ -72,6 +72,31 @@ function MyApplyDocumentWaiting () {
         }, [currentPage]);
 
 
+        function formatDateTime(dateTimeArray) {
+            if (!dateTimeArray || !Array.isArray(dateTimeArray)) return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
+        
+            // 배열의 길이가 충분하지 않으면 나머지 시간 정보를 0으로 설정하여 Date 객체 생성
+            const year = dateTimeArray[0] || 0;
+            const month = (dateTimeArray[1] || 0) - 1;
+            const day = dateTimeArray[2] || 0;
+            const hours = dateTimeArray[3] || 0;
+            const minutes = dateTimeArray[4] || 0;
+            const seconds = dateTimeArray[5] || 0;
+        
+            // Date 객체 생성
+            const dateTime = new Date(year, month, day, hours, minutes, seconds);
+        
+            // 년, 월, 일, 시, 분, 초를 추출
+            const formattedYear = dateTime.getFullYear();
+            const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
+            const formattedDay = dateTime.getDate().toString().padStart(2, '0');
+            const formattedHours = dateTime.getHours().toString().padStart(2, '0');
+            const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
+            const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
+        
+            // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
+            return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
 
 
 
@@ -108,7 +133,7 @@ function MyApplyDocumentWaiting () {
                             {Array.isArray(myWaitingdocuts) && myWaitingdocuts.length > 0?
                                 myWaitingdocuts.map((AttmyWait) => (
                                     <tr className={myWaiting.list_my_waiting} key={AttmyWait.approvalLineCode}>
-                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalRequestDate}</td>
+                                        <td className={myWaiting.list_my_waiting}>{formatDateTime(AttmyWait.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
                                         <td className={myWaiting.list_my_waiting}>
@@ -140,7 +165,7 @@ function MyApplyDocumentWaiting () {
 
                 </div> 
 
-                <div className="paging_po" style={{  position: 'relative', top: '450px', listStyleType: 'none', display: 'flex', justifyContent: 'center' }}> 
+                <div className="paging_po" style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
                         {Array.isArray(myWaitingdocuts) && (
                             <button
                                 onClick={() => setCurrentPage(currentPage - 1)}

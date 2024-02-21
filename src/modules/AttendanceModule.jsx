@@ -14,6 +14,8 @@ export const GET_MY_WAITING = 'attendance/GET_MY_WAITING';
 export const GET_COMMUTE_MAIN = 'attendance/GET_COMMUTE_MAIN';
 export const POST_COMMUTE_INSERT = 'attendance/POST_COMMUTE_INSERT';
 export const PUT_COMMUTE_UPDATE = 'attendance/PUT_COMMUTE_UPDATE';
+export const GET_ADMIN_VACATION = 'attendance/GET_ADMIN_VACATION';
+export const GET_ADMIN_NO_VACATION = 'attendance/GET_ADMIN_NO_VACATION';
 
 
 const actions = createActions({
@@ -26,7 +28,9 @@ const actions = createActions({
     [GET_MY_WAITING]: () => {},
     [GET_COMMUTE_MAIN]: () => {},
     [POST_COMMUTE_INSERT]: () => {},
-    [PUT_COMMUTE_UPDATE]: () => {}
+    [PUT_COMMUTE_UPDATE]: () => {},
+    [GET_ADMIN_VACATION]: () => {},
+    [GET_ADMIN_NO_VACATION]: () => {}
 });
 
 
@@ -62,6 +66,12 @@ const attendanceReducer = handleActions(
             return payload;
         },
         [PUT_COMMUTE_UPDATE]: (state, { payload }) => {
+            return payload;
+        },
+        [GET_ADMIN_VACATION]: (state, { payload }) => {
+            return payload;
+        },
+        [GET_ADMIN_NO_VACATION]: (state, { payload }) => {
             return payload;
         }
 
