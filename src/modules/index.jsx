@@ -13,8 +13,13 @@ import mypagereducer from './MypageModule';
 import groupchartreducer from './GroupchartModule';
 import mypagepwdupdatereducer from './MypagepwdupdateModule';
 import mypageinfoupdatereducer from './MypageinfoupdateModule';
+import { adminReducer } from './AdminModule';
+import { mainReducer } from './MainModule';
+
+
 const rootReducer = combineReducers({
-    
+    mainPost: mainReducer,
+    admin: adminReducer,
     mail: mailReducer,
     sidebar: sidebarReducer,
     attendance: attendanceReducer,

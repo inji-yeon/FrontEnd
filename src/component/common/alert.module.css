@@ -1,0 +1,25 @@
+.alert{
+    margin-top: 20px;
+    position: absolute;
+    left: 85%;
+    top: 0%;
+    background:#fa9a85;
+    color: white;
+    width: 250px;
+    height: 120px;
+    border-radius: 16px;
+
+    text-align: center;
+    padding-top: 40px;
+}
+.topbar{
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    font-weight: bolder;
+    cursor: pointer;
+    color: rgb(59, 59, 59);
+    background-color: rgb(215, 212, 212);
+    position: relative;
+    top: -40px;
+    padding-right: 220px;
+}

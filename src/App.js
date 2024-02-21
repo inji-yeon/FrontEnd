@@ -41,10 +41,18 @@ import MyPageSideBar from './pages/mypage/MypageLayout';
 import MyPagePassword from './pages/mypage/Mypagepassword';
 import Adminchart from './pages/admin/\bAdminchart';
 
+import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
+import AdminGroup from './pages/admin/AdminGroup';
+import AdminApproval from './pages/admin/AdminApproval';
+import { AlertProvider } from './component/common/AlertContext';
+import { Alert } from './component/common/Alert';
+
 
 function App() {
     return (
+        <AlertProvider>
         <WebSocketProvider>
+            
             <BrowserRouter>
                 <Routes>
                     <Route path='login' element={<Login />} />
@@ -58,7 +66,7 @@ function App() {
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
                     <Route path='group' element={<GroupChart/>} >
-                        {/* <Route path='grouplist' element={<Group/>}/> */}
+                        
                     </Route>
 
                         <Route path='board' element={<BoardLayout />}>
@@ -105,12 +113,14 @@ function App() {
 
                     <Route path='admin' element={<AdminSidebar />}>
                         <Route path='mail' element={<AdminMail />} />
+                        <Route path='group' element={<AdminGroup/>}/>
+                        <Route path='approval' element={<AdminApproval/>}/>
                     </Route>
-
-                    <Route path='adminchart' element={<Adminchart />} />
                 </Routes>
             </BrowserRouter>
         </WebSocketProvider>
+        <Alert/>
+        </AlertProvider>
     );
 }
 //이 곳은 주소(앤트포인트)를 통해 어떤 컴포넌트를 출력할 지를 정하는 곳 입니다.

@@ -1,6 +1,4 @@
-import { createAction, createActions, handleActions } from "redux-actions";
-import { getData } from "./common";
-
+import { createAction, handleActions } from "redux-actions";
 
 const REQUEST = 'REQUEST';
 const SUCCESS = 'SUCCESS';
@@ -35,40 +33,40 @@ export const mailReducer = handleActions({
     }),
 },initial)
 
-
+export default mailReducer;
 
 /*초기값*/
 //리듀서가 관리하는 상태의 형태와 기본 값이다. 어떤 데이터 타입이든 가능
-const initialState = {};
-//mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-/*액션*/
-//이 문자열들의 액션을 감지하겠다.
-const INCREASE = "mail/INCREASE";
-//cost DECREASE = "mail/DECREASE";
+// const initialState = {};
+// //mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+// /*액션*/
+// //이 문자열들의 액션을 감지하겠다.
+// const INCREASE = "mail/INCREASE";
+// //cost DECREASE = "mail/DECREASE";
 
-const GET_MAIL = "mail/GET_MAIL";
-const GET_MAIL_BY_STATUS = "mail/GET_MAIL_BY_STATUS";
+// const GET_MAIL = "mail/GET_MAIL";
+// const GET_MAIL_BY_STATUS = "mail/GET_MAIL_BY_STATUS";
 
-export const fetchMail = (url,token) => {
-    return async (dispatch) => {
-        try {
-            const response = await fetch(url,{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: '*/*',
-                    Authorization : `Bearer ${token}`
-                }
-            });
-            const mailData = await response.json(); 
+// export const fetchMail = (url,token) => {
+//     return async (dispatch) => {
+//         try {
+//             const response = await fetch(url,{
+//                 method: 'GET',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Accept: '*/*',
+//                     Authorization : `Bearer ${token}`
+//                 }
+//             });
+//             const mailData = await response.json(); 
 
-            console.log('데이터 가져오기 성공 : ',mailData);
-            dispatch({type: GET_MAIL,payload: mailData});
-        } catch(error){
-            console.log('데이터 가져오기 실패 : ',error);
-        }
-    }
-}
+//             console.log('데이터 가져오기 성공 : ',mailData);
+//             dispatch({type: GET_MAIL,payload: mailData});
+//         } catch(error){
+//             console.log('데이터 가져오기 실패 : ',error);
+//         }
+//     }
+// }
 // export const fetchMail = (url,action,token) => {
 //     return async (dispatch) => {
 //         try {
@@ -111,7 +109,7 @@ export const fetchMail = (url,token) => {
 //     ,initialState
 // );
 
-export default mailReducer;
+
 //액션은 어떻게 생겼는가?
 /*
     액션이라는 객체 안에는
