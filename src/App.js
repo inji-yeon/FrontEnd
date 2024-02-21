@@ -48,7 +48,6 @@ function App() {
                 <Routes>
                     <Route path='/login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
-                        <Route path='messenger' element={<Messenger />} />
                         <Route index element={<Main />} />
 
                         <Route path='mail' element={<MailSidebar />}>
