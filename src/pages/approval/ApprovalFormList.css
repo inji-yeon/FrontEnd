@@ -74,7 +74,13 @@
     width: 4px;
     height: 35px;
     background-color: #FA9A85;
+    display: none; /* 초기에는 모두 숨김 */
 }
+
+.form_list.selected .selection_indicator {
+    display: block; /* 선택된 양식에 대해서만 표시 */
+}
+
 .form_preview_section {
     width: 957px;
     height: 944px;

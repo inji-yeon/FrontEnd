@@ -18,12 +18,12 @@ function BusinessTripForm(){
                 <div style={{ display: 'table-row' }}>
                     <div className ="A" style={{ display: 'table-cell' }}>신청 날짜</div>
                     <div className ="B" style={{ display: 'table-cell' }}>
-                        <input type="date" id="start-date"  className="inputbox"/>
-                        <label for="">~</label>    
-                        <input type="date" id="end-date"  className="inputbox"/>
-                        <label for="">, 총</label>
+                        <input type="date" id="start_date"  className="inputbox"/>
+                        <span className="datelength">~</span>
+                        <input type="date" id="end_date"  className="inputbox"/>
+                        <span className="dateTotal">, 총</span>
                         <input className="total_day" type="text"/>
-                        <label for="">일</label>
+                        <span className="date_unit">일</span>
                     </div>
                 </div>
 

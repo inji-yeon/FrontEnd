@@ -44,31 +44,40 @@
 
 .input_box {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 580px;
     height: 25px;
 }
-#start-time, #end-time, #working_date {
-    margin-left: 8px;
-    margin-right: 8px;
-    font-family: pretendard;
+#start_time, #end_date, #working_date {
     font-size: 16px;
+    width: 130px;
+    height: 25px;
 }
 .total_overtime {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
     width: 50px;
     height: 18px;
 }
 .B select {
     margin-left: 8px;
-    font-family: pretendard;
     font-size: 16px;
-    width: 588px;
-    height: 33px;
+    width: 580px;
+    height: 25px;
 }
 .table{
     height: 120px;
+}
+.date_unit {
+    font-size: 16px;
+    color: #606060;
+    margin-left: 4px;
+}
+.inputbox {
+    height: 25px;
+    width: 130px;
+}
+.datelength{
+    margin-left: 8px;
+    margin-right: 8px;
 }

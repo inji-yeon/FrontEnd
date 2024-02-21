@@ -35,6 +35,8 @@ import OnLeaveForm from './pages/approval/OnLeaveForm';
 import OvertimeForm from './pages/approval/OvertimeForm';
 import SWForm from './pages/approval/SWForm';
 import WFHForm from './pages/approval/WFHForm';
+import WritingOnLeave from './pages/approval/WritingOnLeave';
+
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 
@@ -97,6 +99,7 @@ function App() {
                             <Route path='SWForm' element={<SWForm />} />
                             <Route path='WFHForm' element={<WFHForm />} />
                         </Route>
+                        <Route path='WritingOnLeave' element={<WritingOnLeave />} />
                         <Route path='onProcessList' element={<OnProcessList />} />
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />

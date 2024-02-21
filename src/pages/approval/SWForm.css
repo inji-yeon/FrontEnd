@@ -1,23 +1,26 @@
-.form_body {
-	width:957px;
-	height:944px;
+.sw_form_body {
+    display: grid;
+    grid-column: auto;
 }
-.form_title_section {
+.sw_form_title_section {
     height: 196px;
     display: flex;
 	align-items: center;
     justify-content: center;
 }
-.form_title {
+.sw_form_title {
     font-family: pretendard;
     font-size: 30px;
     font-weight: bold;
 }
-.form_table {
+.sw_form_table {
     width: 827px;
     margin-left: 65px;
 }
-.A{
+.tableRow {
+    display: table-row;
+}
+.swA{
     width: 170px;
     height: 70px;
     border: solid;
@@ -31,7 +34,8 @@
     font-size: 16px;
     font-weight: bold;
 }
-.B{
+.swB{
+    width: calc(100% - 170px); /* 나머지 공간을 차지하도록 설정 */
     border: solid;
     border-width: 1px;
     padding-left: 15px;
@@ -42,14 +46,14 @@
     font-size: 16px;
 }
 
-.input_box {
+.sw_input_box {
     margin-left: 8px;
     font-family: pretendard;
     font-size: 16px;
     width: 580px;
     height: 25px;
 }
-#start_date, #end_date {
+#sw_start_date, #end_date {
     font-family: pretendard;
     font-size: 16px;
     width: 130px;
@@ -79,8 +83,4 @@
 .inputbox {
     height: 25px;
     width: 130px;
-}
-.datelength{
-    margin-left: 8px;
-    margin-right: 8px;
 }

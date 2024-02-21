@@ -37,9 +37,9 @@ function OvertimeForm(){
                 <div style={{ display: 'table-row' }}>
                     <div className ="A" style={{ display: 'table-cell' }}>근무 시간</div>
                     <div className ="B" style={{ display: 'table-cell' }}>
-                        <input type="time" id="start-time"  className="inputbox"/>
+                        <input type="time" id="start_time"  className="inputbox"/>
                         <span className="datelength">~</span>
-                        <input type="time" id="end-time"  className="inputbox"/>
+                        <input type="time" id="end_time"  className="inputbox"/>
                         <span className="dateTotal">, 총</span>
                         <input className="total_overtime" type="text"/>
                         <span className="date_unit">일</span>

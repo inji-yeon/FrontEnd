@@ -1,9 +1,21 @@
-function OnLeaveForm(){
+import './WritingOnLeave.css';
+
+function WritingOnLeave(){
 
     return(
         <>
-            <section className="form_section">
-        <div className="form_body">
+            <div className="writing_button_and_content">
+                <div className="writing_section">
+                    <div className="aproval_save_button">
+                        <span className="saving_text">임시 저장</span>
+                    </div>
+                    <div className="approval_submit_button">
+                        <span className="submitting_text">결재 상신</span>
+                    </div>
+            </div>
+
+            <div className="form_writing_section">
+            <div className="form_body">
             <div className="form_title_section">
                 <div className="form_title">휴가 신청서</div>
             </div>
@@ -39,7 +51,7 @@ function OnLeaveForm(){
                     <div className ="B" style={{ display: 'table-cell' }}>
                         <input type="date" id="start_date"  class="inputbox"/>
                         <span className="datelength">~</span>
-                        <input type="date" id="end-date"  class="inputbox"/>
+                        <input type="date" id="end_date"  class="inputbox"/>
                         <span className="dateTotal">, 총</span>
                         <input className="total_day" type="text"/>
                         <span className="date_unit">일</span>
@@ -53,9 +65,10 @@ function OnLeaveForm(){
                 </div>
             </div>
         </div>
-    </section>
+            </div>
+        </div>
         </>
     );
 }
 
-export default OnLeaveForm;
+export default WritingOnLeave;
