@@ -2,12 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMailByStatus, fetchMailSearch, toggleImportant } from "../../apis/MailAPI";
 import './mail.css';
 import '../../component/mail/errorMessage.css'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchMail } from "../../modules/MailModule";
 import { useNavigate } from "react-router-dom";
+import ReactPaginate from 'react-paginate';
+import MailContext from "./common/MailContext";
 
 
-function Mail() {
+function Mail({ itemsPerPage }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [active, setActive] = useState(false);
@@ -15,7 +17,8 @@ function Mail() {
     const [word, setWord] = useState("");
     const [condition, setCondition] = useState('value1');
     const [message, setMessage] = useState({ show: false, message: null });
-    
+    const getMailToMe = useContext(MailContext);
+
 
     useEffect(() => {
         dispatch(fetchMailByStatus('send'));
@@ -54,7 +57,7 @@ function Mail() {
             } else if ('value2') {
                 option = 'receiver';
             }
-            dispatch(fetchMailSearch(word, option))
+            dispatch(fetchMailSearch(word, option,currentPage))
         } else {
             setMessage({ show: true, message: "검색어를 입력해주세요." });
             setTimeout(() => {
@@ -69,12 +72,22 @@ function Mail() {
         setMessage({ show: false, message: null });
     }
     const showMail = (key) => {
-        console.log(key);
         navigate(`/mail/view/${key}`)
     }
 
 
+
+    const [totalPageNumber, setTotalPageNumber] = useState(0);
+
     const [emails, setEmails] = useState([]);
+
+    const [realMails, setRealMails] = useState([]);
+    useEffect(()=> {
+            if(emails){
+                setTotalPageNumber(emails.totalPages);
+                setRealMails(emails.content);
+            }
+    },[emails])
     useEffect(() => {
         if (mails.data) {   //mail.data가 있으면
           setEmails(mails.data.data);   //state를 만든다.
@@ -82,7 +95,7 @@ function Mail() {
       }, [mails]);  //mails가 변경될 때 마다 실행한다.
 
     const changeImportant = (emailCode) => {    //이메일 코드를 들고 와서
-            const updatedEmails = emails.map(mail => {  //state로 갖고 있는 emails를 mail이란 이름으로 펼친다
+            const updatedEmails = realMails.map(mail => {  //state로 갖고 있는 emails를 mail이란 이름으로 펼친다
               if (mail.emailCode === emailCode) {   //만약 가져온 이메일 코드와 같다면?
                 const result = { ...mail, emailStatus: mail.emailStatus === 'important' ? 'send' : 'important' };   //emailStatus가 important면 send로 바꾸고, 아니면 impotant로 바꾼다.
 
@@ -91,10 +104,21 @@ function Mail() {
               }
               return mail;  //updataEmails에 mail을 대입한다.
             });
-            setEmails(updatedEmails);   //state에 반환받은 업데이트 된 emails를 set한다.
+            setRealMails(updatedEmails);   //state에 반환받은 업데이트 된 emails를 set한다.
     }
+    const handlePageClick = (data) => {
+        let selectedPage = data.selected;
+        setCurrentPage(selectedPage);
+        // getMailToMe(selectedPage);
+        dispatch(fetchMailByStatus(realMails[0].emailStatus,selectedPage));   //와 무슨 메일의 데이터를 요청할 지 내가 어케 알음?
 
-
+        //근데 이게 페이지가 있다는 거는 메일이 많단 소리임 
+    };
+    const [currentPage, setCurrentPage] = useState(0);
+    const test= ()=> {
+        console.log(emails);
+    }
+    
     return (
         !loading && (
             <>
@@ -106,6 +130,7 @@ function Mail() {
                     </div> : <></>}
 
                 <div className={`fade-in ${active ? 'active' : ''}`}>
+                <button onClick={()=>{test()}}></button>
                     <section className="project_section">
                         <div className="project_header">
                             <div className="project_header_title">메일함</div>
@@ -131,11 +156,11 @@ function Mail() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {emails?
+                                    {realMails?
                                         (
-                                            emails?.map((mail) => (
+                                            realMails?.map((mail) => (
                                                 <tr key={mail.emailCode} className={`fadea-in ${active ? 'active' : ''}`}>
-                                                    {/* <td><input type="checkbox" /></td> */}
+
                                                     <td>{mail.emailStatus === 'important' ? (
                                                         <img onClick={()=>{changeImportant(mail.emailCode)}} alt="별" src="/mail/star.png" style={{ width: '20px', height: '20px' }} />
                                                     ):(
@@ -150,7 +175,24 @@ function Mail() {
                                     }
                                 </tbody>
                             </table>
-
+                            {totalPageNumber > 0 ?
+                            <div>
+                                <ReactPaginate
+                                previousLabel={'이전'}
+                                nextLabel={'다음'}
+                                breakLabel={'...'}
+                                initialPage={currentPage}
+                                disableInitialCallback={true}
+                                pageCount={totalPageNumber}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={2}
+                                onPageChange={handlePageClick}
+                                containerClassName={'paging'}   
+                                activeClassName={'paging-active'}
+                                />
+                                
+                            </div>
+                            : <></>}       
                         </div>
                         <div className="project_footer">
 

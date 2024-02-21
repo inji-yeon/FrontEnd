@@ -8,7 +8,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         + (`?offset=${offset ?? 1}`)
         + (projectType && `&type=${projectType}`)
         + (searchValue && `&search=${encodeURIComponent(searchValue.trim())}`)
-    console.log(requestURL);
+    console.log('requestURL',requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .get(requestURL, {
@@ -24,7 +24,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         // 에러 처리 해야 된다.
 
         console.log('[ProjectAPICalls] callGetProjectsAPI RESULT : ', result)
-    
+
         dispatch({ type: GET_PROJECTS, payload: result?.data })
-    }
+}
 }

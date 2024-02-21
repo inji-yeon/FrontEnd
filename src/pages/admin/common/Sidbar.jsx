@@ -4,7 +4,7 @@ function AdminSidebar(){
     let navigate = useNavigate();
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
-        const texts = ['mail','attendance','group','approval'];
+        const texts = ['mail','group','approval'];
         for(let i=0;i<texts.length;i++){
             document.getElementById(texts[i]).style.color = '#606060';
             if(value === texts[i]){
@@ -22,17 +22,13 @@ function AdminSidebar(){
                 box.style.top = '125px'; 
                 navigate('/admin/mail');
                 break;
-            case 'attendance': 
-                box.style.top = '210px'; 
-
-                break;
             case 'group': 
-                box.style.top = '293px'; 
-
+                box.style.top = '210px'; 
+                navigate('/admin/group');
                 break;
             case 'approval': 
-                box.style.top = '376px'; 
-
+                box.style.top = '293px'; 
+                navigate('/admin/approval');
                 break;
             default:
                 box.style.display = 'none';
@@ -50,9 +46,6 @@ function AdminSidebar(){
                         <div className="selected_box"></div>
                         <li onClick={() => { sidebarMenuSelectHandler('mail') }}>
                             <div id="mail">메일 관리</div>
-                        </li>
-                        <li onClick={() => { sidebarMenuSelectHandler('attendance') }}>
-                            <div id="attendance">근태 관리</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('group') }}>
                             <div id="group">조직 관리</div>

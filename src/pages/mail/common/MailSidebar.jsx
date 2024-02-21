@@ -2,9 +2,11 @@ import { Outlet, useNavigate } from "react-router-dom";
 import './mailSidebar.css';
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchMailByStatus, fetchMailByReadStatus, getUnreadMail } from "../../../apis/MailAPI";
+import { fetchMailByStatus, fetchMailByReadStatus, getUnreadMail, fetchMailToMe } from "../../../apis/MailAPI";
+import MailContext from "./MailContext";
 
 function MailSidebar() {
+    
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const [active, setActive] = useState(false);
@@ -30,8 +32,12 @@ function MailSidebar() {
             dispatch(fetchMailByStatus(condition));
         }
     }
+    const getMailToMe = (page) => {
+        navigate('/mail/check');
+        dispatch(fetchMailToMe(page));
+    }
     return (
-        <>
+        <MailContext.Provider value={getMailToMe}>
             <div className={`fade-in mail_wrapper ${active ? 'active' : ''}`}>
                 <div className="mail-sidemenu2">
                     <div className="mail-sidemenu2_title">이메일</div>
@@ -60,9 +66,6 @@ function MailSidebar() {
                         <li onClick={() => { getMailByStatus('send') }}>
                             <div>내 메일함</div>
                         </li>
-                        <li onClick={() => { getMailByStatus('temporary') }}>
-                            <div>임시 보관</div>
-                        </li>
                         <li onClick={() => { getMailByStatus('reserve') }}>
                             <div>예약한 메일</div>
                         </li>
@@ -70,15 +73,15 @@ function MailSidebar() {
                             <div onClick={() => { getMailByStatus('me') }}>전송한 메일</div>
                         </li>
                         <li>
-                            <div>뭐 넣지?2</div>
+                            <div onClick={()=>{getMailToMe(0)}}>내게 쓴 메일</div>
                         </li>
                     </ul>
                 </div>
 
-                <Outlet />
+                <Outlet/>;
             </div>
 
-        </>
+        </MailContext.Provider>
     )
 }
 

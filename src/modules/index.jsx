@@ -9,9 +9,13 @@ import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
 import boardReducer from './BoardModule';
+import { adminReducer } from './AdminModule';
+import { mainReducer } from './MainModule';
+
 
 const rootReducer = combineReducers({
-    
+    mainPost: mainReducer,
+    admin: adminReducer,
     mail: mailReducer,
     sidebar: sidebarReducer,
     attendance: attendanceReducer,

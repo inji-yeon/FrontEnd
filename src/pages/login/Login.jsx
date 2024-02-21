@@ -12,6 +12,9 @@ import {
 import { callLoginAPI } from "../../apis/EmployeeAPICalls";
 import { callForgotPasswordAPI } from "../../apis/EmployeeAPICalls";
 import { POST_LOGIN } from "../../modules/EmployeeModules";
+import { useWebSocket } from "../../component/WebSocketContext";
+import { useAlert } from "../../component/common/AlertContext";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -55,15 +58,16 @@ function Login() {
   //  const onClickForgotPasswordHandler = () => {
   //     dispatch(callForgotPasswordAPI({ form: forgotPasswordForm }));
   // }
-
+    const wc = useWebSocket();
+    const { showAlert } = useAlert();
     useEffect(() => {
         
         if(loginEmployee.status === 200){
             console.log("[Login] Login SUCCESS {}", loginEmployee);
-            console.log(wc);
             if(wc){
                 wc.subscribe(`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`, (message) => {
                 console.log('메세지 받음 :',message.body);
+                showAlert('날짜를 선택하세요.')
             });
             console.log('구독함 :',`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`);
         } else {
