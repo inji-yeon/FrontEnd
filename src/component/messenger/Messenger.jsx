@@ -3,7 +3,7 @@ import styles from './messenger.module.css'
 import ChatroomCreateWindow from './ChatroomCreateWindow'
 import Chatroom from './Chatroom'
 import { useDispatch, useSelector } from 'react-redux'
-import { callGetLoginSettingsAPI, callGetMessengerMainAPI, callGetMessengerOptionsAPI, callSubscribeChatrooms } from '../../apis/MessengerAPICalls'
+import { callGetLoginSettingsAPI, callGetMessengerMainAPI, callGetMessengerOptionsAPI, callPinnedChatroomAPI, callSubscribeChatrooms } from '../../apis/MessengerAPICalls'
 import { format, isToday } from 'date-fns'
 import MessengerWebSocket from './MessengerWebSocket'
 // dispatch(callPinnedChatroomAPI({chatroomCode}));
@@ -24,7 +24,7 @@ function Messenger() {
     // const isConnect = false; // 리액트 자동 새로고침을 통해 여러번 연결되는걸 방지.
     const isConnect = true;
     useEffect(() => {
-        isConnect && dispatch(callGetLoginSettingsAPI());
+        // isConnect && dispatch(callGetLoginSettingsAPI());
         isConnect && dispatch(callGetMessengerMainAPI());
         // isConnect && dispatch(callMessengerSubscribe());
     }, [])
@@ -77,10 +77,14 @@ function Messenger() {
     useEffect(() => {
         console.log(isChatroomOpen);
     }, [isChatroomOpen])
-
+    const chatroomFixedHandler = (chatroomCode, e) => {
+        e.stopPropagation();
+        const result = window.confirm("해당 채팅방을 고정/고정해제 하시겠습니까?");
+        result && dispatch(callPinnedChatroomAPI({ chatroomCode }))
+    }
     return (
         <>
-            {chatroomList?.length && <MessengerWebSocket isChatroomOpen={isChatroomOpen} chatroomList={chatroomList} />}
+            {chatroomList&& <MessengerWebSocket isChatroomOpen={isChatroomOpen} chatroomList={chatroomList} />}
             <div className={styles.messenger_wrap}>
                 {!isMessengerOpen ? (
                     <img
@@ -174,9 +178,10 @@ function Messenger() {
                                                         </div>
                                                         <div className={styles.chatroom_info_2}>
                                                             <span>{chatroom.chatroomTitle}</span>
-                                                            {chatroom.chatroomFixedStatus === 'Y'
-                                                                ? <img src='/messenger/pinned.png' alt='고정' />
-                                                                : <img src='/messenger/not_pinned.png' alt='고정해제' />}
+                                                            <img
+                                                                src={`${chatroom.chatroomFixedStatus === 'Y' ? '/messenger/pinned.png' : '/messenger/not_pinned.png'}`}
+                                                                alt={`${chatroom.chatroomFixedStatus === 'Y' ? '고정' : '고정해제'}`}
+                                                                onClick={(e) => chatroomFixedHandler(chatroom.chatroomCode, e)} />
                                                             <span className={styles.chatroom_info_people}>{chatroom.chatroomMemberCount}</span>
                                                         </div>
                                                         <div className={styles.chatroom_info_3}>{

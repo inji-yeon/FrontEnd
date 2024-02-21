@@ -45,6 +45,7 @@ const initialState = {
 // export const GET_PROJECTS = 'project/GET_PROJECTS'
 export const GET_LOGIN_SETTINGS = 'messenger/GET_LOGIN_SETTINGS'
 export const GET_MESSENGER_MAIN = 'messenger/GET_MESSENGER'
+export const GET_MESSENGER_MAIN_BY_INVITE = 'messenger/GET_MESSENGER_MAIN_BY_INVITE'
 // export const GET_MESSENGER_OPTIONS = 'messenger/GET_MESSENGER_OPTIONS'
 export const PUT_MESSENGER_OPTIONS = 'messenger/MODIFY_MESSENGER_OPTIONS'
 export const PUT_PINNED_CHATROOM = 'messenger/PUT_PINNED_CHATROOM'
@@ -61,6 +62,7 @@ export const SCROLLING_TO_CHATCODE = 'messenger/SCROLLING_TO_CHATCODE'
 export const RESET_SCROLLING_TO_CHATCODE = 'messenger/RESET_SCROLLING_TO_CHATCODE'
 export const SHOW_RECEIVED_CHAT = 'messenger/SHOW_RECEIVED_CHAT'
 export const RESET_SHOW_RECEIVED_CHAT = 'messenger/RESET_SHOW_RECEIVED_CHAT'
+export const LEAVE_CHATROOM = 'messenger/LEAVE_CHATROOM'
 
 const action = createActions({
     // [GET_PROJECTS]: () => { },
@@ -81,7 +83,9 @@ const action = createActions({
     [SCROLLING_TO_CHATCODE]: () => { },
     [RESET_SCROLLING_TO_CHATCODE]: () => { },
     [SHOW_RECEIVED_CHAT]: () => { },
-    [RESET_SHOW_RECEIVED_CHAT]: () => { }
+    [RESET_SHOW_RECEIVED_CHAT]: () => { },
+    [LEAVE_CHATROOM]: () => { },
+    [GET_MESSENGER_MAIN_BY_INVITE]: () => { }
 })
 
 const messengerReducer = handleActions(
@@ -102,6 +106,21 @@ const messengerReducer = handleActions(
             return {
                 ...state,
                 messengerMain: payload?.data
+            }
+        },
+        [GET_MESSENGER_MAIN_BY_INVITE]: (state, { payload }) => {
+            return {
+                ...state,
+                messengerMain: {
+                    ...state.messengerMain,
+                    chatroomList: [
+                        ...state.messengerMain.chatroomList,
+                        {
+                            ...payload,
+                            chatroomMemberCount: payload.chatroomMemberCount + 1
+                        }
+                    ]
+                }
             }
         },
         // [GET_MESSENGER_OPTIONS]: (state, { payload }) => {
@@ -131,12 +150,30 @@ const messengerReducer = handleActions(
             const chatroomList = state.messengerMain.chatroomList;
             const notChangedChatroomList = chatroomList.filter(chatroom => chatroom.chatroomCode !== chatroomCode);
             const changedChatroomList = chatroomList.filter(chatroom => chatroom.chatroomCode === chatroomCode)
-                .map(chatroom => ({ ...chatroom, chatroomFixedStatus: !chatroom.chatroomFixedStatus }))
+                .map(chatroom => ({ ...chatroom, chatroomFixedStatus: chatroom.chatroomFixedStatus === 'Y' ? 'N' : 'Y' }))
+            console.log('notChangedChatroomList', notChangedChatroomList);
+            console.log('changedChatroomList', changedChatroomList);
+            const newChatroomList = [...notChangedChatroomList, ...changedChatroomList]
+                ?.sort((chatroom1, chatroom2) => {
+                    if (chatroom1.chatroomFixedStatus === 'N' && chatroom2.chatroomFixedStatus === 'Y') {
+                        return 1;
+                    }
+                    if (chatroom1.chatroomFixedStatus === 'Y' && chatroom2.chatroomFixedStatus === 'N') {
+                        return -1;
+                    }
+                    if (chatroom1.chatroomChatDate === null && chatroom2.chatroomChatDate !== null) {
+                        return 1;
+                    }
+                    if (chatroom1.chatroomChatDate !== null && chatroom2.chatroomChatDate === null) {
+                        return -1;
+                    }
+                    return new Date(chatroom2.chatroomChatDate) - new Date(chatroom1.chatroomChatDate);
+                })
             return {
                 ...state,
                 messengerMain: {
                     ...state.messengerMain,
-                    chatroomList: [...notChangedChatroomList, ...changedChatroomList]
+                    chatroomList: newChatroomList
                 }
             }
         },
@@ -174,11 +211,24 @@ const messengerReducer = handleActions(
             }
         },
         [POST_CHATROOM_MEMBER]: (state, { payload }) => {
+            const chatroomList = payload?.data;
+            const chatroomCode = payload?.chatroomCode;
             return {
                 ...state,
+                messengerMain: {
+                    ...state.messengerMain,
+                    chatroomList: [...state.messengerMain.chatroomList]
+                        ?.map(chatroom => {
+                            if (chatroom.chatroomCode === chatroomCode) {
+                                return { ...chatroom, chatroomMemberCount: chatroom.chatroomMemberCount + 1 }
+                            } else {
+                                return chatroom;
+                            }
+                        })
+                },
                 chatroomData: {
                     ...state.chatroomData,
-                    chatroomMemberList: payload?.data,
+                    chatroomMemberList: chatroomList,
                 },
             }
         },
@@ -290,6 +340,19 @@ const messengerReducer = handleActions(
                 scrollingToChatCode: null,
             };
         },
+        [LEAVE_CHATROOM]: (state, { payload }) => {
+            console.log(payload);
+            const newChatroomList = state?.messengerMain?.chatroomList
+                ?.filter(chatroom => chatroom?.chatroomCode !== payload?.data);
+            console.log('newChatroomList', newChatroomList);
+            return {
+                ...state,
+                messengerMain: {
+                    ...state.messengerMain,
+                    chatroomList: newChatroomList
+                }
+            }
+        }
     },
     initialState
 )

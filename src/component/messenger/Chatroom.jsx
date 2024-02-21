@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './chatroom.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callChangeChatroomProfileAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetPrevChats, callInviteChatroomMemberAPI, callUpdateChatReadStatus } from '../../apis/MessengerAPICalls';
+import { callChangeChatroomProfileAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetPrevChats, callInviteChatroomMemberAPI, callLeaveChatroomAPI, callUpdateChatReadStatus } from '../../apis/MessengerAPICalls';
 import { userEmployeeCode } from '../../utils/tokenUtils';
 import { format } from 'date-fns';
 import { useWebSocket } from '../WebSocketContext';
@@ -96,7 +96,15 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     }
 
     const inviteHandler = (employeeCode) => {
-        dispatch(callInviteChatroomMemberAPI({ chatroomCode, employeeCode }))
+        dispatch(callInviteChatroomMemberAPI({ chatroomCode, employeeCode, websocket }))
+
+        websocket?.publish({
+            destination: `/app/messenger/chatrooms/${chatroomCode}/invite`,
+            headers: { Authorization: 'Bearer ' + window.localStorage.getItem('accessToken') },
+            body: JSON.stringify({
+                employeeCode
+            })
+        })
     }
     useEffect(() => {
         messengerData?.employees && setEmployeeList(messengerData?.employees);
@@ -169,7 +177,11 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         dispatch({ type: RESET_SHOW_RECEIVED_CHAT })
         dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
     }
-
+    const leaveChatroomHandler = () => {
+        const result = window.confirm('정말로 채팅방에 나가시겠습니까?');
+        result && dispatch(callLeaveChatroomAPI({ chatroomCode }))
+        result && setIsChatroomOpen(false);
+    }
     return (
         <>
             <div className={styles.chatroom_main}>
@@ -285,7 +297,8 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                             <tr key={employee?.employeeCode}>
                                                 <td>
                                                     <div className={styles.member_buttons}>
-
+                                                        {employee?.employeeCode === userEmployeeCode()
+                                                            && <input type='button' value='나가기' onClick={leaveChatroomHandler} />}
                                                     </div>
                                                     <div className={styles.member_info}>
                                                         <div className={styles.member_list_img_and_name}>

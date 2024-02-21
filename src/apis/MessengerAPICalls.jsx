@@ -17,7 +17,8 @@ import {
     SCROLLING_TO_CHATCODE,
     RESET_SCROLLING_TO_CHATCODE,
     SHOW_RECEIVED_CHAT,
-    RESET_SHOW_RECEIVED_CHAT
+    RESET_SHOW_RECEIVED_CHAT,
+    LEAVE_CHATROOM
 } from '../modules/MessengerModule'
 import { userEmployeeCode } from '../utils/tokenUtils';
 
@@ -125,7 +126,7 @@ export const callCreateChatroomAPI = ({ form }) => {
             }).catch(error => console.error(error))
         // 에러 처리 해야 된다.
 
-        console.log('[MessengerAPICalls] callPinnedChatroomAPI RESULT : ', result)
+        console.log('[MessengerAPICalls] callCreateChatroomAPI RESULT : ', result)
 
         dispatch({ type: POST_CHATROOM, payload: result?.data })
 
@@ -200,7 +201,7 @@ export const callGetEmployeesAPI = () => {
     }
 }
 
-export const callInviteChatroomMemberAPI = ({ chatroomCode, employeeCode }) => {
+export const callInviteChatroomMemberAPI = ({ chatroomCode, employeeCode, websocket }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}/invite/${employeeCode}`;
     return async (dispatch, getState) => {
         const result = await axios
@@ -218,7 +219,7 @@ export const callInviteChatroomMemberAPI = ({ chatroomCode, employeeCode }) => {
 
         console.log('[MessengerAPICalls] callInviteChatroomMemberAPI RESULT : ', result)
 
-        dispatch({ type: POST_CHATROOM_MEMBER, payload: result?.data })
+        dispatch({ type: POST_CHATROOM_MEMBER, payload: { ...result?.data, chatroomCode } })
     }
 }
 
@@ -299,5 +300,27 @@ export const callReceiveChatAPI = ({ isChatroomOpen, form }) => {
             console.log('RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM');
             dispatch({ type: RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM, payload: form });
         }
+    }
+}
+
+export const callLeaveChatroomAPI = ({ chatroomCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}/leave`;
+    return async (dispatch, getState) => {
+        const result = await axios
+            .delete(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            }).catch(error => console.error(error))
+        // 에러 처리 해야 된다.
+
+        console.log('[MessengerAPICalls] callLeaveChatroomAPI RESULT : ', result)
+
+        dispatch({ type: LEAVE_CHATROOM, payload: result?.data })
     }
 }
