@@ -18,6 +18,7 @@ import mypageinfoupdatereducer from './MypageinfoupdateModule';
 import { adminReducer } from './AdminModule';
 import { mainReducer } from './MainModule';
 
+import approvalReducer from './ApprovalModule';
 
 const rootReducer = combineReducers({
     mainPost: mainReducer,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
 
     postCommentReducer,
     boardReducer,
+    approvalReducer,
 
 
 });
