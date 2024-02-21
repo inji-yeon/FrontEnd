@@ -9,3 +9,14 @@
     min-height: 200px;
     padding: 25px 25px;
 }
+
+.posting span {
+    margin-right: 5px;
+    text-decoration: none;
+    color: #606060;
+    padding: 7px 15px;
+}
+
+.posting span:hover{
+    background-color: #F5F5F5;
+}

@@ -15,6 +15,7 @@ import MailView from './pages/mail/MailView';
 import Calendar from './pages/calendar/CaledarSidebar';
 
 import CreatePost from './pages/board/CreatePost';
+import UpdatePost from './pages/board/UpdatePost';
 import PostInfo from './pages/board/PostInfo';
 import PostListOfBoard from './pages/board/PostListOfBoard';
 import AttendanceSide from './pages/attendance/AttendanceLayout';
@@ -54,6 +55,7 @@ function App() {
                             <Route path='posts/regist' element={<CreatePost />} />
                             <Route path='boards/create' element={<CreateBoard />} />
                             <Route path='posts/:postCode' element={<PostInfo />} />
+                            <Route path="posts/:postCode/update" element={ <UpdatePost/> } />
                         </Route>
 
                         <Route path='calendar' element={<Calendar />} />
