@@ -1,6 +1,6 @@
 import { createActions, handleActions } from 'redux-actions';
 
-/* 초기값 /*/
+/* 초기값 //*/
 const initialState = [];
 
 /* 액션 */
