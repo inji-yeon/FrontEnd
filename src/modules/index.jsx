@@ -8,6 +8,8 @@ import employeeReducer from './EmployeeModules'
 import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
+import postReducer from './PostModule';
+import postCommentReducer from './PostCommentModule';
 import boardReducer from './BoardModule';
 import mypagereducer from './MypageModule';
 import groupchartreducer from './GroupchartModule';
@@ -27,12 +29,16 @@ const rootReducer = combineReducers({
     calendar: calendarReducer,
     groupreducer,
     project: projectReducer,
-    board: boardReducer,
+    board: postReducer,
     mypagereducer,
     groupchartreducer,
     mypagepwdupdatereducer,
     mypageinfoupdatereducer,
-    
+
+    postCommentReducer,
+    boardReducer,
+
+
 });
 
 export default rootReducer;

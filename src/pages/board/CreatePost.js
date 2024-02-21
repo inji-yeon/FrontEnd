@@ -1,48 +1,44 @@
 import { useEffect, useState } from 'react';
 import styles from './CreatePost.module.css';
 import { callRegistPostAPI } from '../../apis/BoardAPICalls';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 
 const CreatePost = () => {
 
-
-    useEffect(() => {
-        
-        // callRegistPostAPI()
-        console.log(form);
-
-    }, [])
-
-    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [form, setForm] = useState({
-        boardGroupTitle: '',
-        boardTitle: '',
+        boardCode: '',
+        // boardCode: 0,
         postTitle: '',
-        postFile: null,
-        postContent: '',
+        postContext: '',
         deptAlert: false,
         employeeAlert: false,
-        addNotice: false,
-        addNoticeDate: new Date(),
-
+        addNoticeStatus: 'N',
+        // addNoticeDate: new Date(),
     })
 
+    console.log(form);
 
     const onChangeHandler = (e) => {
         
         // setForm({
         //     ...form,
-        //     [e.target.name] : e.target.value
+        //     [e.target.name] : e.target.type === 'checkbox' ? 
+        //         (e.target.checked ? 'Y' : 'N'): e.target.value
+            
         // })
 
         const { name, value, type, checked } = e.target;
-        setForm(prevForm => ({
-            ...prevForm,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-
+        setForm({
+            ...form,
+            [name]: type === 'checkbox' ? ( checked ? 'Y' : 'N' ) : value
+        });
 
     }
+
 
     const registPostHandler = () => {
 
@@ -50,15 +46,32 @@ const CreatePost = () => {
 
         const formData = new FormData();
 
+        // formData.append("boardGroupCode", form.boardGroupCode);
+        formData.append("boardCode", form.boardCode);
+        formData.append("postTitle", form.postTitle);
+        formData.append("postContext", form.postContext);
+        formData.append("deptAlert", form.deptAlert);
+        formData.append("employeeAlert", form.employeeAlert);
+        formData.append("postNoticeStatus", form.addNoticeStatus);
+        // formData.append("addNoticeDate", form.addNoticeDate);
+
+        dispatch(callRegistPostAPI({
+            form: formData
+        }));
+
+        alert('게시글이 등록되었습니다.');
+        navigate(`/board/${form.boardCode}`); // form으로 boardCode를 접근하는게 맞는가?
+
+
     }
     
 
     return <>
 
         <div className={styles.CreatePost}>
-    <h2>글쓰기</h2>
+        <h2>글쓰기</h2>
 
-    <br />
+        <br />
 
     <table style={{textAlign: 'left', width:"100%"}}>
 
@@ -66,16 +79,16 @@ const CreatePost = () => {
             <tr>
                 <th>게시판 분류</th>
                 <td style={{paddingRight: '-30px'}}>
-                    <select name="boardGroupTitle" onChange={onChangeHandler}>
-                        <option>사내게시판</option>
-                        <option value="부서게시판">부서게시판</option>
-                        <option>익명게시판</option>
+                <select name="boardGroupCode" onChange={onChangeHandler}>
+                        <option value={1}>사내게시판</option>
+                        <option value={2}>부서게시판</option>
+                        <option value={3}>익명게시판</option>
                     </select>
 
-                    <select name="boardTitle" onChange={onChangeHandler}>
-                        <option>하위게시판</option>
-                        <option>과 관련된</option>
-                        <option>게시판들</option>
+                    <select name="boardCode" onChange={onChangeHandler}>
+                        <option value={1}>하위게시판</option>
+                        <option value={2}>과 관련된</option>
+                        <option value={3}>게시판들</option>
                     </select>
                 </td>
             </tr>
@@ -107,7 +120,7 @@ const CreatePost = () => {
     </table>
 
 
-    <textarea className="summernote" name="postContent" onChange={onChangeHandler}></textarea>
+    <textarea className="summernote" name="postContext" onChange={onChangeHandler}></textarea>
 
     <br /><br />
     <table>
@@ -117,7 +130,7 @@ const CreatePost = () => {
                 <th>직원 알림 설정</th>
                 <td>
                     
-                    <input type="checkbox" id="myDept" name="deptAlert" 
+                    <input type="checkbox" id="myDept" name="deptAlert"
                     onChange={onChangeHandler}/>
                     <label htmlFor="myDept">부서 알림</label>
 
@@ -137,17 +150,17 @@ const CreatePost = () => {
                         </div>)
                     }
                    
-
-
                 </td>
             </tr>
 
             <tr>
                 <th>공지글 설정</th>
                 <td>
-                    <span><input type="checkbox" id="addNotice" name="addNotice" onChange={onChangeHandler}/></span>
+                    <span><input type="checkbox" id="addNotice" name="addNoticeStatus"
+                     checked={form.addNoticeStatus === 'Y'}
+                    onChange={onChangeHandler}/></span>
                     
-                    {form.addNotice && (
+                    {form.addNoticeStatus && (
                         <div id="dateNotice">
                             <input type="date" name="addNoticeDate" onChange={onChangeHandler}/>
                         </div>
@@ -161,7 +174,7 @@ const CreatePost = () => {
     </table>
 
     <div style={{textAlign: 'right'}}>
-        <button type="submit" className={styles.btn}>임시 저장</button>
+        {/* <button type="submit" className={styles.btn}>임시 저장</button> */}
         <button type="submit" className={styles.btn} style={{letterSpacing: 1 +'px'}} onClick={registPostHandler}>제출</button>
     </div>
 
