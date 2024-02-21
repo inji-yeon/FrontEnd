@@ -42,7 +42,7 @@ function Attendance() {
 
     const adminAttendance = () => {
         //관리자 페이지 이동
-        navigate('/')
+        navigate('/attendance/adminVacationList')
     };
 
 

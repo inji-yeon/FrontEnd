@@ -40,7 +40,7 @@ function DoPaymentDocumentWaiting () {
     const dispatch = useDispatch();
     const doWaitingDocu = useSelector((state => state.attendance))
 
-    const pageInfo = doWaitingDocu?.pageInfo;
+    const pageInfo = doWaitingDocu?.data?.pageInfo;
 
     console.log('pageInfo', pageInfo);
 
@@ -174,7 +174,7 @@ function DoPaymentDocumentWaiting () {
                             <button
                                 className={doWaiting.pagingBtn}
                                 onClick={() => setCurrentPage(currentPage + 1)}
-                                disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}>&gt;
+                                disabled={currentPage === pageInfo?.pageEnd || pageInfo?.total === 0}>&gt;
                             </button>
                         )}
                     </div>

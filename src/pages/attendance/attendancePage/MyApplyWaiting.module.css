@@ -57,6 +57,64 @@
     text-align: center;
 }
 
+
+.apply_vacation_box{
+    position: absolute;
+    left: 0px;
+    background-color: #FFBE98;
+    width: 200px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+}
+
+
+.apply_vacation2_box{
+    position: absolute;
+    left: 0px;
+    background-color: #F5F5F5;
+    width: 200px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+}
+
+.apply_vacationing2_box{
+    position: absolute;
+    left: 200px;
+    background-color: #FFBE98;
+    width: 200px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+} 
+
+
+.apply_vacationing_box{
+    position: absolute;
+    left: 200px;
+    background-color: #F5F5F5;
+    width: 200px;
+    height: 50px;
+    color: #414141;
+    font-size: 20px;
+    line-height: 50px; /* 적절한 높이를 설정합니다. */
+    text-align: center;
+    border:0.5px solid #606060;
+} 
+
+
+
+
 .approval_box{
     position: absolute;
     left: 80px;
@@ -69,6 +127,10 @@
     text-align: center;
     border:0.5px solid #606060;
 } 
+
+
+
+
 
 .reject_box{
     position: absolute;

@@ -8,7 +8,9 @@ import{
     GET_MY_WAITING,
     GET_COMMUTE_MAIN,
     POST_COMMUTE_INSERT,
-    PUT_COMMUTE_UPDATE
+    PUT_COMMUTE_UPDATE,
+    GET_ADMIN_VACATION,
+    GET_ADMIN_NO_VACATION
 } from '../modules/AttendanceModule'
 
 
@@ -378,3 +380,79 @@ export const callMyWaitingAPI = ({ currentPage }) => {
         }
     };
 };
+
+
+
+
+export const callAdminVacationAPI = ({ currentPage }) => {
+    let requestURL;
+
+    if(currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/vacation?offset=${currentPage}`;
+    } else {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/vacation`;
+    }
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callAdminVacationAPI RESULT : ', result);
+            dispatch({ type: GET_ADMIN_VACATION, payload: result.data });
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+};
+
+
+
+export const callNoAdminVacationAPI = ({ currentPage }) => {
+    let requestURL;
+
+    if(currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/no/vacation?offset=${currentPage}`;
+    } else {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/no/vacation`;
+    }
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callNoAdminVacationAPI RESULT : ', result);
+            dispatch({ type: GET_ADMIN_NO_VACATION, payload: result.data });
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+};
+
+
+

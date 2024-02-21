@@ -27,6 +27,9 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import AdminVacationList from './pages/attendance/AdminVacationList';
+import AdminNoVacationList from './pages/attendance/AdminNoVacationList';
+
 
 import {WebSocketProvider} from "./component/WebSocketContext";
 import AdminSidebar from "./pages/admin/common/Sidbar";
@@ -67,6 +70,8 @@ function App() {
                         <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                         <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                         <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
+                        <Route path='adminVacationList' element={<AdminVacationList />} />
+                        <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
                     </Route>
 
                     <Route path='project' element={<Project />} />
