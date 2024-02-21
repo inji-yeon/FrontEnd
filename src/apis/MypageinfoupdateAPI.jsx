@@ -37,12 +37,14 @@ export const callMypageGetSpreadAPI = ({ form }) => {
 };
 
 
-export const callMypageUpdateInfoAPI = ({ form }) => {
+export const callMypageUpdateInfoAPI = ({ phone,empEmail,address }) => {
     console.log('[callMypageUpdateInfoAPI] callMypageUpdateInfoAPI Call');
+    console.log('phone',phone);
+    console.log('empEmail',empEmail);
+    console.log('address',address);
 
     // const empCode = form.empCode;
     console.log('비밀번호 변경에서 출력하기 ', empCode)
-    console.log('비밀번호 변경에서 출력하기 ', form)
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/modifyinfo/${empCode}`;
 
@@ -52,15 +54,14 @@ export const callMypageUpdateInfoAPI = ({ form }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                // body: JSON.stringify({
-                //     phone: form.phone,
-                //     empEmail: form.empEmail,
-                //     address: form.address
-
-                // }),
                 Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
-            body: JSON.stringify(form),
+            body: JSON.stringify({
+                    phone: phone,
+                    empEmail: empEmail,
+                    address: address
+
+                }),
         }).then((response) => response.json());
 
         console.log('마이페이지 사원정보 업데이트하기 ===== [callMypageUpdateInfoAPI] callMypageUpdateInfoAPI RESULT : ', JSON.stringify(result));
