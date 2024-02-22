@@ -3,7 +3,8 @@ import {
     GET_PROJECTS,
     POST_PROJECT,
     GET_PROJECT,
-    GET_PROJECT_LIST,
+    GET_PROJECT_POST_LIST,
+    PUT_PROJECT,
     ERROR,
 
     RESET,
@@ -11,6 +12,8 @@ import {
     RESET_GET_PROJECTS,
     RESET_GET_PROJECT,
     RESET_ERROR,
+    UPLOAD_IMAGE,
+    CREATE_PROJECT_POST,
 } from '../modules/ProjectModule'
 
 export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
@@ -36,7 +39,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         console.log('[ProjectAPICalls] callGetProjectsAPI RESULT : ', result)
 
         dispatch({ type: GET_PROJECTS, payload: result?.data })
-}
+    }
 }
 
 export const callCreateProjectAPI = ({ createForm }) => {
@@ -85,7 +88,6 @@ export const callGetProjectAPI = ({ projectCode }) => {
         console.log('[ProjectAPICalls] callGetProjectAPI RESULT : ', result)
 
         dispatch({ type: GET_PROJECT, payload: result?.data })
-        dispatch(callGetProjectPostListAPI({ projectCode }))
     }
 }
 
@@ -112,7 +114,8 @@ export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) 
 
         console.log('[ProjectAPICalls] callGetProjectPostListAPI RESULT : ', result)
 
-        dispatch({ type: GET_PROJECT_LIST, payload: result?.data })
+        dispatch({ type: GET_PROJECT_POST_LIST, payload: result?.data })
+        
     }
 }
 
@@ -139,9 +142,60 @@ export const callModifyProjectAPI = ({ form }) => {
 
         console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
 
-        dispatch({ type: GET_PROJECT_LIST, payload: result?.data })
+        dispatch({ type: PUT_PROJECT, payload: result?.data })
     }
 }
+
+export const callUploadImage = ({ file, callback }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/upload-image`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .post(requestURL, file, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        if (callback && typeof callback === 'function') {
+            callback(`http://localhost:1208/web-images/${result?.data?.data?.projectPostFileChangedFile}`);
+        }
+
+        console.log('[ProjectAPICalls] callUploadImage RESULT : ', result)
+
+        dispatch({ type: UPLOAD_IMAGE, payload: result?.data })
+    }
+}
+
+export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .post(requestURL, projectPost, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+        // 에러 처리 해야 된다.
+
+        console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
+
+        dispatch({ type: CREATE_PROJECT_POST, payload: result?.data })
+    }
+}
+
+
 export const callReset = () => {
     return async (dispatch, getState) => {
 

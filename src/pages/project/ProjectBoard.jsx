@@ -11,6 +11,7 @@ import {
     callResetGetProjects
 } from '../../apis/ProjectAPICalls'
 import { format } from 'date-fns'
+import ProjectPost from './ProjectPost'
 
 function ProjectBoard() {
     const dispatch = useDispatch()
@@ -239,138 +240,7 @@ function ProjectBoard() {
                         })}
                     </div>
                 </div>
-                <div className={styles.post_list_wrap}>
-                    <div className={styles.post_list_header}>
-                        <input type='text' placeholder='제목 입력' />
-                        <button>게시글 검색</button>
-                        <button>게시글 등록</button>
-                    </div>
-                    <table className={styles.post_list_body}>
-                        <colgroup>
-                            <col style={{ width: '5%' }} />
-                            <col style={{ width: '5%' }} />
-                            <col style={{ width: '5%' }} />
-                            <col />
-                            <col style={{ width: '12%' }} />
-                            <col style={{ width: '12%' }} />
-                            <col style={{ width: '12%' }} />
-                        </colgroup>
-                        <thead className={styles.post_list_thead}>
-                            <tr>
-                                <th>번호</th>
-                                <th>상태</th>
-                                <th>우선순위</th>
-                                <th>제목</th>
-                                <th>작성일</th>
-                                <th>수정일</th>
-                                <th>마감기한</th>
-                            </tr>
-                        </thead>
-                        <tbody className={styles.post_list_tbody}>
-                            {pageData?.map(data => {
-                                return (
-                                    <tr>
-                                        <td>30</td>
-                                        <td>완료</td>
-                                        <td>낮음</td>
-                                        <td className={styles.post_list_title}>업무제목입니다.</td>
-                                        <td>2023년 12월 28일</td>
-                                        <td>2023년 12월 30일</td>
-                                        <td>2024년 1월 9일</td>
-                                    </tr>)
-                            })}
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className={styles.post_list_footer}>
-                        {/* page_button_clicked */}
-                        <button>&lt;&lt;</button>
-                        <button>&lt;</button>
-                        <button>1</button>
-                        <button>&gt;</button>
-                        <button>&gt;</button>
-                    </div>
-                </div>
+                <ProjectPost projectCode={projectCode} />
             </div>
         </section >
     )

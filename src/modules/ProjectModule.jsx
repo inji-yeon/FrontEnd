@@ -18,14 +18,17 @@ const initialState = {
         pageInfo: null
     }, // 프로젝트 게시글 목록
     returnData: null,
+    uploadImageList: []
 }
 
 /* 액션 */
 export const GET_PROJECTS = 'project/GET_PROJECTS'
 export const POST_PROJECT = 'project/GET_PROJECT'
 export const GET_PROJECT = 'project/GET_PROJECT'
-export const GET_PROJECT_LIST = 'project/GET_PROJECT_LIST'
+export const GET_PROJECT_POST_LIST = 'project/GET_PROJECT_POST_LIST'
 export const PUT_PROJECT = 'project/PUT_PROJECT'
+export const UPLOAD_IMAGE = 'project/UPLOAD_IMAGE'
+export const CREATE_PROJECT_POST = 'project/CREATE_PROJECT_POST'
 
 export const RESET_GET_PROJECTS = 'project/RESET_GET_PROJECTS'
 export const RESET_POST_PROJECT = 'project/RESET_POST_PROJECT'
@@ -39,8 +42,10 @@ const action = createActions({
     [GET_PROJECTS]: () => { },
     [POST_PROJECT]: () => { },
     [GET_PROJECT]: () => { },
-    [GET_PROJECT_LIST]: () => { },
+    [GET_PROJECT_POST_LIST]: () => { },
     [PUT_PROJECT]: () => { },
+    [UPLOAD_IMAGE]: () => { },
+    [CREATE_PROJECT_POST]: () => { },
     [ERROR]: () => { },
 
     [RESET]: () => { },
@@ -70,7 +75,8 @@ const projectReducer = handleActions(
                 projectInfo: payload?.data
             }
         },
-        [GET_PROJECT_LIST]: (state, { payload }) => {
+        [GET_PROJECT_POST_LIST]: (state, { payload }) => {
+            console.log('GET_PROJECT_POST_LIST>>>payload>>>', payload);
             return {
                 ...state,
                 projectPostListWithPaging: payload?.data
@@ -82,6 +88,24 @@ const projectReducer = handleActions(
                 returnData: payload
             }
         },
+        [UPLOAD_IMAGE]: (state, { payload }) => {
+            return {
+                ...state,
+                uploadImageList: [
+                    ...state.uploadImageList
+                    , payload?.data
+                ],
+            }
+        },
+        [CREATE_PROJECT_POST]: (state, { payload }) => {
+            return {
+                ...state,
+                uploadImageList: [],
+
+            }
+        },
+
+
         [ERROR]: (state, { payload }) => {
             return {
                 ...state,
