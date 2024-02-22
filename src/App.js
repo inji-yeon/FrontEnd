@@ -5,7 +5,7 @@ import Mail from './pages/mail/Mail';
 import Write from './pages/mail/MailWrite';
 import Project from './pages/project/ProjectMain';
 import ApprovalSidebar from './pages/approval/ApprovalSidebar';
-import MyPage from './pages/mypage/Mypage';
+import MyPage from './pages/mypage/Mypage';  
 import AdminMail from './pages/admin/AdminMail';
 import Attendance from './pages/attendance/Attendance';
 import Login from './pages/login/Login';
@@ -14,6 +14,7 @@ import MailView from './pages/mail/MailView';
 import Calendar from './pages/calendar/CaledarSidebar';
 
 import CreatePost from './pages/board/CreatePost';
+import UpdatePost from './pages/board/UpdatePost';
 import PostInfo from './pages/board/PostInfo';
 import PostListOfBoard from './pages/board/PostListOfBoard';
 import AttendanceSide from './pages/attendance/AttendanceLayout';
@@ -29,24 +30,43 @@ import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
 import RejectedList from './pages/approval/RejectedList';
 import RetrievedList from './pages/approval/RetrievedList';
+import AwayForm from './pages/approval/AwayForm';
+import BusinessTripForm from './pages/approval/BusinessTripForm';
+import OnLeaveForm from './pages/approval/OnLeaveForm';
+import OvertimeForm from './pages/approval/OvertimeForm';
+import SWForm from './pages/approval/SWForm';
+import WFHForm from './pages/approval/WFHForm';
+import WritingOnLeave from './pages/approval/WritingOnLeave';
+
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
+import AdminVacationList from './pages/attendance/AdminVacationList';
+import AdminNoVacationList from './pages/attendance/AdminNoVacationList';
+
 
 import { WebSocketProvider } from './component/WebSocketContext';
 import AdminSidebar from './pages/admin/common/Sidbar';
 import CreateBoard from './pages/board/CreateBoard';
 import BoardLayout from './pages/board/BoardLayout';
 import GroupChart from './pages/group/sidebar/GroupSideBar';
-import MyPageSideBar from './pages/mypage/sidebar/MyPageSideBar';
+import MyPageSideBar from './pages/mypage/MypageLayout';
+import MyPagePassword from './pages/mypage/Mypagepassword';
 
+import AdminGroup from './pages/admin/AdminGroup';
+import AdminApproval from './pages/admin/AdminApproval';
+import { AlertProvider } from './component/common/AlertContext';
+import { Alert } from './component/common/Alert';
 import Messenger from './component/messenger/Messenger';
+
 
 function App() {
     return (
+        <AlertProvider>
         <WebSocketProvider>
+            
             <BrowserRouter>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
+                            <Route path='login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -63,6 +83,7 @@ function App() {
                             <Route path='posts/regist' element={<CreatePost />} />
                             <Route path='boards/create' element={<CreateBoard />} />
                             <Route path='posts/:postCode' element={<PostInfo />} />
+                            <Route path="posts/:postCode/update" element={ <UpdatePost/> } />
                         </Route>
 
                         <Route path='calendar' element={<Calendar />} />
@@ -76,21 +97,34 @@ function App() {
                             <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                             <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                             <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
-                        </Route>
+                        <Route path='adminVacationList' element={<AdminVacationList />} />
+                        <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
+                    </Route>
 
                         <Route path='projects' element={<Project />} />
                         <Route path='projects/:projectCode' element={<ProjectBoard />} />
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
-                        <Route path='approval' element={<ApprovalSidebar />}>
-                            <Route path='writing' element={<ApprovalFormList />} />
-                            <Route path='onProcessList' element={<OnProcessList />} />
-                            <Route path='completed' element={<CompletedList />} />
-                            <Route path='rejected' element={<RejectedList />} />
-                            <Route path='retrieved' element={<RetrievedList />} />
+                    <Route path='approval' element={<ApprovalSidebar />}>
+                        <Route path='writing' element={<ApprovalFormList />}>
+                            <Route path='AwayForm' element={<AwayForm />} />
+                            <Route path='BusinessTripForm' element={<BusinessTripForm />} />
+                            <Route path='OnLeaveForm' element={<OnLeaveForm />} />
+                            <Route path='OvertimeForm' element={<OvertimeForm />} />
+                            <Route path='SWForm' element={<SWForm />} />
+                            <Route path='WFHForm' element={<WFHForm />} />
                         </Route>
-
-                        <Route path='mypage' element={<MyPage />} />
+                        <Route path='WritingOnLeave' element={<WritingOnLeave />} />
+                        <Route path='onProcessList' element={<OnProcessList />} />
+                        <Route path='completed' element={<CompletedList />} />
+                        <Route path='rejected' element={<RejectedList />} />
+                        <Route path='retrieved' element={<RetrievedList />} />
+                    </Route>
+                    
+                    <Route path='mypage' element={<MyPageSideBar />} >
+                    <Route path='mypageinfo' element={<MyPage/>} />
+                    <Route path='mypagepassword' element={<MyPagePassword/>} />
+                    </Route>
 
                         <Route path='attendance' element={<Attendance />} />
                     </Route>
@@ -99,10 +133,14 @@ function App() {
 
                     <Route path='admin' element={<AdminSidebar />}>
                         <Route path='mail' element={<AdminMail />} />
+                        <Route path='group' element={<AdminGroup/>}/>
+                        <Route path='approval' element={<AdminApproval/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
         </WebSocketProvider>
+        <Alert/>
+        </AlertProvider>
     );
 }
 //이 곳은 주소(앤트포인트)를 통해 어떤 컴포넌트를 출력할 지를 정하는 곳 입니다.

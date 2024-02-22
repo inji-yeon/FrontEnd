@@ -13,24 +13,28 @@ function SideBar() {
     const selectedListWrap = useRef();
     const selectedBoxRef = useRef();
     let navigate = useNavigate();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getUserInformation());
-    })
-
-    const token = decodeJwt(window.localStorage.getItem("accessToken"))
-    console.log('--------', token)
-
-    const loginEmployee = useSelector(state => state.employeeReducer);
-
-
-    // const userName = useSelector(state => state.sidebar.userName);
-    // const userGroup = useSelector(state => state.sidebar.userGroup);
-    // const userDept = useSelector(state => state.sidebar.userDept);
-    // const userProfileImg = useSelector(state => state.sidebar.userProfileImg);
+    const [token, setToken] = useState('');
+    const [userDept, setUserDept] = useState('');
+    const [userGroup, setUserGroup] = useState('');
+    useEffect(()=>{
+        setToken(decodeJwt(window.localStorage.getItem("accessToken")));
+    },[])
+    useEffect(()=>{
+        if(token){
+            setUserDept(token.empDeptName);
+            switch(token.empGroupCode){
+                case 1: setUserGroup('관리본부'); break;
+                case 2: setUserGroup('영업본부'); break;
+                case 3: setUserGroup('개발본부'); break;
+                case 4: setUserGroup('마케팅본부'); break;
+                default: setUserGroup('Error');
+            }
+        }
+        
+    },[token])
 
     const user = useSelector(state => state.sidebar);
-    const { userName, userGroup, userDept, userProfileImg } = user;
+    const {  userProfileImg } = user;
 
 
     const [statusImg, setStatusImg] = useState("../../../../sidebar/sidebar_user_status_img/office.png");
@@ -55,6 +59,24 @@ function SideBar() {
         }
     }
     const sidebarMenuSelectHandler = (value) => {
+        const token = decodeJwt(window.localStorage.getItem("accessToken"));
+                console.log('[onClickPurchaseHandler] token : ', token);
+                if(token === undefined || token === null) {
+                    alert('로그인을 먼저해주세요');
+
+                    
+                    return navigate('/login'); ;
+                }
+        const box = document.querySelector('.selected_box');
+        const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
+        for (let i = 0; i < texts.length; i++) {
+            document.getElementById(texts[i]).style.color = '#606060';
+            if (value === texts[i]) {
+                document.getElementById(texts[i]).style.color = 'white';
+            }
+        }
+        box.style.opacity = '1';
+
         switch (value) {
             case 'main':
                 navigate('/');
@@ -63,8 +85,8 @@ function SideBar() {
                 navigate('/mail/check');
                 break;
             case 'attendance':
-                navigate('/attendance');
-                break;
+                navigate('attendance/attendance');
+                break; ///////
             case 'calendar':
                 navigate('/calendar');
                 break;
@@ -164,49 +186,48 @@ function SideBar() {
                         </li>
                     </ul>
                 </div>
-                {
-                    loginEmployee.userInfo ?
-                        <div className="working_status_wrap">
-                            <table className="working_status">
-                                <thead>
-                                    <tr className="working_status_row1">
-                                        <td className="status_title" colSpan="2">
-                                            <div>
-                                                <span>나의 상태</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="working_status_row2">
-                                        <td className="status_profile">
-                                            <div>
-                                                <img src={userProfileImg} alt="프로필 이미지" />
-                                            </div>
-                                        </td>
-                                        <td className="status_name_and_team">
-                                            <div>
-                                                <span className="status_name_text">{loginEmployee.userInfo.employeeName}</span>
-                                                <img id="status_img" src={statusImg} alt="상태이미지" />
-                                            </div>
-                                            <br />
-                                            <span className="status_team_text">{userGroup} / {userDept}</span>
-                                        </td>
-                                    </tr>
-                                    <tr className="working_status_row3">
-                                        <td className="select_status" colSpan="2">
-                                            <select id="status_dropdown" onChange={changeStatusImg}>
-                                                <option value="none" hidden>근무 상태를 선택하세요.</option>
-                                                <option value="office">오피스 근무</option>
-                                                <option value="remote">재택 근무</option>
-                                                <option value="vacation">휴가 중</option>
-                                                <option value="meeting">미팅 중</option>
-                                                <option value="away">자리 비움</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        : <></>}
+                <div className="working_status_wrap">
+                    <table className="working_status">
+                        <thead>
+                        <tr className="working_status_row1">
+                            <td className="status_title" colSpan="2">
+                                <div>
+                                    <span>나의 상태</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr className="working_status_row2">
+                            <td className="status_profile">
+                                <div>
+                                    <img src={userProfileImg} alt="프로필 이미지" />
+                                </div>
+                            </td>
+                            <td className="status_name_and_team">
+                                <div>
+                                    {token? (<span className="status_name_text">{token.employeeName}</span>) 
+                                    : <span className="status_name_text">비회원</span>}
+                                    <img id="status_img" src={statusImg} alt="상태이미지" />
+                                </div>
+                                <br />
+                                <span className="status_team_text">{userGroup} / {userDept}</span>
+                            </td>
+                        </tr>
+                        <tr className="working_status_row3">
+                            <td className="select_status" colSpan="2">
+                                <select id="status_dropdown" onChange={changeStatusImg}>
+                                    <option value="none" hidden>근무 상태를 선택하세요.</option>
+                                    <option value="office">오피스 근무</option>
+                                    <option value="remote">재택 근무</option>
+                                    <option value="vacation">휴가 중</option>
+                                    <option value="meeting">미팅 중</option>
+                                    <option value="away">자리 비움</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                : <></>}
             </div>
         </>
     )

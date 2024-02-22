@@ -36,7 +36,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         console.log('[ProjectAPICalls] callGetProjectsAPI RESULT : ', result)
 
         dispatch({ type: GET_PROJECTS, payload: result?.data })
-    }
+}
 }
 
 export const callCreateProjectAPI = ({ createForm }) => {

@@ -56,6 +56,12 @@ function ApprovalSidebar() {
       navigate('writing');
     }
 
+    const resetSelectedMenus = () => {
+      setSelectedInboxMenu(null);
+      setSelectedOutboxMenu(null);
+      setSelectedViewMenu(null);
+    };
+
     const inboxHandler = (value) => {
 
       switch (value) {
@@ -75,10 +81,39 @@ function ApprovalSidebar() {
           navigate('retrieved');
           break;
           
+          case 'saved':
+            navigate('saved');
+            break;
+
         default:
           break;
       }
     }
+
+        // 각 섹션의 선택한 메뉴 상태를 추가 상태로 관리합니다.
+    const [selectedInboxMenu, setSelectedInboxMenu] = useState(null);
+    const [selectedOutboxMenu, setSelectedOutboxMenu] = useState(null);
+    const [selectedViewMenu, setSelectedViewMenu] = useState(null);
+
+    // 선택 상태 업데이트
+    const handleInboxMenuClick = (menu) => {
+      setSelectedInboxMenu(menu);
+      inboxHandler(menu);
+    };
+
+    const handleDocWritingButtonClick = () => {
+      resetSelectedMenus();
+    };
+    
+    // const handleOutboxMenuClick = (menu) => {
+    //   setSelectedOutboxMenu(menu);
+    //   outboxHandler(menu);
+    // };
+
+    // const handleViewMenuClick = (menu) => {
+    //   setSelectedViewMenu(menu);
+    //   viewHandler(menu);
+    // };
 
     return (
         <>
@@ -86,7 +121,7 @@ function ApprovalSidebar() {
               <div className="approval_sidemenu">
     <div className="approval_sidemenu_on">
       <div className="title">전자 결재</div>
-      <div className="doc_writing_button" onClick={() => {writingApprovalHandler()}}>
+      <div className="doc_writing_button" onClick={() => { writingApprovalHandler(); handleDocWritingButtonClick(); }}>
         <div className="writing_text">기안서 작성</div>
       </div>
       <div className="status">
@@ -107,19 +142,19 @@ function ApprovalSidebar() {
           <div className="inbox_title" onClick={handleInboxClick}>결재 상신함</div>
         </div>
         <div className="inbox_menu_section" style={{height: inboxMenuHeight}}>
-          <div className="on_process" onClick={() => { inboxHandler('onProcessList')}}>
+          <div className={`on_process ${selectedInboxMenu === 'onProcessList' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('onProcessList')}>
             <span className="inbox_text">결재 진행함</span>
           </div>
-          <div className="completed" onClick={() => { inboxHandler('completed')}}>
+          <div className={`completed ${selectedInboxMenu === 'completed' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('completed')}>
             <span className="inbox_text">결재 완료함</span>
           </div>
-          <div className="rejected" onClick={() => { inboxHandler('rejected')}}>
+          <div className={`rejected ${selectedInboxMenu === 'rejected' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('rejected')}>
             <span className="inbox_text">반려 문서함</span>
           </div>
-          <div className="retrieved" onClick={() => { inboxHandler('retrieved')}}>
+          <div className={`retrieved ${selectedInboxMenu === 'retrieved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('retrieved')}>
             <span className="inbox_text">회수 문서함</span>
           </div>
-          <div className="saved">
+          <div className={`saved ${selectedInboxMenu === 'saved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('saved')}>
             <span className="inbox_text">임시 저장</span>
           </div>
         </div>
@@ -154,9 +189,9 @@ function ApprovalSidebar() {
           </div>
         </div>
       </div>
-  </div>
+              </div>
   <Outlet />
-  </div>
+        </div>
         </>
     );
 }

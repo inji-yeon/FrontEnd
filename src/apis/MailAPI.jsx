@@ -11,12 +11,12 @@ import { fail, request, success } from "../modules/MailModule";
 
 
 
-export const fetchMailByStatus = (status) =>{
+export const fetchMailByStatus = (status,selectedPage) =>{
     return dispatch => {
         //const token = 'eyJkYXRlIjoxNzA3MjY3MTk2NDIxLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJlbXBsb3llZU5hbWUiOiLsoJXsp4DshK0iLCJzdWIiOiJyb290IiwiZW1wbG95ZWVFbWFpbCI6IndqZHdsdGpxODQ4MkBnbWFpbC5jb20iLCJleHAiOjE3MDczMDMxOTYsImVtcGxveWVlUm9sZSI6W3siZW1wbG95ZWVObyI6MCwiYXV0aG9yaXR5Q29kZSI6MiwiYXV0aG9yaXR5Ijp7ImF1dGhvcml0eUNvZGUiOjIsImF1dGhvcml0eU5hbWUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXR5RGVzYyI6Iuq0gOumrOyekCJ9fV19.HgsJESI1u7CQo7kHmnGEPJt7cw80-2eNcxdnWewzvhU';
         //console.log(status);
         dispatch(request());
-        fetch(`http://localhost:1208/mail/find-receive-mail?condition=${status}`,
+        fetch(`http://localhost:1208/mail/find-receive-mail?condition=${status}&page=${selectedPage? selectedPage : 0}`,
             {   
                 method: 'GET',
                 headers: {
@@ -29,7 +29,6 @@ export const fetchMailByStatus = (status) =>{
             .then(res => res.json())
             .then(data => {
                 dispatch(success(data));
-                console.log(data);
             })
             .catch(error => dispatch(fail(error)))
     }
@@ -46,7 +45,7 @@ export function fet(url,meth){
     }
 )
 }
-function fetObj(url,meth,obj){
+export function fetObj(url,meth,obj){
     return fetch(url,
     {   
         method: meth ? meth : 'GET',
@@ -59,6 +58,23 @@ function fetObj(url,meth,obj){
     }
 )
 }
+export const fetchMailToMe = (page) => {
+    return dispatch => {
+        fet(`http://localhost:1208/mail/to-me?page=${page ? page : 0}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 200){
+                dispatch(success(data));
+            } else {
+                dispatch(fail(data));
+            }
+        })
+        .catch(error => {
+            console.log('내게 쓴 메일 Fetch중 에러 발생 :',error);
+        })
+    }
+}
+
 export function changeReadStatus(emailCode){
     fet(`http://localhost:1208/mail/read-stats-n?emailCode=${emailCode}`,'PUT');
 }
@@ -72,14 +88,13 @@ export const updateEmailStatus = (emailCode, emailStatus) => {
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){
-                console.log('성공');
+                console.log('이메일 상태로 조회 성공');
             }
         })
     } 
 }
 
 export const getUnreadMail = async () => {
-    console.log('안읽은 메일 가져오기');
     const res = await fet(`http://localhost:1208/mail/unread-email-count`);
     const textData = await res.text(); // 텍스트 데이터 기다림
     return textData; // 텍스트 데이터 반환
@@ -124,12 +139,10 @@ export const toggleImportant = (emailCode,emailStatus) =>{
     }
 }
 
-export const fetchMailByReadStatus = () =>{
+export const fetchMailByReadStatus = (page) =>{
     return dispatch => {
-        console.log('안읽은 메일 디스패치 중');
-        
         dispatch(request());
-        fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/non-read-email`,
+        fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/non-read-email?page=${page ? page : 0}`,
             {   
                 method: 'GET',
                 headers: {
@@ -142,19 +155,18 @@ export const fetchMailByReadStatus = () =>{
             .then(res => res.json())
             .then(data => {
                 dispatch(success(data));
-                console.log(data);
             })
             .catch(error => dispatch(fail(error)))
     }
 }
-export const fetchMailSearch = (word, option) =>{
+export const fetchMailSearch = (word, option, page) =>{
     return dispatch => {
         console.log('메일 검색 디스패치 중');
         console.log('메일 검색 디스패치 중 :',option,'으로',word,'를 검색합니다.');
 
         //dispatch(request());
 
-        return fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-email?word=${word}&option=${option}`,
+        return fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-email?word=${word}&option=${option}&page=${page}`,
             {   
                 method: 'GET',
                 headers: {

@@ -1,0 +1,322 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: Pretendard-Regular;
+}
+.main {
+    display: grid;
+    grid-template-columns: 326px 245px auto;
+    width: 100%;
+}
+
+
+.main_section {
+    width: 100%;
+    display: grid;
+    grid-column: auto;
+}
+
+.main_header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    background-color: #F0F0F0;
+    padding-top: 10px;
+
+
+}
+
+.main_input_wrap {
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right: 60px;
+}
+
+.main_body {
+    width: 100%;
+    background-color: #F0F0F0;
+}
+
+.main_list_wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 43px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+
+.main_list_wrap > div {
+    height: 320px;
+    /*border: 1px solid #d9d9d9;*/
+    border: 1px;
+    box-sizing: border-box;
+    /*수정 예정*/
+    /*우선적으로 값을 고정했다.*/
+    width: 600px;
+}
+
+.pay_box{
+    display: flex;
+    padding-left: 50px;
+    gap: 30px;
+    align-items: center;
+    margin-right: 100px;
+    width: 600px;
+
+}
+.pay_wait_box{
+    font-size: 20px;
+    width: 250px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: #FFBE98;
+    border: 0;
+    text-align: center;
+    line-height: 60px;
+}
+
+.pay_completed_box{
+    font-size: 20px;
+    width: 250px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: #FFBE98;
+    border: 0;
+    text-align: center;
+    line-height: 60px;
+}
+
+.pay_more_btn{
+    margin-top: 20px;
+    font-size: 16px;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    border: 2px solid #fa9a85;
+    color: #fa9a85;
+    background: white;
+}
+
+.pay_more_btn:hover{
+    background-color: #F0F0F0;
+}
+
+.mypage_box{
+    display: flex;
+    background-color: #F0F0F0;
+    border-radius: 10px;
+    width: 500px;
+    height: 70px;
+    /*margin-right: 300px;*/
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    padding-top: 30px;
+
+}
+
+.mypage_btn{
+    font-size: 16px;
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+    margin-left: 0px;
+    transition: scale 0.3s ease;
+}
+
+.mypage_btn:hover{
+    scale: 1.05;
+}
+.main-logout-btn{
+    font-size: 16px;
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    color: white;
+    background: #fa9a85;
+    border: 0;
+    margin-left: 20px;
+    transition: scale.3s ease;
+}
+.main-logout-btn:hover{
+    scale: 1.05;
+}
+.mypage_name{
+    user-select: none;
+    font-size: 30px;
+    width: 100px;
+    height: 70px;
+    border-radius: 10px;
+    border: 0;
+   text-align: center;
+    line-height: 70px;
+    /*padding-top: 30px;*/
+}
+.main-name-text{
+    user-select: none;
+    position: relative;
+    margin-right: 20px;
+    top: 5px;
+
+}
+
+.main_list_01{
+    overflow-y: auto;
+/*    이거 스크롤추가인데 쿼리문에서 limit로 가져오면 될 듯*/
+}
+
+
+/*이게 게시판 테이블 css*/
+.group-table2 {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+.list_name1{
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.group-table2 th, .group-table2 td {
+    border-right: none; /* 열에만 왼쪽 선을 그립니다. */
+    padding: 8px;
+    height: 40px;
+}
+
+.group-table2 th:first-child, .group-table2 td:first-child {
+    border-left: none; /* 첫 열에는 왼쪽 선을 그리지 않습니다. */
+}
+.group-table2 tbody tr{
+    border-radius: 15px;
+    cursor: pointer;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+}
+.group-table2 thead th{
+    text-align: center;
+}
+.group-table2 tbody tr:hover {
+    background-color: #fa9a85;
+    color: white;
+}
+
+/*여기부터가 프로젝트 테이블 css*/
+.project-table {
+    background-color: #FFFFFF;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.project-table th, .project-table td {
+    cursor: pointer;
+    border-right: none; /* 열에만 왼쪽 선을 그립니다. */
+    padding: 8px;
+    height: 40px;
+}
+
+.project-table th:first-child, .project-table td:first-child {
+    border-left: none; /* 첫 열에는 왼쪽 선을 그리지 않습니다. */
+}
+
+.project-table tbody tr:hover {
+    background-color: #FFBE98;
+}
+.list_name3{
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+/*여기부터 두번째 근태 박스 css*/
+.main-date-now{
+    user-select: none;
+}
+.attendance-box {
+    border-radius: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 3px;
+    border: 1px solid #cccccc;
+}
+
+.date-box {
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.button-container {
+    display: flex;
+    gap: 100px;
+}
+
+.round-button,
+.round-button2 {
+    background-color: cornflowerblue;
+    width: 100px;
+    height: 100px;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition-property: background-color scale font-width;
+    transition-duration: 0.3s;
+}
+
+.round-button:hover {
+    background-color: #fa9a85;
+    scale: 1.1;
+    font-weight: bold;
+}
+
+.message {
+    font-size: 14px;
+    color: #555;
+}
+
+.list_name2{
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+/*여기부터 4번째 캘린더 박스*/
+.main_list_04{
+    user-select: none;
+}
+.list_name4{
+    user-select: none;
+    margin-left: 37%;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.weather-container{
+    padding-left: 35%;
+}
+
+
+.project-table thead th{
+    text-align: center;
+}
+

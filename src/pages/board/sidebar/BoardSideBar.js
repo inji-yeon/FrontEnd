@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import './boardSideBar.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { callGetBoardCategoryAPI } from '../../../apis/BoardAPICalls';
+import { useNavigate } from 'react-router-dom';
 
 const BoardSideBar = () => {
 
@@ -8,14 +11,26 @@ const BoardSideBar = () => {
     const [anonyMenuVisible, setAnonyMenuVisible] = useState(true);
     const [active, setActive] = useState(false);
 
+
+    const navigate = useNavigate();
+    const boardData = useSelector(state => state.boardReducer?.boardList);
+    const dispatch = useDispatch();
+
+    console.log(boardData);
+
     useEffect(() => {
-        
+
+        dispatch(callGetBoardCategoryAPI());
         setActive(true)
-    }, []);    
+    }, []);
+
+
+    console.log('boardData ', boardData);
 
     return <>
             <div className={`BoardSideBar fade-in ${active ? 'active' : ''}`}>
                 <div className='board_name'>게시판</div>
+
 
                 <div className='companyBoard'>
                     <div className='board_title_section' id='boardTitleSection' onClick={() => setcompanyMenuVisible(!companyMenuVisible)}
@@ -26,18 +41,19 @@ const BoardSideBar = () => {
                     </div>
 
                     <div
-                    className={`board_menu_section ${companyMenuVisible ? 'visible' : 'hidden'}`}
-                    style={{
-                    opacity: companyMenuVisible ? 1 : 0,
-                    height: companyMenuVisible ? 'auto' : 0,
-                    overflow: 'hidden',
-                    transition: 'height 0.3s, opacity 0.3s'
-                    }}
-                    >
-                        <div><span>사내 소식</span></div>
-                        <div><span>IT 소식</span></div>
-                        <div><span>IT 매뉴얼</span></div>
-                        <div><span>회사 소개</span></div>
+                        className={`board_menu_section ${companyMenuVisible ? 'visible' : 'hidden'}`}
+                        style={{
+                        opacity: companyMenuVisible ? 1 : 0,
+                        height: companyMenuVisible ? 'auto' : 0,
+                        overflow: 'hidden',
+                        transition: 'height 0.3s, opacity 0.3s'
+                        }}>
+
+                    {boardData.filter((board) => board.boardGroupCode === 1).map(board => 
+                        <div onClick={() => navigate(`${board.boardCode}`)}><span>{board.boardTitle}</span></div>
+                    
+                    )}
+
                     </div>
 
                 </div>
@@ -55,13 +71,13 @@ const BoardSideBar = () => {
                     height: depMenuVisible ? 'auto' : 0,
                     overflow: 'hidden',
                     transition: 'height 0.3s, opacity 0.3s'}}>
-                        <div><span>개발부서</span></div>
-                        <div><span>경영부서</span></div>
+
+                        {boardData.filter(board => board.boardGroupCode === 2).map(board => 
+                            <div onClick={() => navigate(`${board.boardCode}`)}><span>{board.boardTitle}</span></div>
+                        )}
 
                     </div>
-
                 </div>
-
 
 
                 <div className='anonyBoard'>
@@ -77,13 +93,13 @@ const BoardSideBar = () => {
                     height: anonyMenuVisible ? 'auto' : 0,
                     overflow: 'hidden',
                     transition: 'height 0.3s, opacity 0.3s'}}>
-                        <div><span>경영팀 익명게시판</span></div>
-                        <div><span>개발부서 자유토론</span></div>
+
+                        {boardData.filter(board => board.boardGroupCode === 3).map(board => 
+                            <div><span>{board.boardTitle}</span></div>
+                        )}
+
                     </div>
-
                 </div>
-
-
 
             </div>
     

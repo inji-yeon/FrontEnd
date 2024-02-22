@@ -8,8 +8,15 @@ import {
     DELETE_POST,
     PUT_MOVE_POST,
     GET_POSTS_SEARCH,
-    POST_LIKE
-} from '../modules/BoardModule.jsx'
+    POST_LIKE,
+} from '../modules/PostModule.jsx'
+
+import { 
+    POST_COMMENT,
+    PUT_COMMENT,
+    DELETE_COMMENT, 
+} from '../modules/PostCommentModule.jsx'
+import { GET_BOARDS } from '../modules/BoardModule.jsx'
 
 
 /* 리덕스 적용 전  */
@@ -33,9 +40,9 @@ import {
 
 
 /* 게시글 조회 */
-export const callGetPostsAPI = ({boardCode}) => {
+export const callGetPostsAPI = ({boardCode, offset}) => {
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}?offset=${offset ? offset : 1}`
     // const requestURL = `http://localhost:1208/board/${boardCode}`;
 
     return async(dispatch, getState) => {
@@ -61,9 +68,35 @@ export const callGetPostsAPI = ({boardCode}) => {
 
 
 
+/* 게시판 조회 */
+export const callGetBoardCategoryAPI = () => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board`
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            }).then(res => res.data)
+            .catch(err => console.log(err));
+
+            console.log('api : ', result);
+
+            dispatch({type: GET_BOARDS, payload: result?.data});
+
+    }
+}
+
+
+
+
 /* 게시글 검색 */
 export const callSearchPostAPI = (boardCode, search) => {
-    console.log(boardCode,search);
+
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}/posts/search?q=${search}`
     return async(dispatch, getState) => {
 
@@ -81,7 +114,7 @@ export const callSearchPostAPI = (boardCode, search) => {
 
             console.log('api : ', result);
 
-            dispatch({type: GET_POSTS, payload: result.data});
+            dispatch({type: GET_POSTS, payload: result?.data});
 
     }
 
@@ -121,6 +154,67 @@ export const callRegistPostAPI = ({form}) => {
 
 
 
+/* 게시글 수정 */
+export const callModifyPostAPI = ({postCode, form}) => {
+
+    for (let [key, value] of form.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/update`;
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .put(requestURL, form
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log('comment modify api result----------',result);
+
+            dispatch({type: PUT_POST, payload: result});
+
+    }
+}
+
+
+/* 게시글 삭제 */
+export const callRemovePostAPI = ({postCode}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}`;
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .delete(requestURL
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log('post delete api result----------',result);
+
+            dispatch({type: DELETE_POST, payload: result});
+
+    }
+}
+
+
+
 
 /* 게시글 하나 상세정보 조회 */
 export const callGetPostInfoAPI = ({postCode}) => {
@@ -154,6 +248,7 @@ export const callRegistLikeAPI = ({postCode}) => {
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/like`;
 
+    console.log('postCode: ',postCode);
 
     return async(dispatch, getState) => {
 
@@ -177,5 +272,95 @@ export const callRegistLikeAPI = ({postCode}) => {
     }
 
 }
+
+
+
+/* 댓글 등록 */
+export const callRegistCommentAPI = ({postCode, postCommentContext}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/comment/regist`;
+
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .post(requestURL
+                ,{ postCommentContext }
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log('result',result);
+
+            dispatch({type: POST_COMMENT, payload: result});
+
+    }
+}
+
+
+/* 댓글 수정 */
+export const callModifyCommentAPI = ({commentCode, postCommentContext}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/comment/${commentCode}`;
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .put(requestURL
+                ,{ postCommentContext }
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log('comment modify api result----------',result);
+
+            dispatch({type: PUT_COMMENT, payload: result});
+
+    }
+}
+
+
+
+/* 댓글 삭제 */
+export const callRemoveCommentAPI = ({commentCode}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/comment/${commentCode}`;
+
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .delete(requestURL
+                ,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*",
+                        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                    },
+                
+                }
+            ).then(res => res.data)
+             .catch(err => console.log(err))
+
+            console.log('comment delete api result----------',result);
+
+            dispatch({type: DELETE_COMMENT, payload: result});
+
+    }
+}
+
 
 

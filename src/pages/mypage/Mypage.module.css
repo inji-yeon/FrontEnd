@@ -1,0 +1,38 @@
+
+.myinfo_update {
+    display: flex;
+    width: 925px;
+    justify-content: center;
+    background-color: #F5F5F5;
+}
+
+.myinfo_chart{
+    margin-top: 200px;
+}
+
+.myinfo_chart input {
+    width: 400px;
+    height: 30px;
+    font-size: 25px;
+}
+
+.myinfotext{
+    margin-bottom: 50px;
+    display: flex;
+    width: 100px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    justify-content: center;
+}
+
+.update_btn{
+
+    margin-top: 20px;
+}
+
+.update_btn2{
+    background-color: #FFBE98;
+    width: 100px;
+    height: 30px;
+}

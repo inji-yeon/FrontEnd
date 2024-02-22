@@ -1,6 +1,46 @@
-*{
-    font-family: Pretendard-Regular;
+
+.paging {
+    position: absolute;
+    top: 950px;
+    left: 1100px;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    
 }
+
+.paging li {
+    
+    margin: 0 5px;  
+    border-radius: 5px;
+}
+
+.paging li a {
+    border-radius: 5px;
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    transition-property: background-color;
+    transition-duration: 0.3s;
+
+}
+
+.paging-active {
+    background-color: #fa9a85;
+    color: white;
+    border-color: #fa9a85; 
+}
+
+.paging li a:hover {
+
+    background-color: #fa9a85;
+    color: white;
+    
+}
+
+
 .project_section {
     display: grid;
     grid-column: auto;
@@ -126,7 +166,7 @@ th,td{
 }
 .fade-in {
     opacity: 0;
-    transition: opacity 0.5s ease-in;
+    transition: opacity 0.7s ease-in;
   }
   .fadea-in:hover {
     background-color: aliceblue;

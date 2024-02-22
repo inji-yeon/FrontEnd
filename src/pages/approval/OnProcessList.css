@@ -131,3 +131,7 @@
 .awaiting_list_footer > input[type=button]:hover {
     background: #d9d9d9;
 }
+
+.list_writing_button {
+    cursor: pointer;
+}

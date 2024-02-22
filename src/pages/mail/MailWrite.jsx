@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import style from './mailWrite.module.css';
-import { fet } from '../../apis/MailAPI';
+import { fet, fetObj } from '../../apis/MailAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWebSocket } from '../../component/WebSocketContext';
+import { useAlert } from '../../component/common/AlertContext';
 
 function MailWrite() {
     window.jQuery = require('jquery');
+    const { showAlert } = useAlert();
+
     const wc = useWebSocket();
     const navigate = useNavigate();
     const RichTextEditor = require('../../component/common/SummerNote').default;
@@ -25,10 +28,11 @@ function MailWrite() {
                 if(data.status === 200){
                     console.log(data);
                     setReceiver(data.data.emailSender.employeeId);
+                    setTitle(`re : ${data.data.emailTitle} `);
                 }
             })
         }
-    },[location,emailCode])
+    },[location,emailCode]) 
 
     useEffect(()=>{
         
@@ -43,9 +47,6 @@ function MailWrite() {
         if(title && receiver){          //insert작업인데 @MessageMapping으로 보내야한다.
             switch(status){
                 case 'send': 
-                console.log(wc);
-                    console.log('일반 적인 전송입니다');
-                    console.log(title,receiver,content); 
                     if(wc){
                         wc.publish({
                             destination: '/app/mail/alert/send',    //엔드포인트
@@ -54,7 +55,6 @@ function MailWrite() {
                                 emailTitle: title,
                                 emailContent: content,
                                 emailReceiver: {
-                                
                                     employeeId: receiver+'@witty.com'
                                 }
                                 })
@@ -62,14 +62,27 @@ function MailWrite() {
                         console.log(`클라에서 정상적으로 보냈습니다.\n보낸 내용 : \n emailTitle : ${title}\nemailContent : ${content}\nemailReceiver : ${receiver}`);
                         navigate('/mail/check');
                     } else {
-                        console.log('웹소켓과 연결되지 않은 상태입니다.');
+                        showAlert('웹소켓과 연결되지 않은 상태입니다.');
                     }
                     break;
                 case 'reserve': 
                     if(reserveDate === ''){
-                        showErrorMsg('날짜를 선택해주세요.');    //날짜를 선택하지 않음
+                        showAlert('날짜를 선택하세요.')
                     } else {
                         console.log('선택한 날짜는 : ',reserveDate);    //날짜를 선택함
+                        console.log('제목은 : ',title); 
+                        console.log('내용은 : ',content);
+                        console.log('받는 사람은 : ',receiver);
+                        const emailDTO = {
+                            emailTitle: title,
+                                emailContent: content,
+                                emailReservationTime: reserveDate,
+                                emailReceiver: {
+                                    employeeId: receiver+'@witty.com'
+                                }
+                        }
+                        fetObj(`http://localhost:1208/mail/send-reserve-mail`,'POST',emailDTO)
+                        .then(res => res.json())
                     }
                     break;
                 case 'temporary' : 
@@ -78,7 +91,7 @@ function MailWrite() {
                 default : break;
             }
         } else {
-            showErrorMsg('받는 이 또는 제목이 비어있습니다.');
+            showAlert('받는 이 또는 제목이 비어있습니다.');
         }
         
     }
@@ -110,7 +123,7 @@ function MailWrite() {
                 <hr className={style.customHr}/>
                 <button onClick={()=>{sendEmail('send')}} className={style.sendButton}>보내기</button>
                 <button onClick={()=>{sendEmail('reserve')}} className={style.reserveSend}>예약 전송</button>
-                <input onChange={(e)=>{dateChangeHandler(e)}} type="date" className={style.inputDate} value={reserveDate}/>
+                <input onChange={(e)=>{dateChangeHandler(e)}} type="datetime-local" className={style.inputDate} value={reserveDate}/>
                 <button onClick={()=>{sendEmail('temporary')}} className={style.temporarySave}>임시저장</button>
                 <hr/>
                 <span className={style.receiverText}>받는 사람</span>
@@ -122,7 +135,6 @@ function MailWrite() {
                 <input className={style.fileInput} type="file" /><hr/>
                 <RichTextEditor content={content} onContentChange={(e)=>{handleContent(e)}} />
             </div>
-            
         </>
     )
 }

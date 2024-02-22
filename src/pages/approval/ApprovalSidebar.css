@@ -120,9 +120,13 @@
 	margin-left: 7px;
 	margin-right: 7px;
   }
-  .inbox_menu_section div:hover, .outbox_menu_section div:hover, .view_menu_section div:hover{
+  /* .inbox_menu_section div:hover, .outbox_menu_section div:hover, .view_menu_section div:hover{
 	font-weight: bold;
-  }
+  } */
+
+.on_process.bold, .completed.bold, .rejected.bold, .retrieved.bold, .saved.bold  {
+  font-weight: bold;
+}
   .inbox_drop_down {
 	width: 14px;
 	margin-right: 40px;

@@ -42,7 +42,7 @@
     width: 400px;
 }
 .sendMeText{
-    position: absolute;
+
     width: 100px;
     left: 1200px;
     font-size: 17px;
@@ -50,7 +50,7 @@
     margin-right: 20px;
 }
 .sendMeCheckBox{
-    position: absolute;
+
     left: 1290px;
     top: 185px;
 }

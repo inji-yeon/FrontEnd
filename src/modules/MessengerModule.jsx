@@ -132,7 +132,7 @@ const messengerReducer = handleActions(
                         , {
                         ...payload,
                         chatroomMemberCount: payload.chatroomMemberCount + 1
-                    }                    ]
+                    }]
                 }
             }
         },
