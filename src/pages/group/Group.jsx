@@ -84,7 +84,7 @@ function Group() {
 
 
 
-    const isAdmin = decodeToken.employeeRole.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때
+    const isAdmin = decodeToken?.employeeRole?.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때
 
 
     
