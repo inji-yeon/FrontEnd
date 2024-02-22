@@ -1,9 +1,12 @@
 *{
     font-family: Pretendard-Regular;
 }
-.project_section {
+.approval_form_list_wrapper {
     display: grid;
     grid-column: auto;
+    height: 100%;
+}
+.preview_section{
     height: 100%;
 }
 .new_form_title_section {
@@ -71,7 +74,13 @@
     width: 4px;
     height: 35px;
     background-color: #FA9A85;
+    display: none; /* 초기에는 모두 숨김 */
 }
+
+.form_list.selected .selection_indicator {
+    display: block; /* 선택된 양식에 대해서만 표시 */
+}
+
 .form_preview_section {
     width: 957px;
     height: 944px;
@@ -97,7 +106,7 @@
     height: 37px;
     border-radius: 5px;
     background-color: #FA9A85;
-    margin-left: 31px;
+    margin-left: 801px;
     display: flex;
     align-items: center;
     justify-content: center;

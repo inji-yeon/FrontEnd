@@ -30,6 +30,14 @@ import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
 import RejectedList from './pages/approval/RejectedList';
 import RetrievedList from './pages/approval/RetrievedList';
+import AwayForm from './pages/approval/AwayForm';
+import BusinessTripForm from './pages/approval/BusinessTripForm';
+import OnLeaveForm from './pages/approval/OnLeaveForm';
+import OvertimeForm from './pages/approval/OvertimeForm';
+import SWForm from './pages/approval/SWForm';
+import WFHForm from './pages/approval/WFHForm';
+import WritingOnLeave from './pages/approval/WritingOnLeave';
+
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
 import AdminVacationList from './pages/attendance/AdminVacationList';
@@ -48,6 +56,7 @@ import AdminGroup from './pages/admin/AdminGroup';
 import AdminApproval from './pages/admin/AdminApproval';
 import { AlertProvider } from './component/common/AlertContext';
 import { Alert } from './component/common/Alert';
+import Messenger from './component/messenger/Messenger';
 
 
 function App() {
@@ -57,7 +66,7 @@ function App() {
             
             <BrowserRouter>
                 <Routes>
-                    <Route path='login' element={<Login />} />
+                            <Route path='login' element={<Login />} />
                     <Route path='/' element={<Layout />}>
                         <Route index element={<Main />} />
 
@@ -67,9 +76,7 @@ function App() {
                         </Route>
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                    <Route path='group' element={<GroupChart/>} >
-                        
-                    </Route>
+                        <Route path='group' element={<GroupChart />}></Route>
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />
@@ -99,7 +106,15 @@ function App() {
                         <Route path='projects/:projectCode/posts/:postCode' elemet={<ProjectBoardDetail />} />
 
                     <Route path='approval' element={<ApprovalSidebar />}>
-                        <Route path='writing' element={<ApprovalFormList />} />
+                        <Route path='writing' element={<ApprovalFormList />}>
+                            <Route path='AwayForm' element={<AwayForm />} />
+                            <Route path='BusinessTripForm' element={<BusinessTripForm />} />
+                            <Route path='OnLeaveForm' element={<OnLeaveForm />} />
+                            <Route path='OvertimeForm' element={<OvertimeForm />} />
+                            <Route path='SWForm' element={<SWForm />} />
+                            <Route path='WFHForm' element={<WFHForm />} />
+                        </Route>
+                        <Route path='WritingOnLeave' element={<WritingOnLeave />} />
                         <Route path='onProcessList' element={<OnProcessList />} />
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />
