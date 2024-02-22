@@ -18,7 +18,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         + (`?offset=${offset ?? 1}`)
         + (projectType && `&type=${projectType}`)
         + (searchValue && `&search=${encodeURIComponent(searchValue.trim())}`)
-    console.log(requestURL);
+    console.log('requestURL', requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .get(requestURL, {
@@ -85,38 +85,36 @@ export const callGetProjectAPI = ({ projectCode }) => {
         console.log('[ProjectAPICalls] callGetProjectAPI RESULT : ', result)
 
         dispatch({ type: GET_PROJECT, payload: result?.data })
-        // dispatch(callGetProjectPostListAPI({ projectCode }))
+        dispatch(callGetProjectPostListAPI({ projectCode }))
     }
 }
 
-// export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) => {
-//     console.log(projectCode);
-//     console.log(offset);
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/paging`
-//         + (`?offset=${offset ?? 1}`)
-//         + (searchValue ? `&search=${encodeURIComponent(searchValue.trim())}` : '')
-//     console.log(requestURL);
-//     return async (dispatch, getState) => {
-//         const result = await axios
-//             .get(requestURL, {
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     Accept: '*/*',
-//                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-//                 }
-//             })
-//             .then(response => {
-//                 return response
-//             }).catch(error => console.error(error))
-//         // 에러 처리 해야 된다.
+export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) => {
+    console.log(projectCode);
+    console.log(offset);
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/paging`
+        + (`?offset=${offset ?? 1}`)
+        + (searchValue ? `&search=${encodeURIComponent(searchValue.trim())}` : '')
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            }).catch(error => console.error(error))
+        // 에러 처리 해야 된다.
 
-//         console.log('[ProjectAPICalls] callGetProjectPostListAPI RESULT : ', result)
+        console.log('[ProjectAPICalls] callGetProjectPostListAPI RESULT : ', result)
 
-//         dispatch({ type: GET_PROJECT_LIST, payload: result?.data })
-//     }
-// }
-
-// PUT_PROJECT
+        dispatch({ type: GET_PROJECT_LIST, payload: result?.data })
+    }
+}
 
 export const callModifyProjectAPI = ({ form }) => {
     const projectCode = form?.projectCode;
