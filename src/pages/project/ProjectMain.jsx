@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './projectMain.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { callGetProjectsAPI } from '../../apis/ProjectAPICalls';
+import { callCreateProjectAPI, callGetProjectsAPI, callResetCreateProjectCode } from '../../apis/ProjectAPICalls';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,22 +15,38 @@ function ProjectMain() {
     const [searchValue, setSearchValue] = useState('');
     const [pageRange, setPageRange] = useState([]);
     const [isCreateWindow, setIsCreateWindow] = useState(false);
-    // const [isCreateWindow, setIsCreateWindow] = useState(true);
-    const [isChecked, setIsChecked] = useState(false);
-    const [descriptionValue, setDescriptionValue] = useState('');
-    const [deadlineValue, setDeadlineValue] = useState(format(new Date(), "yyyy-MM-dd", { timeZone: 'Asia/Seoul' }));
+
+
+    const [createForm, setCreateForm] = useState({
+        projectTitle: '',
+        projectDeadline: format(new Date(), "yyyy-MM-dd", { timeZone: 'Asia/Seoul' }),
+        projectDescription: '',
+        projectLockedStatus: 'N',
+    })
 
     const selectedStyle = {
         backgroundColor: "#fa9a85",
         color: 'white'
     }
     useEffect(() => {
+        project && console.log('project', project);
+    }, [project])
+    useEffect(() => {
         setProjectList(project?.projectListWithPaging?.data);
         setProjectPageInfo(project?.projectListWithPaging?.pageInfo);
     }, [project?.projectListWithPaging])
+
+    useEffect(() => {
+        if (project?.createProjectCode) {
+            navigate(`/projects/${project?.createProjectCode}`);
+            dispatch(callResetCreateProjectCode());
+        }
+    }, [project?.createProjectCode])
+
     useEffect(() => {
         projectType && dispatch(callGetProjectsAPI({ projectType, searchValue }))
     }, [projectType])
+
     useEffect(() => {
         projectList?.length && console.log('projectList>>>', projectList);
         projectPageInfo && console.log('projectPageInfo>>>', projectPageInfo);
@@ -59,20 +75,30 @@ function ProjectMain() {
         setIsCreateWindow(!isCreateWindow)
     }
 
-    const descriptionValueHandler = (e) => {
-        const maxLength = 200;
-        if (e.target.value.length <= maxLength) {
-            setDescriptionValue(e.target.value);
-        }
-    }
-    const deadlineValueHandler = (e) => {
-        setDeadlineValue(e.target.value)
-    }
-
     const gobackHandler = () => {
         window.location.reload();
     }
 
+    const createFormHandler = (e) => {
+        if (e.target.name === 'projectDescription') {
+            const maxLength = 200;
+            if (e.target.value.length <= maxLength) {
+                setCreateForm({
+                    ...createForm,
+                    projectDescription: e.target.value
+                })
+            }
+        } else {
+            setCreateForm({
+                ...createForm,
+                [e.target.name]: e.target.value,
+            })
+        }
+    }
+
+    const createCompleteHandler = () => {
+        dispatch(callCreateProjectAPI({ createForm }))
+    }
     return (
         <div className={styles.project_main}>
             {/* 이 곳은 프로젝트 페이지 입니다. */}
@@ -190,6 +216,9 @@ function ProjectMain() {
                                     <input
                                         type='text'
                                         className={styles.title}
+                                        value={createForm.projectTitle}
+                                        name='projectTitle'
+                                        onChange={createFormHandler}
                                     />
                                 </td>
                             </tr>
@@ -197,29 +226,43 @@ function ProjectMain() {
                                 <th>마감기한</th>
                                 <td><input
                                     type='date'
-                                    value={deadlineValue}
                                     min={format(new Date(), 'yyyy-MM-dd', { timeZone: 'Asia/Seoul' })}
-                                    onChange={deadlineValueHandler}
                                     className={styles.deadline}
+                                    value={createForm.projectDeadline}
+                                    name='projectDeadline'
+                                    onChange={createFormHandler}
                                 /></td>
                             </tr>
                             <tr>
                                 <th className={styles.description_text}>설명</th>
                                 <td>
                                     <textarea
-                                        value={descriptionValue}
-                                        onChange={descriptionValueHandler}
                                         maxLength={200}
                                         className={styles.description_textarea}
+                                        value={createForm.projectDescription}
+                                        name='projectDescription'
+                                        onChange={createFormHandler}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <th>잠금여부</th>
                                 <td>
-                                    <div className={styles.custom_checkbox}>
-                                        <label htmlFor="lockCheckbox" className={`${styles.custom_checkbox_label} ${isChecked ? styles.custom_checkbox_checked : ''}`} />
-                                        <input id='lockCheckbox' type='checkbox' className={styles.custom_checkbox_input} value={isChecked} onChange={() => setIsChecked(!isChecked)} />
+                                    <div>
+                                        <select
+                                            value={createForm.projectLockedStatus}
+                                            onChange={createFormHandler}
+                                            name='projectLockedStatus'>
+                                            <option value='Y'>O</option>
+                                            <option value='N'>X</option>
+                                        </select>
+                                        <input
+                                            id='lockCheckbox'
+                                            type='checkbox'
+                                            className={styles.custom_checkbox_input}
+                                            value={createForm.projectLockedStatus}
+                                            name='projectLockedStatus'
+                                            onChange={createFormHandler} />
                                     </div>
                                 </td>
                             </tr>
@@ -236,7 +279,7 @@ function ProjectMain() {
                             className={styles.create_complete_button}
                             type='button'
                             value='생성하기'
-                        // onClick={createCompleteHandler}
+                            onClick={createCompleteHandler}
                         />
                     </div>
                 </section>}

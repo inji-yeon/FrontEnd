@@ -1,0 +1,58 @@
+.messenger_body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    padding-top: 40px;
+    gap: 20px;
+}
+
+.button_wrap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.button_wrap input[type='button'] {
+    padding: 8px 12px;
+    font-size: 20px;
+    color: white;
+    background-color: #fa9a85;
+    border: 0;
+    border-radius: 10px;
+}
+
+.messenger_body_1 {
+    font-size: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 0em 16px;
+}
+
+.messenger_body_1>span {
+    width: 6em;
+    margin: 0;
+    font-weight: bold;
+}
+
+.messenger_body_1>input {
+    padding: 5px 0px 5px 6px;
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    border: 2px solid #a3a2a2;
+}
+
+.messenger_body_1>select {
+    padding: 3px 0px 7px 6px;
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    border: 2px solid #a3a2a2;
+}

@@ -1,12 +1,13 @@
 import jwt_decode from "jwt-decode";
 
 export function decodeJwt(token) {
-    try{
-        if(token === null) return null;
 
-        return jwt_decode(token);
-    }catch(e){
-        
-        console.log(e);
-    }
+    if (token === null) return null;
+
+    return jwt_decode(token);
+    
 };
+
+export function userEmployeeCode() {
+    return decodeJwt(window.localStorage.getItem('accessToken'))?.empCode;
+}

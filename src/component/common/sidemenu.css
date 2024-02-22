@@ -93,6 +93,7 @@
 }
 
 .status_title span {
+    -webkit-user-select: none;
     user-select: none;
     padding-left: 20px;
     font-size: 20px;
@@ -112,12 +113,14 @@
 }
 
 .status_name_text {
+    -webkit-user-select: none;
     user-select: none;
     font-size: 20px;
     padding-left: 0.5em;
 }
 
 .status_team_text {
+    -webkit-user-select: none;
     user-select: none;
     font-size: 16px;
     padding-left: 0.5em;
