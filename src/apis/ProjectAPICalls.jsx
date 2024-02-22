@@ -14,6 +14,7 @@ import {
     RESET_ERROR,
     UPLOAD_IMAGE,
     CREATE_PROJECT_POST,
+    GET_EMPLOYEES,
 } from '../modules/ProjectModule'
 
 export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
@@ -115,7 +116,7 @@ export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) 
         console.log('[ProjectAPICalls] callGetProjectPostListAPI RESULT : ', result)
 
         dispatch({ type: GET_PROJECT_POST_LIST, payload: result?.data })
-        
+
     }
 }
 
@@ -134,15 +135,33 @@ export const callModifyProjectAPI = ({ form }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => {
-                alert('프로젝트 수정에 실패했습니다.');
-                dispatch({ type: ERROR, payload: `/projects/${projectCode}` });
             })
-        // 에러 처리 해야 된다.
 
         console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
 
         dispatch({ type: PUT_PROJECT, payload: result?.data })
+    }
+}
+
+export const callGetEmployees = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/employees`;
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        console.log('[ProjectAPICalls] callGetEmployees RESULT : ', result)
+
+        dispatch({ type: GET_EMPLOYEES, payload: result?.data })
     }
 }
 
@@ -187,7 +206,6 @@ export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
             .then(response => {
                 return response
             })
-        // 에러 처리 해야 된다.
 
         console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
 

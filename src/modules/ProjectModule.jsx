@@ -3,6 +3,7 @@ import { createActions, handleActions } from 'redux-actions'
 /* 초기값 */
 const initialState = {
     errorPage: '',
+    message: '',
     projectListWithPaging: {
         data: [],
         pageInfo: null
@@ -36,7 +37,8 @@ export const RESET_GET_PROJECT = 'project/RESET_GET_PROJECT'
 export const ERROR = 'project/ERROR';
 export const RESET_ERROR = 'project/RESET_ERROR'
 export const RESET = 'project/RESET';
-
+export const RESET_MESSAGE = 'project/RESET_MESSAGE'
+export const GET_EMPLOYEES = 'project/EMPLOYEES'
 
 const action = createActions({
     [GET_PROJECTS]: () => { },
@@ -47,12 +49,14 @@ const action = createActions({
     [UPLOAD_IMAGE]: () => { },
     [CREATE_PROJECT_POST]: () => { },
     [ERROR]: () => { },
+    [GET_EMPLOYEES]: () => { },
 
     [RESET]: () => { },
     [RESET_GET_PROJECTS]: () => { },
     [RESET_POST_PROJECT]: () => { },
     [RESET_GET_PROJECT]: () => { },
-    [RESET_ERROR]: () => { }
+    [RESET_ERROR]: () => { },
+    [RESET_MESSAGE]: () => { }
 })
 
 const projectReducer = handleActions(
@@ -85,7 +89,8 @@ const projectReducer = handleActions(
         [PUT_PROJECT]: (state, { payload }) => {
             return {
                 ...state,
-                returnData: payload
+                returnData: payload,
+                message: PUT_PROJECT
             }
         },
         [UPLOAD_IMAGE]: (state, { payload }) => {
@@ -101,10 +106,16 @@ const projectReducer = handleActions(
             return {
                 ...state,
                 uploadImageList: [],
-
+                message: CREATE_PROJECT_POST
             }
         },
-
+        [GET_EMPLOYEES]: (state, { payload }) => {
+            return {
+                ...state,
+                employeeList: payload?.data,
+                message: GET_EMPLOYEES
+            }
+        },
 
         [ERROR]: (state, { payload }) => {
             return {
@@ -146,6 +157,12 @@ const projectReducer = handleActions(
                 errorPage: ''
             }
         },
+        [RESET_MESSAGE]: (state, { payload }) => {
+            return {
+                ...state,
+                message: ''
+            }
+        }
     },
     initialState
 )
