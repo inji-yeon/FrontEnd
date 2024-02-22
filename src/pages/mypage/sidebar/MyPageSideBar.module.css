@@ -1,0 +1,145 @@
+/* .project_main {
+    display: grid;
+    grid-template-columns: 245px auto;
+} */
+
+.sidemenu2 {
+    width: 245px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #606060;
+    background-color: #F5F5F5;
+}
+
+.sidemenu2_title {
+    color: #414141;
+    margin: 60px 0px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.sidemenu2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0px auto;
+}
+
+.sidemenu2 ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0px;
+    height: 60px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.sidemenu2 ul li div {
+    font-size: 20px;
+    text-align: center;
+}
+
+.sidemenu2 ul li:hover {
+    background-color: HSL(12, 83%, 80%);
+}
+
+.sidemenu2 ul li:hover div {
+    color: white;
+}
+.mypage_name {
+    position: relative;
+    top: 0;
+    left: 7px;
+    width: calc(100% - 14px);
+    height: 100%;
+    text-align: center;
+}
+
+.mypage_name2 {
+    color: #414141;
+    margin: 60px 0px;
+    font-size: 24px;
+
+}
+
+
+
+/* ==================== */
+
+.mypage_section{
+    display: flex;
+    /* justify-content: space-between; */
+    /* width: 100%; */
+}
+
+.maincontent{
+    height:1080px;
+    text-align: center;
+}
+
+.mypagecontent {
+    display: flex;
+    padding: 20px; /* 내용에 여백 추가 (선택사항) */
+    box-sizing: border-box; /* 패딩과 경계 상자 크기 포함 */
+    flex-direction: column;
+
+}
+
+.mypage_info{
+    background-color: #FFBE98;
+    width: 300px;
+    height: 100%;
+    padding-top: 100px;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+.mypage_info2{
+    padding-top: 50px;
+    margin-left: 30px;
+    text-align: center;
+}
+
+.mypage_info2 > div {
+    display: inline-block;
+    margin-right: 30px; /* 각 항목 사이의 간격을 조절할 수 있습니다. */
+}
+
+.mypage_info2 h3 {
+font-size: 25px;
+}
+.mypage_info2 p {
+font-size: 20px;
+}
+.mainsection{
+    display: flex;
+}
+
+.mypagetitle{
+    font-size: 30px;
+    
+    
+}
+
+#dept_name{
+    font-size: 20px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+#joinDate{
+    font-size: 20px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.profilemodifybtn{
+    display: flex;
+    margin-left: 100px;
+    height: 30px;
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+}

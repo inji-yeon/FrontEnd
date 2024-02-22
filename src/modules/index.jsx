@@ -8,11 +8,21 @@ import employeeReducer from './EmployeeModules'
 import calendarReducer from './CalendarModule';
 import groupreducer from './GroupModule';
 import projectReducer from './ProjectModule';
+import postReducer from './PostModule';
+import postCommentReducer from './PostCommentModule';
 import boardReducer from './BoardModule';
+import mypagereducer from './MypageModule';
+import groupchartreducer from './GroupchartModule';
+import mypagepwdupdatereducer from './MypagepwdupdateModule';
+import mypageinfoupdatereducer from './MypageinfoupdateModule';
+import { adminReducer } from './AdminModule';
+import { mainReducer } from './MainModule';
+
 import approvalReducer from './ApprovalModule';
 
 const rootReducer = combineReducers({
-    
+    mainPost: mainReducer,
+    admin: adminReducer,
     mail: mailReducer,
     sidebar: sidebarReducer,
     attendance: attendanceReducer,
@@ -20,8 +30,17 @@ const rootReducer = combineReducers({
     calendar: calendarReducer,
     groupreducer,
     project: projectReducer,
-    board: boardReducer,
+    board: postReducer,
+    mypagereducer,
+    groupchartreducer,
+    mypagepwdupdatereducer,
+    mypageinfoupdatereducer,
+
+    postCommentReducer,
+    boardReducer,
     approvalReducer,
+
+
 });
 
 export default rootReducer;

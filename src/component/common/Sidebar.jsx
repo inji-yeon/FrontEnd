@@ -10,25 +10,30 @@ import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function SideBar() {
+    
     let navigate = useNavigate();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getUserInformation());
-    })
-
-const token = decodeJwt(window.localStorage.getItem("accessToken"))
-console.log('--------',token)
-
-    const loginEmployee = useSelector(state => state.employeeReducer);
-
-
-    // const userName = useSelector(state => state.sidebar.userName);
-    // const userGroup = useSelector(state => state.sidebar.userGroup);
-    // const userDept = useSelector(state => state.sidebar.userDept);
-    // const userProfileImg = useSelector(state => state.sidebar.userProfileImg);
+    const [token, setToken] = useState('');
+    const [userDept, setUserDept] = useState('');
+    const [userGroup, setUserGroup] = useState('');
+    useEffect(()=>{
+        setToken(decodeJwt(window.localStorage.getItem("accessToken")));
+    },[])
+    useEffect(()=>{
+        if(token){
+            setUserDept(token.empDeptName);
+            switch(token.empGroupCode){
+                case 1: setUserGroup('관리본부'); break;
+                case 2: setUserGroup('영업본부'); break;
+                case 3: setUserGroup('개발본부'); break;
+                case 4: setUserGroup('마케팅본부'); break;
+                default: setUserGroup('Error');
+            }
+        }
+        
+    },[token])
 
     const user = useSelector(state => state.sidebar);
-    const { userName, userGroup, userDept, userProfileImg } = user;
+    const {  userProfileImg } = user;
 
 
     const [statusImg, setStatusImg] = useState("../../../../sidebar/sidebar_user_status_img/office.png");
@@ -53,6 +58,14 @@ console.log('--------',token)
         }
     }
     const sidebarMenuSelectHandler = (value) => {
+        const token = decodeJwt(window.localStorage.getItem("accessToken"));
+                console.log('[onClickPurchaseHandler] token : ', token);
+                if(token === undefined || token === null) {
+                    alert('로그인을 먼저해주세요');
+
+                    
+                    return navigate('/login'); ;
+                }
         const box = document.querySelector('.selected_box');
         const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
         for (let i = 0; i < texts.length; i++) {
@@ -74,8 +87,8 @@ console.log('--------',token)
                 break;
             case 'attendance':
                 box.style.top = '210px';
-                navigate('/attendance');
-                break;
+                navigate('attendance/attendance');
+                break; ///////
             case 'calendar':
                 box.style.top = '293px';
                 navigate('/calendar');
@@ -140,8 +153,6 @@ console.log('--------',token)
                         </li>
                     </ul>
                 </div>
-                {
-                loginEmployee.userInfo ?
                 <div className="working_status_wrap">
                     <table className="working_status">
                         <thead>
@@ -160,7 +171,8 @@ console.log('--------',token)
                             </td>
                             <td className="status_name_and_team">
                                 <div>
-                                    <span className="status_name_text">{loginEmployee.userInfo.employeeName}</span>
+                                    {token? (<span className="status_name_text">{token.employeeName}</span>) 
+                                    : <span className="status_name_text">비회원</span>}
                                     <img id="status_img" src={statusImg} alt="상태이미지" />
                                 </div>
                                 <br />

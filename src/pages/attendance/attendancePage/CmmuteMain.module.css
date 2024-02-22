@@ -9,12 +9,6 @@
     position: relative;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-    font-family: Pretendard;
-}
-
 
 .mainTitle{
     position: relative;
@@ -216,10 +210,10 @@ body {
 }
 
 .hr{
-    position: absolute;
+    /* position: absolute;
     top: 40px;
     width: 430px;
-    left: 0px;
+    left: 0px; */
     
 }
 
@@ -344,3 +338,16 @@ body {
 .a {
     text-decoration: none; /* 밑줄 제거 */
   }
+
+.admin{
+    position: relative;
+    font-size: 20px;
+    left: 80px;
+    top: 40px;
+    background-color: #FA9A85;
+    border-color: #FA9A85;
+    border-radius: 5px;
+    width: 150px; /* 버튼의 가로 크기 설정 */
+    height: 50px; /* 버튼의 세로 크기 설정 */
+}
+    

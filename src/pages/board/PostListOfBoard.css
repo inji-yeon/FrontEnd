@@ -1,0 +1,42 @@
+
+.paging {
+    /* position: absolute;
+    top: 950px;
+    left: 1100px; */
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    margin-top: 30px;
+    
+}
+
+.paging li {
+    
+    margin: 0 5px;  
+    border-radius: 5px;
+}
+
+.paging li a {
+    border-radius: 5px;
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    transition-property: background-color;
+    transition-duration: 0.3s;
+
+}
+
+.pagingActive {
+    background-color: #fa9a85;
+    color: white;
+    border-color: #fa9a85; 
+}
+
+.paging li a:hover {
+
+    background-color: #fa9a85;
+    color: white;
+    
+}

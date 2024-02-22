@@ -11,10 +11,11 @@
   .GroupSideBar{
 
     color: #606060;
-    width: 280px;
     height: 100%;
     box-shadow: 3px 0px 6px -5px rgba(0, 0, 0, 0.25);
-    text-align: center;
+    /* text-align: center; */
+    display:grid;
+    grid-template-columns: 330px auto;
 
 }
 
@@ -32,7 +33,7 @@
 
 
 .groupchart {
-    width: 250px;
+    width: 290px;
     border-color: bisque;
     border-radius: 1px;
     border: 1px solid rgb(178, 177, 177);
@@ -44,59 +45,38 @@
 }
 
 #orgchartbox {
-    width: 230px;
+    width: 270px;
     max-height: 600px;
     border-color: bisque;
     border-radius: 1px;
     border: 1px solid rgb(178, 177, 177);
     box-sizing: border-box;
-    margin: 0 auto;
-    /* padding-bottom: 30px; */
     display: flex;
-    /* flex-direction: column;  이거때문에 조직도 css이상해짐  */
     overflow-y: auto; /* 스크롤 추가 */
 }
 
 
 
 #orgchart{
-    margin-top: 15px;
+    margin-top: 30px;
     height: 500px;
     max-height: 800px;
 }
 
-.searchcontainer {
-    display: flex;
-    width: 95%;
-    max-width: 230px;
-    margin: 20px auto;
-    /* position: sticky;
-    top: 0; */
 
-}
-
-#searchInput {
-    flex: 1;
-    padding: 8px;
-}
-
-#searchButton {
-    padding: 8px 12px;
-    background-color:#FFBE98 ;
-    color: white;
-    border-radius: 1px;
-    cursor: pointer;
-}
 
 .groupname{
-    width: 245px;
+    width: 290px;
     color: #414141;
     margin: 60px 0px;
     font-size: 24px;
-    text-align: center;
+    display: flex;
+    margin-left: 10px;
+    justify-content: center;
     
 }
 
-.groupname2{
-    margin-left: 30px;
+
+.groupchartname{
+    margin-bottom: 30px;
 }
