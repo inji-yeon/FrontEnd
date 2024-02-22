@@ -60,33 +60,10 @@ export const callMypageGetProfileAPI = ({ form }) => {
     };
 };
 
-// export const callProfileUpdateAPI = ({ form }) => {
-//     console.log('[callProfileUpdateAPI] callProfileUpdateAPI Call');
 
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/updateprofile`;
-
-//     return async (dispatch, getState) => {
-//         const result = await fetch(requestURL, {
-//             method: 'PUT',
-//             headers: {
-//                 Accept: '*/*',
-//                 Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-//             },
-//             body: form,
-//         })
-//         // .then((response) => response.json());
-
-//         console.log('[callProfileUpdateAPI] callProfileUpdateAPI RESULT 업데이트프로필: ', result);
-        
-
-//         dispatch({ type: PUT_MYPAGE_PROFILE_UPDATE, payload: result });
-//     };
-// };
-
-
-export const callProfileUpdateAPI = ({ formData }) => {
+export const callProfileUpdateAPI = ({ form }) => {
     console.log('[callProfileUpdateAPI] callProfileUpdateAPI Call');
-    console.log('profileCode값 나오냐-------------=-=-=-',formData)
+    console.log('업데이트할 formData 값 나오냐--',form)
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/updateprofile`;
 
@@ -98,20 +75,20 @@ export const callProfileUpdateAPI = ({ formData }) => {
                     Accept: '*/*',
                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 },
-                body: formData,
+                body: form,
             });
 
             // 서버 응답의 status가 200이면 프로필 사진 변경에 성공한 것으로 간주
             if (response.status === 200) {
-                console.log('프로필 이미지를 업데이트했습니다.');
-                alert('프로필 이미지를 업데이트했습니다.');
+                console.log('프로필 이미지 업데이트 완료했습니다!');
+                alert('프로필 이미지 업데이트 완료했습니다!');
             } else {
                 console.error('프로필 이미지 업데이트에 실패했습니다.');
                 alert('프로필 이미지 업데이트에 실패했습니다.');
             }
 
             const result = await response.json();
-            console.log('[callProfileUpdateAPI] callProfileUpdateAPI RESULT 업데이트프로필: ', result);
+            console.log('[callProfileUpdateAPI] 서버로부터 받은 응답 호출 ', result);
             
             dispatch({ type: PUT_MYPAGE_PROFILE_UPDATE, payload: result });
         } catch (error) {

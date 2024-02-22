@@ -72,19 +72,20 @@ function Group() {
         }
     };
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
 
-    const adminEmployeeClick = () => {
-        // 관리자 여부 확인
-        if (EmployeeRole === 'ROLE_ADMIN') {
-            navigate(`/adminchart`); // 관리자인 경우에만 /adminchart로 이동
-        } 
-    };
+    // const adminEmployeeClick = () => {
+    //     // 관리자 여부 확인
+    //     if (EmployeeRole === 'ROLE_ADMIN') {
+          
+    //     } 
+    // };
+
+    // onClick={() => adminEmployeeClick(employee)}//관리자용 테이블 클릭버튼 일단 보류
 
 
-
-    const isAdmin = decodeToken.employeeRole.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때
+    const isAdmin = decodeToken?.employeeRole?.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때 버튼이 보임 사용자는 안보임
 
 
     
@@ -129,7 +130,7 @@ function Group() {
                         <tbody>
                             
                             {searchResults.map((employee) => (
-                                <tr key={employee.empCode} onClick={() => adminEmployeeClick(employee)}>
+                                <tr key={employee.empCode}>
                                     <td>{employee.empCode}</td>
                                     <td>{employee.empName}</td>
                                     <td>{employee.department.departmentName}</td>
@@ -158,7 +159,7 @@ function Group() {
                         
                         <tbody>
                         {groupList && groupList.map((employee) => (
-                            <tr key={employee.empCode} onClick={() => adminEmployeeClick(employee)} >
+                            <tr key={employee.empCode} >
                                     <td>{employee.empCode}</td>
                                     <td>{employee.empName}</td>
                                     <td>{employee.department.departmentName}</td>
