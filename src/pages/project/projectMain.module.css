@@ -152,11 +152,36 @@
     padding: 40px 30px;
     width: 100%;
     min-height: 300px;
+    min-width: 400px;
     height: 100%;
     border: 2px solid hsl(12, 92%, 85%);
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    position: relative;
+}
+
+.participation {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 140px;
+    height: 140px;
+    border-top: 70px solid hsl(12, 92%, 85%);
+    /* Height of the triangle */
+    border-right: 70px solid hsl(12, 92%, 85%);
+    /* Width of the triangle and color */
+    border-left: 70px solid #0000;
+    border-bottom: 70px solid #0000;
+}
+
+.participation_text {
+    position: absolute;
+    font-size: 30px;
+    color: white;
+    top: 20px;
+    right: 20px;
+    text-align: right;
 }
 
 .project_element_wrap:hover {
@@ -229,77 +254,93 @@
     height: 143px;
 }
 
-.create_body {
+.info {
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 0px;
+    gap: 20px;
 }
 
-.create_body th {
-    padding-right: 20px;
+.info_row_1,
+.info_row_2,
+.info_row_3,
+.info_row_4,
+.info_row_5,
+.info_row_6 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
-.description_text {
-    vertical-align: top;
+.info_row_1>div,
+.info_row_2>div,
+.info_row_3>div,
+.info_row_4>div,
+.info_row_5>div,
+.info_row_6>div {
+    width: 80px;
 }
 
-.description_textarea {
-    width: 400px;
-    height: 200px;
-    border: 1px solid #d9d9d9;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
+.info input,
+.info select {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
+}
+
+.progress_status_select>option[value='프로젝트 생성'] {
+    color: #FF3F3F;
+}
+
+.progress_status_select>option[value='기획중'] {
+    color: #FF843F;
+}
+
+.progress_status_select>option[value='기획완료'] {
+    color: #128d10;
+}
+
+.progress_status_select>option[value='프로젝트 진행중'] {
+    color: #3FBAFF;
+}
+
+.progress_status_select>option[value='프로젝트 완료'] {
+    color: #7C3FFF;
+}
+
+.progress_status_select>option[value='피드백'] {
+    color: #FB3FFF;
+}
+
+.info textarea {
+    width: 348px;
+    height: 100px;
+    border: 1px solid hsl(12, 92%, 85%);
+    font-size: 14px;
+    padding: 5px 15px;
+    color: #999;
     resize: none;
 }
 
-.title {
-    border: 1px solid #d9d9d9;
-    height: 25px;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-}
-
-.deadline {
-    border: 1px solid #d9d9d9;
-    height: 25px;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-}
-
-.create_footer {
+.info_row_6 {
     display: flex;
-    align-items: end;
-    gap: 50px;
-    height: 143px;
+    justify-content: flex-end;
+    gap:20px;
 }
 
-.create_exit_button {
+.info_row_6 button {
+    z-index: 1;
+    padding: 5px 15px;
     font-size: 20px;
-    padding: 0px 16px;
-    height: 43px;
-    border-radius: 10px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
     color: white;
-    background: #fa9a85;
     border: 0;
 }
 
-.create_complete_button {
-    font-size: 20px;
-    padding: 0px 16px;
-    height: 43px;
-    border-radius: 10px;
-    color: white;
-    background: #fa9a85;
-    border: 0;
+.info_row_6 button:hover {
+    background-color: hsl(12, 92%, 75%);
 }
 
 .custom_checkbox {

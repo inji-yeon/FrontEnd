@@ -16,6 +16,7 @@ import colorPlugin from '@toast-ui/editor-plugin-color-syntax'
 import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell'
 import umlPlugin from '@toast-ui/editor-plugin-uml'
 import { CREATE_PROJECT_POST, RESET_MESSAGE } from '../../modules/ProjectModule'
+import { userEmployeeCode } from '../../utils/tokenUtils'
 
 function ProjectPost({ projectCode }) {
     const dispatch = useDispatch()
@@ -261,9 +262,11 @@ function ProjectPost({ projectCode }) {
                 </button>
             </div>
             <div className={styles.post_editor_wrap}>
-                <button onClick={submitHandler} className={styles.submit_button}>
-                    보내기
-                </button>
+                {project?.projectInfo?.projectMemberList?.map(projectMember => projectMember?.employee?.employeeCode)
+                    ?.includes(userEmployeeCode())
+                    && <button onClick={submitHandler} className={styles.submit_button}>
+                        보내기
+                    </button>}
                 <Editor
                     previewStyle='tab'
                     initialEditType='markdown'

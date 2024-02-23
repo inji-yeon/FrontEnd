@@ -1,14 +1,12 @@
 import Calendar from '@toast-ui/react-calendar'
 import '@toast-ui/calendar/dist/toastui-calendar.min.css'
-import 'tui-date-picker/dist/tui-date-picker.css'
-import 'tui-time-picker/dist/tui-time-picker.css'
 
 import styles from './CalendarMain.module.css'
 import { useEffect, useRef, useState } from 'react'
 import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
-import { useDispatch } from 'react-redux'
-import { callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
+import { useDispatch, useSelector } from 'react-redux'
+import { callGetCalendarAPI, callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()
@@ -26,7 +24,10 @@ const formattedDateCalendar = (calendarTypeValue, calendar) => {
     }
 }
 
-function CalendarMain({ calendarData, setCalendarData }) {
+function CalendarMain() {
+    const calendarData = useSelector((state) => state.calendar);
+
+    const selectRef = useRef();
     const dispatch = useDispatch();
     const calendarRef = useRef()
     const [calendar, setCalendar] = useState(null)
@@ -82,6 +83,7 @@ function CalendarMain({ calendarData, setCalendarData }) {
     }
 
     useEffect(() => {
+        dispatch(callGetCalendarAPI());
         setCalendar(calendarRef.current.getInstance())
         setRootElement(calendarRef.current.getRootElement())
     }, [])
@@ -176,10 +178,13 @@ function CalendarMain({ calendarData, setCalendarData }) {
 
     // Element 그 자체에 대한 useEffect
     useEffect(() => {
-        // console.log('rootElement', rootElement)
-        const style = rootElement?.style;
-        console.log(style);
-        style && (style.display = 'block');
+        if (rootElement) {
+            const style = rootElement?.style;
+            style.display = 'block'
+            style.width = "100%"
+            style.padding = "0"
+            style.border = "1px solid #e5e5e5"
+        }
     }, [rootElement])
 
     // 캘린더 인스턴스와 API로 받은 캘린더 정보 관련 useEffect
@@ -408,23 +413,68 @@ function CalendarMain({ calendarData, setCalendarData }) {
             rootElement.style.display = 'block';
         }
     }
+    const [checkboxes, setCheckboxes] = useState([
+        { name: 'category_all', checked: true },
+        { name: 'category_meeting', checked: true },
+        { name: 'category_personal', checked: true },
+        { name: 'category_important', checked: true },
+        { name: 'category_vacation', checked: true },
+        { name: 'category_birthday', checked: true },
+        { name: 'category_todo', checked: true },
+        { name: 'category_other', checked: true },
+    ])
+    const checkboxHandler = (e) => {
+        if (e.target.name === 'category_all') {
+            setCheckboxes([
+                { name: 'category_all', checked: e.target.checked },
+                { name: 'category_meeting', checked: e.target.checked },
+                { name: 'category_personal', checked: e.target.checked },
+                { name: 'category_important', checked: e.target.checked },
+                { name: 'category_vacation', checked: e.target.checked },
+                { name: 'category_birthday', checked: e.target.checked },
+                { name: 'category_todo', checked: e.target.checked },
+                { name: 'category_other', checked: e.target.checked },
+            ])
+        } else {
+            setCheckboxes(prev => (prev.map(checkbox => checkbox.name === e.target.name ? { ...checkbox, checked: !checkbox.checked } : checkbox)))
+        }
+    }
+    useEffect(() => {
+        console.log(checkboxes);
+    }, [checkboxes])
     return (
-        <>
+        <div className={styles.calendar_wrap}>
+            <div className={styles.sidemenu2}>
+                <div className={styles.sidemenu2_title}>
+                    캘린더
+                </div>
+                <div className={styles.sidemenu2_body}>
+                    <div className={`${styles.category} ${styles.category_all}`}><input type='checkbox' name='category_all' id='category_all' checked={checkboxes.filter(checkbox => checkbox.name === 'category_all')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_all'>전체</label></div>
+                    <div className={`${styles.category} ${styles.category_meeting}`}><input type='checkbox' name='category_meeting' id='category_meeting' checked={checkboxes.filter(checkbox => checkbox.name === 'category_meeting')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_meeting'>회의</label></div>
+                    <div className={`${styles.category} ${styles.category_personal}`}><input type='checkbox' name='category_personal' id='category_personal' checked={checkboxes.filter(checkbox => checkbox.name === 'category_personal')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_personal'>개인 일정</label></div>
+                    <div className={`${styles.category} ${styles.category_important}`}><input type='checkbox' name='category_important' id='category_important' checked={checkboxes.filter(checkbox => checkbox.name === 'category_important')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_important'>중요한 일정</label></div>
+                    <div className={`${styles.category} ${styles.category_vacation}`}><input type='checkbox' name='category_vacation' id='category_vacation' checked={checkboxes.filter(checkbox => checkbox.name === 'category_vacation')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_vacation'>휴가</label></div>
+                    <div className={`${styles.category} ${styles.category_birthday}`}><input type='checkbox' name='category_birthday' id='category_birthday' checked={checkboxes.filter(checkbox => checkbox.name === 'category_birthday')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_birthday'>생일(기념일)</label></div>
+                    <div className={`${styles.category} ${styles.category_todo}`}><input type='checkbox' name='category_todo' id='category_todo' checked={checkboxes.filter(checkbox => checkbox.name === 'category_todo')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_todo'>할일</label></div>
+                    <div className={`${styles.category} ${styles.category_other}`}><input type='checkbox' name='category_other' id='category_other' checked={checkboxes.filter(checkbox => checkbox.name === 'category_other')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_other'>기타</label></div>
+                </div>
+            </div>
             <div className={styles.calendar_section}>
                 <div className={styles.calendar_header}>
-                    <div>
+                    <div className={styles.calender_header_left}>
                         <button onClick={todayHandler}>오늘</button>
                         <button onClick={prevHandler}>&lt;</button>
                         <button onClick={nextHandler}>&gt;</button>
-                        <span>{viewDate}</span>
+                        <div>{viewDate}</div>
                     </div>
-                    <div>
+                    <div className={styles.calendar_header_right}>
                         <button onClick={tempDeletedPageHandler}>{isTempDeletedPage ? '임시삭제목록닫기' : '임시삭제목록'}</button>
                         {isSearch && <input type="text" value={searchText} onChange={searchTextHandler} />}
                         <button onClick={searchHandler}>{isSearch ? '검색닫기' : '검색버튼'}</button>
                         <select
                             value={calendarTypeValue}
                             onChange={calendarTypeChangeHandler}
+                            ref={selectRef}
                         >
                             <option value='month'>월</option>
                             <option value='week'>주</option>
@@ -442,6 +492,7 @@ function CalendarMain({ calendarData, setCalendarData }) {
                         usageStatistics={false}
                         week={weekOptions}
                         eventFilter={eventFilter}
+
                     />
                     {calendarTypeValue === 'list' && (
                         <CalendarListPage
@@ -466,7 +517,7 @@ function CalendarMain({ calendarData, setCalendarData }) {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 export default CalendarMain

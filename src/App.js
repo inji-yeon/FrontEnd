@@ -11,7 +11,7 @@ import Attendance from './pages/attendance/Attendance';
 import Login from './pages/login/Login';
 import MailSidebar from './pages/mail/common/MailSidebar';
 import MailView from './pages/mail/MailView';
-import Calendar from './pages/calendar/CaledarSidebar';
+import Calendar from './pages/calendar/CalendarMain';
 
 import CreatePost from './pages/board/CreatePost';
 import UpdatePost from './pages/board/UpdatePost';
@@ -62,6 +62,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path='/' element={<Login />} />
+                        <Route path='/login' element={<Login />} />
                         <Route path='/' element={<Layout />}>
                             <Route path='main' element={<Main />} />
 

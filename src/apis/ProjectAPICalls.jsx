@@ -47,11 +47,11 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
     }
 }
 
-export const callCreateProjectAPI = ({ createForm }) => {
+export const callCreateProjectAPI = ({ form }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects`;
     return async (dispatch, getState) => {
         const result = await axios
-            .post(requestURL, createForm, {
+            .post(requestURL, form, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: '*/*',
@@ -82,11 +82,6 @@ export const callGetProjectAPI = ({ projectCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => {
-                if (error?.response?.data?.code === 'ERROR_CODE_6001') {
-                    alert('허가되지 않은 접근입니다. 프로젝트 메뉴로 돌아갑니다.');
-                    dispatch({ type: ERROR, payload: '/projects' });
-                }
             })
         // 에러 처리 해야 된다.
 
@@ -198,7 +193,7 @@ export const callUploadImage = ({ file, callback, editor }) => {
 
 export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}`
-    console.log('projectPost>>>>',projectPost);
+    console.log('projectPost>>>>', projectPost);
     console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios

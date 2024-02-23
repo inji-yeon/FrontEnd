@@ -24,7 +24,7 @@ const initialState = {
 
 /* 액션 */
 export const GET_PROJECTS = 'project/GET_PROJECTS'
-export const POST_PROJECT = 'project/GET_PROJECT'
+export const POST_PROJECT = 'project/POST_PROJECT'
 export const GET_PROJECT = 'project/GET_PROJECT'
 export const GET_PROJECT_POST_LIST = 'project/GET_PROJECT_POST_LIST'
 export const PUT_PROJECT = 'project/PUT_PROJECT'
@@ -79,7 +79,8 @@ const projectReducer = handleActions(
         [POST_PROJECT]: (state, { payload }) => {
             return {
                 ...state,
-                createProjectCode: payload?.data
+                createProjectCode: payload?.data,
+                message: POST_PROJECT
             }
         },
         [GET_PROJECT]: (state, { payload }) => {

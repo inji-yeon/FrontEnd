@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { callCreateProjectAPI, callGetProjectsAPI, callResetCreateProjectCode } from '../../apis/ProjectAPICalls';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { GET_PROJECTS, RESET_MESSAGE } from '../../modules/ProjectModule';
+import { GET_PROJECTS, POST_PROJECT, RESET_MESSAGE } from '../../modules/ProjectModule';
 
 function ProjectMain() {
     const dispatch = useDispatch();
@@ -18,13 +18,64 @@ function ProjectMain() {
     const [isCreateWindow, setIsCreateWindow] = useState(false);
     const projectListWrapRef = useRef();
 
-    const [createForm, setCreateForm] = useState({
+    const [form, setForm] = useState({
+        projectCode: null,
         projectTitle: '',
-        projectDeadline: format(new Date(), "yyyy-MM-dd", { timeZone: 'Asia/Seoul' }),
         projectDescription: '',
-        projectLockedStatus: 'N',
+        progressStatus: '',
+        projectDeadline: '',
+        projectLockedStatus: '',
+        projectProgressStatus: ''
     })
 
+
+    const formHandler = (e) => {
+        if (e.target.name === 'projectDescription') {
+            const maxLength = 200;
+            if (e.target.value.length <= maxLength) {
+                setForm({
+                    ...form,
+                    projectDescription: e.target.value,
+                })
+            }
+        } else {
+            setForm({
+                ...form,
+                [e.target.name]: e.target.value,
+            })
+        }
+    }
+    const selectRef = useRef();
+
+    useEffect(() => {
+        if (selectRef) {
+            const current = selectRef?.current;
+            switch (current?.value) {
+                case '프로젝트 생성':
+                    current.style.color = "#FF3F3F"
+                    break;
+                case '기획중':
+                    current.style.color = "#FF843F"
+                    break;
+                case '기획완료':
+                    current.style.color = "#43FF3F"
+                    break;
+                case '프로젝트 진행중':
+                    current.style.color = "#3FBAFF"
+                    break;
+                case '프로젝트 완료':
+                    current.style.color = "#7C3FFF"
+                    break;
+                case '피드백':
+                    current.style.color = "#FB3FFF"
+                    break;
+                default:
+            }
+        }
+    }, [selectRef?.current?.value])
+    const submitHandler = (e) => {
+        dispatch(callCreateProjectAPI({ form }));
+    }
     const selectedStyle = {
         backgroundColor: "#fa9a85",
         color: 'white'
@@ -36,13 +87,6 @@ function ProjectMain() {
         setProjectList(project?.projectListWithPaging?.data);
         setProjectPageInfo(project?.projectListWithPaging?.pageInfo);
     }, [project?.projectListWithPaging])
-
-    useEffect(() => {
-        if (project?.createProjectCode) {
-            navigate(`/projects/${project?.createProjectCode}`);
-            dispatch(callResetCreateProjectCode());
-        }
-    }, [project?.createProjectCode])
 
     useEffect(() => {
         projectType && dispatch(callGetProjectsAPI({ projectType, searchValue }))
@@ -77,10 +121,13 @@ function ProjectMain() {
             switch (project?.message) {
                 case GET_PROJECTS:
                     break;
+                case POST_PROJECT:
+                    navigate(`/projects/${project?.createProjectCode}`)
+                    break;
                 default:
             }
+            dispatch({ type: RESET_MESSAGE })
         }
-        dispatch({ type: RESET_MESSAGE })
     }, [project?.message])
 
     useEffect(() => {
@@ -115,26 +162,6 @@ function ProjectMain() {
         window.location.reload();
     }
 
-    const createFormHandler = (e) => {
-        if (e.target.name === 'projectDescription') {
-            const maxLength = 200;
-            if (e.target.value.length <= maxLength) {
-                setCreateForm({
-                    ...createForm,
-                    projectDescription: e.target.value
-                })
-            }
-        } else {
-            setCreateForm({
-                ...createForm,
-                [e.target.name]: e.target.value,
-            })
-        }
-    }
-
-    const createCompleteHandler = () => {
-        dispatch(callCreateProjectAPI({ createForm }))
-    }
     return (
         <div className={styles.project_main}>
             <div className={styles.sidemenu2}>
@@ -152,7 +179,7 @@ function ProjectMain() {
                 </div>
             </div>
             {!isCreateWindow
-                && <section className={styles.project_section}>
+                ? <section className={styles.project_section}>
                     <div className={styles.project_header}>
                         <div className={styles.project_header_title}>{(projectType === 'all' ? '전체 프로젝트'
                             : (projectType === 'me' ? '내 프로젝트' : '내 부서 프로젝트'))}</div>
@@ -183,10 +210,17 @@ function ProjectMain() {
                         <div className={styles.project_list_wrap} ref={projectListWrapRef}>
                             {
                                 projectList?.map(project => {
-                                    const { projectCode, projectDeadline, projectDescription, projectLockedStatus, projectManagerDeptName, projectManagerName, projectMemberCount, projectProgressStatus, projectTitle } = project;
+                                    const { projectCode, projectDeadline, projectDescription, projectLockedStatus, projectManagerDeptName, projectManagerName, projectMemberCount, projectProgressStatus, projectTitle, myParticipationStatus } = project;
                                     return (
                                         <div key={projectCode} onClick={() => projectClickHandler(projectCode)}
                                             className={styles.project_element_wrap}>
+                                            {myParticipationStatus === 1
+                                                && <>
+                                                    <div className={styles.participation} />
+                                                    <div className={styles.participation_text}>
+                                                        ME
+                                                    </div>
+                                                </>}
                                             <div className={styles.project_element_row_1}>
                                                 <span className={styles.project_element_title}>
                                                     {projectTitle}
@@ -271,86 +305,68 @@ function ProjectMain() {
                             &gt;&gt;
                         </button>
                     </div>
-                </section>}
-            {
-                isCreateWindow
-                && <section className={styles.create_section}>
+                </section>
+                : <section className={styles.create_section}>
                     <div className={styles.create_header}>
                         <div className={styles.create_header_title}>프로젝트 생성</div>
                     </div>
-                    <table className={styles.create_body}>
-                        <tbody>
-                            <tr>
-                                <th>제목</th>
-                                <td>
-                                    <input
-                                        type='text'
-                                        className={styles.title}
-                                        value={createForm.projectTitle}
-                                        name='projectTitle'
-                                        onChange={createFormHandler}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>마감기한</th>
-                                <td><input
-                                    type='date'
-                                    min={format(new Date(), 'yyyy-MM-dd', { timeZone: 'Asia/Seoul' })}
-                                    className={styles.deadline}
-                                    value={createForm.projectDeadline}
-                                    name='projectDeadline'
-                                    onChange={createFormHandler}
-                                /></td>
-                            </tr>
-                            <tr>
-                                <th className={styles.description_text}>설명</th>
-                                <td>
-                                    <textarea
-                                        maxLength={200}
-                                        className={styles.description_textarea}
-                                        value={createForm.projectDescription}
-                                        name='projectDescription'
-                                        onChange={createFormHandler}
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>잠금여부</th>
-                                <td>
-                                    <div>
-                                        <select
-                                            value={createForm.projectLockedStatus}
-                                            onChange={createFormHandler}
-                                            name='projectLockedStatus'>
-                                            <option value='Y'>O</option>
-                                            <option value='N'>X</option>
-                                        </select>
-                                        <input
-                                            id='lockCheckbox'
-                                            type='checkbox'
-                                            className={styles.custom_checkbox_input}
-                                            value={createForm.projectLockedStatus}
-                                            name='projectLockedStatus'
-                                            onChange={createFormHandler} />
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className={styles.create_footer}>
-                        <input
-                            className={styles.create_exit_button}
-                            type='button'
-                            value='뒤로가기'
-                            onClick={gobackHandler}
-                        />
-                        <input
-                            className={styles.create_complete_button}
-                            type='button'
-                            value='생성하기'
-                            onClick={createCompleteHandler}
-                        />
+                    <div className={styles.info}>
+                        <div className={styles.info_row_1}>
+                            <div>제목</div>
+                            <input
+                                type='text'
+                                value={form.projectTitle}
+                                name='projectTitle'
+                                onChange={formHandler}
+                            />
+                        </div>
+                        <div className={styles.info_row_2}>
+                            <div>
+                                설명</div>
+                            <textarea
+                                maxLength={200}
+                                value={form.projectDescription}
+                                name='projectDescription'
+                                onChange={formHandler} />
+                        </div>
+                        <div className={styles.info_row_3}>
+                            <div>마감기한</div>
+                            <input type='date'
+                                value={form.projectDeadline}
+                                name='projectDeadline'
+                                onChange={formHandler}
+                            />
+                        </div>
+                        <div className={styles.info_row_4}>
+                            <div>잠금여부</div>
+                            <select
+                                value={form.projectLockedStatus}
+                                onChange={formHandler}
+                                name='projectLockedStatus'
+                            >
+                                <option value='Y'>O</option>
+                                <option value='N'>X</option>
+                            </select>
+                        </div>
+                        <div className={styles.info_row_5}>
+                            <div>진행도</div>
+                            <select value={form.projectProgressStatus} onChange={formHandler} name='projectProgressStatus' ref={selectRef}
+                                className={styles.progress_status_select}>
+                                <option value='프로젝트 생성'>프로젝트 생성</option>
+                                <option value='기획중'>기획중</option>
+                                <option value='기획완료'>기획완료</option>
+                                <option value='프로젝트 진행중'>프로젝트 진행중</option>
+                                <option value='프로젝트 완료'>프로젝트 완료</option>
+                                <option value='피드백'>피드백</option>
+                            </select>
+                        </div>
+                        <div className={styles.info_row_6}>
+                            <button
+                                className={styles.create_exit_button}
+                                onClick={gobackHandler}
+                            >뒤로가기</button>
+                            <button onClick={submitHandler}>수정하기</button>
+                        </div>
                     </div>
                 </section>
             }
