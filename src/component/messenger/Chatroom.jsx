@@ -14,7 +14,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     const [isSearchInput, setIsSearchInput] = useState(false);
     const [flag2, setFlag2] = useState(false);
     const dispatch = useDispatch();
-    // const isConnect = false; // 리액트 자동 새로고침을 통해 여러번 연결되는걸 방지.
     const isConnect = true;
 
     const [chatList, setChatList] = useState([]);

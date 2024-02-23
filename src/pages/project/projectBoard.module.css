@@ -1,23 +1,55 @@
-.project_section {
-    background-color: #F5F5F5;
-    display: flex;
-    flex-direction: column;
-    padding: 60px 10px 10px 10px;
+.project_section_wrap {
+    display: grid;
+    grid-template-columns: 5px auto;
 }
 
-.title {
+.menu_separate_border_line {
+    width: 5px;
+    background-color: hsl(0, 0%, 97%)
+}
+
+.project_section {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 10px 10px 10px;
+    gap: 40px;
+    box-sizing: border-box;
+}
+
+.title_wrap {
     font-size: 30px;
-    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.title_wrap button {
+    z-index: 1;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0;
+}
+
+.title_wrap button:hover {
+    background-color: hsl(12, 92%, 75%);
+}
+
+.title_wrap span {
+    padding-left: 10px;
 }
 
 .manager_title {
-    font-size: 30px;
+    font-size: 24px;
 }
 
 .body {
     display: grid;
     grid-template-columns: 450px auto;
-    grid-template-rows: 150px auto auto;
+    grid-template-rows: 138.3px 369.672px 384.031px;
     gap: 10px;
     grid-template-areas:
         "a d"
@@ -32,24 +64,22 @@
 .manager {
     grid-area: a;
     padding: 10px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .member {
     grid-area: c;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.post_list_wrap {
-    grid-area: d;
-}
 
 .manager_info {
     width: 100%;
     height: 100%;
-}
-
-.employee_info {
-    width: 100%;
-    min-height: 70px;
 }
 
 .employee_name {
@@ -59,10 +89,6 @@
 
 .employee_col_2>td .employee_col_3>td {
     padding: 10px;
-}
-
-.manager_title {
-    height: 0%;
 }
 
 .employee_profile {
@@ -81,160 +107,199 @@
 .info {
     grid-area: b;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.project_info {
-    width: 100%;
+.info_row_1,
+.info_row_2,
+.info_row_3,
+.info_row_4,
+.info_row_5,
+.info_row_6 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
-.project_info th {
-    font-size: 16px;
-    width: 5em;
-    padding-top: 0px;
+.info_row_1>div,
+.info_row_2>div,
+.info_row_3>div,
+.info_row_4>div,
+.info_row_5>div,
+.info_row_6>div {
+    width: 80px;
 }
 
-.project_section input,
-.project_section select {
-    border: 1px solid #d9d9d9;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
+.info input,
+.info select {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
 }
 
-.project_info_row_6 {
-    text-align: right;
+.progress_status_select>option[value='프로젝트 생성'] {
+    color: #FF3F3F;
 }
 
-.project_info_row_6 button {
-    margin-left: 10px;
+.progress_status_select>option[value='기획중'] {
+    color: #FF843F;
 }
 
-.project_info_row_5 td,
-.project_info_row_4 td,
-.project_info_row_3 td,
-.project_info_row_2 td,
-.project_info_row_1 td {
-    padding: 5px;
+.progress_status_select>option[value='기획완료'] {
+    color: #128d10;
 }
 
-.project_info_row_2 textarea {
-    width: 100%;
-    height: 150px;
-    border: 1px solid #d9d9d9;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
+.progress_status_select>option[value='프로젝트 진행중'] {
+    color: #3FBAFF;
+}
+
+.progress_status_select>option[value='프로젝트 완료'] {
+    color: #7C3FFF;
+}
+
+.progress_status_select>option[value='피드백'] {
+    color: #FB3FFF;
+}
+
+.info textarea {
+    width: 348px;
+    height: 100px;
+    border: 1px solid hsl(12, 92%, 85%);
+    font-size: 14px;
+    padding: 5px 15px;
+    color: #999;
     resize: none;
+}
+
+.info_row_6 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.info_row_6 button {
+    z-index: 1;
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0;
+}
+
+.info_row_6 button:hover {
+    background-color: hsl(12, 92%, 75%);
 }
 
 .member {
     padding: 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .member_row_1 {
     display: flex;
     justify-content: space-between;
-    height: 45px;
 }
 
 .member_row_1_title {
     font-size: 24px;
-    padding: 5px 0px;
 }
 
-.invite_button_wrap>button {
-    margin-left: 10px;
+.invite_window {
+    z-index: 1;
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0;
 }
 
-.member_row_2 {
-    height: 35px;
+.invite_window:hover {
+    background-color: hsl(12, 92%, 75%);
 }
 
 .member_row_2>input {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
     width: 100%;
 }
 
 .member_row_3 {
-    height: 200px;
-    overflow-y: scroll;
-    padding: 0px 10px;
-}
-
-.post_list_wrap {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 40px auto 60px;
-}
-
-.post_list_header {
-    text-align: end;
-}
-
-.post_list_body {
     height: 100%;
-    width: 100%;
+    overflow-y: scroll;
 }
 
-.post_list_thead th {
-    text-align: center;
-    height: 30px;
-}
-
-.post_list_tbody tr {
-    border-top: 1px solid #606060;
-    border-bottom: 1px solid #606060;
-}
-
-.post_list_tbody tr:nth-child(2n-1) {
-    background-color: hsl(11, 92%, 90%);
-}
-
-.post_list_tbody td {
-    height: 50px;
-    text-align: center;
-}
-
-.post_list_title {
-    font-size: 20px;
-    text-align: start;
-    height: 20px;
-}
-
-.post_list_footer {
+.employee_info {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin: 5px;
+    padding: 5px;
+    height: 62px;
     gap: 10px;
-    height: 20px;
-    margin: 20px 0px;
+    background-color: hsl(10, 92%, 96%);
+    border-radius: 5px;
 }
 
-.post_list_footer button {
-    border-radius: 2px;
-    font-size: 14px;
-    width: 2em;
-    border: 1px solid #d9d9d9;
-    background: white;
+.employee_profile {
+    width: 52px;
+    height: 52px;
 }
 
-.post_list_footer button:hover {
-    background: #d9d9d9;
+.employee_profile>img {
+    width: 52px;
+    height: 52px;
 }
 
-.page_button_clicked {
-    background: hsl(11, 92%, 75%);
+.employee_col_1 {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
-.title button {
-    width: 1.3em;
-    height: 1.3em;
+.employee_col_2 {
+    display: grid;
+    height: 52px;
+    justify-content: space-between;
+    align-items: center;
+    grid-template-areas:
+        "a b"
+        "c d"
+    ;
+}
+
+.employee_dept_name {
+    grid-area: a;
+}
+
+.employee_job_name {
+    grid-area: c;
+}
+
+.kicked_button {
+    grid-area: b;
+}
+
+.invite_window {
+    grid-area: d
+}
+
+.employee_col_2>button {
+    z-index: 1;
+    padding: 0px 3px;
+    margin-left: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
     border: 0;
-    background: #00000000
 }
 
-.title button:hover {
-    background: hsl(11, 92%, 75%);
+.employee_col_2>button:hover {
+    background-color: hsl(12, 92%, 75%);
 }
