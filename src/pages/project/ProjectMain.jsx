@@ -47,34 +47,35 @@ function ProjectMain() {
     useEffect(() => {
         projectType && dispatch(callGetProjectsAPI({ projectType, searchValue }))
     }, [projectType])
+    const colorType = (text) => {
+        let color = "#FF3F3F"
+        switch (text) {
+            case '프로젝트 생성':
+                color = "#FF3F3F"
+                break;
+            case '기획중':
+                color = "#FF843F"
+                break;
+            case '기획완료':
+                color = "#43FF3F"
+                break;
+            case '프로젝트 진행중':
+                color = "#3FBAFF"
+                break;
+            case '프로젝트 완료':
+                color = "#7C3FFF"
+                break;
+            case '피드백':
+                color = "#FB3FFF"
+                break;
+            default:
+        }
+        return color;
+    }
     useEffect(() => {
         if (project?.message) {
             switch (project?.message) {
                 case GET_PROJECTS:
-                    const current = projectListWrapRef.current;
-                    let color = "#FF3F3F"
-                    switch (current.value) {
-                        case '프로젝트 생성':
-                            color = "#FF3F3F"
-                            break;
-                        case '기획중':
-                            color = "#FF843F"
-                            break;
-                        case '기획완료':
-                            color = "#43FF3F"
-                            break;
-                        case '프로젝트 진행중':
-                            color = "#3FBAFF"
-                            break;
-                        case '프로젝트 완료':
-                            color = "#7C3FFF"
-                            break;
-                        case '피드백':
-                            color = "#FB3FFF"
-                            break;
-                        default:
-                    }
-                    current.querySelectorAll('div[data="projectProgressStatus"]').forEach(element => element.style.color = color)
                     break;
                 default:
             }
@@ -199,7 +200,7 @@ function ProjectMain() {
                                                     ~ {format(projectDeadline, "yyyy-MM-dd", { timeZone: 'Asia/Seoul' })}
                                                 </div>
                                                 <div className={styles.project_element_row_4}>
-                                                    <div className={styles.project_element_progress_status} data='projectProgressStatus'>{projectProgressStatus}</div>
+                                                    <div className={styles.project_element_progress_status} style={{ color: colorType(projectProgressStatus) }}>{projectProgressStatus}</div>
                                                     <div>
                                                         {projectLockedStatus
                                                             ? <img src='/project/lock.png' alt='잠금' className={styles.lock_img} />
