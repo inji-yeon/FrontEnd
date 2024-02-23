@@ -54,6 +54,7 @@
 .post_list {
     height: 500px;
     width: 100%;
+    max-width: 1075px;
     overflow-y: auto;
     padding-bottom: 20px;
     padding-top: 20px;
@@ -91,12 +92,9 @@
     gap: 30px;
 }
 
-.post_profile_wrap>div {
-    /* 여기에는 이미지가 들어올거에요 */
+.post_profile_wrap>img {
     width: 52px;
     height: 52px;
-    border-radius: 26px;
-    background-color: red;
 }
 
 .viewer_wrap {
@@ -141,7 +139,7 @@
 
 .post_editor_wrap {
     border-radius: 5px;
-    min-width: 1075px;
+    min-width: 1070px;
     position: relative
 }
 

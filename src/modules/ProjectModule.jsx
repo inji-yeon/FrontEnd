@@ -30,6 +30,10 @@ export const GET_PROJECT_POST_LIST = 'project/GET_PROJECT_POST_LIST'
 export const PUT_PROJECT = 'project/PUT_PROJECT'
 export const UPLOAD_IMAGE = 'project/UPLOAD_IMAGE'
 export const CREATE_PROJECT_POST = 'project/CREATE_PROJECT_POST'
+export const KICKED_PROJECT_MEMBER = 'project/KICKED_PROJECT_MEMBER'
+export const INVITE_PROJECT_MEMBER = 'project/INVITE_PROJECT_MEMBER'
+export const LEAVE_PROJECT = 'project/LEAVE_PROJECT';
+export const DELETEGATE_ADMIN = 'project/DELETEGATE_ADMIN'
 
 export const RESET_GET_PROJECTS = 'project/RESET_GET_PROJECTS'
 export const RESET_POST_PROJECT = 'project/RESET_POST_PROJECT'
@@ -50,6 +54,10 @@ const action = createActions({
     [CREATE_PROJECT_POST]: () => { },
     [ERROR]: () => { },
     [GET_EMPLOYEES]: () => { },
+    [KICKED_PROJECT_MEMBER]: () => { },
+    [INVITE_PROJECT_MEMBER]: () => { },
+    [LEAVE_PROJECT]: () => { },
+    [DELETEGATE_ADMIN]: () => { },
 
     [RESET]: () => { },
     [RESET_GET_PROJECTS]: () => { },
@@ -64,7 +72,8 @@ const projectReducer = handleActions(
         [GET_PROJECTS]: (state, { payload }) => {
             return {
                 ...state,
-                projectListWithPaging: payload?.data
+                projectListWithPaging: payload?.data,
+                message: GET_PROJECTS,
             }
         },
         [POST_PROJECT]: (state, { payload }) => {
@@ -114,6 +123,30 @@ const projectReducer = handleActions(
                 ...state,
                 employeeList: payload?.data,
                 message: GET_EMPLOYEES
+            }
+        },
+        [KICKED_PROJECT_MEMBER]: (state, { payload }) => {
+            return {
+                ...state,
+                message: KICKED_PROJECT_MEMBER
+            }
+        },
+        [INVITE_PROJECT_MEMBER]: (state, { payload }) => {
+            return {
+                ...state,
+                message: INVITE_PROJECT_MEMBER
+            }
+        },
+        [LEAVE_PROJECT]: (state, { payload }) => {
+            return {
+                ...state,
+                message: LEAVE_PROJECT
+            }
+        },
+        [DELETEGATE_ADMIN]: (state, { payload }) => {
+            return {
+                ...state,
+                message: DELETEGATE_ADMIN
             }
         },
 

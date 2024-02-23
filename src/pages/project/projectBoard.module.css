@@ -1,13 +1,23 @@
+.project_section_wrap {
+    display: grid;
+    grid-template-columns: 5px auto;
+}
+
+.menu_separate_border_line {
+    width: 5px;
+    background-color: hsl(0, 0%, 97%)
+}
+
 .project_section {
-    background-color: hsl(0, 0%, 97%);
     display: flex;
     flex-direction: column;
-    padding: 60px 10px 10px 10px;
+    padding: 40px 10px 10px 10px;
+    gap: 40px;
+    box-sizing: border-box;
 }
 
 .title_wrap {
     font-size: 30px;
-    padding-bottom: 50px;
     display: flex;
     align-items: center;
 }
@@ -130,6 +140,30 @@
     color: #999;
 }
 
+.progress_status_select>option[value='프로젝트 생성'] {
+    color: #FF3F3F;
+}
+
+.progress_status_select>option[value='기획중'] {
+    color: #FF843F;
+}
+
+.progress_status_select>option[value='기획완료'] {
+    color: #128d10;
+}
+
+.progress_status_select>option[value='프로젝트 진행중'] {
+    color: #3FBAFF;
+}
+
+.progress_status_select>option[value='프로젝트 완료'] {
+    color: #7C3FFF;
+}
+
+.progress_status_select>option[value='피드백'] {
+    color: #FB3FFF;
+}
+
 .info textarea {
     width: 348px;
     height: 100px;
@@ -209,7 +243,7 @@
     padding: 5px;
     height: 62px;
     gap: 10px;
-    background-color: hsl(12, 92%, 95%);
+    background-color: hsl(10, 92%, 96%);
     border-radius: 5px;
 }
 

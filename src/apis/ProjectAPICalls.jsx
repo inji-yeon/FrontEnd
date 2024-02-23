@@ -15,6 +15,10 @@ import {
     UPLOAD_IMAGE,
     CREATE_PROJECT_POST,
     GET_EMPLOYEES,
+    KICKED_PROJECT_MEMBER,
+    LEAVE_PROJECT,
+    INVITE_PROJECT_MEMBER,
+    DELETEGATE_ADMIN,
 } from '../modules/ProjectModule'
 
 export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
@@ -210,6 +214,94 @@ export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
         console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
 
         dispatch({ type: CREATE_PROJECT_POST, payload: result?.data })
+    }
+}
+
+export const callKickedProjectMember = ({ projectCode, employeeCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/kick/${employeeCode}`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .delete(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        console.log('[ProjectAPICalls] callKickedProjectMember RESULT : ', result)
+
+        dispatch({ type: KICKED_PROJECT_MEMBER, payload: result?.data })
+    }
+}
+
+export const callLeaveProject = ({ projectCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/leave`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .delete(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        console.log('[ProjectAPICalls] callLeaveProject RESULT : ', result)
+
+        dispatch({ type: LEAVE_PROJECT, payload: result?.data })
+    }
+}
+
+export const callInviteProjectMemberAPI = ({ projectCode, employeeCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/invite`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .post(requestURL, employeeCode, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        console.log('[ProjectAPICalls] callInviteEmployeeAPI RESULT : ', result)
+
+        dispatch({ type: INVITE_PROJECT_MEMBER, payload: result?.data })
+    }
+}
+
+export const callDelegateAdmin = ({ projectCode, employeeCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/delegate-admin`
+    console.log(requestURL);
+    return async (dispatch, getState) => {
+        const result = await axios
+            .put(requestURL, employeeCode, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            })
+
+        console.log('[ProjectAPICalls] callDelegateAdmin RESULT : ', result)
+
+        dispatch({ type: DELETEGATE_ADMIN, payload: result?.data })
     }
 }
 

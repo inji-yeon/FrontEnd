@@ -28,14 +28,12 @@ function ProjectPost({ projectCode }) {
     const [pageRange, setPageRange] = useState([])
     const editorRef = useRef()
     const postListRef = useRef();
-    const viewerRef = useRef();
     const [editor, setEditor] = useState(null)
     const [editorText, setEditorText] = useState('')
     const [uploadImageList, setUploadImageList] = useState([])
     const [editorElement, setEditorElement] = useState(null);
 
     useEffect(() => {
-        console.log('asd')
         dispatch(callGetProjectPostListAPI({ projectCode, searchValue }))
     }, [])
     useEffect(() => {
@@ -46,7 +44,6 @@ function ProjectPost({ projectCode }) {
     }, [editorRef])
     useEffect(() => {
         if (editorElement) {
-            console.log('editorElement', editorElement);
             editorElement.style.borderRadius = "5px"
             editorElement.querySelector('.toastui-editor-toolbar').style.backgroundColor = "hsl(12, 92%, 91%)"
             editorElement.querySelector('.toastui-editor-md-tab-container').style.backgroundColor = "hsl(12, 92%, 91%)"
@@ -83,23 +80,13 @@ function ProjectPost({ projectCode }) {
         project?.uploadImageList && setUploadImageList(project?.uploadImageList)
     }, [project?.uploadImageList])
     useEffect(() => {
-        console.log('uploadImageList', uploadImageList)
-    }, [uploadImageList])
-    useEffect(() => {
         if (editor) {
-            console.log('editor.getHTML()', editor.getHTML())
             editor.addHook('addImageBlobHook', (form, callback) => {
                 const file = new FormData()
                 file.append('file', form)
-                console.log('form>>>>>>', form)
                 dispatch(callUploadImage({ file, callback }))
             })
         }
-        // return () => {
-        //     if (editor) {
-        //         editor.removeHook('addImageBlobHook')
-        //     }
-        // }
     }, [editor])
     useEffect(() => {
         project?.projectPostListWithPaging &&
@@ -107,13 +94,9 @@ function ProjectPost({ projectCode }) {
     }, [project?.projectPostListWithPaging])
 
     useEffect(() => {
-        console.log('postList', postList)
         if (postList.pageInfo) {
-            console.log('postList.pageInfo', postList.pageInfo)
             const pageStart = postList?.pageInfo?.pageStart
             const pageEnd = postList?.pageInfo?.pageEnd
-            console.log('pageStart', pageStart)
-            console.log('pageEnd', pageEnd)
             const range = Array.from(
                 { length: pageEnd - pageStart + 1 },
                 (_, index) => index + pageStart
@@ -124,9 +107,6 @@ function ProjectPost({ projectCode }) {
                 .forEach(element => element.style.fontSize = "16px")
         }
     }, [postList])
-    useEffect(() => {
-        console.log('pageRange', pageRange)
-    }, [pageRange])
 
     const searchValueHandler = e => {
         setSearchValue(e.target.value)
@@ -144,9 +124,6 @@ function ProjectPost({ projectCode }) {
     const changeEditorHandler = e => {
         setEditorText(editor.getHTML())
     }
-    useEffect(() => {
-        console.log('editorText', editorText)
-    }, [editorText])
     const submitHandler = () => {
         const projectPost = {
             projectCode: projectCode,
@@ -185,20 +162,21 @@ function ProjectPost({ projectCode }) {
                 <button onClick={searchHandler} className={styles.search_button}>검색</button>
             </div>
             <div className={styles.post_list} ref={postListRef}>
-                {console.log('postList?.data', postList?.data)}
                 {postList?.data?.map(post => {
-                    const employee = post.projectMember.employee;
+                    const employee = post?.projectMember?.employee;
                     return (
                         <div key={post.projectPostCode} className={styles.post_element}>
                             <div className={styles.post_profile_wrap}>
-                                {/* <img src=''/> */}
-                                <div></div>
+                                <img src={post?.projectMember?.employee?.profileList
+                                    ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
+                                    ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${post?.projectMember?.employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
+                                    : '임시 사진'} alt='프로필' />
                             </div>
                             <div className={styles.viewer_wrap}>
                                 <div className={styles.arrow}></div>
                                 <div className={styles.viewer_header}>
-                                    <div><b>{employee.employeeName} {employee.job.jobName}{project?.projectInfo?.projectManager?.employeeCode === employee.employeeCode ? '(관리자)' : ''}</b></div>
-                                    <div>{employee.department.departmentName}</div>
+                                    <div><b>{employee?.employeeName} {employee?.job?.jobName}{project?.projectInfo?.projectManager?.employeeCode === employee?.employeeCode ? '(관리자)' : ''}</b></div>
+                                    <div>{employee?.department?.departmentName}</div>
                                     <div className={styles.date}>{format(post.projectPostCreationDate, "yyyy-MM-dd HH:mm", { timeZone: 'Asia/Seoul' })}</div>
                                 </div>
                                 <div className={styles.viewer}>
@@ -242,7 +220,9 @@ function ProjectPost({ projectCode }) {
                     return (
                         <button
                             key={page}
-                            disabled={postList?.pageInfo?.cri?.pageNum === page}
+                            style={{
+                                backgroundColor: postList?.pageInfo?.cri?.pageNum === page ? "hsl(12, 92%, 85%)" : ""
+                            }}
                             onClick={() => {
                                 paging(searchValue, page)
                             }}
