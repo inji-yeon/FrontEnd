@@ -72,22 +72,30 @@ function ProjectPost({ projectCode }) {
             editorElement.querySelector('.toastui-editor-defaultUI').style.border = "1px solid hsl(12,92%,85%)"
             editorElement.querySelectorAll('.tab-item').forEach(element => element.style.border = "1px solid hsl(12,92%,85%)")
             editorElement.querySelectorAll('.tab-item').forEach(element => element.style.borderBottom = "0")
+            editorElement.querySelectorAll('.tab-item').forEach(element => element.addEventListener('click', () => { setEditorText(new String(editor.getHTML())) }))
             editorElement.querySelector('.toastui-editor-defaultUI').removeChild(editorElement.querySelector('.toastui-editor-mode-switch'));
             editorElement.querySelector('.ProseMirror').style.fontSize = "16px"
         }
     }, [editorElement])
+
+    useEffect(() => {
+        console.log(editorText, 'editorText');
+    }, [editorText])
+
     useEffect(() => {
         project?.uploadImageList && setUploadImageList(project?.uploadImageList)
     }, [project?.uploadImageList])
+
     useEffect(() => {
         if (editor) {
             editor.addHook('addImageBlobHook', (form, callback) => {
                 const file = new FormData()
                 file.append('file', form)
-                dispatch(callUploadImage({ file, callback }))
+                dispatch(callUploadImage({ file, callback, editor }))
             })
         }
     }, [editor])
+
     useEffect(() => {
         project?.projectPostListWithPaging &&
             setPostList(project?.projectPostListWithPaging)
@@ -130,8 +138,9 @@ function ProjectPost({ projectCode }) {
             projectPostCreationDate: new Date(),
             projectPostContent: editorText,
             projectPostType: '수동',
-            ProjectPostFileList: uploadImageList
+            projectPostFileList: uploadImageList
         }
+        console.log('uploadImageList', uploadImageList);
         dispatch(callCreateProjectPostAPI({ projectCode, projectPost }))
         editor.setHTML('')
     }

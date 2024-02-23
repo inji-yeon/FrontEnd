@@ -169,7 +169,7 @@ export const callGetEmployees = () => {
     }
 }
 
-export const callUploadImage = ({ file, callback }) => {
+export const callUploadImage = ({ file, callback, editor }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/upload-image`
     console.log(requestURL);
     return async (dispatch, getState) => {
@@ -186,7 +186,8 @@ export const callUploadImage = ({ file, callback }) => {
             })
 
         if (callback && typeof callback === 'function') {
-            callback(`http://localhost:1208/web-images/${result?.data?.data?.projectPostFileChangedFile}`);
+            callback(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${result?.data?.data?.projectPostFileChangedFile}`);
+            console.log('editor', editor);
         }
 
         console.log('[ProjectAPICalls] callUploadImage RESULT : ', result)
@@ -197,6 +198,7 @@ export const callUploadImage = ({ file, callback }) => {
 
 export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}`
+    console.log('projectPost>>>>',projectPost);
     console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
