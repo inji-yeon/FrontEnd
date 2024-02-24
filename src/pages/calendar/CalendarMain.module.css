@@ -1,6 +1,7 @@
 .calendar_wrap {
     display: grid;
     grid-template-columns: 245px auto;
+    position: relative;
 }
 
 .sidemenu2 {
@@ -45,76 +46,76 @@
     width: 100%;
 }
 
-.category_all>label {
+.all>label {
     color: #000000;
-    background-color: hsl(12, 92%, 85%);
+    background-color: #fcc4b6;
 }
 
-.category_all>label:hover {
-    background-color: hsl(12, 92%, 75%);
+.all>label:hover {
+    background-color: #fa9c85;
 }
 
-.category_meeting>label {
+.meeting>label {
     color: #FFFFFF;
     background-color: #3498db;
 }
 
-.category_meeting>label:hover {
+.meeting>label:hover {
     background-color: #2980b9;
 }
 
-.category_personal>label {
+.personal>label {
     color: #000000;
     background-color: #f1c40f;
 }
 
-.category_personal>label:hover {
+.personal>label:hover {
     background-color: #f39c12;
 }
 
-.category_important>label {
+.important>label {
     color: #FFFFFF;
     background-color: #e74c3c;
 }
 
-.category_important>label:hover {
+.important>label:hover {
     background-color: #c0392b;
 }
 
-.category_vacation>label {
+.vacation>label {
     color: #FFFFFF;
     background-color: #9b59b6;
 }
 
-.category_vacation>label:hover {
+.vacation>label:hover {
     background-color: #8e44ad;
 }
 
-.category_birthday>label {
+.birthday>label {
     color: #FFFFFF;
     background-color: #ff69b4;
 }
 
-.category_birthday>label:hover {
+.birthday>label:hover {
     background-color: #ff6bcb;
 }
 
-.category_todo>label {
+.todo>label {
     color: #FFFFFF;
     background-color: #2ecc71;
 }
 
-.category_todo>label:hover {
+.todo>label:hover {
     background-color: #27ae60;
 }
 
-.category_other>label {
+.other>label {
     color: #FFFFFF;
-    background-color: #e74c3c;
+    background-color: #95a5a6;
 }
 
-.category_other>label:hover {
-    background-color: #c0392b;
+.other>label:hover {
+    background-color: #7f8c8d;
 }
 
 .calendar_section {
@@ -145,7 +146,6 @@
 }
 
 .calendar_header button {
-    z-index: 1;
     padding: 5px 15px;
     font-size: 20px;
     border-radius: 5px;
@@ -168,4 +168,5 @@
 
 .calendar_body {
     width: 100%;
+    position: relative;
 }

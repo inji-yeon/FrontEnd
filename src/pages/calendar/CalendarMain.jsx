@@ -6,7 +6,9 @@ import { useEffect, useRef, useState } from 'react'
 import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
 import { useDispatch, useSelector } from 'react-redux'
-import { callGetCalendarAPI, callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
+import { callGetCalendarAPI, callGetEventListAPI, callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
+import { calendarEventDataSet } from '../../utils/calendarUtils'
+import { DELETE_EVENT, GET_EVENTS, POST_EVENT, PUT_EVENT, PUT_EVENT_ABOUT_TIME, PUT_TEMP_DELETED_EVENT, RESET_MESSAGE } from '../../modules/CalendarModule'
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()
@@ -36,11 +38,7 @@ function CalendarMain() {
     const [viewDate, setViewDate] = useState(null)
 
     const [calendarTheme, setCalendarTheme] = useState(null)
-    const [employeeList, setEmployeeList] = useState([])
     const [eventList, setEventList] = useState(null)
-    const [returnData, setReturnData] = useState(null)
-    const [searchEventList, setSearchEventList] = useState([])
-    const [tempDeletedEventList, setTempDeletedEventList] = useState([])
 
     const [clickedData, setClickedData] = useState({ state: false })
     const [selectedData, setSelectedData] = useState({ state: false })
@@ -51,9 +49,21 @@ function CalendarMain() {
     const [isTempDeletedPage, setIsTempDeletedPage] = useState(false);
 
     const weekOptions = { taskView: false }
-    const eventFilter = (event) => {
-        return event?.isVisible && (event?.raw.eventDeleteStatus === 'N')
-    }
+
+    const [checkboxes, setCheckboxes] = useState([
+        { name: 'all', checked: true },
+        { name: 'meeting', checked: true },
+        { name: 'personal', checked: true },
+        { name: 'important', checked: true },
+        { name: 'vacation', checked: true },
+        { name: 'birthday', checked: true },
+        { name: 'todo', checked: true },
+        { name: 'other', checked: true },
+    ])
+
+    useEffect(() => {
+        console.log(checkboxes, 'checkboxes');
+    }, [checkboxes])
 
     const [eventWindow, setEventWindow] = useState({ state: null }) // 이벤트 정보 보여주는 부분(자식 컴포넌트로 넘긴다.)
     // 이벤트 정보 보여주는 창
@@ -179,11 +189,12 @@ function CalendarMain() {
     // Element 그 자체에 대한 useEffect
     useEffect(() => {
         if (rootElement) {
+            console.log('rootelement', rootElement);
             const style = rootElement?.style;
             style.display = 'block'
             style.width = "100%"
             style.padding = "0"
-            style.border = "1px solid #e5e5e5"
+            style.border = "1px solid #606060"
         }
     }, [rootElement])
 
@@ -208,17 +219,10 @@ function CalendarMain() {
             ])
     }, [calendarData?.calendar])
 
-    // 직원 목록 관련(초대할때 필요하고. 이미 포함되어 있다면 react 측에서 제거해야됨)
-    useEffect(() => {
-        setEmployeeList(calendarData?.employeeList)
-    }, [calendarData?.employeeList])
-
     // 일정 목록. 이 데이터는 처음에만 읽어온다. 나머지는 react 추가와 db 추가를 따로 한다. 또한, 여기서 필터링 작업도 직접 한다. 일단 계정 관련 일정 다 가져옴
     useEffect(() => {
         setEventList(
-            calendarData?.eventList?.map(e => {
-                const event = e?.event
-                const attendeeList = e?.eventAttendeeList
+            calendarData?.eventList?.map(event => {
                 return {
                     id: event?.eventCode?.toString(),
                     calendarId: event?.calendarCode?.toString(),
@@ -228,18 +232,15 @@ function CalendarMain() {
                     end: new Date(event?.eventEndDate),
                     location: event?.eventLocation,
                     category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                    recurrenceRule: event?.eventRecurrenceRule,
                     isReadOnly: event?.eventEditable === 'N' ? true : false,
                     color: event?.eventColor,
                     backgroundColor: event?.eventBackgroundColor,
                     dragBackgroundColor: event?.eventDragBackgroundColor,
                     borderColor: event?.eventBorderColor,
                     raw: {
-                        // departmentName: event?.departmentName,
-                        eventAttendeeCount: event?.eventAttendeeCount,
-                        eventAttendeeList: attendeeList,
                         eventDeleteTime: event?.eventDeleteTime,
-                        eventDeleteStatus: event?.eventDeleteStatus
+                        eventDeleteStatus: event?.eventDeleteStatus,
+                        eventCategory: event?.eventCategory
                     }
                 }
             })
@@ -247,139 +248,119 @@ function CalendarMain() {
     }, [calendarData?.eventList])
 
     // backend 관련해서 성공여부를 여기로 전달 받는다.
+
+
     useEffect(() => {
-        setReturnData(calendarData?.returnData)
-    }, [calendarData?.returnData])
-    useEffect(() => {
-        if (returnData?.message === '일정 수정 성공') {
-            console.log(returnData?.message);
-            const event = returnData?.data.event
-            const attendeeList = returnData?.data.eventAttendeeList
-            console.log(event);
-            console.log(attendeeList);
-            console.log(event?.eventIsAllDay);
-            console.log(event?.eventCode);
-            console.log(event?.calendarCode);
-            calendar.updateEvent(event?.eventCode.toString(), event?.calendarCode.toString(), {
-                title: event?.eventTitle,
-                body: event?.eventContent,
-                start: new Date(event?.eventStartDate),
-                end: new Date(event?.eventEndDate),
-                location: event?.eventLocation,
-                isAllday: event?.eventIsAllDay === 'Y' ? true : false,
-                category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                recurrenceRule: event?.eventRecurrenceRule,
-                isReadOnly: event?.eventEditable === 'N' ? true : false,
-                color: event?.eventColor,
-                backgroundColor: event?.eventBackgroundColor,
-                dragBackgroundColor: event?.eventDragBackgroundColor,
-                borderColor: event?.eventBorderColor,
-                raw: {
-                    // departmentName: event?.departmentName,
-                    eventAttendeeCount: event?.eventAttendeeCount,
-                    eventAttendeeList: attendeeList,
-                    eventDeleteTime: event?.eventDeleteTime,
-                    eventDeleteStatus: event?.eventDeleteStatus
-                }
-            })
-            console.log('변경된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
-            setReturnData(null);
-        } else if (returnData?.message === '일정 생성 성공') {
-            console.log(returnData?.message);
-            const event = returnData?.data.event
-            const attendeeList = returnData?.data.eventAttendeeList
-            console.log(event);
-            console.log(attendeeList);
-            console.log(event?.eventIsAllDay);
-            console.log(event?.eventCode);
-            console.log(event?.calendarCode);
-            calendar.createEvents([{
-                id: event?.eventCode.toString(),
-                calendarId: event?.calendarCode.toString(),
-                title: event?.eventTitle,
-                body: event?.eventContent,
-                start: new Date(event?.eventStartDate),
-                end: new Date(event?.eventEndDate),
-                location: event?.eventLocation,
-                isAllday: event?.eventIsAllDay === 'Y' ? true : false,
-                category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
-                recurrenceRule: event?.eventRecurrenceRule,
-                isReadOnly: event?.eventEditable === 'N' ? true : false,
-                color: event?.eventColor,
-                backgroundColor: event?.eventBackgroundColor,
-                dragBackgroundColor: event?.eventDragBackgroundColor,
-                borderColor: event?.eventBorderColor,
-                raw: {
-                    // departmentName: event?.departmentName,
-                    eventAttendeeCount: event?.eventAttendeeCount,
-                    eventAttendeeList: attendeeList,
-                    eventDeleteTime: event?.eventDeleteTime,
-                    eventDeleteStatus: event?.eventDeleteStatus
-                }
-            }])
-            console.log('생성된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
-        }
-        else if (returnData?.message === '일정 시간 수정 성공') {
-            const { event, changes } = movedData;
-            calendar.updateEvent(event?.id, event?.calendarId, {
-                end: changes?.end
-            })
-            if (changes?.start) {
-                calendar.updateEvent(event?.id, event?.calendarId, {
-                    start: changes?.start
-                })
-            }
-            console.log('이벤트 정보>>>', calendar.getEvent(event?.id, event?.calendarId));
-            setMovedData({ state: false })
-            setReturnData(null);
-        } else if (returnData?.message === '일정 삭제 성공') {
-            const { eventCode, calendarCode, state } = returnData.data;
-            if (state === 'tempDelete') { // 임시 삭제 성공
-                calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+        if (calendarData?.message) {
+            if (calendarData?.message === PUT_EVENT) {
+                const event = calendarData?.returnData;
+                calendar.updateEvent(event?.eventCode.toString(), event?.calendarCode.toString(), {
+                    title: event?.eventTitle,
+                    body: event?.eventContent,
+                    start: new Date(event?.eventStartDate),
+                    end: new Date(event?.eventEndDate),
+                    location: event?.eventLocation,
+                    isAllday: event?.eventIsAllDay === 'Y' ? true : false,
+                    category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                    isReadOnly: event?.eventEditable === 'N' ? true : false,
+                    color: event?.eventColor,
+                    backgroundColor: event?.eventBackgroundColor,
+                    dragBackgroundColor: event?.eventDragBackgroundColor,
+                    borderColor: event?.eventBorderColor,
                     raw: {
-                        eventDeleteStatus: "T",
-                        eventDeleteTime: new Date()
+                        eventDeleteTime: event?.eventDeleteTime,
+                        eventDeleteStatus: event?.eventDeleteStatus,
+                        eventCategory: event?.eventCategory
                     }
                 })
-                const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
-                const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
-                modifyEvent[0].raw.eventDeleteStatus = "T";
-                modifyEvent[0].raw.eventDeleteTime = new Date();
-                modifyEventList.push(modifyEvent[0]);
-                console.log('e', eventList);
-                console.log('m', modifyEventList);
-                setEventList(modifyEventList);
-            } else { // 완전 삭제 성공
+                console.log('변경된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
+            } else if (calendarData?.message === POST_EVENT) {
+                const event = calendarData?.returnData
+                calendar.createEvents([{
+                    id: event?.eventCode.toString(),
+                    calendarId: event?.calendarCode.toString(),
+                    title: event?.eventTitle,
+                    body: event?.eventContent,
+                    start: new Date(event?.eventStartDate),
+                    end: new Date(event?.eventEndDate),
+                    location: event?.eventLocation,
+                    isAllday: event?.eventIsAllDay === 'Y' ? true : false,
+                    category: event?.eventIsAllDay === 'Y' ? 'allday' : 'time',
+                    isReadOnly: event?.eventEditable === 'N' ? true : false,
+                    color: event?.eventColor,
+                    backgroundColor: event?.eventBackgroundColor,
+                    dragBackgroundColor: event?.eventDragBackgroundColor,
+                    borderColor: event?.eventBorderColor,
+                    raw: {
+                        eventDeleteTime: event?.eventDeleteTime,
+                        eventDeleteStatus: event?.eventDeleteStatus,
+                        eventCategory: event?.eventCategory
+                    }
+                }])
+                console.log('생성된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
+            }
+            else if (calendarData?.message === PUT_EVENT_ABOUT_TIME) {
+                const { event, changes } = movedData;
+                calendar.updateEvent(event?.id, event?.calendarId, {
+                    end: changes?.end
+                })
+                if (changes?.start) {
+                    calendar.updateEvent(event?.id, event?.calendarId, {
+                        start: changes?.start
+                    })
+                }
+                console.log('이벤트 정보>>>', calendar.getEvent(event?.id, event?.calendarId));
+                setMovedData({ state: false })
+            } else if (calendarData?.message === DELETE_EVENT) {
+                const { eventCode, calendarCode, state } = calendarData?.returnData;
+                if (state === 'tempDelete') { // 임시 삭제 성공
+                    calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+                        raw: {
+                            eventDeleteStatus: "T",
+                            eventDeleteTime: new Date()
+                        }
+                    })
+                    const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
+                    const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
+                    modifyEvent[0].raw.eventDeleteStatus = "T";
+                    modifyEvent[0].raw.eventDeleteTime = new Date();
+                    modifyEventList.push(modifyEvent[0]);
+                    console.log('e', eventList);
+                    console.log('m', modifyEventList);
+                    setEventList(modifyEventList);
+                } else { // 완전 삭제 성공
+                    calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
+                        raw: {
+                            eventDeleteStatus: "Y",
+                            eventDeleteTime: null
+                        }
+                    })
+
+                    const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
+                    const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
+                    modifyEvent[0].raw.eventDeleteStatus = "Y";
+                    modifyEvent[0].raw.eventDeleteTime = null;
+                    modifyEventList.push(modifyEvent[0]);
+                    setEventList(modifyEventList);
+                }
+            } else if (calendarData?.message === PUT_TEMP_DELETED_EVENT) {
+                const { eventCode, calendarCode } = calendarData?.returnData;
                 calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
                     raw: {
-                        eventDeleteStatus: "Y",
+                        eventDeleteStatus: "N",
                         eventDeleteTime: null
                     }
                 })
-
                 const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
                 const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
-                modifyEvent[0].raw.eventDeleteStatus = "Y";
+                modifyEvent[0].raw.eventDeleteStatus = "N";
                 modifyEvent[0].raw.eventDeleteTime = null;
                 modifyEventList.push(modifyEvent[0]);
                 setEventList(modifyEventList);
             }
-        } else if (returnData?.message === '일정 롤백 성공') {
-            const { eventCode, calendarCode } = returnData.data;
-            calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
-                raw: {
-                    eventDeleteStatus: "N",
-                    eventDeleteTime: null
-                }
-            })
-            const modifyEvent = eventList.filter(event => event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString());
-            const modifyEventList = eventList.filter(event => !(event?.id === eventCode.toString() && event?.calendarId === calendarCode.toString()));
-            modifyEvent[0].raw.eventDeleteStatus = "N";
-            modifyEvent[0].raw.eventDeleteTime = null;
-            modifyEventList.push(modifyEvent[0]);
-            setEventList(modifyEventList);
+            dispatch(callGetEventListAPI())
         }
-    }, [returnData])
+    }, [calendarData?.message])
 
     const searchHandler = () => {
         if (!isSearch) {
@@ -413,35 +394,24 @@ function CalendarMain() {
             rootElement.style.display = 'block';
         }
     }
-    const [checkboxes, setCheckboxes] = useState([
-        { name: 'category_all', checked: true },
-        { name: 'category_meeting', checked: true },
-        { name: 'category_personal', checked: true },
-        { name: 'category_important', checked: true },
-        { name: 'category_vacation', checked: true },
-        { name: 'category_birthday', checked: true },
-        { name: 'category_todo', checked: true },
-        { name: 'category_other', checked: true },
-    ])
+
     const checkboxHandler = (e) => {
-        if (e.target.name === 'category_all') {
+        if (e.target.name === 'all') {
             setCheckboxes([
-                { name: 'category_all', checked: e.target.checked },
-                { name: 'category_meeting', checked: e.target.checked },
-                { name: 'category_personal', checked: e.target.checked },
-                { name: 'category_important', checked: e.target.checked },
-                { name: 'category_vacation', checked: e.target.checked },
-                { name: 'category_birthday', checked: e.target.checked },
-                { name: 'category_todo', checked: e.target.checked },
-                { name: 'category_other', checked: e.target.checked },
+                { name: 'all', checked: e.target.checked },
+                { name: 'meeting', checked: e.target.checked },
+                { name: 'personal', checked: e.target.checked },
+                { name: 'important', checked: e.target.checked },
+                { name: 'vacation', checked: e.target.checked },
+                { name: 'birthday', checked: e.target.checked },
+                { name: 'todo', checked: e.target.checked },
+                { name: 'other', checked: e.target.checked },
             ])
         } else {
             setCheckboxes(prev => (prev.map(checkbox => checkbox.name === e.target.name ? { ...checkbox, checked: !checkbox.checked } : checkbox)))
         }
     }
-    useEffect(() => {
-        console.log(checkboxes);
-    }, [checkboxes])
+
     return (
         <div className={styles.calendar_wrap}>
             <div className={styles.sidemenu2}>
@@ -449,28 +419,31 @@ function CalendarMain() {
                     캘린더
                 </div>
                 <div className={styles.sidemenu2_body}>
-                    <div className={`${styles.category} ${styles.category_all}`}><input type='checkbox' name='category_all' id='category_all' checked={checkboxes.filter(checkbox => checkbox.name === 'category_all')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_all'>전체</label></div>
-                    <div className={`${styles.category} ${styles.category_meeting}`}><input type='checkbox' name='category_meeting' id='category_meeting' checked={checkboxes.filter(checkbox => checkbox.name === 'category_meeting')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_meeting'>회의</label></div>
-                    <div className={`${styles.category} ${styles.category_personal}`}><input type='checkbox' name='category_personal' id='category_personal' checked={checkboxes.filter(checkbox => checkbox.name === 'category_personal')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_personal'>개인 일정</label></div>
-                    <div className={`${styles.category} ${styles.category_important}`}><input type='checkbox' name='category_important' id='category_important' checked={checkboxes.filter(checkbox => checkbox.name === 'category_important')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_important'>중요한 일정</label></div>
-                    <div className={`${styles.category} ${styles.category_vacation}`}><input type='checkbox' name='category_vacation' id='category_vacation' checked={checkboxes.filter(checkbox => checkbox.name === 'category_vacation')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_vacation'>휴가</label></div>
-                    <div className={`${styles.category} ${styles.category_birthday}`}><input type='checkbox' name='category_birthday' id='category_birthday' checked={checkboxes.filter(checkbox => checkbox.name === 'category_birthday')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_birthday'>생일(기념일)</label></div>
-                    <div className={`${styles.category} ${styles.category_todo}`}><input type='checkbox' name='category_todo' id='category_todo' checked={checkboxes.filter(checkbox => checkbox.name === 'category_todo')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_todo'>할일</label></div>
-                    <div className={`${styles.category} ${styles.category_other}`}><input type='checkbox' name='category_other' id='category_other' checked={checkboxes.filter(checkbox => checkbox.name === 'category_other')[0]?.checked} onChange={checkboxHandler} /><label htmlFor='category_other'>기타</label></div>
+                    <div className={`${styles.category} ${styles.all}`}><input type='checkbox' name='all' id='category_all' checked={checkboxes.find(checkbox => checkbox.name === 'all')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_all'>전체</label></div>
+                    <div className={`${styles.category} ${styles.meeting}`}><input type='checkbox' name='meeting' id='category_meeting' checked={checkboxes.find(checkbox => checkbox.name === 'meeting')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_meeting'>회의</label></div>
+                    <div className={`${styles.category} ${styles.personal}`}><input type='checkbox' name='personal' id='category_personal' checked={checkboxes.find(checkbox => checkbox.name === 'personal')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_personal'>개인 일정</label></div>
+                    <div className={`${styles.category} ${styles.important}`}><input type='checkbox' name='important' id='category_important' checked={checkboxes.find(checkbox => checkbox.name === 'important')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_important'>중요한 일정</label></div>
+                    <div className={`${styles.category} ${styles.vacation}`}><input type='checkbox' name='vacation' id='category_vacation' checked={checkboxes.find(checkbox => checkbox.name === 'vacation')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_vacation'>휴가</label></div>
+                    <div className={`${styles.category} ${styles.birthday}`}><input type='checkbox' name='birthday' id='category_birthday' checked={checkboxes.find(checkbox => checkbox.name === 'birthday')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_birthday'>생일(기념일)</label></div>
+                    <div className={`${styles.category} ${styles.todo}`}><input type='checkbox' name='todo' id='category_todo' checked={checkboxes.find(checkbox => checkbox.name === 'todo')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_todo'>할일</label></div>
+                    <div className={`${styles.category} ${styles.other}`}><input type='checkbox' name='other' id='category_other' checked={checkboxes.find(checkbox => checkbox.name === 'other')?.checked ?? true} onChange={checkboxHandler} /><label htmlFor='category_other'>기타</label></div>
                 </div>
             </div>
             <div className={styles.calendar_section}>
                 <div className={styles.calendar_header}>
                     <div className={styles.calender_header_left}>
-                        <button onClick={todayHandler}>오늘</button>
-                        <button onClick={prevHandler}>&lt;</button>
-                        <button onClick={nextHandler}>&gt;</button>
-                        <div>{viewDate}</div>
+                        {!(isSearch || isTempDeletedPage)
+                            && <>
+                                <button onClick={todayHandler}>오늘</button>
+                                <button onClick={prevHandler}>&lt;</button>
+                                <button onClick={nextHandler}>&gt;</button>
+                                <div>{viewDate}</div>
+                            </>}
                     </div>
                     <div className={styles.calendar_header_right}>
-                        <button onClick={tempDeletedPageHandler}>{isTempDeletedPage ? '임시삭제목록닫기' : '임시삭제목록'}</button>
+                        {!isSearch && <button onClick={tempDeletedPageHandler}>{isTempDeletedPage ? '닫기' : '휴지통'}</button>}
                         {isSearch && <input type="text" value={searchText} onChange={searchTextHandler} />}
-                        <button onClick={searchHandler}>{isSearch ? '검색닫기' : '검색버튼'}</button>
+                        <button onClick={searchHandler}>{isSearch ? '닫기' : '검색'}</button>
                         <select
                             value={calendarTypeValue}
                             onChange={calendarTypeChangeHandler}
@@ -479,7 +452,6 @@ function CalendarMain() {
                             <option value='month'>월</option>
                             <option value='week'>주</option>
                             <option value='day'>일</option>
-                            <option value='list'>목록</option>
                         </select>
                     </div>
                 </div>
@@ -487,37 +459,38 @@ function CalendarMain() {
                     <Calendar
                         ref={calendarRef}
                         view={calendarTypeValue}
+                        height={'780px'}
                         calendars={calendarRef.current && calendarTheme}
-                        events={eventList}
+                        events={eventList?.filter(
+                            event => {
+                                return event.raw.eventDeleteStatus === "N"
+                                    && checkboxes
+                                        ?.filter(checkbox => checkbox.checked === true)
+                                        ?.map(checkbox => checkbox.name)
+                                        ?.includes(event?.raw?.eventCategory)
+                            }
+                        )}
                         usageStatistics={false}
                         week={weekOptions}
-                        eventFilter={eventFilter}
-
                     />
-                    {calendarTypeValue === 'list' && (
+                    {eventWindow?.state !== null &&
+                        <EventWindow
+                            eventWindow={eventWindow}
+                            setEventWindow={setEventWindow}
+                            calendar={calendar}
+                        />
+                    }
+                    {(isSearch || isTempDeletedPage) && (
                         <CalendarListPage
                             events={eventList}
                             setEvents={setEventList}
                             searchText={searchText}
                             isTempDeletedPage={isTempDeletedPage}
-                            calendar={calendar}
-                            returnData={returnData}
-                            setReturnData={setReturnData} />
-                    )}
-                    {eventWindow.state !== null && (
-                        <EventWindow
-                            eventWindow={eventWindow}
-                            setEventWindow={setEventWindow}
-                            calendar={calendar}
-                            employeeList={employeeList}
-                            setEmployeeList={setEmployeeList}
-                            returnData={returnData}
-                            setReturnData={setReturnData}
-                        />
+                            calendar={calendar} />
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default CalendarMain

@@ -122,9 +122,9 @@ function SideBar() {
         }
         box.style.opacity = '1';
         switch (true) {
-            case window.location.pathname.startsWith('/main'):
-                box.style.opacity = '0';
-                break;
+            // case window.location.pathname.startsWith('/main'):
+            //     box.style.opacity = '0';
+            //     break;
             case window.location.pathname.startsWith('/mail'):
                 box.style.top = '125px';
                 break;
