@@ -33,9 +33,6 @@ function DoPaymentDocumentWaiting () {
       // 여기서 다른 체크박스들의 상태를 변경할 수 있습니다.
     };
   
-    const openPopup = () => {
-      // 팝업 열기 동작
-    };
 
     const dispatch = useDispatch();
     const doWaitingDocu = useSelector((state => state.attendance))
@@ -133,7 +130,7 @@ function DoPaymentDocumentWaiting () {
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                         <td className={doWaiting.list_my_waiting}>
-                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                            {/* <button id="detailDcoument" onClick={openPopup}>상세보기</button> */}
                                         </td>
                                     </tr>
                                 ))

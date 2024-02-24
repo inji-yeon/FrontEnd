@@ -27,10 +27,6 @@ function MyApplyDocumentRejction() {
 
     
 
-    const openPopup = () => {
-        // 팝업 열기 동작
-    }
-
 
     const dispatch = useDispatch();
     const myRejectDoc = useSelector((state => state.attendance))
@@ -124,7 +120,7 @@ function MyApplyDocumentRejction() {
                                         <td className={myRejec.list_commute_detail}>{formatDateTime(AttmyRej.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                         <td className={myRejec.list_commute_detail}>{AttmyRej.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myRejec.list_commute_detail}>{formatDateTime(AttmyRej.approvalProcessDate)}</td>
-                                        <td><button onclick="openPopup()">상세보기</button></td>
+                                        {/* <td><button onclick="openPopup()">상세보기</button></td> */}
                                     </tr>
                                 ))
                                 :

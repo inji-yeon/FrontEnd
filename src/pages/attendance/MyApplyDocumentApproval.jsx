@@ -122,7 +122,7 @@ function MyApplyDocumentApproval () {
                                             <td className={myAppro.list_commute_detail}>{formatDateTime(AttmyAppro.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                             <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineDocumentCode?.approvalForm}</td>
                                             <td className={myAppro.list_commute_detail}>{formatDateTime(AttmyAppro.approvalProcessDate)}</td>
-                                            <td><button onclick="openPopup()">상세보기</button></td>
+                                            {/* <td><button onclick="openPopup()">상세보기</button></td> */}
                                         </tr>
                                     ))
                                     :

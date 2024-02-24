@@ -1,26 +1,15 @@
 import myWaiting from './attendancePage/MyApplyWaiting.module.css'
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { callMyWaitingAPI } from '../../apis/AttendanceAPI';
 import { useEffect, useState } from 'react';
 
 
-
 function MyApplyDocumentWaiting () {
 
 
     const navigate = useNavigate();
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    
-    const openPopup = () => {
-        setIsPopupOpen(true);
-        };
-    
-    const closePopup = () => {
-        setIsPopupOpen(false);
-        };
 
 
         const myApplyWaitingClick = () => {
@@ -42,13 +31,14 @@ function MyApplyDocumentWaiting () {
         const dispatch = useDispatch();
         const myWaitingdoc = useSelector((state => state.attendance))
     
-        const pageInfo = myWaitingdoc?.pageInfo;
+        const pageInfo = myWaitingdoc?.data?.pageInfo;
     
         console.log('pageInfo', pageInfo);
     
-        const myWaitingdocuts = myWaitingdoc?.data?.content; 
-    
+        const myWaitingdocuts = myWaitingdoc?.data?.data?.content; 
         console.log('myWaitingdocuts =====>', myWaitingdocuts);
+        
+        
     
         const [start, setStart] = useState(0);
         const [currentPage, setCurrentPage] = useState(1);
@@ -60,16 +50,15 @@ function MyApplyDocumentWaiting () {
                 pageNumber.push(i);
             }
         }
-    
+
         useEffect(() => {
-    
             setStart((currentPage - 1) * 5);
-            dispatch(
-                callMyWaitingAPI({
-                    currentPage: currentPage,
-                })
-            );
+            dispatch(callMyWaitingAPI({ currentPage: currentPage }));
         }, [currentPage]);
+
+
+
+
 
 
         function formatDateTime(dateTimeArray) {
@@ -91,7 +80,6 @@ function MyApplyDocumentWaiting () {
             // "yyyy-MM-dd" 형식의 문자열로 반환
             return `${formattedYear}-${formattedMonth}-${formattedDay}`;
         }
-
 
 
 
@@ -132,7 +120,9 @@ function MyApplyDocumentWaiting () {
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
                                         <td className={myWaiting.list_my_waiting}>
-                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                            <button>  
+                                            상세보기
+                                            </button>
                                         </td>
                                     </tr>
                                     ))
@@ -143,19 +133,9 @@ function MyApplyDocumentWaiting () {
                                         </tr>
                                     )                                    
                                 }
-
                         </tbody>
                     </table>
 
-                    {isPopupOpen && (
-                        <div id="overlay" onClick={closePopup}>
-                            <div id="popup">
-                        <div id="close-btn" onClick={closePopup}>닫기</div>
-                            {/* 팝업 내용을 여기에 추가하세요 */}
-                            000
-                            </div>
-                        </div>
-                    )}
 
                 </div> 
 
@@ -187,7 +167,8 @@ function MyApplyDocumentWaiting () {
             </div>
         </div>
 
-        
+
+
         
         </>
 

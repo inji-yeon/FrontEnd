@@ -25,6 +25,7 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import AttendancePop from './pages/attendance/PopDocument';
 import ApprovalFormList from './pages/approval/ApprovalFormList';
 import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
@@ -97,6 +98,7 @@ function App() {
                             <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                             <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                             <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
+                            <Route path='attendancePop' element={<AttendancePop />} />
                         <Route path='adminVacationList' element={<AdminVacationList />} />
                         <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
                     </Route>
