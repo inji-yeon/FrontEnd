@@ -114,9 +114,11 @@ function Main() {
       setIsAttendance(false);
       setIsLogin(false);
       localStorage.removeItem("accessToken");
+      // localStorage.clear();
       dispatch({ type: POST_LOGOUT, payload: {} });
-      window.location.reload();
+      // window.location.reload();//이건 
       showAlert('로그아웃 되었습니다.');
+      navigate('/login')
     } catch (error) {
       console.error("로그아웃 오류:", error);
     }

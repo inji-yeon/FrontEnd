@@ -29,8 +29,9 @@ console.log('사이드바 employeeCode나오나 한 번 보자',employeeCode);
 
 
     const mypageemps = useSelector(state => state.mypagereducer);
-    console.log('프로필사이드바 mypageemps나오는지 한 번 보자 --------',mypageemps)
-    console.log('프로필사이드에서 경로 나오는지 확인 ', mypageemps?.profileImage?.data);
+    console.log('프로필사이드바 mypageemps 프로필 나오는지 한 번 보자 --------',mypageemps?.profileImage?.data?.profileOgFile)
+    console.log('프로필사이드에서 경로 나오는지 확인 ', mypageemps?.profileImage);
+    console.log('프로필사이드에서 mypageemps데이터 전부 나오는지 확인 ', mypageemps);
     
        const timestamp = mypageemps.empInfo?.data?.empJoinDate; // 타임스탬프 값
    
@@ -64,6 +65,7 @@ console.log('사이드바 employeeCode나오나 한 번 보자',employeeCode);
         setProfileImage(null); // 혹은 다른 값을 설정합니다.
     }
 }, [mypageemps?.profileImage?.data?.profileChangedFile]);//이게 변경되면 ui를 업데이트 하기 위해서 써줌 
+
 
 
     useEffect(() => {
@@ -118,7 +120,7 @@ const onClickUpdateProfile = () => {
 
     // 프로필 업데이트 API 호출
     dispatch(callProfileUpdateAPI({ form: formData }))
-    // .then(() => {dispatch(callProfileUpdateAPI({ form: null }));});
+    .then(() => {dispatch(callMypageGetProfileAPI({ form: null }));});
     
     alert('프로필 이미지 업데이트를 요청했습니다. 수정이 완료되면 알림이 표시됩니다.');
 };
