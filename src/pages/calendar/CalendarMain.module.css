@@ -42,7 +42,6 @@
 .category>label {
     padding: 3px 10px;
     border-radius: 5px;
-    ;
     width: 100%;
 }
 
@@ -117,6 +116,17 @@
 .other>label:hover {
     background-color: #7f8c8d;
 }
+
+.meeting,
+.personal,
+.important,
+.vacation,
+.birthday,
+.todo,
+.other {
+    margin-left: 40px;
+}
+
 
 .calendar_section {
     display: flex;

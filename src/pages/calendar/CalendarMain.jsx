@@ -408,7 +408,22 @@ function CalendarMain() {
                 { name: 'other', checked: e.target.checked },
             ])
         } else {
-            setCheckboxes(prev => (prev.map(checkbox => checkbox.name === e.target.name ? { ...checkbox, checked: !checkbox.checked } : checkbox)))
+            setCheckboxes((prev) => {
+                const others = checkboxes.filter(checkbox => checkbox.name !== 'all')
+                    .map(checkbox => {
+                        if (checkbox.name === e.target.name) {
+                            return { ...checkbox, checked: !checkbox.checked }
+                        } else {
+                            return checkbox;
+                        }
+                    })
+                console.log('others', others);
+                if (others.filter(checkbox => checkbox.checked).length < 7) {
+                    return [{ name: 'all', checked: false }, ...others];
+                } else {
+                    return [{ name: 'all', checked: true }, ...others];
+                }
+            })
         }
     }
 
