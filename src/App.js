@@ -57,6 +57,7 @@ import AdminApproval from './pages/admin/AdminApproval';
 import { AlertProvider } from './component/common/AlertContext';
 import { Alert } from './component/common/Alert';
 import Messenger from './component/messenger/Messenger';
+import GroupADmin from './pages/group/sidebar/GroupAdmin';
 
 
 function App() {
@@ -77,6 +78,8 @@ function App() {
                         <Route path='mail/view/:emailCode' element={<MailView />} />
 
                         <Route path='group' element={<GroupChart />}></Route>
+                        <Route path='groupadmin' element={<GroupADmin />}></Route>
+                        
 
                         <Route path='board' element={<BoardLayout />}>
                             <Route path=':boardCode' element={<PostListOfBoard />} />

@@ -218,6 +218,12 @@ const onClickUpdateProfile = () => {
                         <br/>
                         <br/>
                         <div>
+                            <h3 className={MyPageSideBarstyle.mypagetitle}>&lt;직급&gt;</h3>
+                            <div id={MyPageSideBarstyle.dept_name}>{mypageemps.empInfo?.data?.job?.jobName}</div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div>
                             <h3 className={MyPageSideBarstyle.mypagetitle}>&lt;입사일&gt;</h3>
                             <div id={MyPageSideBarstyle.joinDate}>{formattedDate}</div>
                         </div>
