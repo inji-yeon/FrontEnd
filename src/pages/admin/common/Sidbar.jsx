@@ -1,13 +1,13 @@
 import { Outlet, useNavigate } from "react-router-dom";
 
-function AdminSidebar(){
+function AdminSidebar() {
     let navigate = useNavigate();
     const sidebarMenuSelectHandler = (value) => {
         const box = document.querySelector('.selected_box');
-        const texts = ['mail','group','approval'];
-        for(let i=0;i<texts.length;i++){
+        const texts = ['mail', 'group', 'approval'];
+        for (let i = 0; i < texts.length; i++) {
             document.getElementById(texts[i]).style.color = '#606060';
-            if(value === texts[i]){
+            if (value === texts[i]) {
                 document.getElementById(texts[i]).style.color = 'white';
             }
         }
@@ -16,31 +16,31 @@ function AdminSidebar(){
         switch (value) {
             case 'main':
                 box.style.opacity = '0';
-                navigate('/');
+                navigate('/main');
                 break;
-            case 'mail': 
-                box.style.top = '125px'; 
+            case 'mail':
+                box.style.top = '125px';
                 navigate('/admin/mail');
                 break;
-            case 'group': 
-                box.style.top = '210px'; 
+            case 'group':
+                box.style.top = '210px';
                 navigate('/admin/group');
                 break;
-            case 'approval': 
-                box.style.top = '293px'; 
+            case 'approval':
+                box.style.top = '293px';
                 navigate('/admin/approval');
                 break;
             default:
                 box.style.display = 'none';
-            
+
         }
 
     }
 
     return (
         <>
-            <div className="sidemenu" style={{display: 'flex'}}>
-                <div onClick={()=>{sidebarMenuSelectHandler('main')}} className="company_name">Admin Page</div>
+            <div className="sidemenu" style={{ display: 'flex' }}>
+                <div onClick={() => { sidebarMenuSelectHandler('main') }} className="company_name">Admin Page</div>
                 <div className="sidemenu_list">
                     <ul>
                         <div className="selected_box"></div>
@@ -57,7 +57,7 @@ function AdminSidebar(){
                 </div>
 
             </div>
-            <Outlet/>
+            <Outlet />
         </>
     )
 }

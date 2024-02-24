@@ -64,31 +64,31 @@ function Login() {
   //  const onClickForgotPasswordHandler = () => {
   //     dispatch(callForgotPasswordAPI({ form: forgotPasswordForm }));
   // }
-    const wc = useWebSocket();
-    const { showAlert } = useAlert();
-    useEffect(() => {
-        
-        if(loginEmployee.status === 200){
-            console.log("[Login] Login SUCCESS {}", loginEmployee);
-            if(wc){
-                wc.subscribe(`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`, (message) => {
-                console.log('메세지 받음 :',message.body);
-                showAlert('날짜를 선택하세요.')
-            });
-            console.log('구독함 :',`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`);
-        } else {
-            console.log('웹소켓이 없음');
-        }
-            navigate("/", { replace: true });
+  const wc = useWebSocket();
+  const { showAlert } = useAlert();
+  useEffect(() => {
+    console.log(loginEmployee);
+    if (loginEmployee.status === 200) {
+      console.log("[Login] Login SUCCESS {}", loginEmployee);
+      if (wc) {
+        wc.subscribe(`/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`, (message) => {
+          console.log('메세지 받음 :', message.body);
+          showAlert('날짜를 선택하세요.')
+        });
+        console.log('구독함 :', `/topic/mail/alert/${loginEmployee.userInfo.employeeCode}`);
+      } else {
+        console.log('웹소켓이 없음');
+      }
+      navigate("/main", { replace: true });
 
-        }
-    }, [loginEmployee]);
+    }
+  }, [loginEmployee]);
 
 
   // 로그인 상태일 시 로그인페이지로 접근 방지
   if (loginEmployee.length > 0) {
     console.log("[Login] Login is already authenticated by the server");
-    return <Navigate to="/" />;
+    return <Navigate to="/main" />;
   }
 
   const onChangeHandler = (e, type) => {

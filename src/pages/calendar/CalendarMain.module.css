@@ -1,6 +1,129 @@
-.calendar_section {
+.calendar_wrap {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 245px auto;
+    position: relative;
+}
+
+.sidemenu2 {
+    width: 245px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #606060;
+    background-color: #F5F5F5;
+}
+
+.sidemenu2_title {
+    color: #404040;
+    margin: 60px 0px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.sidemenu2_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sidemenu2_body>div {
+    padding: 5px 25px;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+}
+
+.sidemenu2_body input {
+    margin: 0;
+}
+
+.category>label {
+    padding: 3px 10px;
+    border-radius: 5px;
+    ;
+    width: 100%;
+}
+
+.all>label {
+    color: #000000;
+    background-color: #fcc4b6;
+}
+
+.all>label:hover {
+    background-color: #fa9c85;
+}
+
+.meeting>label {
+    color: #FFFFFF;
+    background-color: #3498db;
+}
+
+.meeting>label:hover {
+    background-color: #2980b9;
+}
+
+.personal>label {
+    color: #000000;
+    background-color: #f1c40f;
+}
+
+.personal>label:hover {
+    background-color: #f39c12;
+}
+
+.important>label {
+    color: #FFFFFF;
+    background-color: #e74c3c;
+}
+
+.important>label:hover {
+    background-color: #c0392b;
+}
+
+.vacation>label {
+    color: #FFFFFF;
+    background-color: #9b59b6;
+}
+
+.vacation>label:hover {
+    background-color: #8e44ad;
+}
+
+.birthday>label {
+    color: #FFFFFF;
+    background-color: #ff69b4;
+}
+
+.birthday>label:hover {
+    background-color: #ff6bcb;
+}
+
+.todo>label {
+    color: #FFFFFF;
+    background-color: #2ecc71;
+}
+
+.todo>label:hover {
+    background-color: #27ae60;
+}
+
+.other>label {
+    color: #FFFFFF;
+    background-color: #95a5a6;
+}
+
+.other>label:hover {
+    background-color: #7f8c8d;
+}
+
+.calendar_section {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 10px 10px 10px;
+    gap: 40px;
+    box-sizing: border-box;
 }
 
 .calendar_header {
@@ -8,6 +131,42 @@
     justify-content: space-between
 }
 
-/* 여기에 헤더전용 추가 스타일 */
+.calender_header_left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 40px;
+    font-size: 20px;
+}
 
-/* 여기서부터 아래는 캘린더. */
+.calendar_header_right {
+    display: flex;
+    gap: 20px;
+    height: 40px;
+}
+
+.calendar_header button {
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0;
+}
+
+.calendar_header button:hover {
+    background-color: hsl(12, 92%, 75%);
+}
+
+.calendar_header input,
+.calendar_header select {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
+}
+
+.calendar_body {
+    width: 100%;
+    position: relative;
+}

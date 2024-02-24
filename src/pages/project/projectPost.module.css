@@ -1,0 +1,161 @@
+.post_wrap {
+    grid-area: d;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.post_header {
+    text-align: end;
+    height: 40px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search_button {
+    z-index: 1;
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0
+}
+
+.search_button:hover {
+    background-color: hsl(12, 92%, 75%);
+}
+
+.search_value_wrap {
+    position: relative
+}
+
+.search_value_input {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999
+}
+
+.clear_button {
+    position: absolute;
+    right: 0px;
+    padding: 5px 15px;
+    border: 0;
+    font-size: 20px;
+    background-color: #0000;
+    color: hsl(12, 92%, 40%);
+}
+
+.post_list {
+    height: 500px;
+    width: 100%;
+    max-width: 1075px;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.post_selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* height: 25px; */
+}
+
+.post_selector button {
+    border-radius: 2px;
+    font-size: 14px;
+    width: 2em;
+    border: 1px solid hsl(12, 92%, 85%);
+    background: hsl(12, 92%, 93%);
+    color: hsl(12, 92%, 40%)
+}
+
+.post_selector button:hover {
+    background: hsl(12, 92%, 95%);
+}
+
+.post_selector button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.post_element {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: 52px auto;
+    gap: 30px;
+}
+
+.post_profile_wrap>img {
+    width: 52px;
+    height: 52px;
+}
+
+.viewer_wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid hsl(12, 92%, 88%);
+    background-color: hsl(12, 93%, 95%);
+    z-index: 5;
+    border-radius: 5px;
+}
+
+.viewer {
+    padding: 10px;
+}
+
+.arrow {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    left: -10.5px;
+    border-bottom: 1px solid hsl(12, 92%, 88%);
+    border-left: 1px solid hsl(12, 92%, 88%);
+    background-color: hsl(12, 92%, 91%);
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.viewer_header {
+    padding: 10px;
+    border-bottom: 1px solid hsl(12, 92%, 88%);
+    background-color: hsl(12, 92%, 91%);
+    display: flex;
+    gap: 10px;
+}
+
+.viewer_header .date {
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.post_editor_wrap {
+    border-radius: 5px;
+    min-width: 1070px;
+    position: relative
+}
+
+.submit_button {
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
+    color: white;
+    border: 0;
+}
+
+.submit_button:hover {
+    background-color: hsl(12, 92%, 75%);
+}

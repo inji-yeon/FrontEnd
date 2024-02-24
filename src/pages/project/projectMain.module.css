@@ -13,19 +13,18 @@
 }
 
 .sidemenu2_title {
-    color: #414141;
+    color: #404040;
     margin: 60px 0px;
-    font-size: 24px;
+    font-size: 30px;
     text-align: center;
 }
 
-.sidemenu2 ul {
-    list-style-type: none;
+.sidemenu2_menu {
     padding: 0;
     margin: 0px auto;
 }
 
-.sidemenu2 ul li {
+.sidemenu2_menu>div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,72 +35,66 @@
     cursor: pointer;
 }
 
-.sidemenu2 ul li div {
+.sidemenu2_menu span {
     font-size: 20px;
     text-align: center;
 }
 
-.sidemenu2 ul li:hover {
-    background-color: HSL(12, 83%, 80%);
+.sidemenu2_menu>div:hover {
+    background-color: hsl(12, 92%, 85%);
 }
 
-.sidemenu2 ul li:hover div {
+.sidemenu2_menu>div:hover span {
     color: white;
 }
 
 .project_section {
-    width: 100%;
-    display: grid;
-    grid-column: auto;
-    min-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 10px 10px 10px;
+    gap: 40px;
+    box-sizing: border-box;
 }
 
 .project_header {
     display: flex;
     justify-content: space-between;
-    margin-top: 100px;
 }
 
 .project_header_title {
     font-size: 30px;
-    padding-left: 60px;
 }
 
 .project_input_wrap {
-    height: 43px;
+    height: 40px;
     display: flex;
     align-items: center;
+    justify-content: right;
     gap: 20px;
-    padding-right: 60px;
+
 }
 
 .project_search_input {
-    border: 1px solid #D9D9D9;
-    box-sizing: border-box;
-    padding-left: 13px;
-    font-size: 16px;
-    width: 195px;
-    height: 100%;
-}
-
-.project_search_button {
+    padding: 5px 15px;
     font-size: 20px;
-    padding: 0px 16px;
-    height: 100%;
-    border-radius: 10px;
-    color: white;
-    background: #fa9a85;
-    border: 0;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
 }
 
+.project_search_button,
 .project_create_button {
+    z-index: 1;
+    padding: 5px 15px;
     font-size: 20px;
-    padding: 0px 16px;
-    height: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
     color: white;
-    background: #fa9a85;
     border: 0;
+}
+
+.project_search_button:hover,
+.project_create_button:hover {
+    background-color: hsl(12, 92%, 75%);
 }
 
 .project_body {
@@ -112,27 +105,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 43px;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-.project_list_wrap>div {
-    position: relative;
-    height: 284px;
-    border: 1px solid #d9d9d9;
-    box-sizing: border-box;
-    /*수정 예정*/
-    /*우선적으로 값을 고정했다.*/
-    width: 380px;
-    /*수정 예정*/
-}
-
-.project_footer {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    height: 20px;
+    gap: 20px;
+    row-gap: 60px;
 }
 
 .page_button {
@@ -174,35 +148,49 @@
     font-size: 20px;
 }
 
-.project_list_wrap_table {
+.project_element_wrap {
     padding: 40px 30px;
     width: 100%;
+    min-height: 300px;
+    min-width: 400px;
     height: 100%;
-}
-
-.project_list_wrap_table div {
-    /* height: 100%; */
-}
-
-
-.project_element_row_1 div {
+    border: 2px solid hsl(12, 92%, 85%);
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
-    gap: 5px;
+    position: relative;
 }
 
-.project_element_duedate div {
+.participation {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 140px;
+    height: 140px;
+    border-top: 70px solid hsl(12, 92%, 85%);
+    /* Height of the triangle */
+    border-right: 70px solid hsl(12, 92%, 85%);
+    /* Width of the triangle and color */
+    border-left: 70px solid #0000;
+    border-bottom: 70px solid #0000;
+}
+
+.participation_text {
+    position: absolute;
+    font-size: 30px;
+    color: white;
+    top: 20px;
+    right: 20px;
     text-align: right;
 }
 
-.project_element_info {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+.project_element_wrap:hover {
+    background-color: hsl(12, 92%, 97%);
+    cursor: pointer;
 }
 
-.project_element_info img {
-    width: 20px;
+.project_element_title {
+    font-size: 24px;
 }
 
 .lock_img {
@@ -213,13 +201,26 @@
     font-size: 16px;
 }
 
-.project_element_title {
-    font-size: 20px;
-    padding-left: 20px;
+.project_element_row_3 {
+    text-align: end;
 }
 
-.project_manager {
-    padding-left: 30px;
+.project_element_row_4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project_element_row_4 span {
+    font-size: 20px;
+}
+
+.project_element_progress_status {
+    font-size: 24px;
+}
+
+.project_element_row_4 img {
+    height: 30px;
 }
 
 .project_element_dept {
@@ -235,11 +236,6 @@
 .project_element_duedate {
     font-size: 16px;
     padding-right: 30px;
-}
-
-.project_list_wrap>div:hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
 }
 
 .create_section {
@@ -258,86 +254,93 @@
     height: 143px;
 }
 
-.create_body {
+.info {
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-top: 0px;
+    gap: 20px;
 }
 
-.create_body td {
-    /* padding-right; */
+.info_row_1,
+.info_row_2,
+.info_row_3,
+.info_row_4,
+.info_row_5,
+.info_row_6 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
-.create_body th {
-    padding-right: 20px;
+.info_row_1>div,
+.info_row_2>div,
+.info_row_3>div,
+.info_row_4>div,
+.info_row_5>div,
+.info_row_6>div {
+    width: 80px;
 }
 
-.description_text {
-    vertical-align: top;
+.info input,
+.info select {
+    padding: 5px 15px;
+    font-size: 20px;
+    border: 1px solid hsl(12, 92%, 85%);
+    color: #999;
 }
 
-.description_textarea {
-    width: 400px;
-    height: 200px;
-    border: 1px solid #d9d9d9;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
+.progress_status_select>option[value='프로젝트 생성'] {
+    color: #FF3F3F;
+}
+
+.progress_status_select>option[value='기획중'] {
+    color: #FF843F;
+}
+
+.progress_status_select>option[value='기획완료'] {
+    color: #128d10;
+}
+
+.progress_status_select>option[value='프로젝트 진행중'] {
+    color: #3FBAFF;
+}
+
+.progress_status_select>option[value='프로젝트 완료'] {
+    color: #7C3FFF;
+}
+
+.progress_status_select>option[value='피드백'] {
+    color: #FB3FFF;
+}
+
+.info textarea {
+    width: 348px;
+    height: 100px;
+    border: 1px solid hsl(12, 92%, 85%);
+    font-size: 14px;
+    padding: 5px 15px;
+    color: #999;
     resize: none;
 }
 
-.title {
-    border: 1px solid #d9d9d9;
-    height: 25px;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-}
-
-.deadline {
-    border: 1px solid #d9d9d9;
-    height: 25px;
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-
-    padding: 5px;
-    font-size: 16px;
-    color: #606060;
-}
-
-.create_footer {
+.info_row_6 {
     display: flex;
-    align-items: end;
-    gap: 50px;
-    height: 143px;
+    justify-content: flex-end;
+    gap:20px;
 }
 
-.create_exit_button {
+.info_row_6 button {
+    z-index: 1;
+    padding: 5px 15px;
     font-size: 20px;
-    padding: 0px 16px;
-    height: 43px;
-    border-radius: 10px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%);
     color: white;
-    background: #fa9a85;
     border: 0;
 }
 
-.create_complete_button {
-    font-size: 20px;
-    padding: 0px 16px;
-    height: 43px;
-    border-radius: 10px;
-    color: white;
-    background: #fa9a85;
-    border: 0;
-}
-
-.project_main input[type="text"] {
-    border: 1px solid #d9d9d9;
-    height: 25px;
+.info_row_6 button:hover {
+    background-color: hsl(12, 92%, 75%);
 }
 
 .custom_checkbox {
@@ -363,4 +366,29 @@
 
 .custom_checkbox_checked {
     background-color: #007bff;
+}
+
+.page_selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* height: 25px; */
+}
+
+.page_selector button {
+    border-radius: 2px;
+    font-size: 14px;
+    width: 2em;
+    border: 1px solid hsl(12, 92%, 85%);
+    background: hsl(12, 92%, 93%);
+    color: hsl(12, 92%, 40%)
+}
+
+.page_selector button:hover {
+    background: hsl(12, 92%, 95%);
+}
+
+.page_selector button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
