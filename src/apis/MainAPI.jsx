@@ -64,7 +64,7 @@ export const callAttendenceAPI = () => {
 
     console.log('[AttendanceAPI] requestURL :', requestURL);
     fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`)
-    .then(res => res.text())
+    .then(res => res.json())
     .then(data => {
         console.log('근태 관련 데이터 :',data);
     })
