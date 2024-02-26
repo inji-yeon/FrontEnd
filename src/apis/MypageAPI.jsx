@@ -53,40 +53,17 @@ export const callMypageGetProfileAPI = ({ form }) => {
             },
         }).then((response) => response.json());
 
-        console.log('마이페이지 사원정보 가져오기 ===== [callMypageGetProfileAPI] callMypageGetProfileAPI RESULT : ', result);
+        console.log('마이페이지 사원 프로필 가져오기 ===== [callMypageGetProfileAPI] callMypageGetProfileAPI RESULT : ', result);
 
         dispatch({ type: GET_MYPAGE_PROFILE, payload: result });
         console.log('디스패치 되고 사원정보 출력 ===== [callMypageGetProfileAPI] callMypageGetProfileAPI RESULT : ', result);
     };
 };
 
-// export const callProfileUpdateAPI = ({ form }) => {
-//     console.log('[callProfileUpdateAPI] callProfileUpdateAPI Call');
 
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/updateprofile`;
-
-//     return async (dispatch, getState) => {
-//         const result = await fetch(requestURL, {
-//             method: 'PUT',
-//             headers: {
-//                 Accept: '*/*',
-//                 Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-//             },
-//             body: form,
-//         })
-//         // .then((response) => response.json());
-
-//         console.log('[callProfileUpdateAPI] callProfileUpdateAPI RESULT 업데이트프로필: ', result);
-        
-
-//         dispatch({ type: PUT_MYPAGE_PROFILE_UPDATE, payload: result });
-//     };
-// };
-
-
-export const callProfileUpdateAPI = ({ formData }) => {
+export const callProfileUpdateAPI = ({ form }) => {
     console.log('[callProfileUpdateAPI] callProfileUpdateAPI Call');
-    console.log('profileCode값 나오냐-------------=-=-=-',formData)
+    console.log('업데이트할 formData 값 나오냐--',form)
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/updateprofile`;
 
@@ -98,22 +75,23 @@ export const callProfileUpdateAPI = ({ formData }) => {
                     Accept: '*/*',
                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 },
-                body: formData,
+                body: form,
             });
 
             // 서버 응답의 status가 200이면 프로필 사진 변경에 성공한 것으로 간주
             if (response.status === 200) {
-                console.log('프로필 이미지를 업데이트했습니다.');
-                alert('프로필 이미지를 업데이트했습니다.');
+                console.log('데이터베이스에서 프로필 이미지 업데이트 완료했습니다!');
+                const result = await response.json();
+                console.log('[callProfileUpdateAPI] 서버로부터 받은 응답 호출 ', result);
+                
+                dispatch({ type: PUT_MYPAGE_PROFILE_UPDATE, payload: result });
+                console.log('프로필 이미지 업데이트 완료했습니다!');
+                alert('프로필 이미지 업데이트 완료했습니다!');
             } else {
                 console.error('프로필 이미지 업데이트에 실패했습니다.');
                 alert('프로필 이미지 업데이트에 실패했습니다.');
             }
 
-            const result = await response.json();
-            console.log('[callProfileUpdateAPI] callProfileUpdateAPI RESULT 업데이트프로필: ', result);
-            
-            dispatch({ type: PUT_MYPAGE_PROFILE_UPDATE, payload: result });
         } catch (error) {
             console.error('프로필 이미지 업데이트 도중 오류가 발생했습니다.', error);
             alert('프로필 이미지 업데이트 도중 오류가 발생했습니다.');

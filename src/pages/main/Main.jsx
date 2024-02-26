@@ -9,7 +9,7 @@ import { useAlert } from "../../component/common/AlertContext";
 import axios from "axios";
 import { callAttendenceAPI, getMailToMain } from "../../apis/MainAPI";
 import { callGetProjectsAPI } from "../../apis/ProjectAPICalls";
-import {format} from 'date-fns';
+import { format } from 'date-fns';
 
 function Main() {
   const navigate = useNavigate();
@@ -33,26 +33,26 @@ function Main() {
   // const error = useSelector(state=>state.error);
   const [isPostLoading, setIsPostLoading] = useState(false);
 
-  useEffect(()=>{
-    if(mainPost && mainPost.data && Array.isArray(mainPost.data)){
+  useEffect(() => {
+    if (mainPost && mainPost.data && Array.isArray(mainPost.data)) {
       setIsPostLoading(true);
     }
-  },[mainPost])
+  }, [mainPost])
 
 
 
-  
+
   //프로젝트 가져오기
   const mainProject = useSelector(state => {
     return state.project.projectListWithPaging?.data
   });
   const [isProjectLoading, setIsProjectLoading] = useState(false);
 
-  useEffect(()=>{
-    if(mainProject && Array.isArray(mainProject)){
+  useEffect(() => {
+    if (mainProject && Array.isArray(mainProject)) {
       setIsProjectLoading(true);
     }
-  },[mainProject])
+  }, [mainProject])
 
 
 
@@ -75,10 +75,10 @@ function Main() {
         icon: weatherIconAdrs,
       });
     } catch (err) {
-      console.error('에러',err);
+      console.error('에러', err);
     }
   };
-  
+
 
   useEffect(()=>{
       setActive(true)
@@ -100,7 +100,7 @@ function Main() {
 
   //로그인 버튼 눌렀을 때
   const showLoginPage = () => {
-    navigate("/login");
+    navigate("/");
   };
 
 
@@ -112,8 +112,9 @@ function Main() {
       setIsLogin(false);
       localStorage.removeItem("accessToken");
       dispatch({ type: POST_LOGOUT, payload: {} });
-      window.location.reload();
+      // window.location.reload();//이건 
       showAlert('로그아웃 되었습니다.');
+      navigate('/login')
     } catch (error) {
       console.error("로그아웃 오류:", error);
     }
@@ -121,11 +122,11 @@ function Main() {
 
   const changeAttendance = (status) => {
     //출,퇴근 버튼 함수
-    if(status === 'leaving'){
+    if (status === 'leaving') {
       //퇴근
-      
+
       setIsAttendance(false);
-    } else { 
+    } else {
       //출근
       //dispatch(commuteInput());
       setIsAttendance(true);

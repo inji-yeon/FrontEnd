@@ -1,9 +1,10 @@
 //공통으로 사용하는 사이드바 부분입니다. 
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './sidemenu.css';
 import { useEffect, useRef, useState } from 'react';
 
+import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate } from 'react-router-dom';
 import { decodeJwt } from '../../utils/tokenUtils';
 
@@ -15,13 +16,13 @@ function SideBar() {
     const [token, setToken] = useState('');
     const [userDept, setUserDept] = useState('');
     const [userGroup, setUserGroup] = useState('');
-    useEffect(()=>{
+    useEffect(() => {
         setToken(decodeJwt(window.localStorage.getItem("accessToken")));
-    },[])
-    useEffect(()=>{
-        if(token){
+    }, [])
+    useEffect(() => {
+        if (token) {
             setUserDept(token.empDeptName);
-            switch(token.empGroupCode){
+            switch (token.empGroupCode) {
                 case 1: setUserGroup('관리본부'); break;
                 case 2: setUserGroup('영업본부'); break;
                 case 3: setUserGroup('개발본부'); break;
@@ -29,11 +30,11 @@ function SideBar() {
                 default: setUserGroup('Error');
             }
         }
-        
-    },[token])
+
+    }, [token])
 
     const user = useSelector(state => state.sidebar);
-    const {  userProfileImg } = user;
+    const { userProfileImg } = user;
 
 
     const [statusImg, setStatusImg] = useState("../../../../sidebar/sidebar_user_status_img/office.png");
@@ -78,7 +79,7 @@ function SideBar() {
 
         switch (value) {
             case 'main':
-                navigate('/');
+                navigate('/main');
                 break;
             case 'mail':
                 navigate('/mail/check');
@@ -121,9 +122,9 @@ function SideBar() {
         }
         box.style.opacity = '1';
         switch (true) {
-            case window.location.pathname.startsWith('/main'):
-                box.style.opacity = '0';
-                break;
+            // case window.location.pathname.startsWith('/main'):
+            //     box.style.opacity = '0';
+            //     break;
             case window.location.pathname.startsWith('/mail'):
                 box.style.top = '125px';
                 break;
@@ -226,6 +227,7 @@ function SideBar() {
                         </thead>
                     </table>
                 </div>
+
             </div>
         </>
     )

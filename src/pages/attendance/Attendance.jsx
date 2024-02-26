@@ -26,8 +26,8 @@ function Attendance() {
 
 
     const vacationApplyClick = () => {
-      // 휴가 신청 페이지로 이동
-      navigate('/');  //결재 휴가 페이지 넣기
+        // 휴가 신청 페이지로 이동
+        navigate('/approval/writing');  //결재 휴가 페이지 넣기
     };
 
     const myPaymentClick = () => {
@@ -37,7 +37,7 @@ function Attendance() {
 
     const workApplyClick = () => {
         // 근태 신청 페이지로 이동
-        navigate('/');  //근태 신청 페이지 널기
+        navigate('/approval/writing');  //근태 신청 페이지 널기
     };
 
     const adminAttendance = () => {
@@ -47,6 +47,10 @@ function Attendance() {
 
 
     const arrivalTime = () => {
+
+        if(!commuteName?.employeeName){
+            alert('로그인 해주세요.')
+        }
 
 
         // 출근 여부 확인
@@ -83,12 +87,18 @@ function Attendance() {
 
         if (commuteMain?.attendanceManagementDepartureTime > commuteMain?.attendanceManagementArrivalTime) {
             setCurrent('퇴근 했습니다');
-        }  
+        }
 
-    } );
+    });
 
     
       const updateTime = () => {
+
+        if(!commuteName?.employeeName){
+            alert('로그인 해주세요.')
+        }
+
+
         if (!commuteMain?.attendanceManagementDepartureTime) {
           alert('출근 먼저 해주세요.');
           return;
@@ -204,7 +214,7 @@ function Attendance() {
         <div className={commuteMa.main}>
             <div className={commuteMa.main2}>
                 <span className={commuteMa.mainTitle}>내 근태 현황</span>
-                <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button>
+                {/* <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button> */}
                 <div className={commuteMa.bar}></div>
                 <div className={commuteMa.box}>
                     <div className={commuteMa.vacation_box}>
@@ -247,23 +257,7 @@ function Attendance() {
                         <span className={commuteMa.worked}>{worked}</span><br/>
                     </div>
                 </div>
-                <div className={commuteMa.calender_area}>
-                    <div className={commuteMa.calender_info}>
-                        <button className={commuteMa.pre} > + </button>
-                        <span className={commuteMa.now}></span>
-                        <button className={commuteMa.nex}> - </button>
-                    </div>
-                    <div className={commuteMa.calenderOption} id="calenderOption">
-                        <div className="options-container">
-                            <label><input type="checkbox" value="vacation" /> 휴가</label>
-                            <label><input type="checkbox" value="outside" /> 외근</label>
-                            <label><input type="checkbox" value="extension" /> 연장근로</label>
-                            <label><input type="checkbox" value="business" /> 출장</label>
-                            <label><input type="checkbox" value="home" /> 재택근무</label>
-                        </div>
-                    </div>
-                    <div className={commuteMa.calender}></div>
-                </div>
+
             </div>
         </div>
     );

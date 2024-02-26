@@ -140,6 +140,18 @@ font-size: 20px;
     margin-left: 100px;
     height: 30px;
     width: 100px;
+    border-radius: 5px;
     text-align: center;
     justify-content: center;
+}
+.profilebox{
+    padding-bottom: 50px;
+}
+
+.profilebtnbox{
+    /* display: flex; */
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+    /* border-radius: 25px; */
 }

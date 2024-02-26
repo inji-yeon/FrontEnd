@@ -33,9 +33,6 @@ function DoPaymentDocumentWaiting () {
       // 여기서 다른 체크박스들의 상태를 변경할 수 있습니다.
     };
   
-    const openPopup = () => {
-      // 팝업 열기 동작
-    };
 
     const dispatch = useDispatch();
     const doWaitingDocu = useSelector((state => state.attendance))
@@ -77,25 +74,24 @@ function DoPaymentDocumentWaiting () {
         const year = dateTimeArray[0] || 0;
         const month = (dateTimeArray[1] || 0) - 1;
         const day = dateTimeArray[2] || 0;
-        const hours = dateTimeArray[3] || 0;
-        const minutes = dateTimeArray[4] || 0;
-        const seconds = dateTimeArray[5] || 0;
     
         // Date 객체 생성
-        const dateTime = new Date(year, month, day, hours, minutes, seconds);
+        const dateTime = new Date(year, month, day);
     
-        // 년, 월, 일, 시, 분, 초를 추출
+        // 년, 월, 일 추출
         const formattedYear = dateTime.getFullYear();
         const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
         const formattedDay = dateTime.getDate().toString().padStart(2, '0');
-        const formattedHours = dateTime.getHours().toString().padStart(2, '0');
-        const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
-        const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
     
-        // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
-        return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        // "yyyy-MM-dd" 형식의 문자열로 반환
+        return `${formattedYear}-${formattedMonth}-${formattedDay}`;
     }
 
+
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
 
 
     return(
@@ -138,8 +134,7 @@ function DoPaymentDocumentWaiting () {
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                         <td className={doWaiting.list_my_waiting}>
-                                            <button id="approval">승안</button>
-                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                            <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttWaiting?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>
                                     </tr>
                                 ))
