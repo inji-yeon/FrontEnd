@@ -102,7 +102,7 @@ function App() {
                                 <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                                 <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
                                 <Route path='attendancePop/:approvalDocumentCode' element={<AttendancePop />} />
-                        <Routepath='adminVacationList' element={<AdminVacationList />} />
+                                <Route path='adminVacationList' element={<AdminVacationList />} />
                                 <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
                             </Route>
 

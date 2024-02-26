@@ -27,7 +27,7 @@ function Attendance() {
 
     const vacationApplyClick = () => {
         // 휴가 신청 페이지로 이동
-        navigate('/main');  //결재 휴가 페이지 넣기
+        navigate('/approval/writing');  //결재 휴가 페이지 넣기
     };
 
     const myPaymentClick = () => {
@@ -214,7 +214,7 @@ function Attendance() {
         <div className={commuteMa.main}>
             <div className={commuteMa.main2}>
                 <span className={commuteMa.mainTitle}>내 근태 현황</span>
-                <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button>
+                {/* <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button> */}
                 <div className={commuteMa.bar}></div>
                 <div className={commuteMa.box}>
                     <div className={commuteMa.vacation_box}>
