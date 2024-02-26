@@ -16,7 +16,7 @@ import {
     PUT_COMMENT,
     DELETE_COMMENT, 
 } from '../modules/PostCommentModule.jsx'
-import { GET_BOARDS } from '../modules/BoardModule.jsx'
+import { GET_BOARD, GET_BOARDS } from '../modules/BoardModule.jsx'
 
 
 /* 리덕스 적용 전  */
@@ -42,7 +42,9 @@ import { GET_BOARDS } from '../modules/BoardModule.jsx'
 /* 게시글 조회 */
 export const callGetPostsAPI = ({boardCode, offset}) => {
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}?offset=${offset ? offset : 1}`
+    console.log('게시글 조회api offset', offset)
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}/posts?offset=${offset ? offset : 0}`
     // const requestURL = `http://localhost:1208/board/${boardCode}`;
 
     return async(dispatch, getState) => {
@@ -60,7 +62,7 @@ export const callGetPostsAPI = ({boardCode, offset}) => {
 
         console.log("result: ", result.data);
 
-        dispatch({type: GET_POSTS, payload: result.data})
+        dispatch({type: GET_POSTS, payload: result?.data})
 
     }
 
@@ -84,13 +86,35 @@ export const callGetBoardCategoryAPI = () => {
             }).then(res => res.data)
             .catch(err => console.log(err));
 
-            console.log('api : ', result);
-
             dispatch({type: GET_BOARDS, payload: result?.data});
 
     }
 }
 
+
+
+/* 특정 게시판 조회 */
+export const callGetBoardAPI = ({boardCode}) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`
+    return async(dispatch, getState) => {
+
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            }).then(res => res.data)
+            .catch(err => console.log(err));
+
+            console.log('get board api : ', result);
+
+            dispatch({type: GET_BOARD, payload: result?.data});
+
+    }
+}
 
 
 
@@ -121,18 +145,38 @@ export const callSearchPostAPI = (boardCode, search) => {
 }
 
 
+export function fetForm(url,meth,form){
+    return fetch(url,
+    {   
+        method: meth ? meth : 'GET',
+        headers: {
+        
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: form
+    }
+)
+}
+export const insertPostAPI = ({formData}) => {
+    return dispatch => {
+        fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/regist`,'POST',formData);
+    }
+}
+
 
 
 /* 게시글 등록 */
-export const callRegistPostAPI = ({form}) => {
+export const callRegistPostAPI = ({formData}) => {
+
+    console.log('callRegist formData : ', formData);
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/regist`;
-
 
     return async(dispatch, getState) => {
 
         const result = await axios
-            .post(requestURL, form, {
+            .post(requestURL, formData, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
@@ -151,6 +195,38 @@ export const callRegistPostAPI = ({form}) => {
     }
 
 }
+
+
+export async function downloadFileAPI(attachmentCode) {
+
+    const result = await axios.get(`http://localhost:1208/board/file-download/${attachmentCode}`, {
+        responseType: 'blob', // 응답을 Blob 형태로 받아옴
+      })
+          .then(response => {
+            const contentDisposition = response.headers.get('expires');
+            console.log('Content-Disposition:', contentDisposition);
+
+
+            console.log('==========>', response)
+            const blob = new Blob([response.data]);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = contentDisposition; // 다운로드될 파일 이름 설정
+            a.click();
+            window.URL.revokeObjectURL(url);
+          })
+          .catch(error => {
+            console.error('Error while downloading file:', error);
+          })
+          .catch(err => console.log(err));
+  
+   console.log(result)
+}
+
+
+
+
 
 
 

@@ -60,11 +60,17 @@ function App() {
                     </Route>
 
                         <Route path='board' element={<BoardLayout />}>
-                            <Route path=':boardCode' element={<PostListOfBoard />} />
+
+                            
+                            <Route path=':boardCode/posts' element={<PostListOfBoard />} />
+                            <Route path='posts/:postCode' element={<PostInfo />} />
+
+
                             <Route path='posts/regist' element={<CreatePost />} />
                             <Route path='boards/create' element={<CreateBoard />} />
-                            <Route path='posts/:postCode' element={<PostInfo />} />
                             <Route path="posts/:postCode/update" element={ <UpdatePost/> } />
+
+
                         </Route>
 
                         <Route path='calendar' element={<Calendar />} />

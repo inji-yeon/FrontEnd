@@ -5,9 +5,10 @@ import '../../component/mail/errorMessage.css'
 import { useEffect, useState } from "react";
 import { fetchMail } from "../../modules/MailModule";
 import { useNavigate } from "react-router-dom";
-
+// import { useAlert } from '../../component/common/AlertContext';
 
 function Mail() {
+    // const { showAlert } = useAlert();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [active, setActive] = useState(false);
@@ -93,7 +94,9 @@ function Mail() {
             });
             setEmails(updatedEmails);   //state에 반환받은 업데이트 된 emails를 set한다.
     }
+    const testasd = () => {
 
+    }
 
     return (
         !loading && (
@@ -157,6 +160,7 @@ function Mail() {
                         </div>
                     </section>
                 </div>
+                <button onClick={testasd}></button>
             </>
         )
     )
