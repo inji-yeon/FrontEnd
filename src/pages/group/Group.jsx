@@ -72,24 +72,23 @@ function Group() {
         }
     };
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
 
-    // const adminEmployeeClick = () => {
-    //     // 관리자 여부 확인
-    //     if (EmployeeRole === 'ROLE_ADMIN') {
-          
-    //     } 
-    // };
+    const adminEmployeeClick = () => {
+        // 관리자 여부 확인
+        if (EmployeeRole === 'ROLE_ADMIN') {
+          navigate('/groupadmin')
+        } 
+    };
 
     // onClick={() => adminEmployeeClick(employee)}//관리자용 테이블 클릭버튼 일단 보류
 
 
     const isAdmin = decodeToken?.employeeRole?.some(role => EmployeeRole === 'ROLE_ADMIN');//로그인한 사용자 권한이 ROLE_ADMIN일때 버튼이 보임 사용자는 안보임
+console.log('권한명이 뭔지 나오는지',EmployeeRole)
 
-
-    
-
+   
 
 
 
@@ -101,7 +100,7 @@ function Group() {
                 <div className={GroupStyle.grouptable}>
                     <div className={GroupStyle.contentbox}>
                         {/* 여기는 테이블 내리는 용 div */}
-                        {isAdmin && < button className={GroupStyle.adminbtn} >관리자용 버튼</button>}
+                        {isAdmin && < button className={GroupStyle.adminbtn} onClick={() => adminEmployeeClick()} >관리자용 버튼</button>}
                     </div>
               
               <div className={GroupStyle.searchcontainer}>
@@ -123,6 +122,7 @@ function Group() {
                                 <th>사원번호</th>
                                 <th>이름</th>
                                 <th>부서</th>
+                                <th>직급</th>
                                 <th>이메일</th>
                                 <th>전화번호</th>
                             </tr>
@@ -130,12 +130,13 @@ function Group() {
                         <tbody>
                             
                             {searchResults.map((employee) => (
-                                <tr key={employee.empCode}>
-                                    <td>{employee.empCode}</td>
-                                    <td>{employee.empName}</td>
-                                    <td>{employee.department.departmentName}</td>
-                                    <td>{employee.empEmail}</td>
-                                    <td>{employee.phone}</td>
+                                <tr key={employee?.empCode}>
+                                    <td>{employee?.empCode}</td>
+                                    <td>{employee?.empName}</td>
+                                    <td>{employee?.department?.departmentName}</td>
+                                    <td>{employee?.job?.jobName}</td>
+                                    <td>{employee?.empEmail}</td>
+                                    <td>{employee?.phone}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -152,6 +153,7 @@ function Group() {
                                 <th>사원번호</th>
                                 <th>이름</th>
                                 <th>부서</th>
+                                <th>직급</th>
                                 <th>이메일</th>
                                 <th>전화번호</th>
                             </tr>
@@ -159,13 +161,14 @@ function Group() {
                         
                         <tbody>
                         {groupList && groupList.map((employee) => (
-                            <tr key={employee.empCode} >
-                                    <td>{employee.empCode}</td>
-                                    <td>{employee.empName}</td>
-                                    <td>{employee.department.departmentName}</td>
-                                    <td>{employee.empEmail}</td>
-                                    <td>{employee.phone}</td>
-                                </tr>
+                            <tr key={employee?.empCode}>
+                            <td>{employee?.empCode}</td>
+                            <td>{employee?.empName}</td>
+                            <td>{employee?.department?.departmentName}</td>
+                            <td>{employee?.job?.jobName}</td>
+                            <td>{employee?.empEmail}</td>
+                            <td>{employee?.phone}</td>
+                        </tr>
                             ))}
                         {(!groupList || groupList.length === 0) && (
                             <tr>

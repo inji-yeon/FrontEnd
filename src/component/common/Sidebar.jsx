@@ -60,13 +60,13 @@ function SideBar() {
     }
     const sidebarMenuSelectHandler = (value) => {
         const token = decodeJwt(window.localStorage.getItem("accessToken"));
-        console.log('[onClickPurchaseHandler] token : ', token);
-        if (token === undefined || token === null) {
-            alert('로그인을 먼저해주세요');
+                console.log('[onClickPurchaseHandler] token : ', token);
+                if(token === undefined || token === null) {
+                    alert('로그인을 먼저해주세요');
 
-
-            return navigate('/login');;
-        }
+                    
+                    return navigate('/login'); ;
+                }
         const box = document.querySelector('.selected_box');
         const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
         for (let i = 0; i < texts.length; i++) {
@@ -189,44 +189,45 @@ function SideBar() {
                 <div className="working_status_wrap">
                     <table className="working_status">
                         <thead>
-                            <tr className="working_status_row1">
-                                <td className="status_title" colSpan="2">
-                                    <div>
-                                        <span>나의 상태</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr className="working_status_row2">
-                                <td className="status_profile">
-                                    <div>
-                                        <img src={userProfileImg} alt="프로필 이미지" />
-                                    </div>
-                                </td>
-                                <td className="status_name_and_team">
-                                    <div>
-                                        {token ? (<span className="status_name_text">{token.employeeName}</span>)
-                                            : <span className="status_name_text">비회원</span>}
-                                        <img id="status_img" src={statusImg} alt="상태이미지" />
-                                    </div>
-                                    <br />
-                                    <span className="status_team_text">{userGroup} / {userDept}</span>
-                                </td>
-                            </tr>
-                            <tr className="working_status_row3">
-                                <td className="select_status" colSpan="2">
-                                    <select id="status_dropdown" onChange={changeStatusImg}>
-                                        <option value="none" hidden>근무 상태를 선택하세요.</option>
-                                        <option value="office">오피스 근무</option>
-                                        <option value="remote">재택 근무</option>
-                                        <option value="vacation">휴가 중</option>
-                                        <option value="meeting">미팅 중</option>
-                                        <option value="away">자리 비움</option>
-                                    </select>
-                                </td>
-                            </tr>
+                        <tr className="working_status_row1">
+                            <td className="status_title" colSpan="2">
+                                <div>
+                                    <span>나의 상태</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr className="working_status_row2">
+                            <td className="status_profile">
+                                <div>
+                                    <img src={userProfileImg} alt="프로필 이미지" />
+                                </div>
+                            </td>
+                            <td className="status_name_and_team">
+                                <div>
+                                    {token? (<span className="status_name_text">{token.employeeName}</span>) 
+                                    : (<span className="status_name_text">비회원</span>)}
+                                    <img id="status_img" src={statusImg} alt="상태이미지" />
+                                </div>
+                                <br />
+                                <span className="status_team_text">{userGroup} / {userDept}</span>
+                            </td>
+                        </tr>
+                        <tr className="working_status_row3">
+                            <td className="select_status" colSpan="2">
+                                <select id="status_dropdown" onChange={changeStatusImg}>
+                                    <option value="none" hidden>근무 상태를 선택하세요.</option>
+                                    <option value="office">오피스 근무</option>
+                                    <option value="remote">재택 근무</option>
+                                    <option value="vacation">휴가 중</option>
+                                    <option value="meeting">미팅 중</option>
+                                    <option value="away">자리 비움</option>
+                                </select>
+                            </td>
+                        </tr>
                         </thead>
                     </table>
                 </div>
+
             </div>
         </>
     )

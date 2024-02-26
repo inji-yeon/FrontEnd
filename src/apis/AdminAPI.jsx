@@ -1,4 +1,5 @@
 import { request, success,fail } from "../modules/AdminModule";
+import { fetForm } from "./MailAPI";
 
 function fet(url,meth){
     return fetch(url,
@@ -11,6 +12,33 @@ function fet(url,meth){
         }
     }
 )
+}
+export async function fetObj(url,meth,obj){
+    return await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/admin/${url}`,
+    {   
+        method: meth ? meth : 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(obj)
+    }
+)
+}
+export async function insertUserProfileAPI(form){
+    const result = await fetForm('admin/insert-profile','POST',form);
+    const resultData = await result.json();
+    return resultData;
+}
+export async function joinUserAPI(data) {
+    const result = await fetObj(`create-user`,'POST',data);
+    const resultData = await result.json();
+    const resultObject = {
+        message: resultData.message,
+        data: resultData.data,
+    }
+    return resultObject;
 }
 
 export const getDepartment = () => {
