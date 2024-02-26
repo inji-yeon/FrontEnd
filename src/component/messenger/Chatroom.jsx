@@ -46,19 +46,14 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         console.log('messengerData?.scrollingToChatCode', messengerData?.scrollingToChatCode);
         if (messengerData?.scrollingToChatCode) {
             console.log('들어온 경우');
-            scrollingToBottom();
         }
     }, [messengerData?.scrollingToChatCode])
     useEffect(() => {
         console.log('여기도 오는지 >>> messengerData?.messengerMain?.chatroomList >>>', messengerData?.messengerMain?.chatroomList);
         if (messengerData?.scrollingToChatCode) {
-            scrollingToBottom();
             dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
         }
     }, [chatroomList])
-    const scrollingToBottom = () => {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
     const chatTextValueHandler = (e) => {
         setChatTextValue(e.target.value);
     }
@@ -91,12 +86,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         const minChatCode = chatList?.reduce((min, chat) => Math.min(min, chat?.chatCode), Infinity);
         dispatch(callGetPrevChats({ chatroomCode, minChatCode }))
     }
-    const scrollingToChat = (chatCode) => {
-        const chatElement = chatContainerRef.current.querySelector(`#chat_${chatCode}`);
-        if (chatElement) {
-            chatElement.scrollIntoView({ block: 'start' });
-        }
-    };
     useEffect(() => {
         isSearchInput && findChatHandler();
     }, [isSearchInput])
@@ -124,13 +113,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     useEffect(() => {
         messengerData?.employees && setEmployeeList(messengerData?.employees);
     }, [messengerData?.employees])
-    useEffect(() => {
-        if (!flag2 && messengerData?.chatroomData?.lastReadChatCode) {
-            console.log('실제로 이동하는가');
-            scrollingToChat(messengerData?.chatroomData?.lastReadChatCode);
-            setFlag2(true);
-        }
-    }, [chatroomList])
     useEffect(() => {
         isInviteWindow && dispatch(callGetEmployeesAPI());
     }, [isInviteWindow])
@@ -189,7 +171,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         dispatch(callChangeChatroomProfileAPI({ chatroomCode, file }))
     }
     const scrollingToBottomButtonHandler = () => {
-        scrollingToBottom();
         dispatch({ type: RESET_SHOW_RECEIVED_CHAT })
         dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
     }
@@ -478,10 +459,10 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                 </div>)
                         })}
                     </div>
-                    {messengerData?.receivedChat
+                    {/* {messengerData?.receivedChat
                         && <div className={styles.scroll_to_bottom} >
                             <img src="/messenger/arrowToTop.png" alt="맨 아래로 내려가기" onClick={scrollingToBottomButtonHandler} />
-                        </div>}
+                        </div>} */}
                     <div className={styles.chatroom_body_write_wrap}>
                         <textarea className={styles.chatroom_body_write}
                             value={chatTextValue}

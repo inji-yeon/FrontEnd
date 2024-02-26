@@ -335,7 +335,7 @@
 
 .messenger_member_search>input[type=text] {
     padding: 5px 24px 5px 6px;
-    width: 100%;
+    width: 78%;
     height: 30px;
     border-radius: 15px;
     box-sizing: border-box;
@@ -379,6 +379,22 @@
 .member_buttons {
     padding-left: 10px;
     width: 80px;
+    /* border: 0;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%) */
+}
+
+.member_buttons>input {
+    border: 0;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 75%);
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 4px;
+}
+
+.member_buttons>input:hover {
+    background-color: hsl(12, 92%, 85%);
 }
 
 .member_info {
@@ -417,7 +433,7 @@
     position: absolute;
     box-sizing: border-box;
     top: 91px;
-    right: 1px;
+    right: 0px;
     width: 398px;
     height: 609px;
     display: grid;

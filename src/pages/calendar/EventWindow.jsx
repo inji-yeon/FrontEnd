@@ -180,9 +180,9 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                             type='time'
                             value={form?.startTime ?? format(new Date(), 'HH:mm')}
                             name='startTime'
-                            onChange={eventWindow?.state !== 'clicked' || form?.isAllday !== 'true' ? formHandler : null}
+                            onChange={eventWindow?.state !== 'clicked' && form?.isAllday !== 'true' ? formHandler : null}
                             readOnly={
-                                eventWindow?.state === 'clicked' || form?.isAllday !== 'true'
+                                eventWindow?.state === 'clicked' || form?.isAllday === 'true'
                             }
                         />
                         <div> ~ </div>
@@ -197,9 +197,9 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                             type='time'
                             value={form?.endTime ?? format(new Date(), 'HH:mm')}
                             name='endTime'
-                            onChange={eventWindow?.state !== 'clicked' || form?.isAllday !== 'true' ? formHandler : null}
+                            onChange={eventWindow?.state !== 'clicked' && form?.isAllday !== 'true' ? formHandler : null}
                             readOnly={
-                                eventWindow?.state === 'clicked' || form?.isAllday !== 'true'
+                                eventWindow?.state === 'clicked' || form?.isAllday === 'true'
                             }
                         />
                     </div>
