@@ -59,8 +59,6 @@ function MyApplyDocumentWaiting () {
 
 
 
-
-
         function formatDateTime(dateTimeArray) {
             if (!dateTimeArray || !Array.isArray(dateTimeArray)) return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
         
@@ -81,7 +79,10 @@ function MyApplyDocumentWaiting () {
             return `${formattedYear}-${formattedMonth}-${formattedDay}`;
         }
 
-
+        const handleDetailView = () => {
+            const currentPath = window.location.pathname;
+            localStorage.setItem('previousPageUrl', currentPath);
+        };
 
 
     return(
@@ -120,9 +121,7 @@ function MyApplyDocumentWaiting () {
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
                                         <td className={myWaiting.list_my_waiting}>
-                                            <button>  
-                                            상세보기
-                                            </button>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyWait?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>
                                     </tr>
                                     ))

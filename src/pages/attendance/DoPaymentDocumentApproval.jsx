@@ -83,6 +83,10 @@ function DoPaymentDocumentApproval () {
     }
 
 
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
 
 
     return (
@@ -111,6 +115,7 @@ function DoPaymentDocumentApproval () {
                             <td className={doPay.list_commute_detail}>기안자</td>
                             <td className={doPay.list_commute_detail}>소속</td>
                             <td className={doPay.list_commute_detail}>결재일시</td>
+                            <td className={doPay.list_commute_detail}></td>
                         </tr>
                     </thead>
 
@@ -124,6 +129,9 @@ function DoPaymentDocumentApproval () {
                                     <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                     <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doPay.list_commute_detail}>{formatDateTime(AttPayment.approvalProcessDate)}</td>
+                                    <td className={doPay.list_my_waiting}>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttPayment?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    </td>
                                 </tr>
                             ))
                             :

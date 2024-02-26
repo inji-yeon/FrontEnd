@@ -84,6 +84,11 @@ function MyApplyDocumentApproval () {
     }
 
 
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
+
 
 
     return(
@@ -122,7 +127,9 @@ function MyApplyDocumentApproval () {
                                             <td className={myAppro.list_commute_detail}>{formatDateTime(AttmyAppro.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                             <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineDocumentCode?.approvalForm}</td>
                                             <td className={myAppro.list_commute_detail}>{formatDateTime(AttmyAppro.approvalProcessDate)}</td>
-                                            {/* <td><button onclick="openPopup()">상세보기</button></td> */}
+                                            <td className={myAppro.list_commute_detail}>
+                                                <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyAppro?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                            </td>
                                         </tr>
                                     ))
                                     :

@@ -80,6 +80,10 @@ function DoPaymentDocumentReject() {
     }
 
 
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
 
 
 
@@ -109,6 +113,7 @@ function DoPaymentDocumentReject() {
                             <td className={doRej.list_commute_detail}>기안자</td>
                             <td className={doRej.list_commute_detail}>소속</td>
                             <td className={doRej.list_commute_detail}>반려일시</td>
+                            <td className={doRej.list_commute_detail}></td>
                         </tr>
                     </thead>
 
@@ -122,6 +127,9 @@ function DoPaymentDocumentReject() {
                                     <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                     <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doRej.list_commute_detail}>{formatDateTime(AttReject.approvalProcessDate)}</td>
+                                    <td className={doRej.list_my_waiting}>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttReject?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    </td>
                                 </tr>
                             ))
                             :

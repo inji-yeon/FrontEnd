@@ -82,6 +82,12 @@ function MyApplyDocumentRejction() {
     }
 
 
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
+
+
     return (
 
         <>
@@ -120,7 +126,9 @@ function MyApplyDocumentRejction() {
                                         <td className={myRejec.list_commute_detail}>{formatDateTime(AttmyRej.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                         <td className={myRejec.list_commute_detail}>{AttmyRej.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myRejec.list_commute_detail}>{formatDateTime(AttmyRej.approvalProcessDate)}</td>
-                                        {/* <td><button onclick="openPopup()">상세보기</button></td> */}
+                                        <td className={myRejec.list_commute_detail}>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyRej?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                        </td>
                                     </tr>
                                 ))
                                 :

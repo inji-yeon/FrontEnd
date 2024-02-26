@@ -88,6 +88,10 @@ function DoPaymentDocumentWaiting () {
     }
 
 
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
 
 
     return(
@@ -130,7 +134,7 @@ function DoPaymentDocumentWaiting () {
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                         <td className={doWaiting.list_my_waiting}>
-                                            {/* <button id="detailDcoument" onClick={openPopup}>상세보기</button> */}
+                                            <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttWaiting?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>
                                     </tr>
                                 ))

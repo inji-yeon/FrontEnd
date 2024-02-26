@@ -1,0 +1,53 @@
+.main {
+    position: relative;
+    display: grid;
+    grid-template-columns: 326px 245px auto;
+}
+
+.main2{
+    position: relative;
+    background-color: white;
+    left: 250px;
+    top: 200px;
+    width: 500px;
+    height: 500px;
+    border-radius: 5%;
+    border:0.5px solid #FFBE98;
+    font-size: 20px;
+}
+
+
+.form_body{
+    position: relative;
+    top: 100px;
+    left: 50px;
+}
+
+.form_title_section{
+    position: relative;
+    left: 130px;
+}
+
+.form_table{
+    position: relative;
+    top: 60px;
+}
+
+
+.A{
+
+    padding-left: 15px;
+    padding-right: 5px;
+    border-color: #cecece;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.B{
+    padding-left: 15px;
+    padding-right: 5px;
+    vertical-align: middle;
+    font-size: 16px;
+}

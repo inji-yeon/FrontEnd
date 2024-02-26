@@ -98,7 +98,7 @@ function App() {
                             <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                             <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                             <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
-                            <Route path='attendancePop' element={<AttendancePop />} />
+                            <Route path='attendancePop/:approvalDocumentCode' element={<AttendancePop />} />
                         <Route path='adminVacationList' element={<AdminVacationList />} />
                         <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
                     </Route>
