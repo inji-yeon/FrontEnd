@@ -37,7 +37,7 @@ function Attendance() {
 
     const workApplyClick = () => {
         // 근태 신청 페이지로 이동
-        navigate('/');  //근태 신청 페이지 널기
+        navigate('/approval/writing');  //근태 신청 페이지 널기
     };
 
     const adminAttendance = () => {
