@@ -22,6 +22,11 @@
     margin-right: 20px;
     text-decoration: underline;
 }
+.mail_attechment_file{
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+}
 .total{
     position: absolute;
     font-size: 20px;

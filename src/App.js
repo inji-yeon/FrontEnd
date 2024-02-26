@@ -25,6 +25,7 @@ import DoPaymentDocumentReject from './pages/attendance/DoPaymentDocumentReject'
 import MyApplyDocumentWaiting from './pages/attendance/MyApplyDocumentWaiting';
 import MyApplyDocumentApproval from './pages/attendance/MyApplyDocumentApproval';
 import MyApplyDocumentRejction from './pages/attendance/MyApplyDocumentRejction';
+import AttendancePop from './pages/attendance/PopDocument';
 import ApprovalFormList from './pages/approval/ApprovalFormList';
 import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
@@ -55,6 +56,10 @@ import AdminApproval from './pages/admin/AdminApproval';
 import { AlertProvider } from './component/common/AlertContext';
 import { Alert } from './component/common/Alert';
 
+import Messenger from './component/messenger/Messenger';
+import GroupADmin from './pages/group/sidebar/GroupAdmin';
+
+
 function App() {
     return (
         <AlertProvider>
@@ -72,15 +77,24 @@ function App() {
                             </Route>
                             <Route path='mail/view/:emailCode' element={<MailView />} />
 
-                            <Route path='group' element={<GroupChart />}></Route>
 
-                            <Route path='board' element={<BoardLayout />}>
-                                <Route path=':boardCode' element={<PostListOfBoard />} />
-                                <Route path='posts/regist' element={<CreatePost />} />
-                                <Route path='boards/create' element={<CreateBoard />} />
-                                <Route path='posts/:postCode' element={<PostInfo />} />
-                                <Route path='posts/:postCode/update' element={<UpdatePost />} />
-                            </Route>
+                        <Route path='group' element={<GroupChart />}></Route>
+                        <Route path='groupadmin' element={<GroupADmin />}></Route>
+                        
+
+                        <Route path='board' element={<BoardLayout />}>
+
+                            
+                            <Route path=':boardCode/posts' element={<PostListOfBoard />} />
+                            <Route path='posts/:postCode' element={<PostInfo />} />
+
+
+                            <Route path='posts/regist' element={<CreatePost />} />
+                            <Route path='boards/create' element={<CreateBoard />} />
+                            <Route path="posts/:postCode/update" element={ <UpdatePost/> } />
+
+
+                        </Route>
 
                             <Route path='calendar' element={<Calendar />} />
 
@@ -93,6 +107,7 @@ function App() {
                                 <Route path='myApplyDocumentWaiting' element={<MyApplyDocumentWaiting />} />
                                 <Route path='myApplyDocumentApproval' element={<MyApplyDocumentApproval />} />
                                 <Route path='myApplyDocumentRejction' element={<MyApplyDocumentRejction />} />
+                                <Route path='attendancePop/:approvalDocumentCode' element={<AttendancePop />} />
                                 <Route path='adminVacationList' element={<AdminVacationList />} />
                                 <Route path='adminNoVacationList' element={<AdminNoVacationList />} />
                             </Route>

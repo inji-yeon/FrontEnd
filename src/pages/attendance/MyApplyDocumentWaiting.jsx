@@ -1,26 +1,15 @@
 import myWaiting from './attendancePage/MyApplyWaiting.module.css'
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { callMyWaitingAPI } from '../../apis/AttendanceAPI';
 import { useEffect, useState } from 'react';
 
 
-
 function MyApplyDocumentWaiting () {
 
 
     const navigate = useNavigate();
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    
-    const openPopup = () => {
-        setIsPopupOpen(true);
-        };
-    
-    const closePopup = () => {
-        setIsPopupOpen(false);
-        };
 
 
         const myApplyWaitingClick = () => {
@@ -42,13 +31,14 @@ function MyApplyDocumentWaiting () {
         const dispatch = useDispatch();
         const myWaitingdoc = useSelector((state => state.attendance))
     
-        const pageInfo = myWaitingdoc?.pageInfo;
+        const pageInfo = myWaitingdoc?.data?.pageInfo;
     
         console.log('pageInfo', pageInfo);
     
-        const myWaitingdocuts = myWaitingdoc?.data?.content; 
-    
+        const myWaitingdocuts = myWaitingdoc?.data?.data?.content; 
         console.log('myWaitingdocuts =====>', myWaitingdocuts);
+        
+        
     
         const [start, setStart] = useState(0);
         const [currentPage, setCurrentPage] = useState(1);
@@ -60,16 +50,13 @@ function MyApplyDocumentWaiting () {
                 pageNumber.push(i);
             }
         }
-    
+
         useEffect(() => {
-    
             setStart((currentPage - 1) * 5);
-            dispatch(
-                callMyWaitingAPI({
-                    currentPage: currentPage,
-                })
-            );
+            dispatch(callMyWaitingAPI({ currentPage: currentPage }));
         }, [currentPage]);
+
+
 
 
         function formatDateTime(dateTimeArray) {
@@ -79,26 +66,23 @@ function MyApplyDocumentWaiting () {
             const year = dateTimeArray[0] || 0;
             const month = (dateTimeArray[1] || 0) - 1;
             const day = dateTimeArray[2] || 0;
-            const hours = dateTimeArray[3] || 0;
-            const minutes = dateTimeArray[4] || 0;
-            const seconds = dateTimeArray[5] || 0;
         
             // Date 객체 생성
-            const dateTime = new Date(year, month, day, hours, minutes, seconds);
+            const dateTime = new Date(year, month, day);
         
-            // 년, 월, 일, 시, 분, 초를 추출
+            // 년, 월, 일 추출
             const formattedYear = dateTime.getFullYear();
             const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
             const formattedDay = dateTime.getDate().toString().padStart(2, '0');
-            const formattedHours = dateTime.getHours().toString().padStart(2, '0');
-            const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
-            const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
         
-            // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
-            return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            // "yyyy-MM-dd" 형식의 문자열로 반환
+            return `${formattedYear}-${formattedMonth}-${formattedDay}`;
         }
 
-
+        const handleDetailView = () => {
+            const currentPath = window.location.pathname;
+            localStorage.setItem('previousPageUrl', currentPath);
+        };
 
 
     return(
@@ -137,8 +121,7 @@ function MyApplyDocumentWaiting () {
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
                                         <td className={myWaiting.list_my_waiting}>
-                                            <button id="withdrawal">철회</button>
-                                            <button id="detailDcoument" onClick={openPopup}>상세보기</button>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyWait?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>
                                     </tr>
                                     ))
@@ -149,19 +132,9 @@ function MyApplyDocumentWaiting () {
                                         </tr>
                                     )                                    
                                 }
-
                         </tbody>
                     </table>
 
-                    {isPopupOpen && (
-                        <div id="overlay" onClick={closePopup}>
-                            <div id="popup">
-                        <div id="close-btn" onClick={closePopup}>닫기</div>
-                            {/* 팝업 내용을 여기에 추가하세요 */}
-                            000
-                            </div>
-                        </div>
-                    )}
 
                 </div> 
 
@@ -193,7 +166,8 @@ function MyApplyDocumentWaiting () {
             </div>
         </div>
 
-        
+
+
         
         </>
 

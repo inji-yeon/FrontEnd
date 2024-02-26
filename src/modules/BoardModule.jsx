@@ -4,7 +4,7 @@ import { createActions, handleActions } from "redux-actions";
 const initialState = {
 
     board: null,
-    boardList: [],
+    boardList: null,
     loading: false,
     error: null,
 
@@ -14,6 +14,7 @@ const initialState = {
 /* 액션 타입 정의 */
 export const GET_BOARDS = 'board/GET_BOARDS';
 
+export const GET_BOARD = 'board/GET_BOARD';
 export const POST_BOARD = 'board/POST_BOARD';
 export const PUT_BOARD = 'board/PUT_BOARD';
 export const DELETE_BOARD = 'board/DELETE_BOARD';
@@ -27,6 +28,7 @@ export const DELETE_BOARD = 'board/DELETE_BOARD';
 const action = createActions({
 
     [GET_BOARDS] : () => {},
+    [GET_BOARD] : () => {},
     [POST_BOARD]: () => {},
     [PUT_BOARD]: () => {},
     [DELETE_BOARD]: () => {},
@@ -46,6 +48,14 @@ const boardReducer = handleActions({
         return {
             ...state,
             boardList : payload,
+        }
+    },
+
+    [GET_BOARD] : (state, {payload}) => {
+
+        return {
+            ...state,
+            board : payload,
         }
     },
 

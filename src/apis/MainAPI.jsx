@@ -59,3 +59,42 @@ export const commuteInput = () => {
         })
     } 
 }
+export const callAttendenceAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+    fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`)
+    .then(res => res.json())
+    .then(data => {
+        console.log('근태 관련 데이터 :',data);
+    })
+}
+const 원본 = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callCommuteMainAPI RESULT : ', result);
+            // dispatch({ type: GET_COMMUTE_MAIN, payload: result });/
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+
+};

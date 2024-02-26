@@ -64,7 +64,6 @@ function AttendanceSide() {
                             <li onClick={() => { attendanceSidebarSelectHandler('attendance') }}>내 근태 현황</li>
                                 <li onClick={() => { attendanceSidebarSelectHandler('commuteList') }}>내 출퇴근 내역</li>
                                 <ul>
-                                    <div>근태 문서</div>
                                     <li onClick={() => { attendanceSidebarSelectHandler('doPaymentDocumentWaiting') }}>내 결재 문서</li>
                                     <li onClick={() => { attendanceSidebarSelectHandler('myApplyDocumentWaiting') }}>내 신청 문서</li>
                                 </ul>

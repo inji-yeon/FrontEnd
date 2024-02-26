@@ -10,6 +10,10 @@
     padding: 25px 25px;
 }
 
+.posting {
+    margin-top: 70px;
+}
+
 .posting span {
     margin-right: 5px;
     text-decoration: none;
