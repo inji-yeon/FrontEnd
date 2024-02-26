@@ -17,18 +17,7 @@ const PostListOfBoard = () => {
     const [posts, setPosts] = useState([]);
     
 
-   const handlePageClick = (data) => {
-       let selectedPage = data.selected;
-       setCurrentPage(selectedPage);
-
-       if(currentPage){
-        dispatch(callGetPostsAPI({
-            boardCode : boardCode,
-            offset : selectedPage,
-        })); 
-    }else {
-        console.log('페이지 버튼을 눌렀지만 currentPage가 존재하지 않음');
-    }
+   const handlePageClick = (data) => { 
    };
 
 
