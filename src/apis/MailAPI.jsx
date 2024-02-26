@@ -12,7 +12,7 @@ import axios from 'axios';
 
 export async function downloadFileAPI(attachmentCode) {
 
-    const result = await axios.get(`http://localhost:1208/mail/download-attachment/${attachmentCode}`, {
+    const result = await axios.get(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/download-attachment/${attachmentCode}`, {
         responseType: 'blob', // 응답을 Blob 형태로 받아옴
       })
           .then(response => {
@@ -39,7 +39,7 @@ export async function downloadFileAPI(attachmentCode) {
     
   
       // 서버의 파일 다운로드 엔드포인트로 요청을 보냄
-//   const result = await fetch(`http://localhost:1208/mail/download-attachment/${attachmentCode}`,
+//   const result = await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/download-attachment/${attachmentCode}`,
 //     {
 //         method: 'GET',
 //         headers:{
@@ -129,7 +129,7 @@ export function fetObj(url,meth,obj){
 )
 }
 export async function fetForm(url,meth,form){
-    return await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/${url}`,
+    return await fetch(`${url}`,
     {   
         method: meth ? meth : 'GET',
         headers: {
@@ -142,7 +142,7 @@ export async function fetForm(url,meth,form){
 }
 export const sendMails = (form) => {
     return dispatch => {
-        fetForm(`http://localhost:1208/mail/send-mail`,'POST',form)
+        fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/send-mail`,'POST',form)
     }
 }
 export const fetchMailToMe = (page) => {

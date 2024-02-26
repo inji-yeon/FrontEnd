@@ -30,7 +30,7 @@ function MailWrite() {
         if (location.state) {
             if (!isNaN(location.state.emailCode)) {
                 setEmailCode(location.state.emailCode);
-                fet(`http://localhost:1208/mail/find-email-by-code?emailCode=${emailCode}`)
+                fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-email-by-code?emailCode=${emailCode}`)
                     .then(res => res.json())
                     .then(data => {
                         if (data.status === 200) {
@@ -102,7 +102,7 @@ function MailWrite() {
                                 employeeId: receiver + '@witty.com'
                             }
                         }
-                        fetObj(`http://localhost:1208/mail/send-reserve-mail`, 'POST', emailDTO)
+                        fetObj(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/send-reserve-mail`, 'POST', emailDTO)
                             .then(res => res.json())
                     }
                     break;
