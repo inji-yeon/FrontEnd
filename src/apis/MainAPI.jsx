@@ -28,7 +28,7 @@ export function fetObj(url,meth,obj){
 
 export const getMailToMain = () => {
     return dispatch => {
-        fet(`http://localhost:1208/board/main-board`)
+        fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/main-board`)
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){
@@ -51,7 +51,7 @@ export const commuteInput = () => {
         late: hours >= 9 && minutes >= 1 && seconds >= 0 
     };
     return dispatch => {
-        fetObj(`http://localhost:1208/api/v1/attendances/main`,'POST',requestBody)
+        fetObj(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`,'POST',requestBody)
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){

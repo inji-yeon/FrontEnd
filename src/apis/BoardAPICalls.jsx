@@ -23,7 +23,7 @@ import { GET_BOARDS } from '../modules/BoardModule.jsx'
 // export const callGetPostsAPI = ({boardCode}) => {
 
 //     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`
-//     // const requestURL = `http://localhost:1208/board/${boardCode}`;
+//     // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
 
 //     return axios.get(requestURL, {
 //             headers: {
@@ -43,7 +43,7 @@ import { GET_BOARDS } from '../modules/BoardModule.jsx'
 export const callGetPostsAPI = ({boardCode, offset}) => {
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}?offset=${offset ? offset : 1}`
-    // const requestURL = `http://localhost:1208/board/${boardCode}`;
+    // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
 
     return async(dispatch, getState) => {
 

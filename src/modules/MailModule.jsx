@@ -58,7 +58,7 @@ export default mailReducer;
 //                     Authorization : `Bearer ${token}`
 //                 }
 //             });
-//             const mailData = await response.json(); 
+//             const mailData = await response.json();
 
 //             console.log('데이터 가져오기 성공 : ',mailData);
 //             dispatch({type: GET_MAIL,payload: mailData});
@@ -70,7 +70,7 @@ export default mailReducer;
 // export const fetchMail = (url,action,token) => {
 //     return async (dispatch) => {
 //         try {
-//             const response = await fetch('http://localhost:1208/mail/find-receive-mail?condition=send',{
+//             const response = await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-receive-mail?condition=send`,{
 //                 method: 'GET',
 //                 headers: {
 //                     'Content-Type': 'application/json',
