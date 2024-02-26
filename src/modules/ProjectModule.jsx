@@ -19,7 +19,8 @@ const initialState = {
         pageInfo: null
     }, // 프로젝트 게시글 목록
     returnData: null,
-    uploadImageList: []
+    uploadImageList: [],
+    error: ''
 }
 
 /* 액션 */
@@ -43,6 +44,7 @@ export const RESET_ERROR = 'project/RESET_ERROR'
 export const RESET = 'project/RESET';
 export const RESET_MESSAGE = 'project/RESET_MESSAGE'
 export const GET_EMPLOYEES = 'project/EMPLOYEES'
+export const PROJECT_ERROR = 'project/ERROR'
 
 const action = createActions({
     [GET_PROJECTS]: () => { },
@@ -64,7 +66,8 @@ const action = createActions({
     [RESET_POST_PROJECT]: () => { },
     [RESET_GET_PROJECT]: () => { },
     [RESET_ERROR]: () => { },
-    [RESET_MESSAGE]: () => { }
+    [RESET_MESSAGE]: () => { },
+    [PROJECT_ERROR]: () => { }
 })
 
 const projectReducer = handleActions(
@@ -195,6 +198,11 @@ const projectReducer = handleActions(
             return {
                 ...state,
                 message: ''
+            }
+        }, [PROJECT_ERROR]: (state, { payload }) => {
+            return {
+                ...state,
+                error: payload
             }
         }
     },

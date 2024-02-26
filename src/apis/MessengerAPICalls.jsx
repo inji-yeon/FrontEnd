@@ -2,8 +2,6 @@ import axios from 'axios'
 import {
     GET_LOGIN_SETTINGS,
     GET_MESSENGER_MAIN,
-    GET_MESSENGER_OPTIONS,
-    MODIFY_MESSENGER_OPTIONS,
     PUT_PINNED_CHATROOM,
     POST_CHATROOM,
     GET_CHATROOM,
@@ -15,10 +13,10 @@ import {
     RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM,
     PUT_CHAT_READ_STATUS,
     SCROLLING_TO_CHATCODE,
-    RESET_SCROLLING_TO_CHATCODE,
     SHOW_RECEIVED_CHAT,
-    RESET_SHOW_RECEIVED_CHAT,
-    LEAVE_CHATROOM
+    LEAVE_CHATROOM,
+    MESSENGER_ERROR,
+    GET_CHATS
 } from '../modules/MessengerModule'
 import { userEmployeeCode } from '../utils/tokenUtils';
 
@@ -35,7 +33,7 @@ export const callGetLoginSettingsAPI = () => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
         // 에러 처리 해야 된다.
 
         console.log('[MessengerAPICalls] callGetLoginSettingsAPI RESULT : ', result)
@@ -57,7 +55,8 @@ export const callGetMessengerMainAPI = () => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
         // 에러 처리 해야 된다.
 
         console.log('[MessengerAPICalls] callGetMessengerMainAPI RESULT : ', result)
@@ -65,28 +64,6 @@ export const callGetMessengerMainAPI = () => {
         dispatch({ type: GET_MESSENGER_MAIN, payload: result?.data })
     }
 }
-
-// export const callGetMessengerOptionsAPI = () => {
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/options`;
-//     return async (dispatch, getState) => {
-//         const result = await axios
-//             .get(requestURL, {
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     Accept: '*/*',
-//                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
-//                 }
-//             })
-//             .then(response => {
-//                 return response
-//             }).catch(error => console.error(error))
-//         // 에러 처리 해야 된다.
-
-//         console.log('[MessengerAPICalls] callGetMessengerMainAPI RESULT : ', result)
-
-//         dispatch({ type: GET_MESSENGER_OPTIONS, payload: result?.data })
-//     }
-// }
 
 export const callPinnedChatroomAPI = ({ chatroomCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}`;
@@ -101,12 +78,13 @@ export const callPinnedChatroomAPI = ({ chatroomCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callPinnedChatroomAPI RESULT : ', result)
 
-        dispatch({ type: PUT_PINNED_CHATROOM, payload: result?.data })
+        // dispatch({ type: PUT_PINNED_CHATROOM, payload: result?.data })
+        dispatch(callGetMessengerMainAPI());
     }
 }
 
@@ -123,8 +101,8 @@ export const callCreateChatroomAPI = ({ form }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callCreateChatroomAPI RESULT : ', result)
 
@@ -147,17 +125,17 @@ export const callGetChatroomAPI = ({ chatroomCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
 
-        console.log('[MessengerAPICalls] callGetChatroomAPI RESULT : ', result)
 
         dispatch({ type: GET_CHATROOM, payload: result?.data })
+
+        dispatch(callUpdateChatReadStatus({ chatroomCode }))
     }
 }
 
-export const callUpdateChatReadStatus = ({ chatroomCode, maxChatCode }) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}/read-status-update?chat=${maxChatCode}`;
+export const callUpdateChatReadStatus = ({ chatroomCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}/read-status-update`;
     return async (dispatch, getState) => {
         const result = await axios
             .put(requestURL, null, {
@@ -169,13 +147,12 @@ export const callUpdateChatReadStatus = ({ chatroomCode, maxChatCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callUpdateChatReadStatus RESULT : ', result)
 
-        dispatch({ type: PUT_CHAT_READ_STATUS, payload: result?.data })
-        // dispatch(callGetMessengerMainAPI())
+        dispatch(callGetMessengerMainAPI())
     }
 }
 
@@ -192,8 +169,8 @@ export const callGetEmployeesAPI = () => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callGetChatroomAPI RESULT : ', result)
 
@@ -214,8 +191,8 @@ export const callInviteChatroomMemberAPI = ({ chatroomCode, employeeCode, websoc
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callInviteChatroomMemberAPI RESULT : ', result)
 
@@ -236,8 +213,8 @@ export const callGetPrevChats = ({ chatroomCode, minChatCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callGetPrevChats RESULT : ', result)
 
@@ -263,8 +240,8 @@ export const callChangeChatroomProfileAPI = ({ chatroomCode, file }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callChangeChatroomProfileAPI RESULT : ', result)
 
@@ -273,13 +250,9 @@ export const callChangeChatroomProfileAPI = ({ chatroomCode, file }) => {
 }
 
 export const callReceiveChatAPI = ({ isChatroomOpen, form }) => {
-    console.log('callReceiveChatAPI>>isChatroomOpen>>', isChatroomOpen);
     return async (dispatch, getState) => {
         const chat = form;
         const messengerData = getState()?.messenger;
-        console.log('chat>><<', chat);
-        console.log('messengerData>><<', messengerData);
-        console.log('isChatroomOpen', !isChatroomOpen);
         if (!isChatroomOpen && messengerData?.chatroomData?.chatroomCode === form.chatroomCode) {
             console.log('RECEIVE_CHAT_IS_OPEN_CHATROOM');
             dispatch({ type: RECEIVE_CHAT_IS_OPEN_CHATROOM, payload: form });
@@ -300,6 +273,7 @@ export const callReceiveChatAPI = ({ isChatroomOpen, form }) => {
             console.log('RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM');
             dispatch({ type: RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM, payload: form });
         }
+        dispatch(callGetLoginSettingsAPI())
     }
 }
 
@@ -316,11 +290,33 @@ export const callLeaveChatroomAPI = ({ chatroomCode }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
 
         console.log('[MessengerAPICalls] callLeaveChatroomAPI RESULT : ', result)
 
         dispatch({ type: LEAVE_CHATROOM, payload: result?.data })
+    }
+}
+
+export const callFindChatListAPI = ({ chatroomCode, searchValue, offset }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/messenger/chatrooms/${chatroomCode}/search`
+        + (`?offset=${offset ?? 1}`)
+        + (searchValue ? `&search=${encodeURIComponent(searchValue.trim())}` : '')
+    return async (dispatch, getState) => {
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                }
+            })
+            .then(response => {
+                return response
+            }).catch(error => dispatch({ type: MESSENGER_ERROR, payload: error }))
+
+
+        dispatch({ type: GET_CHATS, payload: result?.data })
     }
 }

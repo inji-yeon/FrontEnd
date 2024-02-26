@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './projectMain.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { callCreateProjectAPI, callGetProjectsAPI, callResetCreateProjectCode } from '../../apis/ProjectAPICalls';
+import { callCreateProjectAPI, callGetProjectsAPI } from '../../apis/ProjectAPICalls';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import { GET_PROJECTS, POST_PROJECT, RESET_MESSAGE } from '../../modules/ProjectModule';
+import { GET_PROJECTS, POST_PROJECT, PROJECT_ERROR, RESET_MESSAGE } from '../../modules/ProjectModule';
 
 function ProjectMain() {
     const dispatch = useDispatch();
@@ -46,6 +46,16 @@ function ProjectMain() {
         }
     }
     const selectRef = useRef();
+
+
+    useEffect(() => {
+        if (project?.error) {
+            alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
+            console.error('error Message: ', project?.message);
+            navigate('/login');
+            dispatch({ type: PROJECT_ERROR, payload: '' });
+        }
+    }, [project?.error])
 
     useEffect(() => {
         if (selectRef) {

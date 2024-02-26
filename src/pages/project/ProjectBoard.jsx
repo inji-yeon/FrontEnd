@@ -16,7 +16,7 @@ import {
 } from '../../apis/ProjectAPICalls'
 import { format } from 'date-fns'
 import ProjectPost from './ProjectPost'
-import { DELETEGATE_ADMIN, GET_EMPLOYEES, INVITE_PROJECT_MEMBER, KICKED_PROJECT_MEMBER, LEAVE_PROJECT, PUT_PROJECT, RESET_MESSAGE } from '../../modules/ProjectModule'
+import { DELETEGATE_ADMIN, GET_EMPLOYEES, INVITE_PROJECT_MEMBER, KICKED_PROJECT_MEMBER, LEAVE_PROJECT, PROJECT_ERROR, PUT_PROJECT, RESET_MESSAGE } from '../../modules/ProjectModule'
 import { userEmployeeCode } from '../../utils/tokenUtils'
 
 function ProjectBoard() {
@@ -47,7 +47,14 @@ function ProjectBoard() {
         projectLockedStatus: '',
         projectProgressStatus: ''
     })
-
+    useEffect(() => {
+        if (project?.error) {
+            alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
+            console.error('error Message: ', project?.message);
+            navigate('/login');
+            dispatch({ type: PROJECT_ERROR, payload: '' });
+        }
+    }, [project?.error])
     useEffect(() => {
         dispatch(callResetGetProjects());
         dispatch(callGetProjectAPI({ projectCode }))
