@@ -1,16 +1,31 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './PostHeader.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callSearchPostAPI } from '../../../apis/BoardAPICalls';
+import { callGetBoardAPI, callSearchPostAPI } from '../../../apis/BoardAPICalls';
 import { useDispatch, useSelector } from 'react-redux';
 
-function PostHeader() {
+function PostHeader({boardCode}) {
 
-    const {boardCode} = useParams(); //이름 파라미터
+    // const {boardCode} = useParams(); //이름 파라미터
     const [keyword, setKeyword] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const boardInfo = useSelector(state => state.boardReducer?.board);
+
+
+    useEffect(() => {
+
+        // board api dispatch 호출
+        dispatch(callGetBoardAPI({
+            boardCode
+        }));
+
+    }, [boardCode])
+
+    
+    console.log("BoardInfo", boardInfo);
 
     const searchInputHandler = (e) => {
         setKeyword(e.target.value);
@@ -33,12 +48,13 @@ function PostHeader() {
     return (
         <header style={{paddingTop: 1.2 + 'em'}}>
 
-            <span className={styles.category}>회사 소식</span> <span className={styles.postCnt}>[ 34 ]</span>
+            <span className={styles.category}>{boardInfo?.boardTitle}</span> <span className={styles.postCnt}>[ 34 ]</span>
 
             <div className={styles.boardContext}>
-                <div>운영자 : 차윤하 팀장  가윤하 본부장  나윤하 팀원</div>
-                <br /><br />
-                <div>사내 공지 게시판 입니다. 게시판 내용입니다.</div>
+                {/* <div>운영자 : 차윤하 팀장  가윤하 본부장  나윤하 팀원</div>
+                <br /> */}
+                <br />
+                <div>{boardInfo?.boardDescription}</div>
             </div>
 
             <br />

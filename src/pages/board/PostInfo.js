@@ -3,7 +3,7 @@ import Comment from "./components/Comment";
 import PostHeader from "./components/PostHeader";
 import styles from './PostInfo.module.css'
 import { useEffect, useState } from "react";
-import { callGetPostInfoAPI, callRegistLikeAPI, callRemovePostAPI } from "../../apis/BoardAPICalls";
+import { callGetPostInfoAPI, callRegistLikeAPI, callRemovePostAPI, downloadFileAPI } from "../../apis/BoardAPICalls";
 import { useDispatch, useSelector } from "react-redux";
 import Heart from "./images/heart.png";
 import HeartEmpty from "./images/heart_empty.png";
@@ -32,7 +32,6 @@ const PostInfo = () => {
         if(post?.employee?.employeeCode){
             setUserCode(post.employee.employeeCode)
         }
-        
 
     }, [post])
     
@@ -74,6 +73,8 @@ const PostInfo = () => {
     .then(data => {
         console.log(data); // handle success response here
         setLike(!like);
+
+        alert('좋아요를 누르셨습니다.');
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -93,18 +94,22 @@ const PostInfo = () => {
 
     }
 
+    const downloadFile = (attachmentCode) => {
+        console.log('내가 클릭한 첨부파일의 고유 코드는 :',attachmentCode);
+        downloadFileAPI(attachmentCode);
+    }
+
 
     const modifyPostHandler = () => {
 
        
     }
 
-    
 
 
 
     return <>
-        <PostHeader />
+        <PostHeader boardCode={post?.boardCode}/>
 
         
         {/* 수정, 삭제, 이동 메뉴 */}
@@ -113,7 +118,6 @@ const PostInfo = () => {
             <div className={styles.posting}>
                 <span id="updatePost" onClick={() => navigate("update")}>수정</span>
                 <span id="deletePost" onClick={removePostHandler}>삭제</span>
-                <span id="movePost" onClick="">이동</span>
             </div>
         ) }
 
@@ -121,12 +125,11 @@ const PostInfo = () => {
 
 
 
-        {/* hr 안먹혀서 깨짐 */}
-        <hr style={{ marginTop:70, marginBottom: 15 }} />
+        <hr style={{ marginTop:10 ,marginBottom: 15 }} />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.postTitle}>{post?.postTitle}</div>
             <div className="heartBtn">
-                <img src={like? Heart: HeartEmpty} 
+                <img src={userCode === token.empCode && like? Heart: HeartEmpty} 
                      onClick={toggleLike} />
             </div>
         </div>
@@ -161,11 +164,22 @@ const PostInfo = () => {
             <div className={styles.context}>
                 {post?.postContext}
             </div>
+
+            {post && post?.postAttachmentList ? 
+                    post?.postAttachmentList?.map((attachment) => (
+                        <div key={attachment.postAttachmentCode}>
+                            <span> 💾</span>
+                            <span onClick={()=>{downloadFile(attachment.postAttachmentCode)}} className="mail_attechment_file"> {attachment.postAttachmentOgFile}</span>
+                        </div>
+                    )) : (
+                    <></>
+                    )
+            }
             
 
             <div style={{ display: "flex", fontSize: 14, color: "#606060" }}>
             <div style={{ marginRight: 25 }}>댓글 {post?.postCommentList?.length}</div>
-            <div style={{ marginRight: 25 }}>좋아요 4</div>
+            <div style={{ marginRight: 25 }}>좋아요 {post?.postLikeList?.length}</div>
             <div style={{ marginRight: 25 }}>조회 {post?.postViews}</div>
 
             </div>
@@ -173,7 +187,7 @@ const PostInfo = () => {
         </div>
 
 
-        <Comment comments = {post?.postCommentList} postCode={postCode}/>
+        <Comment comments = {post?.postCommentList} postCode={postCode} empCode={token?.empCode}/>
 
     
     </>

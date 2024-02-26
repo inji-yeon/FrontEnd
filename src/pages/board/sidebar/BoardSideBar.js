@@ -16,7 +16,6 @@ const BoardSideBar = () => {
     const boardData = useSelector(state => state.boardReducer?.boardList);
     const dispatch = useDispatch();
 
-    console.log(boardData);
 
     useEffect(() => {
 
@@ -49,8 +48,8 @@ const BoardSideBar = () => {
                         transition: 'height 0.3s, opacity 0.3s'
                         }}>
 
-                    {boardData.filter((board) => board.boardGroupCode === 1).map(board => 
-                        <div onClick={() => navigate(`${board.boardCode}`)}><span>{board.boardTitle}</span></div>
+                    {boardData?.boardList1?.map(board => 
+                        <div onClick={() => navigate(`/board/${board.boardCode}/posts`)}><span>{board.boardTitle}</span></div>
                     
                     )}
 
@@ -72,9 +71,13 @@ const BoardSideBar = () => {
                     overflow: 'hidden',
                     transition: 'height 0.3s, opacity 0.3s'}}>
 
-                        {boardData.filter(board => board.boardGroupCode === 2).map(board => 
-                            <div onClick={() => navigate(`${board.boardCode}`)}><span>{board.boardTitle}</span></div>
+                        {boardData?.boardList2?.map(board => 
+                            <div onClick={() => navigate(`/board/${board.boardCode}/posts`)}><span>{board.boardTitle}</span></div>
                         )}
+
+                        {/* {boardData.filter(board => board.boardGroupCode === 2).map(board => 
+                            <div onClick={() => navigate(`${board.boardCode}`)}><span>{board.boardTitle}</span></div>
+                        )} */}
 
                     </div>
                 </div>
@@ -94,9 +97,9 @@ const BoardSideBar = () => {
                     overflow: 'hidden',
                     transition: 'height 0.3s, opacity 0.3s'}}>
 
-                        {boardData.filter(board => board.boardGroupCode === 3).map(board => 
+                        {/* {boardData.filter(board => board.boardGroupCode === 3).map(board => 
                             <div><span>{board.boardTitle}</span></div>
-                        )}
+                        )} */}
 
                     </div>
                 </div>
