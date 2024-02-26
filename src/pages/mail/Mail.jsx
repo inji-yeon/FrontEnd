@@ -115,10 +115,6 @@ function Mail({ itemsPerPage }) {
         //근데 이게 페이지가 있다는 거는 메일이 많단 소리임 
     };
     const [currentPage, setCurrentPage] = useState(0);
-    const test= ()=> {
-        console.log(emails);
-    }
-    
     return (
         !loading && (
             <>
@@ -130,7 +126,6 @@ function Mail({ itemsPerPage }) {
                     </div> : <></>}
 
                 <div className={`fade-in ${active ? 'active' : ''}`}>
-                <button onClick={()=>{test()}}></button>
                     <section className="project_section">
                         <div className="project_header">
                             <div className="project_header_title">메일함</div>
@@ -166,7 +161,7 @@ function Mail({ itemsPerPage }) {
                                                     ):(
                                                         <img onClick={()=>{changeImportant(mail.emailCode)}} alt="별" src="/mail/star_empty.png" style={{ width: '20px', height: '20px' }} />)}</td>
                                                     <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="receiver">{mail.emailSender.employeeId}@witty.com</td>
-                                                    <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }}>{mail.emailTitle}</td>
+                                                    <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }}>{mail.emailTitle.length < 28 ? mail.emailTitle : mail.emailTitle.substring(0,28) + "..."}</td>
                                                     <td onClick={() => { showMail(mail.emailCode) }} style={{ color: mail.emailReadStatus === "Y" ? 'grey' : 'black' }} className="send_time">{mail.emailSendTime}</td>
                                                 </tr>
                                             )
@@ -183,7 +178,7 @@ function Mail({ itemsPerPage }) {
                                 breakLabel={'...'}
                                 initialPage={currentPage}
                                 disableInitialCallback={true}
-                                pageCount={totalPageNumber}
+                                pageCount={totalPageNumber - 1}
                                 marginPagesDisplayed={2}
                                 pageRangeDisplayed={2}
                                 onPageChange={handlePageClick}

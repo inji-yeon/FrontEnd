@@ -56,7 +56,7 @@ import AdminGroup from './pages/admin/AdminGroup';
 import AdminApproval from './pages/admin/AdminApproval';
 import { AlertProvider } from './component/common/AlertContext';
 import { Alert } from './component/common/Alert';
-import Messenger from './component/messenger/Messenger';
+// import Messenger from './component/messenger/Messenger';/
 
 
 function App() {

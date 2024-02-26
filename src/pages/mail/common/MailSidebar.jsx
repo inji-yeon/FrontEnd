@@ -20,7 +20,9 @@ function MailSidebar() {
         if (condition === 'to') {
             navigate('/mail/write');
         } else {
-            navigate('/mail/write');
+            navigate('/mail/write',{
+                state: 'sendMe'
+            });
         }
     }
     const getMailByStatus = (condition) => {
@@ -78,7 +80,7 @@ function MailSidebar() {
                     </ul>
                 </div>
 
-                <Outlet/>;
+                <Outlet/>
             </div>
 
         </MailContext.Provider>

@@ -1,10 +1,9 @@
 //공통으로 사용하는 사이드바 부분입니다. 
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './sidemenu.css';
 import { useEffect, useRef, useState } from 'react';
 
-import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate } from 'react-router-dom';
 import { decodeJwt } from '../../utils/tokenUtils';
 
@@ -205,7 +204,7 @@ function SideBar() {
                             <td className="status_name_and_team">
                                 <div>
                                     {token? (<span className="status_name_text">{token.employeeName}</span>) 
-                                    : <span className="status_name_text">비회원</span>}
+                                    : (<span className="status_name_text">비회원</span>)}
                                     <img id="status_img" src={statusImg} alt="상태이미지" />
                                 </div>
                                 <br />
@@ -227,7 +226,6 @@ function SideBar() {
                         </thead>
                     </table>
                 </div>
-                : <></>}
             </div>
         </>
     )

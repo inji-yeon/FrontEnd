@@ -7,7 +7,7 @@ import { decodeJwt } from "../../utils/tokenUtils";
 import { useEffect, useState } from "react";
 import { useAlert } from "../../component/common/AlertContext";
 import axios from "axios";
-import { getMailToMain } from "../../apis/MainAPI";
+import { callAttendenceAPI, getMailToMain } from "../../apis/MainAPI";
 import { callGetProjectsAPI } from "../../apis/ProjectAPICalls";
 import {format} from 'date-fns';
 
@@ -59,7 +59,7 @@ function Main() {
 
 
   //날씨 가져오기
-  const getWeather = async(lat, lon) => {
+  const getWeather = async() => {
     try {
       const res = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=d752103e84b491cf9c2e6225a20d6f08`
@@ -86,16 +86,13 @@ function Main() {
         setToken(decodeJwt(window.localStorage.getItem('accessToken')));
         setIsLogin(true);
       }
-      navigator.geolocation.getCurrentPosition((position) => {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        getWeather(lat, lon);
-      })
+      getWeather();
       //post 가져오는 dispatch
       dispatch(getMailToMain());  //post 얻어오기 내가 쓴 글만 나옴. 게시판 완성하면 백엔드 수정 ㄱ limit 4개 
       const projectType = 'all';
       const searchValue = '';
       dispatch(callGetProjectsAPI({projectType,searchValue}));
+      callAttendenceAPI();
       //출근 상태 얻어와서 set ㄱㄱ출근 시간도 같이 가져오자 가져온 시간에서 2시간 정도가 안지났으면 퇴근 못하게
       //결재 대기, 완료 개수 ㄱ
       //프로젝트 ㄱㄱ
@@ -191,7 +188,7 @@ function Main() {
                                 <td>{post.postDate[0]}년 {post.postDate[1]}월 {post.postDate[2]}일</td>
                               </tr>
                               )) 
-                              ) : <tr><td colSpan={4}>로그인 해주세요.</td></tr>}
+                              ) : <tr><td colSpan={4}>아무 것도 없습니다..</td></tr>}
                               
                             </tbody>
                         </table>

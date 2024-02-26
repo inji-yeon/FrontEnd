@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import style from './mailWrite.module.css';
-import { fet, fetObj } from '../../apis/MailAPI';
+import { fet, fetObj, sendMails } from '../../apis/MailAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useWebSocket } from '../../component/WebSocketContext';
 import { useAlert } from '../../component/common/AlertContext';
+import { useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 function MailWrite() {
     window.jQuery = require('jquery');
     const { showAlert } = useAlert();
+    const dispatch = useDispatch();
 
     const wc = useWebSocket();
     const navigate = useNavigate();
@@ -18,36 +21,43 @@ function MailWrite() {
     const [isSendMe, setIsSendMe] = useState(false);
     const [content, setContent] = useState('');
     const [emailCode, setEmailCode] = useState('');
+    const [files, setFiles] = useState([]);
+    const [fileSize, setFileSize] = useState(0);
     const location = useLocation();
+    const [token, setToken] = useState('');
+
     useEffect(()=>{
         if(location.state){
-            setEmailCode(location.state.emailCode);
-            fet(`http://localhost:1208/mail/find-email-by-code?emailCode=${emailCode}`)
-            .then(res=>res.json())
-            .then(data => {
-                if(data.status === 200){
-                    console.log(data);
-                    setReceiver(data.data.emailSender.employeeId);
-                    setTitle(`re : ${data.data.emailTitle} `);
-                }
-            })
+            if(!isNaN(location.state.emailCode)){
+                setEmailCode(location.state.emailCode);
+                fet(`http://localhost:1208/mail/find-email-by-code?emailCode=${emailCode}`)
+                .then(res=>res.json())
+                .then(data => {
+                    if(data.status === 200){
+                        console.log(data);
+                        setReceiver(data.data.emailSender.employeeId);
+                        setTitle(`re : ${data.data.emailTitle} `);
+                    }
+                })
+            } else if(location.state === 'sendMe'){
+                setIsSendMe(true);
+                setReceiver('나에게 발송합니다.');
+            }
         }
     },[location,emailCode]) 
 
     useEffect(()=>{
-        
-
+        setToken(decodeJwt(window.localStorage.getItem('accessToken'))); 
     },[])
-
-    function showErrorMsg(msg){     //메세지 출력하기
-        console.log('showError :',msg);
-    }
+    useEffect(()=>{
+        console.log('토큰은 :',token);
+    },[token])
     
     const sendEmail = (status) => {   //이메일 보내기 버튼 눌럿을 때
         if(title && receiver){          //insert작업인데 @MessageMapping으로 보내야한다.
             switch(status){
                 case 'send': 
-                    if(wc){
+                    if(wc){ //웹 소켓이 연결되어있으면
                         wc.publish({
                             destination: '/app/mail/alert/send',    //엔드포인트
                             headers : {Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')},
@@ -59,9 +69,24 @@ function MailWrite() {
                                 }
                                 })
                         });
-                        console.log(`클라에서 정상적으로 보냈습니다.\n보낸 내용 : \n emailTitle : ${title}\nemailContent : ${content}\nemailReceiver : ${receiver}`);
+                        const formData = new FormData();
+                        // 각 파일을 formData에 추가
+                        files.forEach((file, index) => {
+                            formData.append(`multipartFile`, file);
+                        });
+                        
+                        formData.append(`emailTitle`,title);
+                        formData.append(`emailContent`,content);
+                        if(receiver === '나에게 발송합니다.'){
+                            formData.append(`emailReceiver.employeeId`,`${token.employeeId}@witty.com`);    //받는 사람을 나로ㄲ
+                        } else {
+                            formData.append(`emailReceiver.employeeId`,`${receiver}@witty.com`);    //받는 사람을 타인으로 ㄲ
+                        }
+                        
+
+                        dispatch(sendMails(formData));
                         navigate('/mail/check');
-                    } else {
+                    } else {    //웹소켓이 연결되어있지 않으면?
                         showAlert('웹소켓과 연결되지 않은 상태입니다.');
                     }
                     break;
@@ -69,10 +94,6 @@ function MailWrite() {
                     if(reserveDate === ''){
                         showAlert('날짜를 선택하세요.')
                     } else {
-                        console.log('선택한 날짜는 : ',reserveDate);    //날짜를 선택함
-                        console.log('제목은 : ',title); 
-                        console.log('내용은 : ',content);
-                        console.log('받는 사람은 : ',receiver);
                         const emailDTO = {
                             emailTitle: title,
                                 emailContent: content,
@@ -86,7 +107,7 @@ function MailWrite() {
                     }
                     break;
                 case 'temporary' : 
-                    console.log('임시 저장 입니다.');
+                    showAlert("업데이트 예정입니다.");
                     break;
                 default : break;
             }
@@ -96,7 +117,13 @@ function MailWrite() {
         
     }
     const dateChangeHandler = (e) => {  //예약 전송 날짜 바꿔주기
-        setReserveDate(e.target.value);
+        
+        const date = new Date(e.target.value);
+        if(date < new Date()){
+            showAlert("지금보다 전 날짜는 선택할 수 없습니다.");
+        } else {
+            setReserveDate(e.target.value);
+        }
     }
     const receiverChangeHandler = (e) => {  //누구한테 보낼 건지 바꿔주기
         setReceiver(e.target.value);
@@ -110,6 +137,20 @@ function MailWrite() {
     }    
     const handleContent = (e) => {  //섬머노트에 쓴거
         setContent(e);
+    }
+    const handleFileChange = (e) => {
+        setFiles([...e.target.files]);
+        console.log(e.target.files[0]);
+        const file = e.target.files[0]; // 사용자가 선택한 첫 번째 파일
+
+    if (file) {
+      const sizeInBytes = file.size; // 파일 크기를 바이트 단위로 가져옴
+      const sizeInKB = sizeInBytes / 1024; // 킬로바이트 단위로 변환
+      const sizeInMB = sizeInKB / 1024; // 메가바이트 단위로 변환
+
+      // 파일 크기를 상태에 설정 (예: "2.4 MB")
+      setFileSize(`${sizeInMB.toFixed(2)} MB`);
+    }
     }
 
     useEffect(()=>{
@@ -128,11 +169,11 @@ function MailWrite() {
                 <hr/>
                 <span className={style.receiverText}>받는 사람</span>
                 <input disabled={isSendMe} onChange={(e)=>{receiverChangeHandler(e)}} className={style.receiverInput} type="text" placeholder='누구에게 보내시나요?' value={receiver}/>{!isSendMe ? <span style={{marginLeft: '10px'}}>@witty.com</span> : <></>}
-                <span className={style.sendMeText}>내게쓰기</span><input className={style.sendMeCheckBox} onChange={(e)=>{sendMeChangeHandler(e)}} type="checkbox" />
+                <span className={style.sendMeText}>내게쓰기</span><input checked={isSendMe} className={style.sendMeCheckBox} onChange={(e)=>{sendMeChangeHandler(e)}} type="checkbox" />
                 <br/>
                 <span className={style.titleText}>제 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 목</span>
                 <input onChange={(e)=>{titleChangeHandler(e)}} value={title} className={style.titleInput} type="text" checked={isSendMe} placeholder='제목을 입력하세요.'/><br/>
-                <input className={style.fileInput} type="file" /><hr/>
+                <input onChange={handleFileChange} multiple className={style.fileInput} type="file" /><span>{fileSize}</span><hr/>
                 <RichTextEditor content={content} onContentChange={(e)=>{handleContent(e)}} />
             </div>
         </>
