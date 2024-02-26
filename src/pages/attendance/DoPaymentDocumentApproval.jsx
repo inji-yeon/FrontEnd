@@ -69,25 +69,24 @@ function DoPaymentDocumentApproval () {
         const year = dateTimeArray[0] || 0;
         const month = (dateTimeArray[1] || 0) - 1;
         const day = dateTimeArray[2] || 0;
-        const hours = dateTimeArray[3] || 0;
-        const minutes = dateTimeArray[4] || 0;
-        const seconds = dateTimeArray[5] || 0;
     
         // Date 객체 생성
-        const dateTime = new Date(year, month, day, hours, minutes, seconds);
+        const dateTime = new Date(year, month, day);
     
-        // 년, 월, 일, 시, 분, 초를 추출
+        // 년, 월, 일 추출
         const formattedYear = dateTime.getFullYear();
         const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
         const formattedDay = dateTime.getDate().toString().padStart(2, '0');
-        const formattedHours = dateTime.getHours().toString().padStart(2, '0');
-        const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
-        const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
     
-        // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
-        return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        // "yyyy-MM-dd" 형식의 문자열로 반환
+        return `${formattedYear}-${formattedMonth}-${formattedDay}`;
     }
 
+
+    const handleDetailView = () => {
+        const currentPath = window.location.pathname;
+        localStorage.setItem('previousPageUrl', currentPath);
+    };
 
 
     return (
@@ -116,6 +115,7 @@ function DoPaymentDocumentApproval () {
                             <td className={doPay.list_commute_detail}>기안자</td>
                             <td className={doPay.list_commute_detail}>소속</td>
                             <td className={doPay.list_commute_detail}>결재일시</td>
+                            <td className={doPay.list_commute_detail}></td>
                         </tr>
                     </thead>
 
@@ -129,6 +129,9 @@ function DoPaymentDocumentApproval () {
                                     <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                     <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doPay.list_commute_detail}>{formatDateTime(AttPayment.approvalProcessDate)}</td>
+                                    <td className={doPay.list_my_waiting}>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttPayment?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    </td>
                                 </tr>
                             ))
                             :

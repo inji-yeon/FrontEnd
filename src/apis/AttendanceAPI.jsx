@@ -10,7 +10,8 @@ import{
     POST_COMMUTE_INSERT,
     PUT_COMMUTE_UPDATE,
     GET_ADMIN_VACATION,
-    GET_ADMIN_NO_VACATION
+    GET_ADMIN_NO_VACATION,
+    GET_DETAIL_MY
 } from '../modules/AttendanceModule'
 
 
@@ -350,7 +351,7 @@ export const callMyRejectAPI = ({ currentPage }) => {
 export const callMyWaitingAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+     if (currentPage !== undefined && currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-waiting?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-waiting`;
@@ -369,12 +370,9 @@ export const callMyWaitingAPI = ({ currentPage }) => {
         }).then((response) => response.json());
         console.log(result)
         
-        
         if (result.status === 200) {
-            
             console.log('[AttendanceAPI] callMyWaitingAPI RESULT : ', result);
-            dispatch({ type: GET_MY_WAITING, payload: result.data });
-
+            dispatch({ type: GET_MY_WAITING, payload: result });
         } else {
             console.log('dkdk');
         }
@@ -447,6 +445,42 @@ export const callNoAdminVacationAPI = ({ currentPage }) => {
             
             console.log('[AttendanceAPI] callNoAdminVacationAPI RESULT : ', result);
             dispatch({ type: GET_ADMIN_NO_VACATION, payload: result.data });
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+};
+
+
+
+
+
+
+export const callDetailMylAPI = ({ approvalDocumentCode }) => {
+    let requestURL;
+
+    requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/document/${approvalDocumentCode}`;
+
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] callDetailMylAPI RESULT : ', result);
+            dispatch({ type: GET_DETAIL_MY, payload: result });
 
         } else {
             console.log('dkdk');
