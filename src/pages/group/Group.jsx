@@ -99,7 +99,7 @@ console.log('권한명이 뭔지 나오는지',EmployeeRole)
                 <div className={GroupStyle.grouptable}>
                     <div className={GroupStyle.contentbox}>
                         {/* 여기는 테이블 내리는 용 div */}
-                        {isAdmin && < button className={GroupStyle.adminbtn} onClick={() => adminEmployeeClick()} >관리자용 버튼</button>}
+                        {isAdmin && < button className={GroupStyle.adminbtn} onClick={() => adminEmployeeClick()} >관리자 부서추가</button>}
                     </div>
               
               <div className={GroupStyle.searchcontainer}>

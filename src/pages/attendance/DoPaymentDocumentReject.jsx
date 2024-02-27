@@ -128,7 +128,7 @@ function DoPaymentDocumentReject() {
                                     <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doRej.list_commute_detail}>{formatDateTime(AttReject.approvalProcessDate)}</td>
                                     <td className={doRej.list_my_waiting}>
-                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttReject?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttReject?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                     </td>
                                 </tr>
                             ))
