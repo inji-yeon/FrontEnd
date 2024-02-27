@@ -12,7 +12,6 @@ import {
     PUT_EVENT_ABOUT_TIME,
     CALENDAR_ERROR
 } from '../modules/CalendarModule'
-import { createBrowserHistory } from 'history';
 
 export const callGetCalendarAPI = () => {
 

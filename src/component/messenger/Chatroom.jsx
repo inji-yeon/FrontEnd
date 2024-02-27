@@ -12,7 +12,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     const messengerData = useSelector(state => state.messenger);
     const [isInviteWindow, setIsInviteWindow] = useState(false);
     const [isSearchInput, setIsSearchInput] = useState(false);
-    const [flag2, setFlag2] = useState(false);
     const dispatch = useDispatch();
     const [searchList, setSearchList] = useState([]);
     const [searchPageInfo, setSearchPageInfo] = useState(null);
@@ -232,7 +231,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                                         <div className={styles.member_info}>
                                                             <div className={styles.member_list_img_and_name}>
                                                                 <img
-                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? "/messenger/temp_messenger_img.png") : "/messenger/temp_messenger_img.png"}
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
                                                                     alt='멤버사진'
                                                                 />
                                                                 <span>{employee?.employeeName}</span>
@@ -284,7 +283,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                                         <div className={styles.member_info}>
                                                             <div className={styles.member_list_img_and_name}>
                                                                 <img
-                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? "/messenger/temp_messenger_img.png") : "/messenger/temp_messenger_img.png"}
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
                                                                     alt='멤버사진'
                                                                 />
                                                                 <span>{employee?.employeeName}</span>
@@ -303,96 +302,95 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                     </div>
                 </div>
                 )}
-                {isSearchInput
-                    && <div className={styles.chatroom_search}>
-                        <div className={styles.search_wrap}>
-                            <input type='button' value='검색' onClick={findChatHandler} />
-                            <input type='text' placeholder='내용 입력' value={searchValue} onChange={searchValueHandler} />
-                        </div>
-                        <div className={styles.page_selector}>
-                            <button
-                                disabled={
-                                    searchPageInfo?.cri?.pageNum === 1 ||
-                                    searchPageInfo?.total === 0
-                                }
-                                onClick={() => {
-                                    paging(searchValue, 1)
-                                }}
-                            >
-                                &lt;&lt;
-                            </button>
-                            <button
-                                disabled={!searchPageInfo?.prev}
-                                onClick={() => {
-                                    paging(searchValue, searchPageInfo?.cri?.pageNum - 1)
-                                }}
-                            >
-                                &lt;
-                            </button>
-                            {pageRange?.map(page => {
-                                return (
-                                    <button
-                                        key={page}
-                                        style={{
-                                            backgroundColor: searchPageInfo?.cri?.pageNum === page ? "hsl(12, 92%, 85%)" : ""
-                                        }}
-                                        onClick={() => {
-                                            paging(searchValue, page)
-                                        }}
-                                    >
-                                        {page}
-                                    </button>
-                                )
-                            })}
-                            <button
-                                disabled={!searchPageInfo?.next}
-                                onClick={() => {
-                                    paging(searchValue, searchPageInfo?.cri?.pageNum + 1)
-                                }}
-                            >
-                                &gt;
-                            </button>
-                            <button
-                                disabled={
-                                    searchPageInfo?.cri?.pageNum === searchPageInfo?.realEnd ||
-                                    searchPageInfo?.total === 0
-                                }
-                                onClick={() => {
-                                    paging(searchValue, searchPageInfo?.realEnd)
-                                }}
-                            >
-                                &gt;&gt;
-                            </button>
-                        </div>
-                        <div className={styles.search_body} ref={searchBodyRef}>
-                            {searchList?.map(chat => {
-                                return (
-                                    <div className={styles.chat_element}
-                                        key={chat?.chatCode}
-                                        id={`chat_${chat?.chatCode}`}>
-                                        <img src={chat?.chatroomMember?.employee?.profileList
-                                            ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
-                                                ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
-                                                : "/messenger/temp_messenger_img.png")
-                                            : "/messenger/temp_messenger_img.png"}
-                                            alt="프로필사진" className={styles.chat_element_row_1} />
-                                        <div className={styles.chat_element_row_2}>
-                                            <div className={styles.sender}>
-                                                {chat?.chatroomMember?.employee?.employeeName}
-                                            </div>
-                                            <div className={styles.letter}>
-                                                {chat?.chatContent}
-                                            </div>
+                {isSearchInput && <div className={styles.chatroom_search}>
+                    <div className={styles.search_wrap}>
+                        <input type='button' value='검색' onClick={findChatHandler} />
+                        <input type='text' placeholder='내용 입력' value={searchValue} onChange={searchValueHandler} />
+                    </div>
+                    <div className={styles.page_selector}>
+                        <button
+                            disabled={
+                                searchPageInfo?.cri?.pageNum === 1 ||
+                                searchPageInfo?.total === 0
+                            }
+                            onClick={() => {
+                                paging(searchValue, 1)
+                            }}
+                        >
+                            &lt;&lt;
+                        </button>
+                        <button
+                            disabled={!searchPageInfo?.prev}
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.cri?.pageNum - 1)
+                            }}
+                        >
+                            &lt;
+                        </button>
+                        {pageRange?.map(page => {
+                            return (
+                                <button
+                                    key={page}
+                                    style={{
+                                        backgroundColor: searchPageInfo?.cri?.pageNum === page ? "hsl(12, 92%, 85%)" : ""
+                                    }}
+                                    onClick={() => {
+                                        paging(searchValue, page)
+                                    }}
+                                >
+                                    {page}
+                                </button>
+                            )
+                        })}
+                        <button
+                            disabled={!searchPageInfo?.next}
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.cri?.pageNum + 1)
+                            }}
+                        >
+                            &gt;
+                        </button>
+                        <button
+                            disabled={
+                                searchPageInfo?.cri?.pageNum === searchPageInfo?.realEnd ||
+                                searchPageInfo?.total === 0
+                            }
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.realEnd)
+                            }}
+                        >
+                            &gt;&gt;
+                        </button>
+                    </div>
+                    <div className={styles.search_body} ref={searchBodyRef}>
+                        {searchList?.map(chat => {
+                            return (
+                                <div className={styles.chat_element}
+                                    key={chat?.chatCode}
+                                    id={`chat_${chat?.chatCode}`}>
+                                    <img src={chat?.chatroomMember?.employee?.profileList
+                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
+                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
+                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`)
+                                        : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                        alt="프로필사진" className={styles.chat_element_row_1} />
+                                    <div className={styles.chat_element_row_2}>
+                                        <div className={styles.sender}>
+                                            {chat?.chatroomMember?.employee?.employeeName}
                                         </div>
-                                        <div className={styles.chat_element_row_3}>
-                                            {format(chat?.chatWriteDate, "yyyy-MM-dd HH:mm", { timeZone: 'Asia/Seoul' })}
+                                        <div className={styles.letter}>
+                                            {chat?.chatContent}
                                         </div>
-                                    </div>)
-                            })}
-                        </div>
-                    </div>}
+                                    </div>
+                                    <div className={styles.chat_element_row_3}>
+                                        {format(chat?.chatWriteDate, "yyyy-MM-dd HH:mm", { timeZone: 'Asia/Seoul' })}
+                                    </div>
+                                </div>)
+                        })}
+                    </div>
+                </div>}
                 <div className={styles.chatroom_header}>
-                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : "/messenger/temp_messenger_img.png"}
+                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : '/messenger/chatroom_profile.png'}
                         alt="채팅방프로필" className={styles.chatroom_header_1}
                         onClick={profileClickHandler} />
                     <input
@@ -437,12 +435,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                 <div className={`${chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() ? styles.chat_element : styles.chat_element_me} ${messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode ? styles.read_status : ''}`}
                                     key={chat?.chatCode}
                                     id={`chat_${chat?.chatCode}`}>
-                                    <img src={chat?.chatroomMember?.employee?.profileList
-                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
-                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
-                                            : "/messenger/temp_messenger_img.png")
-                                        : "/messenger/temp_messenger_img.png"}
-                                        alt="프로필사진" className={styles.chat_element_row_1} />
                                     <div className={styles.chat_element_row_2}>
                                         <div className={styles.sender}>
                                             {chat?.chatroomMember?.employee?.employeeName}
@@ -459,17 +451,11 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                 </div>)
                         })}
                     </div>
-                    {/* {messengerData?.receivedChat
-                        && <div className={styles.scroll_to_bottom} >
-                            <img src="/messenger/arrowToTop.png" alt="맨 아래로 내려가기" onClick={scrollingToBottomButtonHandler} />
-                        </div>} */}
                     <div className={styles.chatroom_body_write_wrap}>
                         <textarea className={styles.chatroom_body_write}
                             value={chatTextValue}
                             onChange={chatTextValueHandler} />
                         <div className={styles.chatroom_body_write_button_wrap}>
-                            {/* <img src="/messenger/temp_photo.png" alt="" className={styles.photo} /> */}
-                            {/* <input type="button" value="사진전송" className={styles.hidden_photo_button} /> */}
                             <input type="button" value="전송" className={styles.submit}
                                 onClick={sendChatHandler} />
                         </div>

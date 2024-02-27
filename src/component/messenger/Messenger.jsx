@@ -16,9 +16,6 @@ function Messenger() {
     const [isMessengerOpen, setIsMessengerOpen] = useState(false)
     const [isChatroomCreateWindow, setIsChatroomCreateWindow] = useState(false); // 채팅방 생성 창
     const [isChatroomOpen, setIsChatroomOpen] = useState(false);
-    // const [isMessengerOpen, setIsMessengerOpen] = useState(true)
-    // const [isChatroomCreateWindow, setIsChatroomCreateWindow] = useState(true) // 채팅방 생성 창
-    // const [isChatroomOpen, setIsChatroomOpen] = useState(true)
     const dispatch = useDispatch();
     const messengerData = useSelector(state => state.messenger);
     const [chatroomList, setChatroomList] = useState([]);
@@ -32,18 +29,12 @@ function Messenger() {
             dispatch({ type: MESSENGER_ERROR, payload: '' });
         }
     }, [messengerData?.error])
-    // const isConnect = false; // 리액트 자동 새로고침을 통해 여러번 연결되는걸 방지.
-    const isConnect = true;
     useEffect(() => {
-        // isConnect && dispatch(callGetLoginSettingsAPI());
-        isConnect && dispatch(callGetMessengerMainAPI());
-        // isConnect && dispatch(callMessengerSubscribe());
+        dispatch(callGetMessengerMainAPI());
     }, [])
     useEffect(() => {
         messengerData?.chatroomCode
             && console.log('messengerData?.chatroomCode', messengerData?.chatroomCode);
-        // messengerData?.chatroomCode
-        //     && setIsChatroomOpen(true);
     }, [messengerData?.chatroomCode])
     useEffect(() => {
         messengerData?.messengerLoginSettings

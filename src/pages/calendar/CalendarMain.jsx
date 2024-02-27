@@ -90,7 +90,7 @@ function CalendarMain() {
         setCalendar(calendarRef.current.getInstance())
         setRootElement(calendarRef.current.getRootElement())
     }, [])
-    
+
     useEffect(() => {
         if (calendarData?.error) {
             alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');

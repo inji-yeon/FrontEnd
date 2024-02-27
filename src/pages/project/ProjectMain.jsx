@@ -290,6 +290,7 @@ function ProjectMain() {
                                     onClick={() => {
                                         paging(searchValue, page)
                                     }}
+                                    disabled={projectPageInfo?.cri?.pageNum === page}
                                 >
                                     {page}
                                 </button>

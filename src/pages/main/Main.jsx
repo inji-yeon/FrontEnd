@@ -92,7 +92,7 @@ function Main() {
       const projectType = 'all';
       const searchValue = '';
       dispatch(callGetProjectsAPI({projectType,searchValue}));
-      callAttendenceAPI();
+      // callAttendenceAPI();
       //출근 상태 얻어와서 set ㄱㄱ출근 시간도 같이 가져오자 가져온 시간에서 2시간 정도가 안지났으면 퇴근 못하게
       //결재 대기, 완료 개수 ㄱ
       //프로젝트 ㄱㄱ

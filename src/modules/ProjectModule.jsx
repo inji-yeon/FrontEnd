@@ -93,10 +93,21 @@ const projectReducer = handleActions(
             }
         },
         [GET_PROJECT_POST_LIST]: (state, { payload }) => {
-            console.log('GET_PROJECT_POST_LIST>>>payload>>>', payload);
+            let projectPostData = payload?.data?.data?.map(data => {
+                return {
+                    ...data,
+                    projectPostContent: data?.projectPostContent?.replace(
+                        /http:\/\/(?:\d+\.\d+\.\d+\.\d+|localhost):1208\/web-images\//g,
+                        `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/`
+                    )
+                }
+            });
             return {
                 ...state,
-                projectPostListWithPaging: payload?.data
+                projectPostListWithPaging: {
+                    ...payload?.data,
+                    data: projectPostData
+                }
             }
         },
         [PUT_PROJECT]: (state, { payload }) => {

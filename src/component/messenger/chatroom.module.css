@@ -100,6 +100,14 @@
     gap: 10px;
 }
 
+.chat_element_me .sender {
+    text-align: right;
+}
+
+.chat_element_me .chat_element_row_3 {
+    text-align: right;
+}
+
 .read_status {
     background-color: hsl(22, 100%, 80%);
     border-radius: 5px;

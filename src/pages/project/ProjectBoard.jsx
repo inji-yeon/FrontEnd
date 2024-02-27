@@ -50,7 +50,7 @@ function ProjectBoard() {
     useEffect(() => {
         if (project?.error) {
             alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
-            console.error('error Message: ', project?.message);
+            console.error('error Message: ', project?.error);
             navigate('/login');
             dispatch({ type: PROJECT_ERROR, payload: '' });
         }
@@ -138,6 +138,10 @@ function ProjectBoard() {
             })
         }
     }
+    const handleImageError = (e) => {
+        e.target.src = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`;
+        e.target.onError = null;
+    }
     useEffect(() => {
         if (project?.message) {
             switch (project?.message) {
@@ -219,7 +223,7 @@ function ProjectBoard() {
                                     <img src={manager?.profileList
                                         ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                         ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${manager?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                        : '임시 사진'} alt='프로필' />
+                                        : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
                                 </div>
                                 <div className={styles.employee_name}>
                                     {manager?.employeeName}
@@ -313,7 +317,7 @@ function ProjectBoard() {
                                                         <img src={employee?.profileList
                                                             ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                                             ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                                            : '임시 사진'} alt='프로필' />
+                                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
                                                     </div>
                                                     <div className={styles.employee_name}>
                                                         {employee?.employeeName}
@@ -345,7 +349,7 @@ function ProjectBoard() {
                                                         <img src={member?.employee?.profileList
                                                             ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                                             ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${member?.employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                                            : '임시 사진'} alt='프로필' />
+                                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
                                                     </div>
                                                     <div className={styles.employee_name}>
                                                         {member?.employee?.employeeName}
