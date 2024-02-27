@@ -3,19 +3,32 @@ import MypageInfoStyle from './Mypage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { callMypageGetSpreadAPI } from '../../apis/MypageinfoupdateAPI';
 import { callMypageUpdateInfoAPI } from '../../apis/MypageinfoupdateAPI';
+import { decodeJwt } from '../../utils/tokenUtils';
+
+
+const accessToken = localStorage.getItem('accessToken');
+const decodeToken = decodeJwt(accessToken);
+const empCode = decodeToken?.empCode;
 
 
 function MyPage() {
     const dispatch = useDispatch();
-    const accessToken = localStorage.getItem('accessToken');
-    console.log('-----[MyPage] accessToken : ', accessToken);
+    // console.log('-----[MyPage] accessToken : ', accessToken);
+    
 
-
+    const [accessToken, setAccessToken] = useState();
+    useEffect(()=>{
+        setAccessToken(window.localStorage.getItem('accessToken'))
+    },[])
     const mypageemps = useSelector((state) => state.mypagereducer);
 
     useEffect(() => {
-        dispatch(callMypageGetSpreadAPI({ form: null }));
-    }, [dispatch]);
+        accessToken&&dispatch(callMypageGetSpreadAPI({ empCode: empCode}));
+    }, [accessToken]);
+
+    // useEffect(() => {
+    //     //  변경될 때마다 로그를 출력합니다.
+    // }, []);
 
     const timestamp = mypageemps.empInfo?.data?.empBirth;
     const date = new Date(timestamp);
@@ -30,11 +43,12 @@ function MyPage() {
 
     useEffect(() => {
         setUserInfo({
-            phone: mypageemps.empInfo?.data?.phone || '',
-            empEmail: mypageemps.empInfo?.data?.empEmail || '',
-            address: mypageemps.empInfo?.data?.empAddress || '',
+            phone: mypageemps?.empInfo?.data?.phone || '',
+            empEmail: mypageemps?.empInfo?.data?.empEmail || '',
+            address: mypageemps?.empInfo?.data?.empAddress || '',
         });
-    }, [mypageemps.empInfo?.data]);
+    }, [mypageemps?.empInfo?.data]);
+    // }, [mypageemps]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,9 +61,10 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
 
     const handleUpdate = () => {
         dispatch(callMypageUpdateInfoAPI({
-            phone: userInfo.phone,
-            empEmail: userInfo.empEmail,
-            address: userInfo.address
+            phone: userInfo?.phone,
+            empEmail: userInfo?.empEmail,
+            address: userInfo?.address,
+            empCode: empCode
         })).then(() => {
             console.log('수정한 사용자 정보 여기 안에서도 나오는지 ',userInfo)
             alert('수정되었습니다.');

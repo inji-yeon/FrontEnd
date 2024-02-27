@@ -26,8 +26,6 @@ function Main() {
 
 
 
-
-
   //포스트 가져오기
   const mainPost = useSelector(state => state.mainPost);
   // const error = useSelector(state=>state.error);
@@ -84,6 +82,7 @@ function Main() {
     setActive(true)
     if (window.localStorage.getItem('accessToken')) {
       setToken(decodeJwt(window.localStorage.getItem('accessToken')));
+      
       setIsLogin(true);
     }
     navigator.geolocation.getCurrentPosition((position) => {
@@ -108,7 +107,7 @@ function Main() {
 
 
   //   // 로그아웃 버튼 클릭 시 처리하는 함수
-  const handleLogout = async () => {
+   const handleLogout = async () => {
     try {
       await callLogoutAPI();
       setIsAttendance(false);
@@ -156,7 +155,7 @@ function Main() {
               {isLogin ? (
                 <div className="mypage_box">
                   <span className="mypage_name">{token.employeeName}</span><span className="main-name-text">님 환영합니다!</span>
-                  <input onClick={() => { navigate('./mypage') }} className="mypage_btn" type="button" value="MyPage" />
+                  <input onClick={() => { navigate('/main/mypage/mypageinfo') }} className="mypage_btn" type="button" value="MyPage" />
                   <button className="main-logout-btn" onClick={handleLogout}>Logout</button>
                 </div>
               ) : (
