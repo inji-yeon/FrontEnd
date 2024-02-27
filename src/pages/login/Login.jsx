@@ -19,7 +19,6 @@ import { decodeJwt } from '../../utils/tokenUtils';
 
 const accessToken = localStorage.getItem('accessToken');
 const decodeToken = decodeJwt(accessToken);
-console.log(decodeToken);
 const empCode = decodeToken?.empCode;
 
 function Login() {
@@ -60,10 +59,7 @@ function Login() {
     employeeEmail: "",
   });
 
-  // 비밀번호 찾기 처리
-  //  const onClickForgotPasswordHandler = () => {
-  //     dispatch(callForgotPasswordAPI({ form: forgotPasswordForm }));
-  // }
+ 
   const wc = useWebSocket();
   const { showAlert } = useAlert();
   useEffect(() => {
@@ -85,11 +81,11 @@ function Login() {
   }, [loginEmployee]);
 
 
-  // 로그인 상태일 시 로그인페이지로 접근 방지
-  if (loginEmployee.length > 0) {
-    console.log("[Login] Login is already authenticated by the server");
-    return <Navigate to="/main" />;
-  }
+  // // 로그인 상태일 시 로그인페이지로 접근 방지
+  // if (loginEmployee.length > 0) {
+  //   console.log("[Login] Login is already authenticated by the server");
+  //   return <Navigate to="/main" />;
+  // }
 
   const onChangeHandler = (e, type) => {
     if (type === "login") {
@@ -104,6 +100,9 @@ function Login() {
       });
     }
   };
+
+
+  
 
   // const onChangeHandler = (e, type) => {
   //     setForm({

@@ -15,11 +15,11 @@ const MyPageSideBar = () => {
     const imageInput = useRef();
 
     const goToMypageinfo = () => {
-        navigate('/mypage/mypageinfo');
+        navigate('/main/mypage/mypageinfo');
     };
 
     const goToMypagepwd = () => {
-        navigate('/mypage/mypagepassword');
+        navigate('/main/mypage/mypagepassword');
     };
 
 const accessToken = localStorage.getItem('accessToken');//로그인한 사용자 정보에서 사원코드값 뽑아오기 
@@ -46,7 +46,7 @@ console.log('사이드바 employeeCode나오나 한 번 보자',employeeCode);
 
       // 사용자정보 가져오기 
     useEffect(() => {
-        dispatch(callMypageGetInfoAPI({ form: null}));
+        dispatch(callMypageGetInfoAPI({ empCode: employeeCode}));
     }, [dispatch]);
     
     // 사용자 프로필사진 정보 가져오기

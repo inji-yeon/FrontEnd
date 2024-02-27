@@ -152,7 +152,7 @@ function Main() {
             { isLogin ? (
             <div className="mypage_box">
                 <span className="mypage_name">{token.employeeName}</span><span className="main-name-text">님 환영합니다!</span>
-                <input onClick={()=>{navigate('./mypage')}} className="mypage_btn" type="button" value="MyPage"/>
+                <input onClick={()=>{navigate('./mypage/mypageinfo')}} className="mypage_btn" type="button" value="MyPage"/>
                 <button className="main-logout-btn" onClick={handleLogout}>Logout</button>
             </div>
             ) : (
