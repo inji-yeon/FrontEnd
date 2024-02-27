@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './chatroom.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { callChangeChatroomProfileAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetPrevChats, callInviteChatroomMemberAPI, callLeaveChatroomAPI, callUpdateChatReadStatus } from '../../apis/MessengerAPICalls';
+import { callChangeChatroomProfileAPI, callFindChatListAPI, callGetChatroomAPI, callGetEmployeesAPI, callGetMessengerMainAPI, callGetPrevChats, callInviteChatroomMemberAPI, callLeaveChatroomAPI, callUpdateChatReadStatus } from '../../apis/MessengerAPICalls';
 import { userEmployeeCode } from '../../utils/tokenUtils';
 import { format } from 'date-fns';
 import { useWebSocket } from '../WebSocketContext';
@@ -12,9 +12,10 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     const messengerData = useSelector(state => state.messenger);
     const [isInviteWindow, setIsInviteWindow] = useState(false);
     const [isSearchInput, setIsSearchInput] = useState(false);
-    const [flag2, setFlag2] = useState(false);
     const dispatch = useDispatch();
-    const isConnect = true;
+    const [searchList, setSearchList] = useState([]);
+    const [searchPageInfo, setSearchPageInfo] = useState(null);
+    const [pageRange, setPageRange] = useState([]);
 
     const [chatList, setChatList] = useState([]);
     const [employeeList, setEmployeeList] = useState([]);
@@ -28,25 +29,30 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     const [flag, setFlag] = useState(true);
 
     const chatContainerRef = useRef(null);
+    useEffect(() => {
+        setSearchList(messengerData?.findChatList?.data);
+        setSearchPageInfo(messengerData?.findChatList?.pageInfo);
+    }, [messengerData?.findChatList])
 
+    useEffect(() => {
+        const pageStart = searchPageInfo?.pageStart;
+        const pageEnd = searchPageInfo?.pageEnd;
+        const range = Array.from({ length: pageEnd - pageStart + 1 }, (_, index) => index + pageStart)
+        setPageRange(range)
+    }, [searchList, searchPageInfo])
 
     useEffect(() => {
         console.log('messengerData?.scrollingToChatCode', messengerData?.scrollingToChatCode);
         if (messengerData?.scrollingToChatCode) {
             console.log('들어온 경우');
-            scrollingToBottom();
         }
     }, [messengerData?.scrollingToChatCode])
     useEffect(() => {
         console.log('여기도 오는지 >>> messengerData?.messengerMain?.chatroomList >>>', messengerData?.messengerMain?.chatroomList);
         if (messengerData?.scrollingToChatCode) {
-            scrollingToBottom();
             dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
         }
     }, [chatroomList])
-    const scrollingToBottom = () => {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
     const chatTextValueHandler = (e) => {
         setChatTextValue(e.target.value);
     }
@@ -79,12 +85,9 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         const minChatCode = chatList?.reduce((min, chat) => Math.min(min, chat?.chatCode), Infinity);
         dispatch(callGetPrevChats({ chatroomCode, minChatCode }))
     }
-    const scrollingToChat = (chatCode) => {
-        const chatElement = chatContainerRef.current.querySelector(`#chat_${chatCode}`);
-        if (chatElement) {
-            chatElement.scrollIntoView({ block: 'start' });
-        }
-    };
+    useEffect(() => {
+        isSearchInput && findChatHandler();
+    }, [isSearchInput])
     const searchButtonHandler = () => {
         setIsSearchInput(!isSearchInput)
         setIsInviteWindow(false);
@@ -109,13 +112,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     useEffect(() => {
         messengerData?.employees && setEmployeeList(messengerData?.employees);
     }, [messengerData?.employees])
-    useEffect(() => {
-        if (!flag2 && messengerData?.chatroomData?.lastReadChatCode) {
-            console.log('실제로 이동하는가');
-            scrollingToChat(messengerData?.chatroomData?.lastReadChatCode);
-            setFlag2(true);
-        }
-    }, [chatroomList])
     useEffect(() => {
         isInviteWindow && dispatch(callGetEmployeesAPI());
     }, [isInviteWindow])
@@ -158,6 +154,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         setIsSearchInput(false);
     }
     const exitHandler = () => {
+        dispatch(callGetMessengerMainAPI())
         setIsChatroomOpen(false);
         setChatroomCode(null);
     }
@@ -173,7 +170,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         dispatch(callChangeChatroomProfileAPI({ chatroomCode, file }))
     }
     const scrollingToBottomButtonHandler = () => {
-        scrollingToBottom();
         dispatch({ type: RESET_SHOW_RECEIVED_CHAT })
         dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
     }
@@ -182,11 +178,219 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         result && dispatch(callLeaveChatroomAPI({ chatroomCode }))
         result && setIsChatroomOpen(false);
     }
+    const findChatHandler = () => {
+        dispatch(callFindChatListAPI({ chatroomCode, searchValue }))
+    }
+    const [searchValue, setSearchValue] = useState('');
+    const searchValueHandler = (e) => {
+        setSearchValue(e.target.value);
+    }
+    const searchBodyRef = useRef();
+    const paging = (searchValue, offset) => {
+        searchBodyRef.current.scrollTop = 0;
+        dispatch(callFindChatListAPI({ chatroomCode, searchValue, offset }))
+    }
     return (
         <>
             <div className={styles.chatroom_main}>
+                {isInviteWindow && (<div className={styles.chatroom_invite_wrap}>
+                    <img
+                        src="/messenger/x_dark.png"
+                        alt="닫기"
+                        className={styles.invite_exit}
+                        onClick={exitInviteHandler}
+                    />
+                    <div className={styles.chatroom_invite}>
+                        <div className={styles.messenger_member_search}>
+                            <label>검색</label>
+                            <input type='button' value='x'
+                                onClick={resetSearchNameHandler} />
+                            <input type='text'
+                                value={searchName}
+                                onChange={searchNameHandler} />
+                        </div>
+                        <div className={styles.messenger_member_list}>
+                            <table>
+                                <tbody>
+                                    {employeeList
+                                        ?.filter(employee => {
+                                            return (employee?.employeeName?.includes(searchName)
+                                                && !oldEmployeeCodeList.includes(employee?.employeeCode));
+                                        })?.map((employee) => {
+                                            return (
+                                                <tr key={employee?.employeeCode}>
+                                                    <td>
+                                                        <div className={styles.member_buttons}>
+                                                            {(userEmployeeCode() === employee?.employeeCode) && <input type='button' value='나가기' />}
+                                                            {(!oldEmployeeCodeList.includes(employee?.employeeCode)) && <input
+                                                                type='button'
+                                                                value='초대하기'
+                                                                onClick={() => inviteHandler(employee?.employeeCode)}
+                                                            />}
+                                                        </div>
+                                                        <div className={styles.member_info}>
+                                                            <div className={styles.member_list_img_and_name}>
+                                                                <img
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                                                    alt='멤버사진'
+                                                                />
+                                                                <span>{employee?.employeeName}</span>
+                                                            </div>
+                                                            <div className={styles.member_list_dept_and_position}>
+                                                                <span>{employee?.department?.departmentName}</span>
+                                                                <span>{employee?.job?.jobName}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>)
+                                        })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                )}
+                {isMemberWindow && (<div className={styles.chatroom_invite_wrap}>
+                    <img
+                        src="/messenger/x_dark.png"
+                        alt="닫기"
+                        className={styles.invite_exit}
+                        onClick={exitInviteHandler}
+                    />
+                    <div className={styles.chatroom_invite}>
+                        <div className={styles.messenger_member_search}>
+                            <label>검색</label>
+                            <input type='button' value='x'
+                                onClick={resetSearchNameHandler} />
+                            <input type='text'
+                                value={searchName}
+                                onChange={searchNameHandler} />
+                        </div>
+                        <div className={styles.messenger_member_list}>
+                            <table>
+                                <tbody>
+                                    {oldEmployeeList
+                                        ?.filter(employee => {
+                                            return (employee?.employeeName?.includes(searchName));
+                                        })?.map((employee) => {
+                                            return (
+                                                <tr key={employee?.employeeCode}>
+                                                    <td>
+                                                        <div className={styles.member_buttons}>
+                                                            {employee?.employeeCode === userEmployeeCode()
+                                                                && <input type='button' value='나가기' onClick={leaveChatroomHandler} />}
+                                                        </div>
+                                                        <div className={styles.member_info}>
+                                                            <div className={styles.member_list_img_and_name}>
+                                                                <img
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                                                    alt='멤버사진'
+                                                                />
+                                                                <span>{employee?.employeeName}</span>
+                                                            </div>
+                                                            <div className={styles.member_list_dept_and_position}>
+                                                                <span>{employee?.department?.departmentName}</span>
+                                                                <span>{employee?.job?.jobName}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>)
+                                        })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                )}
+                {isSearchInput && <div className={styles.chatroom_search}>
+                    <div className={styles.search_wrap}>
+                        <input type='button' value='검색' onClick={findChatHandler} />
+                        <input type='text' placeholder='내용 입력' value={searchValue} onChange={searchValueHandler} />
+                    </div>
+                    <div className={styles.page_selector}>
+                        <button
+                            disabled={
+                                searchPageInfo?.cri?.pageNum === 1 ||
+                                searchPageInfo?.total === 0
+                            }
+                            onClick={() => {
+                                paging(searchValue, 1)
+                            }}
+                        >
+                            &lt;&lt;
+                        </button>
+                        <button
+                            disabled={!searchPageInfo?.prev}
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.cri?.pageNum - 1)
+                            }}
+                        >
+                            &lt;
+                        </button>
+                        {pageRange?.map(page => {
+                            return (
+                                <button
+                                    key={page}
+                                    style={{
+                                        backgroundColor: searchPageInfo?.cri?.pageNum === page ? "hsl(12, 92%, 85%)" : ""
+                                    }}
+                                    onClick={() => {
+                                        paging(searchValue, page)
+                                    }}
+                                >
+                                    {page}
+                                </button>
+                            )
+                        })}
+                        <button
+                            disabled={!searchPageInfo?.next}
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.cri?.pageNum + 1)
+                            }}
+                        >
+                            &gt;
+                        </button>
+                        <button
+                            disabled={
+                                searchPageInfo?.cri?.pageNum === searchPageInfo?.realEnd ||
+                                searchPageInfo?.total === 0
+                            }
+                            onClick={() => {
+                                paging(searchValue, searchPageInfo?.realEnd)
+                            }}
+                        >
+                            &gt;&gt;
+                        </button>
+                    </div>
+                    <div className={styles.search_body} ref={searchBodyRef}>
+                        {searchList?.map(chat => {
+                            return (
+                                <div className={styles.chat_element}
+                                    key={chat?.chatCode}
+                                    id={`chat_${chat?.chatCode}`}>
+                                    <img src={chat?.chatroomMember?.employee?.profileList
+                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
+                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
+                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`)
+                                        : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                        alt="프로필사진" className={styles.chat_element_row_1} />
+                                    <div className={styles.chat_element_row_2}>
+                                        <div className={styles.sender}>
+                                            {chat?.chatroomMember?.employee?.employeeName}
+                                        </div>
+                                        <div className={styles.letter}>
+                                            {chat?.chatContent}
+                                        </div>
+                                    </div>
+                                    <div className={styles.chat_element_row_3}>
+                                        {format(chat?.chatWriteDate, "yyyy-MM-dd HH:mm", { timeZone: 'Asia/Seoul' })}
+                                    </div>
+                                </div>)
+                        })}
+                    </div>
+                </div>}
                 <div className={styles.chatroom_header}>
-                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : "/messenger/temp_messenger_img.png"}
+                    <img src={messengerData?.chatroomData?.chatroomProfileFileURL ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${messengerData?.chatroomData?.chatroomProfileFileURL}` : '/messenger/chatroom_profile.png'}
                         alt="채팅방프로필" className={styles.chatroom_header_1}
                         onClick={profileClickHandler} />
                     <input
@@ -231,12 +435,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                 <div className={`${chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() ? styles.chat_element : styles.chat_element_me} ${messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode ? styles.read_status : ''}`}
                                     key={chat?.chatCode}
                                     id={`chat_${chat?.chatCode}`}>
-                                    <img src={chat?.chatroomMember?.employee?.profileList
-                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
-                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
-                                            : "/messenger/temp_messenger_img.png")
-                                        : "/messenger/temp_messenger_img.png"}
-                                        alt="프로필사진" className={styles.chat_element_row_1} />
                                     <div className={styles.chat_element_row_2}>
                                         <div className={styles.sender}>
                                             {chat?.chatroomMember?.employee?.employeeName}
@@ -253,230 +451,18 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                 </div>)
                         })}
                     </div>
-                    {messengerData?.receivedChat
-                        && <div className={styles.scroll_to_bottom} >
-                            <img src="/messenger/arrowToTop.png" alt="맨 아래로 내려가기" onClick={scrollingToBottomButtonHandler} />
-                        </div>}
                     <div className={styles.chatroom_body_write_wrap}>
                         <textarea className={styles.chatroom_body_write}
                             value={chatTextValue}
                             onChange={chatTextValueHandler} />
                         <div className={styles.chatroom_body_write_button_wrap}>
-                            {/* <img src="/messenger/temp_photo.png" alt="" className={styles.photo} /> */}
-                            {/* <input type="button" value="사진전송" className={styles.hidden_photo_button} /> */}
                             <input type="button" value="전송" className={styles.submit}
                                 onClick={sendChatHandler} />
                         </div>
                     </div>
                 </div>
+
             </div>
-            {isMemberWindow && (<div className={styles.chatroom_invite_wrap}>
-                <img
-                    src="/messenger/x_dark.png"
-                    alt="닫기"
-                    className={styles.invite_exit}
-                    onClick={exitInviteHandler}
-                />
-                <div className={styles.chatroom_invite}>
-                    <div className={styles.messenger_member_search}>
-                        <label>검색</label>
-                        <input type='button' value='x'
-                            onClick={resetSearchNameHandler} />
-                        <input type='text'
-                            value={searchName}
-                            onChange={searchNameHandler} />
-                    </div>
-                    <div className={styles.messenger_member_list}>
-                        <table>
-                            <tbody>
-                                {oldEmployeeList
-                                    ?.filter(employee => {
-                                        return (employee?.employeeName.includes(searchName));
-                                    })?.map((employee) => {
-                                        return (
-                                            <tr key={employee?.employeeCode}>
-                                                <td>
-                                                    <div className={styles.member_buttons}>
-                                                        {employee?.employeeCode === userEmployeeCode()
-                                                            && <input type='button' value='나가기' onClick={leaveChatroomHandler} />}
-                                                    </div>
-                                                    <div className={styles.member_info}>
-                                                        <div className={styles.member_list_img_and_name}>
-                                                            <img
-                                                                src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? "/messenger/temp_messenger_img.png") : "/messenger/temp_messenger_img.png"}
-                                                                alt='멤버사진'
-                                                            />
-                                                            <span>{employee?.employeeName}</span>
-                                                        </div>
-                                                        <div className={styles.member_list_dept_and_position}>
-                                                            <span>{employee?.department?.departmentName}</span>
-                                                            <span>{employee?.job?.jobName}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>)
-                                    })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            )}
-            {isInviteWindow && (<div className={styles.chatroom_invite_wrap}>
-                <img
-                    src="/messenger/x_dark.png"
-                    alt="닫기"
-                    className={styles.invite_exit}
-                    onClick={exitInviteHandler}
-                />
-                <div className={styles.chatroom_invite}>
-                    <div className={styles.messenger_member_search}>
-                        <label>검색</label>
-                        <input type='button' value='x'
-                            onClick={resetSearchNameHandler} />
-                        <input type='text'
-                            value={searchName}
-                            onChange={searchNameHandler} />
-                    </div>
-                    <div className={styles.messenger_member_list}>
-                        <table>
-                            <tbody>
-                                {employeeList
-                                    ?.filter(employee => {
-                                        return (employee?.employeeName.includes(searchName)
-                                            && !oldEmployeeCodeList.includes(employee?.employeeCode));
-                                    })?.map((employee) => {
-                                        return (
-                                            <tr key={employee?.employeeCode}>
-                                                <td>
-                                                    <div className={styles.member_buttons}>
-                                                        {(userEmployeeCode() === employee?.employeeCode) && <input type='button' value='나가기' />}
-                                                        {(!oldEmployeeCodeList.includes(employee?.employeeCode)) && <input
-                                                            type='button'
-                                                            value='초대하기'
-                                                            onClick={() => inviteHandler(employee?.employeeCode)}
-                                                        />}
-                                                    </div>
-                                                    <div className={styles.member_info}>
-                                                        <div className={styles.member_list_img_and_name}>
-                                                            <img
-                                                                src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? "/messenger/temp_messenger_img.png") : "/messenger/temp_messenger_img.png"}
-                                                                alt='멤버사진'
-                                                            />
-                                                            <span>{employee?.employeeName}</span>
-                                                        </div>
-                                                        <div className={styles.member_list_dept_and_position}>
-                                                            <span>{employee?.department?.departmentName}</span>
-                                                            <span>{employee?.job?.jobName}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>)
-                                    })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            )}
-            {isSearchInput
-                && <div className={styles.chatroom_search}>
-                    <div className={styles.search_wrap}>
-                        <input type='button' value='검색' />
-                        <input type='text' placeholder='내용 입력' />
-                    </div>
-                    <div className={styles.search_result_wrap}>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_elements_divide}>
-                            <div>2024년 1월 3일</div>
-                        </div>
-                        <div className={styles.chat_element}>
-                            <img src="/messenger/temp_messenger_img.png" alt="프로필사진" className={styles.chat_element_row_1} />
-                            <div className={styles.chat_element_row_2}>
-                                <div className={styles.sender}>
-                                    인사팀
-                                </div>
-                                <div className={styles.letter}>
-                                    안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                    드립니다 :)<br />
-                                    2024 All-Hands 관련 안내사항을 공지 게시
-                                    판에 업로드 하였으며, 문의사항이 있으실 경
-                                    우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                    더불어, Witty Wave 구성원분들의 새해 계
-                                    획을 공유하는 세션이 마련되어 있으니 댓글
-                                    로 많은 참여 부탁드립니다!
-                                </div>
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element_me}>
-                            <div className={styles.letter}>
-                                안녕하세요, 2024년 청룡의 해를 맞아 인사
-                                드립니다 :)<br />
-                                2024 All-Hands 관련 안내사항을 공지 게시
-                                판에 업로드 하였으며, 문의사항이 있으실 경
-                                우 해당 채널 혹은 개인 메신저로 질문 주시면 바로 답변 전달드리겠습니다.<br />
-                                더불어, Witty Wave 구성원분들의 새해 계
-                                획을 공유하는 세션이 마련되어 있으니 댓글
-                                로 많은 참여 부탁드립니다!
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                        <div className={styles.chat_element_me}>
-                            <div className={styles.letter}>
-                                안녕합니다
-                            </div>
-                            <div className={styles.chat_element_row_3}>
-                                오전 9:00
-                            </div>
-                        </div>
-                    </div>
-                </div>}
         </>
     )
 }

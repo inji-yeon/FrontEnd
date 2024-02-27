@@ -37,16 +37,16 @@ const initialState = {
         recentChatCode: null,
         recentPageChatCount: null,
     },
+    findChatList: null,
     employees: [],
     scrollingToChatCode: null,
     receivedChat: false,
+    error: '',
 }
 
-// export const GET_PROJECTS = 'project/GET_PROJECTS'
 export const GET_LOGIN_SETTINGS = 'messenger/GET_LOGIN_SETTINGS'
 export const GET_MESSENGER_MAIN = 'messenger/GET_MESSENGER'
 export const GET_MESSENGER_MAIN_BY_INVITE = 'messenger/GET_MESSENGER_MAIN_BY_INVITE'
-// export const GET_MESSENGER_OPTIONS = 'messenger/GET_MESSENGER_OPTIONS'
 export const PUT_MESSENGER_OPTIONS = 'messenger/MODIFY_MESSENGER_OPTIONS'
 export const PUT_PINNED_CHATROOM = 'messenger/PUT_PINNED_CHATROOM'
 export const POST_CHATROOM = 'messenger/POST_CHATROOM'
@@ -63,12 +63,12 @@ export const RESET_SCROLLING_TO_CHATCODE = 'messenger/RESET_SCROLLING_TO_CHATCOD
 export const SHOW_RECEIVED_CHAT = 'messenger/SHOW_RECEIVED_CHAT'
 export const RESET_SHOW_RECEIVED_CHAT = 'messenger/RESET_SHOW_RECEIVED_CHAT'
 export const LEAVE_CHATROOM = 'messenger/LEAVE_CHATROOM'
+export const MESSENGER_ERROR = 'messenger/ERROR'
+export const GET_CHATS = 'messenger/GET_CHATS'
 
 const action = createActions({
-    // [GET_PROJECTS]: () => { },
     [GET_LOGIN_SETTINGS]: () => { },
     [GET_MESSENGER_MAIN]: () => { },
-    // [GET_MESSENGER_OPTIONS]: () => { },
     [PUT_MESSENGER_OPTIONS]: () => { },
     [PUT_PINNED_CHATROOM]: () => { },
     [POST_CHATROOM]: () => { },
@@ -85,17 +85,13 @@ const action = createActions({
     [SHOW_RECEIVED_CHAT]: () => { },
     [RESET_SHOW_RECEIVED_CHAT]: () => { },
     [LEAVE_CHATROOM]: () => { },
-    [GET_MESSENGER_MAIN_BY_INVITE]: () => { }
+    [GET_MESSENGER_MAIN_BY_INVITE]: () => { },
+    [MESSENGER_ERROR]: () => { },
+    [GET_CHATS]: () => { }
 })
 
 const messengerReducer = handleActions(
     {
-        // [GET_PROJECTS]: (state, { payload }) => {
-        //     return {
-        //         ...state,
-        //         projectListWithPaging: payload?.data
-        //     }
-        // },
         [GET_LOGIN_SETTINGS]: (state, { payload }) => {
             return {
                 ...state,
@@ -103,26 +99,25 @@ const messengerReducer = handleActions(
             }
         },
         [GET_MESSENGER_MAIN]: (state, { payload }) => {
+            const chatroomList = payload?.data?.chatroomList;
+            const groupedByChatroomCode = chatroomList.reduce((acc, obj) => {
+                const key = obj.chatroomCode;
+                if (!acc[key]) {
+                    acc[key] = obj;
+                }
+                return acc;
+            }, {});
+            const uniqueChatrooms = Object.values(groupedByChatroomCode);
+
             return {
                 ...state,
-                messengerMain: payload?.data
+                messengerMain: {
+                    ...payload?.data,
+                    chatroomList: uniqueChatrooms
+                }
             }
         },
         [GET_MESSENGER_MAIN_BY_INVITE]: (state, { payload }) => {
-            console.log('여기로 오면 안됨', payload, state);
-            // console.log('갱신될 데이터', {
-            //     ...state,
-            //     messengerMain: {
-            //         ...state.messengerMain,
-            //         chatroomList: [
-            //             ...state.messengerMain.chatroomList,
-            //             {
-            //                 ...payload,
-            //                 chatroomMemberCount: payload.chatroomMemberCount + 1
-            //             }
-            //         ]
-            //     }
-            // });
             return {
                 ...state,
                 messengerMain: {
@@ -136,16 +131,6 @@ const messengerReducer = handleActions(
                 }
             }
         },
-        // [GET_MESSENGER_OPTIONS]: (state, { payload }) => {
-        //     return {
-        //         ...state,
-        //         messengerMain: {
-        //             messengerPositionOption: payload?.data?.messengerPositionOption,
-        //             messengerMiniAlarmOption: payload?.data?.messengerMiniAlarmOption,
-        //             messengerTheme: payload?.data?.messengerTheme
-        //         }
-        //     }
-        // },
         [PUT_MESSENGER_OPTIONS]: (state, { payload }) => {
             return {
                 ...state,
@@ -191,7 +176,6 @@ const messengerReducer = handleActions(
             }
         },
         [POST_CHATROOM]: (state, { payload }) => {
-            // payload?.data 는 chatroomCode 라는 Long 타입이다. 생성한 다음에 code를 반환받고 이를 한번더 요청한다.
             return {
                 ...state,
                 chatroomCode: payload?.data,
@@ -207,8 +191,6 @@ const messengerReducer = handleActions(
             const oldChatList = state.chatroomData.chatList;
             const oldChatCodes = new Set(oldChatList.map(chat => chat.chatCode));
             const newChatList = [...payload?.data?.filter(chat => !oldChatCodes?.has(chat?.chatCode)), ...oldChatList];
-            console.log('GET_PREV_CHATS>>>oldChatList>>>', oldChatList);
-            console.log('GET_PREV_CHATS>>>newChatList>>>', newChatList);
             return {
                 ...state,
                 chatroomData: {
@@ -246,7 +228,6 @@ const messengerReducer = handleActions(
             }
         },
         [PUT_CHATROOM_PROFILE]: (state, { payload }) => {
-            console.log('사진 url', payload?.data);
             return {
                 ...state,
                 chatroomData: {
@@ -256,15 +237,12 @@ const messengerReducer = handleActions(
             }
         },
         [RECEIVE_CHAT_IS_OPEN_CHATROOM]: (state, { payload }) => {
-            console.log('받은 데이터>>>', payload);
             const chat = payload;
             const chatroomList = state?.messengerMain?.chatroomList;
             const oldChatroomList = chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode !== chat.chatroomCode)
             const newChatroomList = chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode === chat.chatroomCode)
-            console.log('oldChatroomList', oldChatroomList);
-            console.log('newChatroomList', newChatroomList);
             return {
                 ...state,
                 messengerMain: {
@@ -282,7 +260,6 @@ const messengerReducer = handleActions(
             }
         },
         [RECEIVE_CHAT_IS_NOT_OPEN_CHATROOM]: (state, { payload }) => {
-            console.log('받은 데이터>>>', payload);
             const chat = payload;
             const chatroomList = state?.messengerMain?.chatroomList;
             const newChatroomList = chatroomList
@@ -299,10 +276,6 @@ const messengerReducer = handleActions(
                 })
             const oldChatroomList = chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode !== chat.chatroomCode);
-            console.log('chat', chat);
-            console.log('chatroomList', chatroomList);
-            console.log('newChatroomList', newChatroomList);
-            console.log('oldChatroomList', oldChatroomList);
             return {
                 ...state,
                 messengerMain: {
@@ -312,13 +285,9 @@ const messengerReducer = handleActions(
             }
         },
         [PUT_CHAT_READ_STATUS]: (state, { payload }) => {
-            console.log('PUT_CHAT_READ_STATUS>>state>>', state);
-            console.log('PUT_CHAT_READ_STATUS>>payload>>', payload);
             const newChatroom = payload?.data;
             const chatroomList = state?.messengerMain?.chatroomList;
-            console.log('PUT_CHAT_READ_STATUS>>>chatroomList>>>', chatroomList);
             const oldChatroomList = chatroomList?.filter(chatroom => chatroom?.chatroomCode !== newChatroom?.chatroomCode);
-            console.log('sum', [...oldChatroomList, newChatroom]);
             return {
                 ...state,
                 messengerMain: {
@@ -354,16 +323,26 @@ const messengerReducer = handleActions(
             };
         },
         [LEAVE_CHATROOM]: (state, { payload }) => {
-            console.log(payload);
             const newChatroomList = state?.messengerMain?.chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode !== payload?.data);
-            console.log('newChatroomList', newChatroomList);
             return {
                 ...state,
                 messengerMain: {
                     ...state.messengerMain,
                     chatroomList: newChatroomList
                 }
+            }
+        },
+        [MESSENGER_ERROR]: (state, { payload }) => {
+            return {
+                ...state,
+                error: payload,
+            }
+        },
+        [GET_CHATS]: (state, { payload }) => {
+            return {
+                ...state,
+                findChatList: payload?.data
             }
         }
     },

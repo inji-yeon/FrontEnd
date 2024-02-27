@@ -23,7 +23,7 @@ import { GET_BOARD, GET_BOARDS } from '../modules/BoardModule.jsx'
 // export const callGetPostsAPI = ({boardCode}) => {
 
 //     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`
-//     // const requestURL = `http://localhost:1208/board/${boardCode}`;
+//     // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
 
 //     return axios.get(requestURL, {
 //             headers: {
@@ -42,10 +42,8 @@ import { GET_BOARD, GET_BOARDS } from '../modules/BoardModule.jsx'
 /* 게시글 조회 */
 export const callGetPostsAPI = ({boardCode, offset}) => {
 
-    console.log('게시글 조회api offset', offset)
-
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}/posts?offset=${offset ? offset : 0}`
-    // const requestURL = `http://localhost:1208/board/${boardCode}`;
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}?offset=${offset ? offset : 1}`
+    // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
 
     return async(dispatch, getState) => {
 

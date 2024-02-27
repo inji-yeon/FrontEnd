@@ -5,7 +5,7 @@ import {
     GET_PROJECT,
     GET_PROJECT_POST_LIST,
     PUT_PROJECT,
-    ERROR,
+    PROJECT_ERROR,
 
     RESET,
     RESET_POST_PROJECT,
@@ -26,7 +26,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
         + (`?offset=${offset ?? 1}`)
         + (projectType && `&type=${projectType}`)
         + (searchValue && `&search=${encodeURIComponent(searchValue.trim())}`)
-    console.log('requestURL', requestURL);
+
     return async (dispatch, getState) => {
         const result = await axios
             .get(requestURL, {
@@ -38,10 +38,7 @@ export const callGetProjectsAPI = ({ projectType, searchValue, offset }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
-
-        console.log('[ProjectAPICalls] callGetProjectsAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: GET_PROJECTS, payload: result?.data })
     }
@@ -60,10 +57,7 @@ export const callCreateProjectAPI = ({ form }) => {
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
-
-        console.log('[ProjectAPICalls] callCreateProjectAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: POST_PROJECT, payload: result?.data })
     }
@@ -82,22 +76,16 @@ export const callGetProjectAPI = ({ projectCode }) => {
             })
             .then(response => {
                 return response
-            })
-        // 에러 처리 해야 된다.
-
-        console.log('[ProjectAPICalls] callGetProjectAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: GET_PROJECT, payload: result?.data })
     }
 }
 
 export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) => {
-    console.log(projectCode);
-    console.log(offset);
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/paging`
         + (`?offset=${offset ?? 1}`)
         + (searchValue ? `&search=${encodeURIComponent(searchValue.trim())}` : '')
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .get(requestURL, {
@@ -109,10 +97,7 @@ export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) 
             })
             .then(response => {
                 return response
-            }).catch(error => console.error(error))
-        // 에러 처리 해야 된다.
-
-        console.log('[ProjectAPICalls] callGetProjectPostListAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: GET_PROJECT_POST_LIST, payload: result?.data })
 
@@ -122,7 +107,6 @@ export const callGetProjectPostListAPI = ({ projectCode, searchValue, offset }) 
 export const callModifyProjectAPI = ({ form }) => {
     const projectCode = form?.projectCode;
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .put(requestURL, form, {
@@ -134,9 +118,8 @@ export const callModifyProjectAPI = ({ form }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
-        console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
 
         dispatch({ type: PUT_PROJECT, payload: result?.data })
     }
@@ -144,7 +127,6 @@ export const callModifyProjectAPI = ({ form }) => {
 
 export const callGetEmployees = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/employees`;
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .get(requestURL, {
@@ -156,9 +138,7 @@ export const callGetEmployees = () => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callGetEmployees RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: GET_EMPLOYEES, payload: result?.data })
     }
@@ -166,7 +146,6 @@ export const callGetEmployees = () => {
 
 export const callUploadImage = ({ file, callback, editor }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/upload-image`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .post(requestURL, file, {
@@ -178,14 +157,12 @@ export const callUploadImage = ({ file, callback, editor }) => {
             })
             .then(response => {
                 return response
-            })
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
+
 
         if (callback && typeof callback === 'function') {
             callback(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${result?.data?.data?.projectPostFileChangedFile}`);
-            console.log('editor', editor);
         }
-
-        console.log('[ProjectAPICalls] callUploadImage RESULT : ', result)
 
         dispatch({ type: UPLOAD_IMAGE, payload: result?.data })
     }
@@ -193,8 +170,6 @@ export const callUploadImage = ({ file, callback, editor }) => {
 
 export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}`
-    console.log('projectPost>>>>', projectPost);
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .post(requestURL, projectPost, {
@@ -206,9 +181,7 @@ export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callModifyProjectAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: CREATE_PROJECT_POST, payload: result?.data })
     }
@@ -216,7 +189,6 @@ export const callCreateProjectPostAPI = ({ projectCode, projectPost }) => {
 
 export const callKickedProjectMember = ({ projectCode, employeeCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/kick/${employeeCode}`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .delete(requestURL, {
@@ -228,9 +200,7 @@ export const callKickedProjectMember = ({ projectCode, employeeCode }) => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callKickedProjectMember RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: KICKED_PROJECT_MEMBER, payload: result?.data })
     }
@@ -238,7 +208,6 @@ export const callKickedProjectMember = ({ projectCode, employeeCode }) => {
 
 export const callLeaveProject = ({ projectCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/leave`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .delete(requestURL, {
@@ -250,9 +219,7 @@ export const callLeaveProject = ({ projectCode }) => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callLeaveProject RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: LEAVE_PROJECT, payload: result?.data })
     }
@@ -260,7 +227,6 @@ export const callLeaveProject = ({ projectCode }) => {
 
 export const callInviteProjectMemberAPI = ({ projectCode, employeeCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/invite`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .post(requestURL, employeeCode, {
@@ -272,9 +238,7 @@ export const callInviteProjectMemberAPI = ({ projectCode, employeeCode }) => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callInviteEmployeeAPI RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: INVITE_PROJECT_MEMBER, payload: result?.data })
     }
@@ -282,7 +246,6 @@ export const callInviteProjectMemberAPI = ({ projectCode, employeeCode }) => {
 
 export const callDelegateAdmin = ({ projectCode, employeeCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/project/projects/${projectCode}/delegate-admin`
-    console.log(requestURL);
     return async (dispatch, getState) => {
         const result = await axios
             .put(requestURL, employeeCode, {
@@ -294,9 +257,7 @@ export const callDelegateAdmin = ({ projectCode, employeeCode }) => {
             })
             .then(response => {
                 return response
-            })
-
-        console.log('[ProjectAPICalls] callDelegateAdmin RESULT : ', result)
+            }).catch(error => dispatch({ type: PROJECT_ERROR, payload: error }))
 
         dispatch({ type: DELETEGATE_ADMIN, payload: result?.data })
     }
@@ -305,26 +266,18 @@ export const callDelegateAdmin = ({ projectCode, employeeCode }) => {
 
 export const callReset = () => {
     return async (dispatch, getState) => {
-
-        console.log('[ProjectAPICalls] callReset')
-
         dispatch({ type: RESET })
     }
 }
 
 export const callResetGetProjects = () => {
     return async (dispatch, getState) => {
-
-        console.log('[ProjectAPICalls] callResetGetProjects')
-
         dispatch({ type: RESET_POST_PROJECT })
     }
 }
 
 export const callResetCreateProjectCode = () => {
     return async (dispatch, getState) => {
-
-        console.log('[ProjectAPICalls] callResetCreateProjectCode')
 
         dispatch({ type: RESET_GET_PROJECTS })
     }
@@ -333,16 +286,12 @@ export const callResetCreateProjectCode = () => {
 export const callResetGetProject = () => {
     return async (dispatch, getState) => {
 
-        console.log('[ProjectAPICalls] callResetGetProject')
-
         dispatch({ type: RESET_GET_PROJECT })
     }
 }
 
 export const callResetError = () => {
     return async (dispatch, getState) => {
-
-        console.log('[ProjectAPICalls] callResetError')
 
         dispatch({ type: RESET_ERROR })
     }
