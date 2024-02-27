@@ -150,7 +150,6 @@ export function fetForm(url,meth,form){
     {   
         method: meth ? meth : 'GET',
         headers: {
-        
             Accept: '*/*',
             Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
         },
@@ -158,12 +157,19 @@ export function fetForm(url,meth,form){
     }
 )
 }
+
 export const insertPostAPI = ({formData}) => {
     return dispatch => {
         fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/regist`,'POST',formData);
     }
 }
 
+
+export const modifyPostAPI = ({postCode, form}) => {
+    return dispatch => {
+        fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/update`,'PUT',form);
+    }
+}
 
 
 /* 게시글 등록 */
@@ -227,15 +233,8 @@ export async function downloadFileAPI(attachmentCode) {
 
 
 
-
-
-
 /* 게시글 수정 */
 export const callModifyPostAPI = ({postCode, form}) => {
-
-    for (let [key, value] of form.entries()) {
-        console.log(`${key}: ${value}`);
-    }
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/${postCode}/update`;
 
@@ -249,12 +248,13 @@ export const callModifyPostAPI = ({postCode, form}) => {
                         "Accept": "*/*",
                         "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
                     },
-                
                 }
-            ).then(res => res.data)
+            ).then(res => {
+                console.log('게시글 수정 data : ',res?.data);
+                return res.data;
+            })
              .catch(err => console.log(err))
 
-            console.log('comment modify api result----------',result);
 
             dispatch({type: PUT_POST, payload: result});
 

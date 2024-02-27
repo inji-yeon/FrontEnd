@@ -22,6 +22,7 @@ function MailView(){
     function RawHtml({ htmlContent }) {
         return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
     }
+    
     const goBackMailRoom = () => {
         navigate('/mail/check');
     }

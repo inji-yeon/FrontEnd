@@ -14,6 +14,8 @@ function PostHeader({boardCode}) {
 
     const boardInfo = useSelector(state => state.boardReducer?.board);
 
+    const post = useSelector(state => state?.board?.postList);
+
 
     useEffect(() => {
 
@@ -26,6 +28,7 @@ function PostHeader({boardCode}) {
 
     
     console.log("BoardInfo", boardInfo);
+    console.log("post : ", post);
 
     const searchInputHandler = (e) => {
         setKeyword(e.target.value);
@@ -39,8 +42,8 @@ function PostHeader({boardCode}) {
                 boardCode,
                 keyword,
             ))
+            setKeyword('');
         }
-        
 
     }
 

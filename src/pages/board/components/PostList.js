@@ -13,7 +13,7 @@ const PostList = ({data}) => {
     // console.log('postList 컴포넌트 : ', data?.data?.content);
 
     useEffect(() => {
-
+        console.log(data);
 
     }, [data]);
 
@@ -45,12 +45,13 @@ const PostList = ({data}) => {
                         <td>{post.postCode}</td>
                         <td>{post.postTitle}</td>
                         <td>{post.employee.employeeName}</td>
-                        <td>{post.postDate}</td>
+                        <td>{`${post.postDate[0]}.${post.postDate[1]}.${post.postDate[2]}`}</td>
                         <td>{post.postViews}</td>
                         <td>{post.postLikeList.length}</td>
                     </tr>
 
                 ))
+
                 
             }
 

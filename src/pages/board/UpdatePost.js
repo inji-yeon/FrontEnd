@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './CreatePost.module.css';
-import { callGetPostInfoAPI, callModifyPostAPI, callRegistPostAPI } from '../../apis/BoardAPICalls';
+import { callGetPostInfoAPI, callModifyPostAPI, callRegistPostAPI, modifyPostAPI } from '../../apis/BoardAPICalls';
 import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
+import { Editor } from '@toast-ui/react-editor';
 
 const UpdatePost = () => {
 
@@ -12,14 +13,12 @@ const UpdatePost = () => {
     
     const post = useSelector(state => state?.board);
     const boardList = useSelector(state => state.boardReducer?.boardList); // 게시판 카테고리
+    
+    const [editorText, setEditorText] = useState(post?.post.postContext)
 
-    const [editpost, setEditPost] = useState(false);
+    const editorRef = useRef();
 
-    const [editorText, setEditorText] = useState('')
-    const [editorElement, setEditorElement] = useState(null);
-    // const [files, setFiles] = useState(post?.post?.postAttachmentList);
     const [files, setFiles] = useState([]);
-
     const [updateform, setUpdateForm] = useState({})
 
     useEffect(() => {
@@ -38,18 +37,19 @@ const UpdatePost = () => {
             boardGroupCode: post?.post.boardGroupCode,
             boardCode: post?.post.boardCode,
             postTitle: post?.post.postTitle,
-            postContext: post?.post.postContext,
+            // postContext: post?.post.postContext,
             deptAlert: post?.post.deptAlert,
             employeeAlert: post?.post.employeeAlert,
             postNoticeStatus: post?.post.postNoticeStatus,
             // addNoticeDate: post?.post.addNoticeDate,
         })
 
+        editorRef.current?.getInstance().setHTML(post?.post.postContext);
+        setEditorText(post?.post.postContext);
         
     }, [post])
 
     console.log('post : ',post);
-    console.log('files : ', files);
 
     const onChangeFileHandler = (e) => {
 
@@ -59,11 +59,11 @@ const UpdatePost = () => {
         // files name
 
     }
+    console.log('files : ', files);
 
 
     const onChangeHandler = (e) => {
         
-        console.log('체크상태 ', e.target.checked);
         const { name, value, type, checked } = e.target;
         setUpdateForm(prevForm => ({
             ...prevForm,
@@ -74,11 +74,18 @@ const UpdatePost = () => {
 
     }
 
+
+    const onChangeEditorHandler = (e) => {
+
+        const data = editorRef.current?.getInstance().getHTML();
+        setEditorText(data);
+
+    }
+
+
     const updatePostHandler = async() => {
 
         console.log('click form : ', updateform);
-
-        // const postAttachmentList = Array.from(files).map((file, idx) => file);
 
         const formData = new FormData();
 
@@ -91,16 +98,20 @@ const UpdatePost = () => {
         formData.append("postNoticeStatus", updateform.postNoticeStatus);    
         // formData.append("addNoticeDate", updateform.addNoticeDate);
 
-        if(files){
-            console.log("파일이 있니?");
+        if(editorRef){
 
+            formData.append("postContext", editorText);
+        }
+
+
+        if(files){
             files.forEach((file) => {
                 formData.append("multipartFile", file)
             });
-            
         }
+        
 
-        await dispatch(callModifyPostAPI({
+        await dispatch(modifyPostAPI({
             postCode,
             form: formData
         }));
@@ -109,7 +120,6 @@ const UpdatePost = () => {
         for (let [key, value] of formData.entries()) {
             console.log(key, value);
         }
-
 
         alert('게시글이 수정되었습니다.');
         navigate(`/board/${post?.post.boardCode}/posts`);
@@ -131,24 +141,22 @@ const UpdatePost = () => {
             <tr>
                 <th>게시판 분류</th>
                 <td style={{paddingRight: '-30px'}}>
-                    <select name="boardGroupCode" onChange={onChangeHandler} value={updateform.boardGroupCode}>
+                    {/* <select name="boardGroupCode" onChange={onChangeHandler} value={updateform.boardGroupCode}>
                         <option value={1}>사내게시판</option>
                         <option value={2}>부서게시판</option>
-                        {/* <option value={3}>익명게시판</option> */}
-                    </select>
+                        <option value={3}>익명게시판</option>
+                    </select> */}
 
                     <select name="boardCode" onChange={onChangeHandler} value={updateform.boardCode}>
-                        {updateform.boardGroupCode === '1' ? (
+                        {
                             boardList?.boardList1?.map((option) => (
                                 <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
                             ))
-
-                        ) : (
-                            boardList?.boardList2?.map((option) => (
+                        }
+                        
+                            {boardList?.boardList2?.map((option) => (
                                 <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
-                            ))
-                        )}
-
+                            ))}
                     </select>
                 </td>
             </tr>
@@ -191,8 +199,8 @@ const UpdatePost = () => {
                         </ul>
                     </div>
 
-                    <div className="fileTxt">파일을 첨부하세요. 여러 개 첨부 가능
-                        <span id="total_size" className="size"> ( 0 MB )</span>
+                    <div className="fileTxt">파일을 여러 개 첨부 가능합니다.
+                        {/* <span id="total_size" className="size"> ( 0 MB )</span> */}
                     </div>
                 </td>
             </tr>
@@ -202,9 +210,27 @@ const UpdatePost = () => {
     </table>
 
 
-    <textarea className="summernote" name="postContext" onChange={onChangeHandler}
+    {/* <textarea className="summernote" name="postContext" onChange={onChangeHandler}
                 value={updateform.postContext}
-    ></textarea>
+    ></textarea> */}
+
+    <Editor
+        ref={editorRef}
+        placeholder="게시글을 입력해주세요."
+        previewStyle="vertical" // 미리보기 스타일 지정
+        height="400px" // 에디터 창 높이
+        initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+        toolbarItems={[
+          // 툴바 옵션 설정
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task', 'indent', 'outdent'],
+          ['table', 'image', 'link'],
+          ['code', 'codeblock']
+        ]}
+        onChange={onChangeEditorHandler}
+      ></Editor>
+
 
     <br /><br />
     <table>

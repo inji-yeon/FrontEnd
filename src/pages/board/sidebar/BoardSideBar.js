@@ -35,7 +35,6 @@ const BoardSideBar = () => {
                     <div className='board_title_section' id='boardTitleSection' onClick={() => setcompanyMenuVisible(!companyMenuVisible)}
                      style={{ borderBottom: companyMenuVisible ? 'none' : '1px solid #ccc' }}
                      >
-                        {/* <img className="board_drop_down" src={arrowImg}/> */}
                         <span className='board_title'>사내게시판</span>
                     </div>
 
@@ -83,7 +82,7 @@ const BoardSideBar = () => {
                 </div>
 
 
-                <div className='anonyBoard'>
+                {/* <div className='anonyBoard'>
 
                     <div className='board_title_section'onClick={() => setAnonyMenuVisible(!anonyMenuVisible)}
                      style={{ borderBottom: anonyMenuVisible ? 'none' : 'none' }}>
@@ -97,12 +96,12 @@ const BoardSideBar = () => {
                     overflow: 'hidden',
                     transition: 'height 0.3s, opacity 0.3s'}}>
 
-                        {/* {boardData.filter(board => board.boardGroupCode === 3).map(board => 
+                        {boardData.filter(board => board.boardGroupCode === 3).map(board => 
                             <div><span>{board.boardTitle}</span></div>
-                        )} */}
+                        )}
 
                     </div>
-                </div>
+                </div> */}
 
             </div>
     

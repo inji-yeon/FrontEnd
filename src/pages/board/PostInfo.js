@@ -35,7 +35,6 @@ const PostInfo = () => {
 
     }, [post])
     
-
    console.log('----------', post);
 
 
@@ -49,8 +48,9 @@ const PostInfo = () => {
 
    console.log('post : ' ,post);
 
-
-
+    function RawHtml({ htmlContent }) {
+        return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+    }
 
 
    const toggleLike = () => {
@@ -100,32 +100,27 @@ const PostInfo = () => {
     }
 
 
-    const modifyPostHandler = () => {
-
-       
-    }
-
-
-
 
     return <>
         <PostHeader boardCode={post?.boardCode}/>
 
         
         {/* 수정, 삭제, 이동 메뉴 */}
-        {userCode === token.empCode && (
+        {userCode === token.empCode ? (
 
-            <div className={styles.posting}>
-                <span id="updatePost" onClick={() => navigate("update")}>수정</span>
-                <span id="deletePost" onClick={removePostHandler}>삭제</span>
-            </div>
-        ) }
+            <>
+                <div className={styles.posting}>
+                    <span id="updatePost" onClick={() => navigate("update")}>수정</span>
+                    <span id="deletePost" onClick={removePostHandler}>삭제</span>
+                </div>
+                <hr style={{ marginTop:10 ,marginBottom: 15 }} />
+            </>
+            
+        ) : (
+            <hr style={{ marginTop:60 ,marginBottom: 15 }} />
 
-        
+        )}
 
-
-
-        <hr style={{ marginTop:10 ,marginBottom: 15 }} />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div className={styles.postTitle}>{post?.postTitle}</div>
             <div className="heartBtn">
@@ -162,7 +157,7 @@ const PostInfo = () => {
 
             <br /><br />
             <div className={styles.context}>
-                {post?.postContext}
+            <RawHtml className="email-content" htmlContent={post?.postContext} />
             </div>
 
             {post && post?.postAttachmentList ? 

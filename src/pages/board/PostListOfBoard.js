@@ -18,6 +18,14 @@ const PostListOfBoard = () => {
     
 
    const handlePageClick = (data) => { 
+        let selectedPage = data.selected;
+        setCurrentPage(selectedPage);
+
+        dispatch(callGetPostsAPI({
+            boardCode : boardCode,
+            offset : selectedPage,
+        }));
+        
    };
 
 
