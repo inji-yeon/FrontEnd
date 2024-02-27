@@ -37,7 +37,7 @@ function DoPaymentDocumentWaiting () {
     const dispatch = useDispatch();
     const doWaitingDocu = useSelector((state => state.attendance))
 
-    const pageInfo = doWaitingDocu?.data?.pageInfo;
+    const pageInfo = doWaitingDocu?.pageInfo;
 
     console.log('pageInfo', pageInfo);
 
