@@ -142,7 +142,7 @@ export async function fetForm(url,meth,form){
 }
 export const sendMails = (form) => {
     return dispatch => {
-        fetForm(`http://localhost:1208/mail/send-mail`,'POST',form)
+        fetForm(`mail/send-mail`,'POST',form)
     }
 }
 export const fetchMailToMe = (page) => {

@@ -45,13 +45,13 @@ function AdminSidebar() {
                     <ul>
                         <div className="selected_box"></div>
                         <li onClick={() => { sidebarMenuSelectHandler('mail') }}>
-                            <div id="mail">메일 관리</div>
+                            <div id="mail">메일 단체 전송</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('group') }}>
-                            <div id="group">조직 관리</div>
+                            <div id="group">회원 추가</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('approval') }}>
-                            <div id="approval">결재 관리</div>
+                            <div id="approval">결재 관리(미구현)</div>
                         </li>
                     </ul>
                 </div>
