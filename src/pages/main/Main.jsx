@@ -11,7 +11,7 @@ import { callAttendenceAPI, getMailToMain } from "../../apis/MainAPI";
 import { callGetProjectsAPI } from "../../apis/ProjectAPICalls";
 import { format } from 'date-fns';
 import { callCommuteMainAPI } from '../../apis/AttendanceAPI';
-
+import { insertCommuteAPI, updateCommuteAPI } from '../../apis/AttendanceAPI';
 
 function Main() {
   const navigate = useNavigate();
@@ -151,20 +151,32 @@ useEffect(() => {
 
 const changeAttendance = (status) => {
   if (status === 'leaving') {
-    setIsAttendance(false); // 퇴근 상태로 변경
+    const arrivalTime = new Date(...commuteMain.attendanceManagementArrivalTime);
+    const departureTime = new Date(...commuteMain.attendanceManagementDepartureTime);
 
+    if (arrivalTime < departureTime) {
+      alert('이미 퇴근 했습니다.');
+      return;
+    } 
+      else if (arrivalTime > departureTime){
+      dispatch(updateCommuteAPI({}));  
+    }
+
+    setIsAttendance(false); // 퇴근 상태로 변경
 
   } else {
     setIsAttendance(true); // 출근 상태로 변경
 
-      if (commuteMain?.attendanceManagementDepartureTime) {
-        alert('이미 출근했습니다.');
-        return;
-      }
-
+    if (commuteMain?.attendanceManagementDepartureTime) {
+      alert('출근했습니다.');
+      return;
+    } else if (!commuteMain?.attendanceManagementDepartureTime) {
+      dispatch(insertCommuteAPI({}));
     }
-};
 
+  }
+
+};
 
 
 
