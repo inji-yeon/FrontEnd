@@ -17,6 +17,7 @@ export const PUT_COMMUTE_UPDATE = 'attendance/PUT_COMMUTE_UPDATE';
 export const GET_ADMIN_VACATION = 'attendance/GET_ADMIN_VACATION';
 export const GET_ADMIN_NO_VACATION = 'attendance/GET_ADMIN_NO_VACATION';
 export const GET_DETAIL_MY = 'attendance/GET_DETAIL_MY';
+export const PUT_DETAIL_DOC = 'attendance/PUT_DETAIL_DOC';
 
 
 const actions = createActions({
@@ -32,7 +33,8 @@ const actions = createActions({
     [PUT_COMMUTE_UPDATE]: () => {},
     [GET_ADMIN_VACATION]: () => {},
     [GET_ADMIN_NO_VACATION]: () => {},
-    [GET_DETAIL_MY]: () => {}
+    [GET_DETAIL_MY]: () => {},
+    [PUT_DETAIL_DOC]: () => {}
 });
 
 
@@ -77,6 +79,9 @@ const attendanceReducer = handleActions(
             return payload;
         },
         [GET_DETAIL_MY]: (state, { payload }) => {
+            return payload;
+        },
+        [PUT_DETAIL_DOC]: (state, { payload }) => {
             return payload;
         }
 

@@ -1,5 +1,5 @@
 import pop from './attendancePage/PopForm.module.css'
-import { callDetailMylAPI } from '../../apis/AttendanceAPI';
+import { callDetailMylAPI, callUpdateStateAPI } from '../../apis/AttendanceAPI';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -81,7 +81,17 @@ function PopDocument () {
         navigate(previousPageUrl); // 이전 페이지로 이동합니다.
     };
 
+
+    function updateState() {
     
+        dispatch(callUpdateStateAPI({ approvalDocumentCode: selectedDocumentCode }))
+
+        window.location.reload();
+    }
+
+
+
+
     return(   
     <>
         <div className= {pop.main}>
@@ -116,41 +126,42 @@ function PopDocument () {
                 </div>
 
                 <div className={pop.area}>
-                    <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '100%'}}>        
-                    <colgroup>
-                        {Array.isArray(stateOrder) && stateOrder.map((state, index) => (
-                            <col key={index} style={{ width: `${100 / stateOrder.length}%` }} />
-                        ))}
-                    </colgroup>
-                        <thead>
-                            <tr className={pop.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
-                                {Array.isArray(stateOrder) && stateOrder.length > 0 ?
-                                    stateOrder.map((state) => (
-                                        <th key={state?.approvalLineDocumentCode?.approvalDocumentCode}>{state.approvalProcessOrder}
-                                        </th>
-                                    ))
-                                    :
-                                    <th>조회된 내용이 없습니다.</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className={pop.list_commute_detail}>
-                                {Array.isArray(stateOrder) && stateOrder.length > 0 ?
-                                    stateOrder.map((state) => (
-                                        <td key={state?.approvalLineDocumentCode?.approvalDocumentCode}>
-                                            <div className={pop.list_commute_detail}>{state.approvalProcessStatus}</div>
-                                            <div className={pop.list_commute_detail}>{formatDateTime(state.approvalProcessDate)}</div>
-                                            <div className={pop.list_commute_detail}>{state.approvalRejectedReason}</div>
-                                        </td>
-                                    ))
-                                    :
-                                    <td>조회된 내용이 없습니다.</td>
-                                }
-                            </tr>
-                        </tbody>
-                    </table>
+    <table style={{ borderCollapse: 'collapse', fontSize: '16px', width: '100%'}}>        
+
+        <thead>
+            <tr className={pop.list_commute_detail} style={{ backgroundColor: '#F5F5F5' }}>
+                {Array.isArray(stateOrder) && stateOrder.length > 0 ?
+                    stateOrder.map((state) => (
+                        <th key={state?.approvalLineCode}>{state.approvalProcessOrder} {state.lineEmployeeCode.employeeName}</th>
+                    ))
+                    :
+                    <th>조회된 내용이 없습니다.</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr className={pop.list_commute_detail}>
+                {Array.isArray(stateOrder) && stateOrder.length > 0 ?
+                    stateOrder.map((state) => (
+                        <td key={state?.approvalLineCode}>
+                            <div className={pop.list_commute_detail}>{state.approvalProcessStatus}</div>
+                            <div className={pop.list_commute_detail}>{formatDateTime(state.approvalProcessDate)}</div>
+                            <div className={pop.list_commute_detail}>{state.approvalRejectedReason}</div>
+                        </td>
+                    ))
+                    :
+                    <td>조회된 내용이 없습니다.</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+                <div className = {pop.approvalBu}>
+                    <button onClick={updateState}>승인</button>
                 </div>
+
             </div>
         </div>
     
