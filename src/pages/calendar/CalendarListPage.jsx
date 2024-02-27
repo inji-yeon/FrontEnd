@@ -26,12 +26,12 @@ function categoryName(eventCategory) {
         case 'todo':
             result = '할일';
             break;
-        default: // other
+        default:
     }
     return result;
 }
 
-function CalendarListPage({ events, setEvents, searchText, isTempDeletedPage, calendar, returnData, setReturnData }) {
+function CalendarListPage({ events, searchText, isTempDeletedPage}) {
     const dispatch = useDispatch();
     const [isFetch, setIsFetch] = useState(false);
     const calendarData = useSelector((state) => state.calendar);
@@ -43,12 +43,10 @@ function CalendarListPage({ events, setEvents, searchText, isTempDeletedPage, ca
         }
     }, [calendarData?.message]);
     const rollbackHandler = (eventCode) => {
-        console.log('복구버튼누름>>>', eventCode);
         setIsFetch(true)
         dispatch(callRollbackTempDeletedEventListAPI({ eventCode }))
     }
     const deleteHandler = (eventCode) => {
-        console.log('삭제버튼누름>>>', eventCode);
         setIsFetch(true)
         dispatch(callDeleteEventAPI({ eventCode }))
     }

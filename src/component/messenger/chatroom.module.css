@@ -2,8 +2,8 @@
     background-color: white;
     position: absolute;
     top: 0px;
-    right: 0px;
-    width: 400px;
+    left: 0px;
+    z-index: 2000;
     border: 1px solid black;
     box-sizing: border-box;
     display: grid;
@@ -102,7 +102,7 @@
 
 .read_status {
     background-color: hsl(22, 100%, 80%);
-    border-radius:5px;
+    border-radius: 5px;
 }
 
 .chat_element_row_1 {
@@ -251,7 +251,7 @@
 
 .chatroom_invite_wrap {
     position: absolute;
-    z-index: 1;
+    z-index: 3000;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #606060;
@@ -335,7 +335,7 @@
 
 .messenger_member_search>input[type=text] {
     padding: 5px 24px 5px 6px;
-    width: 100%;
+    width: 78%;
     height: 30px;
     border-radius: 15px;
     box-sizing: border-box;
@@ -379,6 +379,22 @@
 .member_buttons {
     padding-left: 10px;
     width: 80px;
+    /* border: 0;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 85%) */
+}
+
+.member_buttons>input {
+    border: 0;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 75%);
+    color: white;
+    font-size: 0.8em;
+    padding: 2px 4px;
+}
+
+.member_buttons>input:hover {
+    background-color: hsl(12, 92%, 85%);
 }
 
 .member_info {
@@ -417,16 +433,23 @@
     position: absolute;
     box-sizing: border-box;
     top: 91px;
-    right: 1px;
+    right: 0px;
     width: 398px;
-    height: 610px;
+    height: 609px;
     display: grid;
     padding: 10px 0px;
     gap: 10px;
     grid-template-columns: 1fr;
-    grid-template-rows: 30px 559px;
+    grid-template-rows: 30px 20px 527px;
     border-top: 1px solid black;
     background-color: #fff2ea;
+}
+
+.search_body {
+    width: 378px;
+    height: 510px;
+    overflow-y: scroll;
+    position: relative;
 }
 
 .search_wrap {
@@ -465,6 +488,32 @@
 .search_result_wrap {
     background: #FFE5D6;
     border-top: 1px solid black;
+    border-bottom: 1px solid black;
     overflow-y: scroll;
     padding: 0px 10px 10px 10px;
+}
+
+.page_selector {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* height: 25px; */
+}
+
+.page_selector button {
+    border-radius: 2px;
+    font-size: 14px;
+    width: 2em;
+    border: 1px solid hsl(12, 92%, 85%);
+    background: hsl(12, 92%, 93%);
+    color: hsl(12, 92%, 40%)
+}
+
+.page_selector button:hover {
+    background: hsl(12, 92%, 95%);
+}
+
+.page_selector button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }

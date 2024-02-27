@@ -17,6 +17,7 @@
 }
 
 .title_wrap {
+    padding-left: 60px;
     font-size: 30px;
     display: flex;
     align-items: center;
@@ -29,13 +30,13 @@
     padding: 5px 15px;
     font-size: 20px;
     border-radius: 5px;
-    background-color: hsl(12, 92%, 85%);
+    background-color: hsl(12, 92%, 75%);
     color: white;
     border: 0;
 }
 
 .title_wrap button:hover {
-    background-color: hsl(12, 92%, 75%);
+    background-color: hsl(12, 92%, 85%);
 }
 
 .title_wrap span {
@@ -58,7 +59,7 @@
 }
 
 .body>div {
-    border: 1px solid #d9d9d9;
+    border: 1px solid hsl(12, 92%, 75%);
 }
 
 .manager {
@@ -136,8 +137,8 @@
 .info select {
     padding: 5px 15px;
     font-size: 20px;
-    border: 1px solid hsl(12, 92%, 85%);
-    color: #999;
+    border: 1px solid hsl(12, 92%, 75%);
+    color: #404040;
 }
 
 .progress_status_select>option[value='프로젝트 생성'] {
@@ -167,10 +168,10 @@
 .info textarea {
     width: 348px;
     height: 100px;
-    border: 1px solid hsl(12, 92%, 85%);
+    border: 1px solid hsl(12, 92%, 75%);
     font-size: 14px;
     padding: 5px 15px;
-    color: #999;
+    color: #404040;
     resize: none;
 }
 
@@ -184,13 +185,13 @@
     padding: 5px 15px;
     font-size: 20px;
     border-radius: 5px;
-    background-color: hsl(12, 92%, 85%);
+    background-color: hsl(12, 92%, 75%);
     color: white;
     border: 0;
 }
 
 .info_row_6 button:hover {
-    background-color: hsl(12, 92%, 75%);
+    background-color: hsl(12, 92%, 85%);
 }
 
 .member {
@@ -214,20 +215,20 @@
     padding: 5px 15px;
     font-size: 20px;
     border-radius: 5px;
-    background-color: hsl(12, 92%, 85%);
+    background-color: hsl(12, 92%, 75%);
     color: white;
     border: 0;
 }
 
 .invite_window:hover {
-    background-color: hsl(12, 92%, 75%);
+    background-color: hsl(12, 92%, 85%);
 }
 
 .member_row_2>input {
     padding: 5px 15px;
     font-size: 20px;
     border: 1px solid hsl(12, 92%, 85%);
-    color: #999;
+    color: #404040;
     width: 100%;
 }
 
@@ -243,7 +244,7 @@
     padding: 5px;
     height: 62px;
     gap: 10px;
-    background-color: hsl(10, 92%, 96%);
+    background-color: hsl(12, 92%, 95%);
     border-radius: 5px;
 }
 
@@ -295,11 +296,11 @@
     padding: 0px 3px;
     margin-left: 20px;
     border-radius: 5px;
-    background-color: hsl(12, 92%, 85%);
+    background-color: hsl(12, 92%, 75%);
     color: white;
     border: 0;
 }
 
 .employee_col_2>button:hover {
-    background-color: hsl(12, 92%, 75%);
+    background-color: hsl(12, 92%, 85%);
 }
