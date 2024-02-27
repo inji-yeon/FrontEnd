@@ -12,9 +12,7 @@ const empCode = decodeToken?.empCode;
 
 
 function MyPage() {
-    const dispatch = useDispatch();
-    // console.log('-----[MyPage] accessToken : ', accessToken);
-    
+    const dispatch = useDispatch();    
 
     const [accessToken, setAccessToken] = useState();
     useEffect(()=>{
@@ -25,10 +23,6 @@ function MyPage() {
     useEffect(() => {
         accessToken&&dispatch(callMypageGetSpreadAPI({ empCode: empCode}));
     }, [accessToken]);
-
-    // useEffect(() => {
-    //     //  변경될 때마다 로그를 출력합니다.
-    // }, []);
 
     const timestamp = mypageemps.empInfo?.data?.empBirth;
     const date = new Date(timestamp);
@@ -86,6 +80,10 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
                     <input type="text" value={mypageemps.empInfo?.data?.department?.departmentName || ''} readOnly />
                     <h2>생년월일</h2>
                     <input type="text" value={formattedDate} readOnly />
+                    <h2>학력</h2>
+                    <input type="text" value={ mypageemps.empInfo?.data?.education[0]?.educationName + ' / ' + mypageemps.empInfo?.data?.education[0]?.educationMajor || ''} readOnly />
+                    <h2>경력</h2>
+                    <input type="text" value={mypageemps.empInfo?.data?.career[0]?.careerCompanyName + ' / ' +  mypageemps.empInfo?.data?.career[0]?.careerBusinessInformation || ''} readOnly />
                     <h2>전화번호</h2>
                     <input
                         type="text"

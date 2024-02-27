@@ -151,7 +151,7 @@ const onClickUpdateProfile = () => {
     {/* 프로필 이미지가 있으면 해당 이미지를 보여줌 */}
     {!image && !profileImage && (
     <img
-        src={`http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+        src={`http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile1.png`}
         alt="디폴트 프로필 이미지"
         height="200px"
         width="200px"
