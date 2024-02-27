@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 
 const REQUEST = 'REQUEST';
-const SUCCESS = 'SUCCESS';
+export const SUCCESS = 'SUCCESS';
 const FAIL = 'FAIL';
 
 export const request = createAction(REQUEST);
@@ -20,12 +20,15 @@ export const mainReducer = handleActions({
         loading: true,
         error: null,
     }),
-    [SUCCESS]: (state,action)=> ({
+    [SUCCESS]: (state,action)=> {
+       return ({
         ...state,
         loading: false,
         data: action.payload,
         error: 0,
-    }),
+    })
+}
+    ,
     [FAIL]: (state,action)=>({
         ...state,
         loading: false,

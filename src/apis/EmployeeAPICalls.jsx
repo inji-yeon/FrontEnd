@@ -65,7 +65,6 @@ export const callForgotPasswordAPI = ({ form }) => {
         // 요청이 시작되었음을 알리는 액션 디스패치
         dispatch({ type: FORGOT_PASSWORD_REQUEST });
         console.log('비밀번호찾기 api시작');
-        alert('잠시만 기다려주세요.')
 
         try {
             const response = await fetch(requestURL, {

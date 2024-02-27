@@ -23,7 +23,7 @@
 .main_header {
     display: flex;
     justify-content: space-between;
-    margin-top: 100px;
+    margin-top: 20px;
     background-color: #F0F0F0;
     padding-top: 10px;
 
@@ -73,22 +73,24 @@
 
 }
 .pay_wait_box{
+    color: white;
     font-size: 20px;
     width: 250px;
     height: 60px;
     border-radius: 10px;
-    background-color: #FFBE98;
+    background-color: #fa9a85;
     border: 0;
     text-align: center;
     line-height: 60px;
 }
 
 .pay_completed_box{
+    color: white;
     font-size: 20px;
     width: 250px;
     height: 60px;
     border-radius: 10px;
-    background-color: #FFBE98;
+    background-color: #fa9a85;
     border: 0;
     text-align: center;
     line-height: 60px;
@@ -103,9 +105,11 @@
     border: 2px solid #fa9a85;
     color: #fa9a85;
     background: white;
+    transition: scale 0.2s ease;
 }
 
 .pay_more_btn:hover{
+    scale: 1.1;
     background-color: #F0F0F0;
 }
 

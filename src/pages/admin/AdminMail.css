@@ -1,0 +1,30 @@
+.admin-mail-container{
+    position: absolute;
+    top: 30px;
+    left: 380px;
+}
+.조직,.팀{
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    height: 30px;
+    width: 150px;
+    padding-left: 10px;
+}
+.어드민메세지{
+    margin-left: 20px;
+}
+.어드민메일전송버튼{
+    background-color: #fa9a85;
+    border: none;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+.어드민메일전송버튼:hover{
+    background-color: #fbb2a2;
+}

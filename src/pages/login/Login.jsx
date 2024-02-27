@@ -14,7 +14,6 @@ import { callForgotPasswordAPI } from "../../apis/EmployeeAPICalls";
 import { POST_LOGIN } from "../../modules/EmployeeModules";
 import { useWebSocket } from "../../component/WebSocketContext";
 import { useAlert } from "../../component/common/AlertContext";
-import { decodeJwt } from '../../utils/tokenUtils';
 
 
 const accessToken = localStorage.getItem('accessToken');
@@ -77,8 +76,8 @@ function Login() {
       }
       navigate("/main", { replace: true });
 
-    }
-  }, [loginEmployee]);
+        }
+    }, [loginEmployee]);
 
 
   // // 로그인 상태일 시 로그인페이지로 접근 방지
@@ -125,14 +124,6 @@ function Login() {
       })
     );
   };
-
-  // if (empCode !== null && empCode !== undefined) {
-  //   console.log("[Login] 로그인 상태일 시 로그인페이지로 못감");
-  //   alert('현재 로그인 상태입니다. 로그아웃을 해주세요')
-  //   return <Navigate to="/" />;
-  // }
-
-
 
   return (
     <div className={Loginstyles.loginbody}>
