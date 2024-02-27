@@ -144,25 +144,25 @@ function DoPaymentDocumentReject() {
                 </table>
             </div>
 
-                <div className={doRej.paging_po} style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
+                <div style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
                     {Array.isArray(doRejects) && (
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className={doRej?.pagingBtn}> &lt;
+                            className={doRej.pagingBtn}> &lt;
                         </button>
                     )}
                     {pageNumber.map((num) => (
                         <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
                             <button
                                 style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
-                                className={doRej?.pagingBtn}>{num}
+                                className={doRej.pagingBtn}>{num}
                             </button>
                         </li>
                     ))}
                     {Array.isArray(doReject) && (
                         <button
-                        className={doRej?.pagingBtn}
+                        className={doRej.pagingBtn}
                         onClick={() => setCurrentPage(currentPage + 1)}
                         disabled={currentPage === pageInfo?.pageEnd || pageInfo?.total === 0}>&gt;
                         </button>

@@ -9,8 +9,8 @@
     background-color: white;
     left: 250px;
     top: 200px;
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     border-radius: 5%;
     border:0.5px solid #FFBE98;
     font-size: 20px;
@@ -19,7 +19,7 @@
 
 .form_body{
     position: relative;
-    top: 100px;
+    top: 50px;
     left: 50px;
 }
 
@@ -50,4 +50,25 @@
     padding-right: 5px;
     vertical-align: middle;
     font-size: 16px;
+}
+
+.area{
+    width: 500px;
+    position: relative;
+    top: 120px;
+    left: 50px;
+    
+}
+
+
+.list_commute_detail td {
+    border:0.5px solid #817d7b;    
+    text-align: center; 
+    
+}
+
+.list_commute_detail tr {
+    border:0.5px solid #FFBE98;    
+    text-align: center; 
+    vertical-align: middle;
 }
