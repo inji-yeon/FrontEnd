@@ -1,20 +1,20 @@
 import {GET_MYPAGE_EMP,GET_MYPAGE_PROFILE,PUT_MYPAGE_PROFILE_UPDATE} from '../modules/MypageModule';
-import { decodeJwt } from '../utils/tokenUtils';
+// import { decodeJwt } from '../utils/tokenUtils';
 
 
-const accessToken = localStorage.getItem('accessToken');
-const decodeToken = decodeJwt(accessToken);
-const empCode = decodeToken?.empCode;
-console.log('empcode나오나 한 번 보자',empCode);
+// const accessToken = localStorage.getItem('accessToken');
+// const decodeToken = decodeJwt(accessToken);
+// const empCode = decodeToken?.empCode;
+// console.log('empcode나오나 한 번 보자',empCode);
 
 
 
-export const callMypageGetInfoAPI = ({ form }) => {
+export const callMypageGetInfoAPI = ({ empCode }) => {
     console.log('[callMypageGetInfoAPI] callMypageGetInfoAPI Call');
     
     console.log('api안에서 empcode나오나 한 번 보자',empCode);
    
-    console.log('폼 정보 나오는지 확인',form)
+    // console.log('폼 정보 나오는지 확인',form)
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mypage/emplist?c=${empCode}`;
 

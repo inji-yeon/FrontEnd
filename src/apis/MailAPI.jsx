@@ -12,7 +12,7 @@ import axios from 'axios';
 
 export async function downloadFileAPI(attachmentCode) {
 
-    const result = await axios.get(`http://localhost:1208/mail/download-attachment/${attachmentCode}`, {
+    const result = await axios.get(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/download-attachment/${attachmentCode}`, {
         responseType: 'blob', // 응답을 Blob 형태로 받아옴
       })
           .then(response => {
@@ -39,7 +39,7 @@ export async function downloadFileAPI(attachmentCode) {
     
   
       // 서버의 파일 다운로드 엔드포인트로 요청을 보냄
-//   const result = await fetch(`http://localhost:1208/mail/download-attachment/${attachmentCode}`,
+//   const result = await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/download-attachment/${attachmentCode}`,
 //     {
 //         method: 'GET',
 //         headers:{
@@ -86,7 +86,7 @@ export const fetchMailByStatus = (status,selectedPage) =>{
         //const token = 'eyJkYXRlIjoxNzA3MjY3MTk2NDIxLCJ0eXBlIjoiand0IiwiYWxnIjoiSFMyNTYifQ.eyJlbXBsb3llZU5hbWUiOiLsoJXsp4DshK0iLCJzdWIiOiJyb290IiwiZW1wbG95ZWVFbWFpbCI6IndqZHdsdGpxODQ4MkBnbWFpbC5jb20iLCJleHAiOjE3MDczMDMxOTYsImVtcGxveWVlUm9sZSI6W3siZW1wbG95ZWVObyI6MCwiYXV0aG9yaXR5Q29kZSI6MiwiYXV0aG9yaXR5Ijp7ImF1dGhvcml0eUNvZGUiOjIsImF1dGhvcml0eU5hbWUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXR5RGVzYyI6Iuq0gOumrOyekCJ9fV19.HgsJESI1u7CQo7kHmnGEPJt7cw80-2eNcxdnWewzvhU';
         //console.log(status);
         dispatch(request());
-        fetch(`http://localhost:1208/mail/find-receive-mail?condition=${status}&page=${selectedPage? selectedPage : 0}`,
+        fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-receive-mail?condition=${status}&page=${selectedPage? selectedPage : 0}`,
             {   
                 method: 'GET',
                 headers: {
@@ -129,7 +129,7 @@ export function fetObj(url,meth,obj){
 )
 }
 export async function fetForm(url,meth,form){
-    return await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/${url}`,
+    return await fetch(`${url}`,
     {   
         method: meth ? meth : 'GET',
         headers: {
@@ -142,12 +142,12 @@ export async function fetForm(url,meth,form){
 }
 export const sendMails = (form) => {
     return dispatch => {
-        fetForm(`http://localhost:1208/mail/send-mail`,'POST',form)
+        fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/send-mail`,'POST',form)
     }
 }
 export const fetchMailToMe = (page) => {
     return dispatch => {
-        fet(`http://localhost:1208/mail/to-me?page=${page ? page : 0}`)
+        fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/to-me?page=${page ? page : 0}`)
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){
@@ -163,15 +163,15 @@ export const fetchMailToMe = (page) => {
 }
 
 export function changeReadStatus(emailCode){
-    fet(`http://localhost:1208/mail/read-stats-n?emailCode=${emailCode}`,'PUT');
+    fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/read-stats-n?emailCode=${emailCode}`,'PUT');
 }
 export function setRead(emailCode){
-    fet(`http://localhost:1208/mail/read-stats-y?emailCode=${emailCode}`,'PUT');
+    fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/read-stats-y?emailCode=${emailCode}`,'PUT');
 }
 export const updateEmailStatus = (emailCode, emailStatus) => {
     console.log('여기는 ');
     return dispatch => {
-        fet(`http://localhost:1208/mail/update-status?emailCode=${emailCode}&status=${emailStatus}`,'PUT')
+        fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/update-status?emailCode=${emailCode}&status=${emailStatus}`,'PUT')
         .then(res => res.json())
         .then(data => {
             if(data.status === 200){
@@ -182,7 +182,7 @@ export const updateEmailStatus = (emailCode, emailStatus) => {
 }
 
 export const getUnreadMail = async () => {
-    const res = await fet(`http://localhost:1208/mail/unread-email-count`);
+    const res = await fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/unread-email-count`);
     const textData = await res.text(); // 텍스트 데이터 기다림
     return textData; // 텍스트 데이터 반환
 }
@@ -190,14 +190,14 @@ export const sendMail = (email) => {
     console.log('이메일 보내기');
 
     return dispatch => {
-        fetObj(`http://localhost:1208/mail/mail/alert/send?email=${email}`)
+        fetObj(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/mail/alert/send?email=${email}`)
         .then(res => res.json())    //응답 온 것을 json으로 바꾸기
     }
 }
 export const fetchMail = (emailCode) =>{
     console.log("뭐하냐");
     return dispatch => {
-        fet(`http://localhost:1208/mail/find-a-mail?emailCode=${emailCode}`).then(res => res.json())
+        fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/find-a-mail?emailCode=${emailCode}`).then(res => res.json())
             .then(data => {
                 if(data.status === 200){
                     dispatch(success(data));
@@ -213,7 +213,7 @@ export const fetchMail = (emailCode) =>{
 export const toggleImportant = (emailCode,emailStatus) =>{
     console.log("상태 바꾸기");
     return dispatch => {
-        fet(`http://localhost:1208/mail/toggle-important?emailCode=${emailCode}&emailStatus=${emailStatus}`,'PUT').then(res => res.json())
+        fet(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/toggle-important?emailCode=${emailCode}&emailStatus=${emailStatus}`,'PUT').then(res => res.json())
             .then(data => {
                 if(data.status === 200){
                     console.log('성공 ',data);

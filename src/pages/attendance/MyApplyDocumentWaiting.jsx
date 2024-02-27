@@ -106,10 +106,10 @@ function MyApplyDocumentWaiting () {
                     <table className= {myWaiting.list_my_waiting}  style={{ borderCollapse: 'collapse', fontSize: '16px', width: '1200px' }}>
                         <thead>    
                             <tr className={myWaiting.list_my_waiting} style={{ backgroundColor: '#F5F5F5' }}>
+                                <td className={myWaiting.list_my_waiting}>문서번호</td>
                                 <td className={myWaiting.list_my_waiting}>기안일자</td>
                                 <td className={myWaiting.list_my_waiting}>종류</td>
-                                <td className={myWaiting.list_my_waiting}>상태</td>
-                                <td className={myWaiting.list_my_waiting}>관리</td>
+                                <td className={myWaiting.list_my_waiting}></td>
                             </tr>
                         </thead>
                         
@@ -117,9 +117,9 @@ function MyApplyDocumentWaiting () {
                             {Array.isArray(myWaitingdocuts) && myWaitingdocuts.length > 0?
                                 myWaitingdocuts.map((AttmyWait) => (
                                     <tr className={myWaiting.list_my_waiting} key={AttmyWait.approvalLineCode}>
+                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalDocumentCode}</td>
                                         <td className={myWaiting.list_my_waiting}>{formatDateTime(AttmyWait.approvalLineDocumentCode?.approvalRequestDate)}</td>
                                         <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalLineDocumentCode?.approvalForm}</td>
-                                        <td className={myWaiting.list_my_waiting}>{AttmyWait.approvalProcessStatus}</td>
                                         <td className={myWaiting.list_my_waiting}>
                                         <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyWait?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>

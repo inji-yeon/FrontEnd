@@ -1,14 +1,14 @@
 import Calendar from '@toast-ui/react-calendar'
 import '@toast-ui/calendar/dist/toastui-calendar.min.css'
 
-import styles from './CalendarMain.module.css'
+import styles from './calendarMain.module.css'
 import { useEffect, useRef, useState } from 'react'
 import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
 import { useDispatch, useSelector } from 'react-redux'
 import { callGetCalendarAPI, callGetEventListAPI, callModifyEventAboutDateAPI } from '../../apis/CalendarAPICalls'
-import { calendarEventDataSet } from '../../utils/calendarUtils'
-import { DELETE_EVENT, GET_EVENTS, POST_EVENT, PUT_EVENT, PUT_EVENT_ABOUT_TIME, PUT_TEMP_DELETED_EVENT, RESET_MESSAGE } from '../../modules/CalendarModule'
+import { CALENDAR_ERROR, DELETE_EVENT, POST_EVENT, PUT_EVENT, PUT_EVENT_ABOUT_TIME, PUT_TEMP_DELETED_EVENT } from '../../modules/CalendarModule'
+import { useNavigate } from 'react-router-dom'
 
 const formattedDateCalendar = (calendarTypeValue, calendar) => {
     const now = calendar?.getDate()
@@ -28,6 +28,7 @@ const formattedDateCalendar = (calendarTypeValue, calendar) => {
 
 function CalendarMain() {
     const calendarData = useSelector((state) => state.calendar);
+    const navigate = useNavigate()
 
     const selectRef = useRef();
     const dispatch = useDispatch();
@@ -61,15 +62,7 @@ function CalendarMain() {
         { name: 'other', checked: true },
     ])
 
-    useEffect(() => {
-        console.log(checkboxes, 'checkboxes');
-    }, [checkboxes])
-
-    const [eventWindow, setEventWindow] = useState({ state: null }) // 이벤트 정보 보여주는 부분(자식 컴포넌트로 넘긴다.)
-    // 이벤트 정보 보여주는 창
-    // 이벤트 수정 보여주는 창(정보창에서 수정 누를 경우)
-    // 이벤트 삭제 보여주는 창(정보창에서 삭제 누를 경우)
-    // 정보값과 함께 넘긴다.
+    const [eventWindow, setEventWindow] = useState({ state: null })
 
     const calendarTypeChangeHandler = e => {
         setCalendarTypeValue(e.target.value)
@@ -99,14 +92,21 @@ function CalendarMain() {
     }, [])
 
     useEffect(() => {
-        // 이벤트를 누를 경우 다른 창이 다 꺼지고 이벤트 정보가 나와야 한다.
+        if (calendarData?.error) {
+            alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
+            console.error('error Message: ', calendarData?.message);
+            navigate('/login');
+            dispatch({ type: CALENDAR_ERROR, payload: '' });
+        }
+    }, [calendarData?.error])
+
+    useEffect(() => {
         calendar?.on('clickEvent', ({ event, nativeEvent }) => {
             setClickedData({ state: true, event, nativeEvent })
             setSelectedData({ state: false })
             setMovedData({ state: false })
         })
 
-        // 빈 날짜를 누를 경우 다른 창이 다 꺼지고 이벤트 생성이 나와야 한다.
         calendar?.on(
             'selectDateTime',
             ({ start, end, isAllday, nativeEvent, gridSelectionElements }) => {
@@ -123,52 +123,37 @@ function CalendarMain() {
             }
         )
 
-        // 기존에 있던 이벤트 정보와 이후에 있던 이벤트 정보를 비교하여 적절한 행위를 한다.
         calendar?.on('beforeUpdateEvent', ({ event, changes }) => {
             setClickedData({ state: false })
             setSelectedData({ state: false })
             setMovedData({ state: true, event, changes })
         })
 
-        // 캘린더 관련해서 옵션을 넣는 부분.
         calendar?.setOptions({
             template: {}
         })
     }, [calendar])
 
-    // 이벤트 클릭할 경우 발생하는 useEffect
     useEffect(() => {
         if (clickedData.state) {
-            console.log('이벤트 클릭함!', clickedData)
             const { event, nativeEvent } = clickedData
-            setEventWindow({ state: 'clicked', event, nativeEvent }) // 이벤트 정보 보여주는 창
+            setEventWindow({ state: 'clicked', event, nativeEvent })
             setClickedData({ state: false })
         }
     }, [clickedData])
 
-    // 날짜(들)을 선택할 경우 발생하는 useEffect
     useEffect(() => {
         if (selectedData.state) {
-            console.log('날짜(들)을 선택함!', selectedData)
             const { start, end, isAllday, nativeEvent } = selectedData
-            setEventWindow({ state: 'created', start, end, isAllday, nativeEvent }) // 이벤트 생성 창
+            setEventWindow({ state: 'created', start, end, isAllday, nativeEvent })
             calendar.clearGridSelections();
             setSelectedData({ state: false })
         }
     }, [selectedData])
 
-    // 일정을 이동(변화)할 경우 발생하는 useEffect
     useEffect(() => {
         if (movedData.state) {
-            console.log('일정을 이동(변화)함!', movedData)
             const { event, changes } = movedData
-            console.log('event>>>', event);
-            console.log('changes>>>', changes);
-            /*
-                두가지 경우의 수
-                1. 일정 자체를 옮길 경우 -> start, end 둘다 존재
-                2. 일정을 늘리거나 줄일 경우 -> end만 존재함
-            */
             changes['start'] = changes?.start ?? null;
             const eventOptionsAboutDate = {
                 eventCode: event?.id,
@@ -177,19 +162,16 @@ function CalendarMain() {
                 startDate: changes?.start?.toDate(),
                 endDate: changes?.end?.toDate(),
             }
-            dispatch(callModifyEventAboutDateAPI({ eventOptionsAboutDate }))// 여기서 dispatch가 발생함.
+            dispatch(callModifyEventAboutDateAPI({ eventOptionsAboutDate }))
         }
     }, [movedData])
 
-    // 날짜 출력 관련 useEffect
     useEffect(() => {
         setViewDate(formattedDateCalendar(calendarTypeValue, calendar))
     }, [calendarTypeValue, calendar])
 
-    // Element 그 자체에 대한 useEffect
     useEffect(() => {
         if (rootElement) {
-            console.log('rootelement', rootElement);
             const style = rootElement?.style;
             style.display = 'block'
             style.width = "100%"
@@ -198,12 +180,6 @@ function CalendarMain() {
         }
     }, [rootElement])
 
-    // 캘린더 인스턴스와 API로 받은 캘린더 정보 관련 useEffect
-    useEffect(() => {
-        // console.log('calendarData', calendarData);
-    }, [calendarData, calendar])
-
-    // API로 받은 캘린더 정보 관련중 캘린더 정보
     useEffect(() => {
         const calendarInfo = calendarData?.calendar
         calendarInfo &&
@@ -219,7 +195,6 @@ function CalendarMain() {
             ])
     }, [calendarData?.calendar])
 
-    // 일정 목록. 이 데이터는 처음에만 읽어온다. 나머지는 react 추가와 db 추가를 따로 한다. 또한, 여기서 필터링 작업도 직접 한다. 일단 계정 관련 일정 다 가져옴
     useEffect(() => {
         setEventList(
             calendarData?.eventList?.map(event => {
@@ -247,9 +222,6 @@ function CalendarMain() {
         )
     }, [calendarData?.eventList])
 
-    // backend 관련해서 성공여부를 여기로 전달 받는다.
-
-
     useEffect(() => {
         if (calendarData?.message) {
             if (calendarData?.message === PUT_EVENT) {
@@ -273,7 +245,6 @@ function CalendarMain() {
                         eventCategory: event?.eventCategory
                     }
                 })
-                console.log('변경된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
             } else if (calendarData?.message === POST_EVENT) {
                 const event = calendarData?.returnData
                 calendar.createEvents([{
@@ -297,7 +268,6 @@ function CalendarMain() {
                         eventCategory: event?.eventCategory
                     }
                 }])
-                console.log('생성된 이벤트', calendar.getEvent(event?.eventCode.toString(), event?.calendarCode.toString()));
             }
             else if (calendarData?.message === PUT_EVENT_ABOUT_TIME) {
                 const { event, changes } = movedData;
@@ -309,11 +279,10 @@ function CalendarMain() {
                         start: changes?.start
                     })
                 }
-                console.log('이벤트 정보>>>', calendar.getEvent(event?.id, event?.calendarId));
                 setMovedData({ state: false })
             } else if (calendarData?.message === DELETE_EVENT) {
                 const { eventCode, calendarCode, state } = calendarData?.returnData;
-                if (state === 'tempDelete') { // 임시 삭제 성공
+                if (state === 'tempDelete') {
                     calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
                         raw: {
                             eventDeleteStatus: "T",
@@ -325,10 +294,8 @@ function CalendarMain() {
                     modifyEvent[0].raw.eventDeleteStatus = "T";
                     modifyEvent[0].raw.eventDeleteTime = new Date();
                     modifyEventList.push(modifyEvent[0]);
-                    console.log('e', eventList);
-                    console.log('m', modifyEventList);
                     setEventList(modifyEventList);
-                } else { // 완전 삭제 성공
+                } else {
                     calendar.updateEvent(eventCode.toString(), calendarCode.toString(), {
                         raw: {
                             eventDeleteStatus: "Y",
@@ -408,7 +375,21 @@ function CalendarMain() {
                 { name: 'other', checked: e.target.checked },
             ])
         } else {
-            setCheckboxes(prev => (prev.map(checkbox => checkbox.name === e.target.name ? { ...checkbox, checked: !checkbox.checked } : checkbox)))
+            setCheckboxes((prev) => {
+                const others = checkboxes.filter(checkbox => checkbox.name !== 'all')
+                    .map(checkbox => {
+                        if (checkbox.name === e.target.name) {
+                            return { ...checkbox, checked: !checkbox.checked }
+                        } else {
+                            return checkbox;
+                        }
+                    })
+                if (others.filter(checkbox => checkbox.checked).length < 7) {
+                    return [{ name: 'all', checked: false }, ...others];
+                } else {
+                    return [{ name: 'all', checked: true }, ...others];
+                }
+            })
         }
     }
 
@@ -483,10 +464,9 @@ function CalendarMain() {
                     {(isSearch || isTempDeletedPage) && (
                         <CalendarListPage
                             events={eventList}
-                            setEvents={setEventList}
                             searchText={searchText}
                             isTempDeletedPage={isTempDeletedPage}
-                            calendar={calendar} />
+                        />
                     )}
                 </div>
             </div>

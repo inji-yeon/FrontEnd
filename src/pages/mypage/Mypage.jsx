@@ -3,19 +3,26 @@ import MypageInfoStyle from './Mypage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { callMypageGetSpreadAPI } from '../../apis/MypageinfoupdateAPI';
 import { callMypageUpdateInfoAPI } from '../../apis/MypageinfoupdateAPI';
+import { decodeJwt } from '../../utils/tokenUtils';
+
+
+const accessToken = localStorage.getItem('accessToken');
+const decodeToken = decodeJwt(accessToken);
+const empCode = decodeToken?.empCode;
 
 
 function MyPage() {
-    const dispatch = useDispatch();
-    const accessToken = localStorage.getItem('accessToken');
-    console.log('-----[MyPage] accessToken : ', accessToken);
+    const dispatch = useDispatch();    
 
-
+    const [accessToken, setAccessToken] = useState();
+    useEffect(()=>{
+        setAccessToken(window.localStorage.getItem('accessToken'))
+    },[])
     const mypageemps = useSelector((state) => state.mypagereducer);
 
     useEffect(() => {
-        dispatch(callMypageGetSpreadAPI({ form: null }));
-    }, [dispatch]);
+        accessToken&&dispatch(callMypageGetSpreadAPI({ empCode: empCode}));
+    }, [accessToken]);
 
     const timestamp = mypageemps.empInfo?.data?.empBirth;
     const date = new Date(timestamp);
@@ -30,11 +37,12 @@ function MyPage() {
 
     useEffect(() => {
         setUserInfo({
-            phone: mypageemps.empInfo?.data?.phone || '',
-            empEmail: mypageemps.empInfo?.data?.empEmail || '',
-            address: mypageemps.empInfo?.data?.empAddress || '',
+            phone: mypageemps?.empInfo?.data?.phone || '',
+            empEmail: mypageemps?.empInfo?.data?.empEmail || '',
+            address: mypageemps?.empInfo?.data?.empAddress || '',
         });
-    }, [mypageemps.empInfo?.data]);
+    }, [mypageemps?.empInfo?.data]);
+    // }, [mypageemps]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,9 +55,10 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
 
     const handleUpdate = () => {
         dispatch(callMypageUpdateInfoAPI({
-            phone: userInfo.phone,
-            empEmail: userInfo.empEmail,
-            address: userInfo.address
+            phone: userInfo?.phone,
+            empEmail: userInfo?.empEmail,
+            address: userInfo?.address,
+            empCode: empCode
         })).then(() => {
             console.log('수정한 사용자 정보 여기 안에서도 나오는지 ',userInfo)
             alert('수정되었습니다.');
@@ -71,6 +80,10 @@ console.log('수정한 사용자 정보 나오는지 ',JSON.stringify(userInfo) 
                     <input type="text" value={mypageemps.empInfo?.data?.department?.departmentName || ''} readOnly />
                     <h2>생년월일</h2>
                     <input type="text" value={formattedDate} readOnly />
+                    <h2>학력</h2>
+                    <input type="text" value={ mypageemps.empInfo?.data?.education[0]?.educationName + ' / ' + mypageemps.empInfo?.data?.education[0]?.educationMajor || ''} readOnly />
+                    <h2>경력</h2>
+                    <input type="text" value={mypageemps.empInfo?.data?.career[0]?.careerCompanyName + ' / ' +  mypageemps.empInfo?.data?.career[0]?.careerBusinessInformation || ''} readOnly />
                     <h2>전화번호</h2>
                     <input
                         type="text"

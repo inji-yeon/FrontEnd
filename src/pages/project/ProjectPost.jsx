@@ -12,7 +12,6 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import { Editor, Viewer } from '@toast-ui/react-editor'
 import chartPlugin from '@toast-ui/editor-plugin-chart'
 import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight'
-import colorPlugin from '@toast-ui/editor-plugin-color-syntax'
 import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell'
 import umlPlugin from '@toast-ui/editor-plugin-uml'
 import { CREATE_PROJECT_POST, RESET_MESSAGE } from '../../modules/ProjectModule'
@@ -73,15 +72,11 @@ function ProjectPost({ projectCode }) {
             editorElement.querySelector('.toastui-editor-defaultUI').style.border = "1px solid hsl(12,92%,85%)"
             editorElement.querySelectorAll('.tab-item').forEach(element => element.style.border = "1px solid hsl(12,92%,85%)")
             editorElement.querySelectorAll('.tab-item').forEach(element => element.style.borderBottom = "0")
-            editorElement.querySelectorAll('.tab-item').forEach(element => element.addEventListener('click', () => { setEditorText(new String(editor.getHTML())) }))
             editorElement.querySelector('.toastui-editor-defaultUI').removeChild(editorElement.querySelector('.toastui-editor-mode-switch'));
             editorElement.querySelector('.ProseMirror').style.fontSize = "16px"
+            editorElement.querySelector('.ProseMirror-widget').style.color = '#606060';
         }
     }, [editorElement])
-
-    useEffect(() => {
-        console.log(editorText, 'editorText');
-    }, [editorText])
 
     useEffect(() => {
         project?.uploadImageList && setUploadImageList(project?.uploadImageList)
@@ -102,6 +97,11 @@ function ProjectPost({ projectCode }) {
             setPostList(project?.projectPostListWithPaging)
     }, [project?.projectPostListWithPaging])
 
+    const handleImageError = (e) => {
+        e.target.src = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`;
+        e.target.onError = null;
+    }
+
     useEffect(() => {
         if (postList.pageInfo) {
             const pageStart = postList?.pageInfo?.pageStart
@@ -114,6 +114,20 @@ function ProjectPost({ projectCode }) {
             postListRef.current.scrollTo({ top: 0, behavior: 'smooth' })
             postListRef.current.querySelectorAll('.toastui-editor-contents')
                 .forEach(element => element.style.fontSize = "16px")
+            const imgs = [...postListRef
+                .current
+                .querySelectorAll('.toastui-editor-contents')]
+                .map(element => {
+                    return [...element.querySelectorAll('img')]
+                }).flatMap(element => {
+                    return element;
+                })
+            imgs.forEach(img => {
+                img.onerror = (e) => {
+                    e.target.src = '/temp_photo.png';
+                    e.target.onError = null;
+                }
+            })
         }
     }, [postList])
 
@@ -180,7 +194,7 @@ function ProjectPost({ projectCode }) {
                                 <img src={post?.projectMember?.employee?.profileList
                                     ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                     ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${post?.projectMember?.employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                    : '임시 사진'} alt='프로필' />
+                                    : '임시 사진'} alt='프로필' onError={handleImageError} />
                             </div>
                             <div className={styles.viewer_wrap}>
                                 <div className={styles.arrow}></div>

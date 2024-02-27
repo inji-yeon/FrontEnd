@@ -130,7 +130,7 @@ function DoPaymentDocumentApproval () {
                                     <td className={doPay.list_commute_detail}>{AttPayment.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doPay.list_commute_detail}>{formatDateTime(AttPayment.approvalProcessDate)}</td>
                                     <td className={doPay.list_my_waiting}>
-                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttPayment?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttPayment?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                     </td>
                                 </tr>
                             ))

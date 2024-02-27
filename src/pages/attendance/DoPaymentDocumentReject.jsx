@@ -128,7 +128,7 @@ function DoPaymentDocumentReject() {
                                     <td className={doRej.list_commute_detail}>{AttReject.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                     <td className={doRej.list_commute_detail}>{formatDateTime(AttReject.approvalProcessDate)}</td>
                                     <td className={doRej.list_my_waiting}>
-                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttReject?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                    <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttReject?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                     </td>
                                 </tr>
                             ))
@@ -144,25 +144,25 @@ function DoPaymentDocumentReject() {
                 </table>
             </div>
 
-                <div className={doRej.paging_po} style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
+                <div style={{  position: 'relative', top: '300px', listStyleType: 'none', display: 'flex' , left: '500px'}}> 
                     {Array.isArray(doRejects) && (
                         <button
                             onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className={doRej?.pagingBtn}> &lt;
+                            className={doRej.pagingBtn}> &lt;
                         </button>
                     )}
                     {pageNumber.map((num) => (
                         <li key={num} onClick={() => setCurrentPage(num)}  style={{ margin: '0 9px' }} >
                             <button
                                 style={currentPage === num ? { backgroundColor: '#FA9A85' } : null}
-                                className={doRej?.pagingBtn}>{num}
+                                className={doRej.pagingBtn}>{num}
                             </button>
                         </li>
                     ))}
                     {Array.isArray(doReject) && (
                         <button
-                        className={doRej?.pagingBtn}
+                        className={doRej.pagingBtn}
                         onClick={() => setCurrentPage(currentPage + 1)}
                         disabled={currentPage === pageInfo?.pageEnd || pageInfo?.total === 0}>&gt;
                         </button>

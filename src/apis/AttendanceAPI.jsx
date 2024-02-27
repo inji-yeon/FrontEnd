@@ -11,7 +11,8 @@ import{
     PUT_COMMUTE_UPDATE,
     GET_ADMIN_VACATION,
     GET_ADMIN_NO_VACATION,
-    GET_DETAIL_MY
+    GET_DETAIL_MY,
+    PUT_DETAIL_DOC
 } from '../modules/AttendanceModule'
 
 
@@ -489,4 +490,43 @@ export const callDetailMylAPI = ({ approvalDocumentCode }) => {
 };
 
 
+
+
+
+export const callUpdateStateAPI = ({ approvalDocumentCode }) => {
+    let requestURL;
+
+    requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/document/${approvalDocumentCode}`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+                },
+            });
+
+            const result = await response.json();
+
+            console.log(result);
+
+            if (response.status === 200) {
+                console.log('[AttendanceAPI] callDetailMylAPI RESULT : ', result);
+                dispatch({ type: PUT_DETAIL_DOC, payload: result });
+                return result; // 성공적인 결과를 반환합니다.
+            } else {
+                console.error('Error while updating state:', result);
+                return null; // 실패 시 null을 반환합니다.
+            }
+        } catch (error) {
+            console.error('Error while updating state:', error);
+            throw error; // 오류를 다시 던집니다.
+        }
+    };
+};
 
