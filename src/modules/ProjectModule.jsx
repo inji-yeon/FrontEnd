@@ -97,7 +97,7 @@ const projectReducer = handleActions(
                 return {
                     ...data,
                     projectPostContent: data?.projectPostContent?.replace(
-                        /http:\/\/(?:\d+\.\d+\.\d+\.\d+|localhost):1208\/web-images\//g,
+                        /http:\/\/(?:[0-9a-zA-Z.-]+|localhost):1208\/web-images\//g,
                         `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/`
                     )
                 }
