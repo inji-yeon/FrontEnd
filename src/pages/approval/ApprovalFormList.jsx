@@ -14,8 +14,8 @@ function ApprovalFormList(){
 
     const formRoutes = {
         '휴가신청서': '/approval/WritingOnLeave',
-        '연장근로신청서': '/approval/WritingOverwork',
-        '외근신청서': '/approval/WritingBusinessTrip',
+        '연장근로신청서': '/approval/WritingOvertime',
+        '외근신청서': '/approval/WritingAway',
         '출장신청서': '/approval/WritingBusinessTrip',
         '재택근무신청서': '/approval/WritingWFH',
         'SW사용신청서': '/approval/WritingSW'

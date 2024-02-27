@@ -1,6 +1,6 @@
 .form_body {
-	width:957px;
-	height:944px;
+    display: grid;
+    grid-column: auto;
 }
 .form_title_section {
     height: 196px;
@@ -9,7 +9,6 @@
     justify-content: center;
 }
 .form_title {
-    font-family: pretendard;
     font-size: 30px;
     font-weight: bold;
 }
@@ -27,7 +26,6 @@
     border-color: #cecece;
     background-color: #f0f0f0;
     vertical-align: middle;
-    font-family: pretendard;
     font-size: 16px;
     font-weight: bold;
 }
@@ -51,9 +49,8 @@
     font-size: 16px;
     width: 130px;
     height: 25px;
-    margin-left: 8px;
+    margin-left: 8px
 }
-
 .dateTotal{
     margin-left:2px;
 }
@@ -66,8 +63,8 @@
 .B select {
     margin-left: 8px;
     font-size: 16px;
-    width: 580px;
-    height: 25px;
+    width: 588px;
+    height: 33px;
 }
 .table{
     height: 120px;

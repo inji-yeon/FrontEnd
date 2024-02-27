@@ -1,8 +1,51 @@
-function OvertimeForm(){
+import React, { useEffect, useRef, useState } from 'react';
+import './WritingOvertime.css';
+import CurrentTime from './Time';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { callLoggedinUserAPI } from '../../apis/ApprovalAPICalls';
+
+function WritingOvertime(){
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const currentTimeString = CurrentTime();
+    const [clikType, setClickType] = useState("");
+    const [image, SetImage] = useState(null);
+    const imangeInput = useRef();
+
+    function getDaysDifference(startDate, endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const difference = end - start; // 밀리초 단위의 차이
+        const days = difference / (1000 * 60 * 60 * 24); // 일수로 변환
+        return Math.round(days); // 소수점 아래를 반올림하여 반환
+      }
+
+    const [form, setForm] = useState({
+        OLTitle: '',
+        OLStart: '',
+        OLEnd: '',
+        OLReason: '',
+        file: '',
+    });
+
+        // 로그인한 정보 불러옴
+        useEffect(() => {
+            dispatch(callLoggedinUserAPI());
+          }, [dispatch]);
 
     return(
         <>
-            <section className="form_section">
+            <div className="writing_button_and_content">
+                <div className="writing_section">
+                    <div className="aproval_save_button">
+                        <span className="saving_text">임시 저장</span>
+                    </div>
+                    <div className="approval_submit_button">
+                        <span className="submitting_text">결재 상신</span>
+                    </div>
+            </div>
+            <section className="form_writing_section">
         <div className="form_body">
             <div className="form_title_section">
                 <div className="form_title">연장근로 신청서</div>
@@ -55,8 +98,9 @@ function OvertimeForm(){
             </div>
         </div>
     </section>
+        </div>
         </>
     );
 }
 
-export default OvertimeForm;
+export default WritingOvertime;

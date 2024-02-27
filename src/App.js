@@ -37,6 +37,10 @@ import OvertimeForm from './pages/approval/OvertimeForm';
 import SWForm from './pages/approval/SWForm';
 import WFHForm from './pages/approval/WFHForm';
 import WritingOnLeave from './pages/approval/WritingOnLeave';
+import WritingOvertime from './pages/approval/WritingOvertime';
+import WritingAway from './pages/approval/WritingAway';
+import WritingBusinessTrip from './pages/approval/WritingBusinessTrip';
+import WritingWFH from './pages/approval/WritingWFH';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -115,6 +119,10 @@ function App() {
                             <Route path='WFHForm' element={<WFHForm />} />
                         </Route>
                         <Route path='WritingOnLeave' element={<WritingOnLeave />} />
+                        <Route path='WritingOvertime' element={<WritingOvertime />} />
+                        <Route path='WritingAway' element={<WritingAway />} />
+                        <Route path='WritingBusinessTrip' element={<WritingBusinessTrip />} />
+                        <Route path='WritingWFH' element={<WritingWFH />} />
                         <Route path='onProcessList' element={<OnProcessList />} />
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />
