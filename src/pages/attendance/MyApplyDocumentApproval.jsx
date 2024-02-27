@@ -128,7 +128,7 @@ function MyApplyDocumentApproval () {
                                             <td className={myAppro.list_commute_detail}>{AttmyAppro.approvalLineDocumentCode?.approvalForm}</td>
                                             <td className={myAppro.list_commute_detail}>{formatDateTime(AttmyAppro.approvalProcessDate)}</td>
                                             <td className={myAppro.list_commute_detail}>
-                                                <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyAppro?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                            <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttmyAppro?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                             </td>
                                         </tr>
                                     ))
