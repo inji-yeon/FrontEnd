@@ -37,7 +37,7 @@ function DoPaymentDocumentWaiting () {
     const dispatch = useDispatch();
     const doWaitingDocu = useSelector((state => state.attendance))
 
-    const pageInfo = doWaitingDocu?.data?.pageInfo;
+    const pageInfo = doWaitingDocu?.pageInfo;
 
     console.log('pageInfo', pageInfo);
 
@@ -134,7 +134,7 @@ function DoPaymentDocumentWaiting () {
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.employeeName}</td>
                                         <td className={doWaiting.list_my_waiting}>{AttWaiting.approvalLineDocumentCode?.documentEmployeeCode?.departmentCode?.departmentName}</td>
                                         <td className={doWaiting.list_my_waiting}>
-                                            <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttWaiting?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
+                                        <button onClick={() => { handleDetailView(); navigate(`/attendance/attendancePop/${AttWaiting?.approvalLineDocumentCode?.approvalDocumentCode}`); }}>상세보기</button>
                                         </td>
                                     </tr>
                                 ))

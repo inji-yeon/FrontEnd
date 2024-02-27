@@ -1,67 +1,100 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from './CreatePost.module.css';
-import { callRegistPostAPI } from '../../apis/BoardAPICalls';
+import { callRegistPostAPI, insertPostAPI } from '../../apis/BoardAPICalls';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import '@toast-ui/editor/dist/toastui-editor.css';
+import {Editor} from '@toast-ui/editor';
+// import chartPlugin from '@toast-ui/editor-plugin-chart'
+// import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight'
+// import colorPlugin from '@toast-ui/editor-plugin-color-syntax'
+// import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell'
+// import umlPlugin from '@toast-ui/editor-plugin-uml'
+
 
 const CreatePost = () => {
 
+
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const boardList = useSelector(state => state.boardReducer?.boardList);
+
+    const [editorText, setEditorText] = useState('')
+    const [editorElement, setEditorElement] = useState(null);
+
+    const [files, setFiles] = useState([]);
 
     const [form, setForm] = useState({
-        boardCode: '',
-        // boardCode: 0,
+        boardGroupCode: '1',
+        boardCode: '1',
         postTitle: '',
         postContext: '',
         deptAlert: false,
         employeeAlert: false,
-        addNoticeStatus: 'N',
+        postNoticeStatus: 'N',
         // addNoticeDate: new Date(),
     })
 
-    console.log(form);
+    console.log(boardList);
 
-    const onChangeHandler = (e) => {
-        
-        // setForm({
-        //     ...form,
-        //     [e.target.name] : e.target.type === 'checkbox' ? 
-        //         (e.target.checked ? 'Y' : 'N'): e.target.value
-            
-        // })
+    const onChangeFileHandler = (e) => {
 
-        const { name, value, type, checked } = e.target;
-        setForm({
-            ...form,
-            [name]: type === 'checkbox' ? ( checked ? 'Y' : 'N' ) : value
-        });
+        setFiles(e.target.files);
 
     }
 
 
-    const registPostHandler = () => {
+    const onChangeHandler = (e) => {
 
-        console.log('form : ', form);
+        const { name, value, type, checked } = e.target;
+        setForm({
+            ...form,
+            [name]: type === 'checkbox' ? ( checked ? "Y" : "N" ) : value
+        });
+
+    }
+
+    console.log("create form : ", form)
+
+    const registPostHandler = async() => {
+
+        const postAttachmentList = Array.from(files).map((file, idx) => file);
 
         const formData = new FormData();
 
-        // formData.append("boardGroupCode", form.boardGroupCode);
+        formData.append("boardGroupCode", form.boardGroupCode);
         formData.append("boardCode", form.boardCode);
         formData.append("postTitle", form.postTitle);
         formData.append("postContext", form.postContext);
+        formData.append("postContext", form.postContext);
         formData.append("deptAlert", form.deptAlert);
         formData.append("employeeAlert", form.employeeAlert);
-        formData.append("postNoticeStatus", form.addNoticeStatus);
+        formData.append("postNoticeStatus", form.postNoticeStatus);
         // formData.append("addNoticeDate", form.addNoticeDate);
 
-        dispatch(callRegistPostAPI({
-            form: formData
+        if(files){
+            console.log("파일이 있니?");
+
+            postAttachmentList.forEach((file) => {
+                formData.append("multipartFile", file)
+            });
+            
+        }
+
+        console.log('formData : ');
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+        await dispatch(insertPostAPI({
+            formData: formData
         }));
 
         alert('게시글이 등록되었습니다.');
-        navigate(`/board/${form.boardCode}`); // form으로 boardCode를 접근하는게 맞는가?
+        navigate(`/board/${form.boardCode}/posts`); // form으로 boardCode를 접근하는게 맞는가?
 
+        
 
     }
     
@@ -82,13 +115,21 @@ const CreatePost = () => {
                 <select name="boardGroupCode" onChange={onChangeHandler}>
                         <option value={1}>사내게시판</option>
                         <option value={2}>부서게시판</option>
-                        <option value={3}>익명게시판</option>
+                        {/* <option value={3}>익명게시판</option> */}
                     </select>
 
                     <select name="boardCode" onChange={onChangeHandler}>
-                        <option value={1}>하위게시판</option>
-                        <option value={2}>과 관련된</option>
-                        <option value={3}>게시판들</option>
+                        {form.boardGroupCode === '1' ? (
+                            boardList?.boardList1?.map((option) => (
+                                <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
+                            ))
+
+                        ) : (
+                            boardList?.boardList2?.map((option) => (
+                                <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
+                            ))
+                        )}
+
                     </select>
                 </td>
             </tr>
@@ -102,15 +143,22 @@ const CreatePost = () => {
                 <th>파일 첨부</th>
                 {/* 파일이름과 목록으로 보여져야 한다 */}
                 <td>
-                    <div className="input_area" style={{backgroundColor: '#F5F5F5'}}>
-                        <input type="file" name="postFile" title="파일 선택" multiple="" accept="" 
-                        style={{width: '100%', minHeight: '200px'}} 
-                        onChange={onChangeHandler}/>	
+                    <div className="inputFiles">
+                        <input type="file" name="postFiles" title="파일 선택" multiple 
+                        onChange={onChangeFileHandler}/>
+
+                        <ul className="fileNames" style={{width: '100%', minHeight: '170px', backgroundColor: '#F5F5F5', listStyleType: 'none', 
+                                    paddingLeft: 30, paddingRight:30, paddingTop:20, paddingBottom: 20,}}>
+
+                            { Array.from(files).map((file, idx) => 
+                                <li key={idx} style={{lineHeight: '30px',}}>{file.name}</li>
+                            )}
+
+                        </ul>
                     </div>
 
-                    <div className="fileTxt">이 곳에 파일을 드래그 하세요. 또는
-                        <span className="txt">파일선택</span><br />
-                        <span id="total_size" className="size">( 0MB )</span>
+                    <div className="fileTxt">파일을 첨부하세요. 여러 개 첨부 가능
+                        <span id="total_size" className="size"> ( 0 MB )</span>
                     </div>
                 </td>
             </tr>
@@ -120,7 +168,15 @@ const CreatePost = () => {
     </table>
 
 
-    <textarea className="summernote" name="postContext" onChange={onChangeHandler}></textarea>
+    <textarea className="summernote" name="postContext" onChange={onChangeHandler} />
+
+    {/* <Editor
+        previewStyle='tab'
+        initialEditType='wysiwyg'
+        placeholder='게시글을 입력하세요.'
+        onChange={onChangeHandler}
+    /> */}
+
 
     <br /><br />
     <table>
@@ -156,15 +212,14 @@ const CreatePost = () => {
             <tr>
                 <th>공지글 설정</th>
                 <td>
-                    <span><input type="checkbox" id="addNotice" name="addNoticeStatus"
-                     checked={form.addNoticeStatus === 'Y'}
+                    <span><input type="checkbox" id="addNotice" name="postNoticeStatus"
                     onChange={onChangeHandler}/></span>
                     
-                    {form.addNoticeStatus && (
+                    {/* {form.postNoticeStatus && (
                         <div id="dateNotice">
                             <input type="date" name="addNoticeDate" onChange={onChangeHandler}/>
                         </div>
-                    )}
+                    )} */}
                 </td>
             
             </tr>

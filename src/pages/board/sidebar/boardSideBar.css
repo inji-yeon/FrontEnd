@@ -33,7 +33,6 @@
 	display: flex;
     align-items: center;
     justify-content: center;
-	cursor: pointer;
 }
 
 .board_title{
@@ -51,6 +50,7 @@
     /* display: none;
     transition: display 0.3s ease-in-out; */
 	background-color: white;
+    margin-bottom: 20px;
     
 }
 

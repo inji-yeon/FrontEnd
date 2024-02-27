@@ -1,0 +1,85 @@
+.list_page_wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 780px;
+    overflow-y: auto;
+}
+
+.delete_message {
+    font-size: 20px;
+}
+
+.meeting {
+    color: #FFFFFF;
+    background-color: #3498db;
+}
+
+.personal {
+    color: #000000;
+    background-color: #f1c40f;
+}
+
+.important {
+    color: #FFFFFF;
+    background-color: #e74c3c;
+}
+
+.vacation {
+    color: #FFFFFF;
+    background-color: #9b59b6;
+}
+
+.birthday {
+    color: #FFFFFF;
+    background-color: #ff69b4;
+}
+
+.todo {
+    color: #FFFFFF;
+    background-color: #2ecc71;
+}
+
+.other {
+    color: #FFFFFF;
+    background-color: #95a5a6;
+}
+
+.list_wrap {
+    list-style-position: outside;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.element {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0px;
+}
+
+.element .title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.element_button_wrap {
+    display: flex;
+    gap: 10px;
+}
+
+.element_button_wrap>button {
+    padding: 3px;
+    border-radius: 5px;
+    background-color: hsl(12, 92%, 75%);
+    color: #FFFFFF;
+    border: 0;
+}
+
+.delete_time {
+    font-weight: bold;
+}

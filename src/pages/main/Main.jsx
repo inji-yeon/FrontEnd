@@ -10,6 +10,8 @@ import axios from "axios";
 import { callAttendenceAPI, getMailToMain } from "../../apis/MainAPI";
 import { callGetProjectsAPI } from "../../apis/ProjectAPICalls";
 import { format } from 'date-fns';
+import { callCommuteMainAPI } from '../../apis/AttendanceAPI';
+
 
 function Main() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ function Main() {
   const [isAttendance, setIsAttendance] = useState(false);  //출퇴근 상태
   const [date] = useState(new Date());
   const [weather, setWeather] = useState();
-  const [attendanceTime, setAttendanceTime] = useState('');
+
 
 
 
@@ -92,7 +94,7 @@ function Main() {
       const projectType = 'all';
       const searchValue = '';
       dispatch(callGetProjectsAPI({projectType,searchValue}));
-      callAttendenceAPI();
+      // callAttendenceAPI();
       //출근 상태 얻어와서 set ㄱㄱ출근 시간도 같이 가져오자 가져온 시간에서 2시간 정도가 안지났으면 퇴근 못하게
       //결재 대기, 완료 개수 ㄱ
       //프로젝트 ㄱㄱ
@@ -120,19 +122,83 @@ function Main() {
     }
   };
 
-  const changeAttendance = (status) => {
-    //출,퇴근 버튼 함수
-    if (status === 'leaving') {
-      //퇴근
 
-      setIsAttendance(false);
-    } else {
-      //출근
-      //dispatch(commuteInput());
-      setIsAttendance(true);
-      setAttendanceTime(new Date());
-    }
+
+  const attendanceMain = useSelector((state => state.attendance));
+
+
+  const commuteMain = attendanceMain?.data;
+  console.log('commuteMain =====>', commuteMain);
+
+  useEffect(() => {
+    dispatch(
+        callCommuteMainAPI({})
+    );
+}, []);
+
+
+useEffect(() => {
+  if (commuteMain?.attendanceManagementDepartureTime) {
+    setIsAttendance(true); // 퇴근 상태로 설정
+
+  } else {
+    setIsAttendance(false); // 출근 상태로 설정
   }
+
+}, [commuteMain?.attendanceManagementDepartureTime]); // commuteMain?.attendanceManagementDepartureTime 값이 변경될 때만 실행
+
+
+
+const changeAttendance = (status) => {
+  if (status === 'leaving') {
+    setIsAttendance(false); // 퇴근 상태로 변경
+
+
+  } else {
+    setIsAttendance(true); // 출근 상태로 변경
+
+      if (commuteMain?.attendanceManagementDepartureTime) {
+        alert('이미 출근했습니다.');
+        return;
+      }
+
+    }
+};
+
+
+
+
+  function formatDateTime(dateTimeArray) {
+    if (!dateTimeArray || !Array.isArray(dateTimeArray)) return ""; // 배열이 아니거나 값이 없으면 빈 문자열 반환
+
+    // 배열의 길이가 충분하지 않으면 나머지 시간 정보를 0으로 설정하여 Date 객체 생성
+    const year = dateTimeArray[0] || 0;
+    const month = (dateTimeArray[1] || 0) - 1;
+    const day = dateTimeArray[2] || 0;
+    const hours = dateTimeArray[3] || 0;
+    const minutes = dateTimeArray[4] || 0;
+    const seconds = dateTimeArray[5] || 0;
+
+    // Date 객체 생성
+    const dateTime = new Date(year, month, day, hours, minutes, seconds);
+
+    // 년, 월, 일, 시, 분, 초를 추출
+    const formattedYear = dateTime.getFullYear();
+    const formattedMonth = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용
+    const formattedDay = dateTime.getDate().toString().padStart(2, '0');
+    const formattedHours = dateTime.getHours().toString().padStart(2, '0');
+    const formattedMinutes = dateTime.getMinutes().toString().padStart(2, '0');
+    const formattedSeconds = dateTime.getSeconds().toString().padStart(2, '0');
+
+    // "yyyy-MM-dd HH:mm:ss" 형식의 문자열로 반환
+    return `${formattedYear}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
+
+
+
+
+
 
   return (
     <>
@@ -152,7 +218,7 @@ function Main() {
             { isLogin ? (
             <div className="mypage_box">
                 <span className="mypage_name">{token.employeeName}</span><span className="main-name-text">님 환영합니다!</span>
-                <input onClick={()=>{navigate('./mypage')}} className="mypage_btn" type="button" value="MyPage"/>
+                <input onClick={()=>{navigate('./mypage/mypageinfo')}} className="mypage_btn" type="button" value="MyPage"/>
                 <button className="main-logout-btn" onClick={handleLogout}>Logout</button>
             </div>
             ) : (
@@ -214,8 +280,9 @@ function Main() {
                           )
                           }
                         </div>
-                        { isAttendance ? (<p className="message">{attendanceTime.getHours()+"시 "+attendanceTime.getMinutes()+"분 "+attendanceTime.getSeconds()+"초에 "}에 출근하셨습니다.</p>)
+                        { isAttendance ? (<p className="message">{formatDateTime(commuteMain?.attendanceManagementArrivalTime)}에 출근하셨습니다.</p>)
                         : (<p className="message">{token.employeeName}님 퇴근 상태입니다.</p>)}
+                        <type value={commuteMain?.attendanceManagementDepartureTime} />
                     </div>
 
                 </div>)

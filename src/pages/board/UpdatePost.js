@@ -10,20 +10,17 @@ const UpdatePost = () => {
     const {postCode} = useParams();
     const dispatch = useDispatch();
     
-    const post = useSelector(state => state?.board)
+    const post = useSelector(state => state?.board);
+    const boardList = useSelector(state => state.boardReducer?.boardList); // 게시판 카테고리
+
     const [editpost, setEditPost] = useState(false);
 
-    const [updateform, setUpdateForm] = useState({
-        boardCode: '',
-        // boardCode: 0,
-        postTitle: '',
-        postContext: '',
-        deptAlert: false,
-        employeeAlert: false,
-        addNoticeStatus: 'N',
-        // addNoticeDate: new Date(),
+    const [editorText, setEditorText] = useState('')
+    const [editorElement, setEditorElement] = useState(null);
+    // const [files, setFiles] = useState(post?.post?.postAttachmentList);
+    const [files, setFiles] = useState([]);
 
-    })
+    const [updateform, setUpdateForm] = useState({})
 
     useEffect(() => {
 
@@ -33,56 +30,90 @@ const UpdatePost = () => {
 
     }, [])
 
+    console.log("update post :", post);
+
 
     useEffect(() => {
         setUpdateForm({
-            // boardGroupCode: post.boardGroupCode,
+            boardGroupCode: post?.post.boardGroupCode,
             boardCode: post?.post.boardCode,
             postTitle: post?.post.postTitle,
             postContext: post?.post.postContext,
             deptAlert: post?.post.deptAlert,
             employeeAlert: post?.post.employeeAlert,
-            addNoticeStatus: post?.post.addNoticeStatus,
-            addNoticeDate: post?.post.addNoticeDate,
+            postNoticeStatus: post?.post.postNoticeStatus,
+            // addNoticeDate: post?.post.addNoticeDate,
         })
+
         
     }, [post])
 
     console.log('post : ',post);
-    console.log('updateform : ', updateform);
+    console.log('files : ', files);
 
-    const onChangeHandler = (e) => {
-        
-        const { name, value, type, checked } = e.target;
-        setUpdateForm(prevForm => ({
-            ...prevForm,
-            [name]: type === 'checkbox' ? ( checked ? 'Y' : 'N' ) : value
-        }));
+    const onChangeFileHandler = (e) => {
+
+        const targetFiles = e.target.files;
+        console.log("e.target.files: ", e.target.files);
+        setFiles(Array.from(targetFiles).map((file, idx) => file));
+        // files name
 
     }
 
-    const updatePostHandler = () => {
 
-        console.log('form : ', updateform);
+    const onChangeHandler = (e) => {
+        
+        console.log('체크상태 ', e.target.checked);
+        const { name, value, type, checked } = e.target;
+        setUpdateForm(prevForm => ({
+            ...prevForm,
+            [name]: type === 'checkbox' ? ( checked ? "Y" : "N" ) : value
+        }));
+
+        console.log('updateForm : ', updateform);
+
+    }
+
+    const updatePostHandler = async() => {
+
+        console.log('click form : ', updateform);
+
+        // const postAttachmentList = Array.from(files).map((file, idx) => file);
 
         const formData = new FormData();
 
-        // formData.append("boardGroupCode", updateform.boardGroupCode);
+        formData.append("boardGroupCode", updateform.boardGroupCode);
         formData.append("boardCode", updateform.boardCode);
         formData.append("postTitle", updateform.postTitle);
         formData.append("postContext", updateform.postContext);
         formData.append("deptAlert", updateform.deptAlert);
         formData.append("employeeAlert", updateform.employeeAlert);
-        formData.append("postNoticeStatus", updateform.addNoticeStatus);    
-        formData.append("addNoticeDate", updateform.addNoticeDate);
-        dispatch(callModifyPostAPI({
+        formData.append("postNoticeStatus", updateform.postNoticeStatus);    
+        // formData.append("addNoticeDate", updateform.addNoticeDate);
+
+        if(files){
+            console.log("파일이 있니?");
+
+            files.forEach((file) => {
+                formData.append("multipartFile", file)
+            });
+            
+        }
+
+        await dispatch(callModifyPostAPI({
             postCode,
             form: formData
         }));
 
+        console.log('formData : ');
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+
         alert('게시글이 수정되었습니다.');
-        navigate(`/board/${post?.post.boardCode}`);
-        // window.location.reload();
+        navigate(`/board/${post?.post.boardCode}/posts`);
+        // window.location.reload(); 
 
     }
     
@@ -100,16 +131,24 @@ const UpdatePost = () => {
             <tr>
                 <th>게시판 분류</th>
                 <td style={{paddingRight: '-30px'}}>
-                    <select name="boardGroupCode" onChange={onChangeHandler}>
+                    <select name="boardGroupCode" onChange={onChangeHandler} value={updateform.boardGroupCode}>
                         <option value={1}>사내게시판</option>
                         <option value={2}>부서게시판</option>
-                        <option value={3}>익명게시판</option>
+                        {/* <option value={3}>익명게시판</option> */}
                     </select>
 
-                    <select name="boardCode" onChange={onChangeHandler}>
-                        <option value={1}>하위게시판</option>
-                        <option value={2}>과 관련된</option>
-                        <option value={3}>게시판들</option>
+                    <select name="boardCode" onChange={onChangeHandler} value={updateform.boardCode}>
+                        {updateform.boardGroupCode === '1' ? (
+                            boardList?.boardList1?.map((option) => (
+                                <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
+                            ))
+
+                        ) : (
+                            boardList?.boardList2?.map((option) => (
+                                <option key={option.boardCode} value={option.boardCode}>{option.boardTitle}</option>
+                            ))
+                        )}
+
                     </select>
                 </td>
             </tr>
@@ -126,16 +165,34 @@ const UpdatePost = () => {
 
             <tr>
                 <th>파일 첨부</th>
-                <td>
-                    <div className="input_area" style={{backgroundColor: '#F5F5F5'}}>
-                        <input type="file" name="postFile" title="파일 선택" multiple="" accept="" 
-                        style={{width: '100%', minHeight: '200px'}} 
-                        onChange={onChangeHandler}/>	
+                 <td>
+                    <div className="inputFiles">
+                        <input type="file" name="postFiles" title="파일 선택" multiple 
+                        onChange={onChangeFileHandler}/>
+
+                        <ul className="fileNames" style={{width: '100%', minHeight: '170px', backgroundColor: '#F5F5F5', listStyleType: 'none', 
+                                    paddingLeft: 30, paddingRight:30, paddingTop:20, paddingBottom: 20,}}>
+
+                            {files.length === 0 ? (
+                                post?.post?.postAttachmentList && post?.post?.postAttachmentList.map((file, idx) => 
+                                <li key={idx} style={{lineHeight: '30px',}}>{file.postAttachmentOgFile}</li>
+                            
+                            )):(
+
+                                files.map((file, idx) => 
+                                <li key={idx} style={{lineHeight: '30px',}}>{file.name}</li>
+                                )
+
+                            )}
+                            
+
+                           
+
+                        </ul>
                     </div>
 
-                    <div className="fileTxt">이 곳에 파일을 드래그 하세요. 또는
-                        <span className="txt">파일선택</span><br />
-                        <span id="total_size" className="size">( 0MB )</span>
+                    <div className="fileTxt">파일을 첨부하세요. 여러 개 첨부 가능
+                        <span id="total_size" className="size"> ( 0 MB )</span>
                     </div>
                 </td>
             </tr>
@@ -147,7 +204,6 @@ const UpdatePost = () => {
 
     <textarea className="summernote" name="postContext" onChange={onChangeHandler}
                 value={updateform.postContext}
-
     ></textarea>
 
     <br /><br />
@@ -184,18 +240,17 @@ const UpdatePost = () => {
             <tr>
                 <th>공지글 설정</th>
                 <td>
-                    <span><input type="checkbox" id="addNotice" name="addNoticeStatus"
-                    checked={updateform.addNoticeStatus === 'Y'}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       a
-                    onChange={onChangeHandler}
-                            
+                    <span>  
+                        <input type="checkbox" id="addNotice" name="postNoticeStatus" onChange={onChangeHandler}
+                            checked={updateform.postNoticeStatus === "Y" } 
+                        />
+                    </span>
                     
-                    /></span>
-                    
-                    {updateform.addNoticeStatus && (
+                    {/* {updateform.addNoticeStatus && (
                         <div id="dateNotice">
                             <input type="date" name="addNoticeDate" onChange={onChangeHandler}/>
                         </div>
-                    )}
+                    )} */}
                 </td>
             
             </tr>

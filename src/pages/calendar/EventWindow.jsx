@@ -10,23 +10,11 @@ import styles from './eventWindow.module.css'
 import { calendarEventDataSet } from '../../utils/calendarUtils'
 
 function EventWindow({ eventWindow, setEventWindow, calendar }) {
-    /* 
-              여기에는 두가지 경우가 들어온다.
-              1. 이벤트를 클릭한 경우 (state가 'clicked'이고 event와 nativeEvent가 들어오는)
-              2. 날짜(들)을 클릭한 경우 (state가 'selected'이고 start, end, isAllday, nativeEvent가 들어오는)
-      
-              그런데 여기서 하나더 추가된다.
-              3. 이벤트를 클릭한 상태에서
-                  수정버튼을 누른경우. 이 경우
-                      -1 원래 데이터가 필요함
-                      -2 그러면 그냥 state 만 적절하게 바꾸면 될거 같음.
-           */
     const dispatch = useDispatch()
     const eventWindowRef = useRef()
 
     const [form, setForm] = useState(null)
     useEffect(() => {
-        console.log('eventWindow>>>', eventWindow)
         if (eventWindow?.state === 'clicked') {
             setForm({
                 title: eventWindow.event.title ?? '',
@@ -37,10 +25,9 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                 endTime: format(eventWindow.event.end.getTime(), 'HH:mm'),
                 location: eventWindow.event.location ?? '',
                 isAllday: eventWindow.event.isAllday ? 'true' : 'false',
-                eventCategory: eventWindow.event.eventCategory ?? 'other'
+                eventCategory: eventWindow.event.raw.eventCategory ?? 'other'
             })
         } else if (eventWindow?.state === 'created') {
-            console.log(eventWindow.isAllday)
             setForm({
                 title: '',
                 body: '',
@@ -62,7 +49,6 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
         })
     }
     const eventModifyHandler = event => {
-        console.log('수정버튼 눌렀어!', event)
         setEventWindow({ ...eventWindow, state: 'modify' })
     }
 
@@ -96,14 +82,11 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                 eventCategory: form.eventCategory
             }
         }
-        console.log('eventOptions<<>>', eventOptions)
-        console.log('생성버튼 눌렀어!', eventOptions)
         dispatch(callCreateEventAPI({ eventOptions }))
         eventWindowExitHandler()
     }
 
     const eventModifyAcceptHandler = event => {
-        console.log('수정 적용버튼 눌렀어!', event)
         const eventOptions = {
             event: {
                 eventCode: event.id,
@@ -134,20 +117,17 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                 eventCategory: form.eventCategory
             }
         }
-        console.log(eventOptions)
         dispatch(callModifyEventAPI({ eventOptions }))
         eventWindowExitHandler()
     }
 
     const eventDeleteHandler = event => {
-        console.log('삭제버튼 눌렀어!', event)
         const eventCode = event.id
         dispatch(callDeleteEventAPI({ eventCode }))
         eventWindowExitHandler()
     }
 
     const eventWindowExitHandler = () => {
-        console.log('윈도우 끌거야')
         calendar.clearGridSelections()
         setEventWindow({ state: null })
     }
@@ -200,9 +180,9 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                             type='time'
                             value={form?.startTime ?? format(new Date(), 'HH:mm')}
                             name='startTime'
-                            onChange={eventWindow?.state !== 'clicked' || form?.isAllday !== 'true' ? formHandler : null}
+                            onChange={eventWindow?.state !== 'clicked' && form?.isAllday !== 'true' ? formHandler : null}
                             readOnly={
-                                eventWindow?.state === 'clicked' || form?.isAllday !== 'true'
+                                eventWindow?.state === 'clicked' || form?.isAllday === 'true'
                             }
                         />
                         <div> ~ </div>
@@ -217,9 +197,9 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                             type='time'
                             value={form?.endTime ?? format(new Date(), 'HH:mm')}
                             name='endTime'
-                            onChange={eventWindow?.state !== 'clicked' || form?.isAllday !== 'true' ? formHandler : null}
+                            onChange={eventWindow?.state !== 'clicked' && form?.isAllday !== 'true' ? formHandler : null}
                             readOnly={
-                                eventWindow?.state === 'clicked' || form?.isAllday !== 'true'
+                                eventWindow?.state === 'clicked' || form?.isAllday === 'true'
                             }
                         />
                     </div>

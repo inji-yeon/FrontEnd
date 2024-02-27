@@ -9,12 +9,11 @@ import { decodeJwt } from '../../utils/tokenUtils';
 
 const accessToken = localStorage.getItem('accessToken');
 const decodeToken = decodeJwt(accessToken);
-console.log(decodeToken);
 const empCode = decodeToken?.empCode;
 const EmployeeRole = decodeToken?.employeeRole[0]?.authority?.authorityName;
 
-console.log('조직도에서 empcode나오나 한 번 보자',empCode);
-console.log('조직도에서 authorityCode나오나 한 번 보자',EmployeeRole);
+// console.log('조직도에서 empcode나오나 한 번 보자',empCode);
+// console.log('조직도에서 authorityCode나오나 한 번 보자',EmployeeRole);
 
 function Group() {
 
@@ -100,7 +99,7 @@ console.log('권한명이 뭔지 나오는지',EmployeeRole)
                 <div className={GroupStyle.grouptable}>
                     <div className={GroupStyle.contentbox}>
                         {/* 여기는 테이블 내리는 용 div */}
-                        {isAdmin && < button className={GroupStyle.adminbtn} onClick={() => adminEmployeeClick()} >관리자용 버튼</button>}
+                        {isAdmin && < button className={GroupStyle.adminbtn} onClick={() => adminEmployeeClick()} >관리자 부서추가</button>}
                     </div>
               
               <div className={GroupStyle.searchcontainer}>
@@ -133,7 +132,7 @@ console.log('권한명이 뭔지 나오는지',EmployeeRole)
                                 <tr key={employee?.empCode}>
                                     <td>{employee?.empCode}</td>
                                     <td>{employee?.empName}</td>
-                                    <td>{employee?.department?.departmentName}</td>
+                                    <td>{employee?.department?.deptName}</td>
                                     <td>{employee?.job?.jobName}</td>
                                     <td>{employee?.empEmail}</td>
                                     <td>{employee?.phone}</td>
@@ -164,7 +163,7 @@ console.log('권한명이 뭔지 나오는지',EmployeeRole)
                             <tr key={employee?.empCode}>
                             <td>{employee?.empCode}</td>
                             <td>{employee?.empName}</td>
-                            <td>{employee?.department?.departmentName}</td>
+                            <td>{employee?.department?.deptName}</td>
                             <td>{employee?.job?.jobName}</td>
                             <td>{employee?.empEmail}</td>
                             <td>{employee?.phone}</td>

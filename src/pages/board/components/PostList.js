@@ -39,7 +39,7 @@ const PostList = ({data}) => {
             <tbody>
 
                 
-             {data.data?.content.map((post, idx) => (
+             {data?.content?.map((post, idx) => (
 
                     <tr key={post.postCode} onClick={() => navigate(`/board/posts/${post.postCode}`)}>
                         <td>{post.postCode}</td>
@@ -47,7 +47,7 @@ const PostList = ({data}) => {
                         <td>{post.employee.employeeName}</td>
                         <td>{post.postDate}</td>
                         <td>{post.postViews}</td>
-                        <td>3</td>
+                        <td>{post.postLikeList.length}</td>
                     </tr>
 
                 ))

@@ -22,7 +22,7 @@ const actions = createActions({
 const groupreducer = handleActions(
     {
         [GET_GROUPLIST]: (state, { payload }) => {
-            console.log('그룹에서 조직리스트 가져오는 모듈-------------')
+            // console.log('그룹에서 조직리스트 가져오는 모듈-------------')
             
             return payload;
           

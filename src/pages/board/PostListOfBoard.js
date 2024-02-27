@@ -12,70 +12,64 @@ const PostListOfBoard = () => {
 
     const {boardCode} = useParams(); //이름 파라미터
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const [totalPageNumber, setTotalPageNumber] = useState(0);
     const [posts, setPosts] = useState([]);
     
-   const handlePageClick = (data) => {
-       let selectedPage = data.selected;
-       setCurrentPage(selectedPage);
+
+   const handlePageClick = (data) => { 
    };
+
+
    useEffect(()=>{
     if(currentPage){
         dispatch(callGetPostsAPI({
             boardCode : boardCode,
             offset : currentPage,
         }));  // 현재 페이지 번호 들고가기
+    }else {
     }
-   },[currentPage])
+   },[boardCode, currentPage])
 
-   const board = useSelector(state => state.board); // 상태를 가져올 reducer 이름?
+
+   const board = useSelector(state => {
+    if(state.board){
+        return state.board.postList;
+    }
+}); // 상태를 가져올 reducer 이름?
    const dispatch = useDispatch();
-//    console.log("======================>", board.postList);
    
     useEffect(() => {
-
         dispatch(callGetPostsAPI({
             boardCode : boardCode,
         }));
         
-    }, []);
+    }, [boardCode]);
 
 
     useEffect(() => {
-        console.log(board);
-        if(board){
-            if(board.postList){
-                if(board.postList.data){
-                    setTotalPageNumber(board.postList.data.totalPages);
-                    if(board.postList.data.content){
-                        setPosts(board.postList.data.content);
+        console.log('셀릭터로 가져온거 :',board);
+                if(board){
+                    setTotalPageNumber(board.totalPages);
+                    if(board.content){
+                        setPosts(board.content);
                     }
-                }
-            }
         }
     }, [board])
-    useEffect(()=>{
-        console.log(totalPageNumber);
-    },[totalPageNumber])
-
-
-    console.log('board?.postList.data.totalPages', totalPageNumber);
 
 
 
     return <>
-        <PostHeader />
+        <PostHeader boardCode={boardCode}/>
 
-        <PostList data={board.postList}/>
+        <PostList data={board}/>
 
 
-        {totalPageNumber > 0 ?
+        {totalPageNumber >= 0 ?
                     <div>
                         <ReactPaginate
                         previousLabel={'<'}
                         nextLabel={'>'}
-                        breakLabel={'...'}
                         initialPage={currentPage}
                         disableInitialCallback={true}
                         pageCount={totalPageNumber}
@@ -86,7 +80,10 @@ const PostListOfBoard = () => {
                         activeClassName={'paging-active'}
                         />
                     </div>
-                    : <></>
+                    : <>
+                    <div style={{marginTop: 50,textAlign: 'center',}}>게시글이 없습니다.</div>
+                    
+                    </>
         }   
     
     </>

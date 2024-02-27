@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Comment.module.css';
 import { callModifyCommentAPI, callRegistCommentAPI, callRemoveCommentAPI } from '../../../apis/BoardAPICalls';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { decodeJwt } from '../../../utils/tokenUtils';
 
-const Comment = ({comments, postCode}) => {
+const Comment = ({comments, postCode, empCode}) => {
 
     const dispatch = useDispatch();
 
@@ -12,7 +13,9 @@ const Comment = ({comments, postCode}) => {
     const [content, setContent] = useState('');
     const [isEdit, setIsEdit] = useState(false);
     const [editContent, setEditContent] = useState(content);
-    // const [editContent, setEditContent] = useState('');
+    
+
+    const token = decodeJwt(window.localStorage.getItem('accessToken'));
 
     const toggleIsEdit = () => setIsEdit(!isEdit);
 
@@ -20,6 +23,8 @@ const Comment = ({comments, postCode}) => {
         setIsEdit(false);
         setEditContent(content);
     }
+
+
 
 
     /* 댓글 등록 */
@@ -31,10 +36,15 @@ const Comment = ({comments, postCode}) => {
 
         }));
 
+
         setContent('');
         alert('댓글을 등록하였습니다.');
         window.location.reload();
     }
+
+    console.log('comment  ', comment);
+    console.log('token ==', token);
+    console.log('empCode', empCode);
 
 
 
@@ -66,12 +76,9 @@ const Comment = ({comments, postCode}) => {
     }
 
 
-
-
     // 댓글 조회 프롭스, 리듀서 호출
     console.log('comments: ', comments);
     console.log('commentReducer : ', comment);
-
     console.log('수정 상태 : ',isEdit);
 
 
@@ -87,7 +94,7 @@ const Comment = ({comments, postCode}) => {
 
         {comments?.map((comment, idx) => (
 
-            <div className={styles.comment} key={comment.postCommentCode}>
+            <div className={styles.comment} key={idx}>
             
               <div className={styles.commentInfo}>
                   <div style={{ display: "flex", fontSize: 16 }}>
@@ -105,20 +112,28 @@ const Comment = ({comments, postCode}) => {
                       <div style={{ color: "#A3A2A2" }}>&nbsp;· {comment.postCommentDate}</div>
                   </div>
   
-                {isEdit ? (
-                    <div style={{ display: "flex" }}>
-                        <div style={{ cursor: 'pointer' }} onClick={() => commentModifyHandler(comment.postCommentCode)}>수정 완료</div>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <div style={{ cursor: 'pointer' }} onClick={notEditHandler}>취소</div>
-                    </div>
+                
+                {/* 수정/삭제 버튼 */}
+                {comment?.boardMember?.employee.employeeCode === empCode && (
+                    <div>
+                         {isEdit ? (
+                        <div style={{ display: "flex" }}>
+                            <div style={{ cursor: 'pointer' }} onClick={() => commentModifyHandler(comment.postCommentCode)}>수정 완료</div>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <div style={{ cursor: 'pointer' }} onClick={notEditHandler}>취소</div>
+                        </div>
 
-                ) : (
-                    <div style={{ display: "flex" }}>
-                    <div style={{ cursor: 'pointer' }} onClick={toggleIsEdit}>수정</div>
-                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <div style={{ cursor: 'pointer' }} onClick={() => commentRemoveHandler(comment.postCommentCode)}>삭제</div>
-                </div>
+                    ) : (
+                        <div style={{ display: "flex" }}>
+                        <div style={{ cursor: 'pointer' }} onClick={toggleIsEdit}>수정</div>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <div style={{ cursor: 'pointer' }} onClick={() => commentRemoveHandler(comment.postCommentCode)}>삭제</div>
+                    </div>
+                    )}
+
+                    </div>
                 )}
+
                 
               </div>
   
@@ -132,12 +147,9 @@ const Comment = ({comments, postCode}) => {
                   {comment.postCommentContext}
                 </div>
             )}
-              
-
+            
 
             </div>
-
-
         ))}
       
     
