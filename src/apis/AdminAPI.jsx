@@ -27,7 +27,7 @@ export async function fetObj(url,meth,obj){
 )
 }
 export async function insertUserProfileAPI(form){
-    const result = await fetForm('admin/insert-profile','POST',form);
+    const result = await fetForm(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/admin/insert-profile`,'POST',form);
     const resultData = await result.json();
     return resultData;
 }

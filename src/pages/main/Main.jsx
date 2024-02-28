@@ -11,7 +11,7 @@ import { callAttendenceAPI, getMailToMain } from "../../apis/MainAPI";
 import { callGetProjectsAPI } from "../../apis/ProjectAPICalls";
 import { format } from 'date-fns';
 import { callCommuteMainAPI } from '../../apis/AttendanceAPI';
-
+import { insertCommuteAPI, updateCommuteAPI } from '../../apis/AttendanceAPI';
 
 function Main() {
   const navigate = useNavigate();
@@ -138,10 +138,12 @@ function Main() {
 
 
 useEffect(() => {
+  const arrivalTime = commuteMain?.attendanceManagementArrivalTime;
+  const departureTime = commuteMain?.attendanceManagementDepartureTime;
   if (commuteMain?.attendanceManagementDepartureTime) {
     setIsAttendance(true); // 퇴근 상태로 설정
-
-  } else {
+  } 
+  if(arrivalTime < departureTime) {
     setIsAttendance(false); // 출근 상태로 설정
   }
 
@@ -150,19 +152,32 @@ useEffect(() => {
 
 
 const changeAttendance = (status) => {
+  const arrivalTime = commuteMain?.attendanceManagementArrivalTime;
+  const departureTime = commuteMain?.attendanceManagementDepartureTime;
+
   if (status === 'leaving') {
-    setIsAttendance(false); // 퇴근 상태로 변경
+
+    if (arrivalTime > departureTime){
+      dispatch(updateCommuteAPI({}));
+      setIsAttendance(false); // 퇴근 상태로 변경
+      window.location.reload();
+    }  else  {
+      alert('이미 퇴근 했습니다.');
+      return;
+    } 
 
 
   } else {
-    setIsAttendance(true); // 출근 상태로 변경
-
-      if (commuteMain?.attendanceManagementDepartureTime) {
-        alert('이미 출근했습니다.');
-        return;
-      }
-
+    if (commuteMain?.attendanceManagementDepartureTime) {
+      alert('이미 출근 했습니다.');
+      return;
+    } else {
+      dispatch(insertCommuteAPI({}));
+      setIsAttendance(true); // 출근 상태로 변경
+      
     }
+
+  }
 };
 
 

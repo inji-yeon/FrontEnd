@@ -1,5 +1,5 @@
 
-.paging {
+.listPaging {
     /* position: absolute;
     top: 950px;
     left: 1100px; */
@@ -11,13 +11,13 @@
     
 }
 
-.paging li {
+.listPaging li {
     
     margin: 0 5px;  
     border-radius: 5px;
 }
 
-.paging li a {
+.listPaging li a {
     border-radius: 5px;
     display: block;
     padding: 5px 10px;
@@ -34,7 +34,7 @@
     border-color: #fa9a85; 
 }
 
-.paging li a:hover {
+.listPaging li a:hover {
 
     background-color: #fa9a85;
     color: white;

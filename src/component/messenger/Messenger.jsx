@@ -24,7 +24,6 @@ function Messenger() {
     useEffect(() => {
         if (messengerData?.error) {
             alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
-            console.error('error Message: ', messengerData?.message);
             navigate('/login');
             dispatch({ type: MESSENGER_ERROR, payload: '' });
         }
@@ -32,20 +31,8 @@ function Messenger() {
     useEffect(() => {
         dispatch(callGetMessengerMainAPI());
     }, [])
+    
     useEffect(() => {
-        messengerData?.chatroomCode
-            && console.log('messengerData?.chatroomCode', messengerData?.chatroomCode);
-    }, [messengerData?.chatroomCode])
-    useEffect(() => {
-        messengerData?.messengerLoginSettings
-            && console.log('messengerData?.messengerLoginSettings', messengerData?.messengerLoginSettings);
-    }, [messengerData?.messengerLoginSettings])
-    useEffect(() => {
-        messengerData?.messengerMain
-            && console.log('messengerData?.messengerMain', messengerData?.messengerMain);
-    }, [messengerData?.messengerMain])
-    useEffect(() => {
-        console.log('messengerData?.messengerMain?.chatroomList', messengerData?.messengerMain?.chatroomList);
         messengerData?.messengerMain?.chatroomList &&
             setChatroomList(messengerData?.messengerMain?.chatroomList);
     }, [messengerData?.messengerMain?.chatroomList])
@@ -73,12 +60,6 @@ function Messenger() {
         setIsMessengerOpen(true)
     }
 
-    useEffect(() => {
-        chatroomList && console.log('chatroomList', chatroomList);
-    }, [chatroomList])
-    useEffect(() => {
-        console.log(isChatroomOpen);
-    }, [isChatroomOpen])
     const chatroomFixedHandler = (chatroomCode, e) => {
         e.stopPropagation();
         const result = window.confirm("해당 채팅방을 고정/고정해제 하시겠습니까?");
@@ -169,7 +150,6 @@ function Messenger() {
                                                 return new Date(chatroom2.chatroomChatDate) - new Date(chatroom1.chatroomChatDate);
                                             })
                                             ?.map(chatroom => {
-                                                console.log('chatroom.chatroomCode', chatroom.chatroomCode);
                                                 return (
                                                     <div className={styles.chatroom_info}
                                                         key={chatroom.chatroomCode}
@@ -200,7 +180,7 @@ function Messenger() {
                                                                 &&
                                                                 (
                                                                     chatroom.chatroomContent
-                                                                        ? <span>{chatroom.chatroomContent.length <= 10 ? chatroom.chatroomContent : chatroom.chatroomContent.length + "..."}</span>
+                                                                        ? <span>{chatroom.chatroomContent.length <= 10 ? chatroom.chatroomContent : chatroom.chatroomContent.slice(0,20) + "..."}</span>
                                                                         : (<>
                                                                             <img src='/messenger/temp_photo.png' alt='사진' />
                                                                             <span>사진을 보냈습니다.</span>

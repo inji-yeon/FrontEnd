@@ -16,16 +16,13 @@ function ChatroomCreateWindow({ setIsChatroomCreateWindow }) {
     const gobackHandler = (e) => {
         setIsChatroomCreateWindow(false);
     }
-    // callCreateChatroomAPI
     const formHandler = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value,
         })
     }
-    useEffect(() => {
-        form && console.log(form);
-    }, [form])
+
     return (
         <>
             <div className={styles.messenger_body}>
