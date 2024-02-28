@@ -98,7 +98,7 @@ function ProjectPost({ projectCode }) {
     }, [project?.projectPostListWithPaging])
 
     const handleImageError = (e) => {
-        e.target.src = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`;
+        e.target.src = `/profile1.png`;
         e.target.onError = null;
     }
 
@@ -155,7 +155,6 @@ function ProjectPost({ projectCode }) {
             projectPostType: '수동',
             projectPostFileList: uploadImageList
         }
-        console.log('uploadImageList', uploadImageList);
         dispatch(callCreateProjectPostAPI({ projectCode, projectPost }))
         editor.setHTML('')
     }
