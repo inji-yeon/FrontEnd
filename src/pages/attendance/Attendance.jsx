@@ -147,7 +147,7 @@ function Attendance() {
 
 
     const dispatch = useDispatch();
-    const attendanceMain = useSelector((state => state.attendance));
+    const attendanceMain = useSelector((state => state?.attendance));
 
 
     const commuteMain = attendanceMain?.data?.data;

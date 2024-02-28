@@ -127,7 +127,7 @@ function Main() {
   const attendanceMain = useSelector((state => state.attendance));
 
 
-  const commuteMain = attendanceMain?.data;
+  const commuteMain = attendanceMain?.data?.data;
   console.log('commuteMain =====>', commuteMain);
 
   useEffect(() => {
@@ -140,8 +140,10 @@ function Main() {
 useEffect(() => {
   const arrivalTime = commuteMain?.attendanceManagementArrivalTime;
   const departureTime = commuteMain?.attendanceManagementDepartureTime;
+
   if (commuteMain?.attendanceManagementDepartureTime) {
     setIsAttendance(true); // 퇴근 상태로 설정
+
   } 
   if(arrivalTime < departureTime) {
     setIsAttendance(false); // 출근 상태로 설정
@@ -158,6 +160,7 @@ const changeAttendance = (status) => {
   if (status === 'leaving') {
 
     if (arrivalTime > departureTime){
+
       dispatch(updateCommuteAPI({}));
       setIsAttendance(false); // 퇴근 상태로 변경
       window.location.reload();
@@ -172,10 +175,13 @@ const changeAttendance = (status) => {
       alert('이미 출근 했습니다.');
       return;
     } else {
-      dispatch(insertCommuteAPI({}));
-      setIsAttendance(true); // 출근 상태로 변경
+        if (commuteMain?.attendanceManagementArrivalTime) {
+          dispatch(insertCommuteAPI({}));
+          setIsAttendance(true); // 출근 상태로 변경
       
+      }
     }
+ 
 
   }
 };
