@@ -84,8 +84,8 @@ const PostListOfBoard = () => {
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={2}
                         onPageChange={handlePageClick}
-                        containerClassName={'paging'}   
-                        activeClassName={'paging-active'}
+                        containerClassName={'listPaging'}   
+                        activeClassName={'pagingActive'}
                         />
                     </div>
                     : <>

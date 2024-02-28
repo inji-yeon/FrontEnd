@@ -1,6 +1,6 @@
 .PostList{
 
-    text-align: 'left';
+    text-align: left;
     margin-top: 70px;
     width: 100%;
 }
@@ -11,17 +11,17 @@
     color: #606060;
     text-align: left;
     margin-top: 70px;
+    margin-bottom: 70px;
     
 }
 
 .PostList > thead{
-    /* border-top: 1px solid #A3A2A2; */
     border-bottom: 1px solid #A3A2A2;
 
 }
 
 .PostList > thead th{
-
+    padding-left: 15px;
     font-weight: normal;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -30,12 +30,19 @@
 
 .PostList > tbody td{
     padding-top: 20px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    padding-right: 80px;
+    padding-left: 15px;
+
 }
 
 
-.PostList > tbody td{
-    padding-right: 80px;
+.PostList > tbody tr{
+    cursor: pointer;
+}
+
+.PostList > tbody tr:hover{
+    background-color: #ffe4de;
 }
 
 .PostList > td{

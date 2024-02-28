@@ -98,7 +98,7 @@ function SideBar() {
                 navigate('/approval');
                 break;
             case 'board':
-                navigate('/board');
+                navigate('/board/1/posts');
                 break;
             case 'group':
                 navigate('/group');
@@ -184,7 +184,7 @@ function SideBar() {
                         </li>
                         { userRole === 'ROLE_ADMIN' ? (
                         <li onClick={() => { sidebarMenuSelectHandler('admin') }}>
-                            <div>(임시)관리자</div>
+                            <div>관리자</div>
                         </li>
                         ):(<></>)}
                     </ul>

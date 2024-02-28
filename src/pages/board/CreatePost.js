@@ -7,11 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // Toast 에디터
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-// import chartPlugin from '@toast-ui/editor-plugin-chart'
-// import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight'
-// import colorPlugin from '@toast-ui/editor-plugin-color-syntax'
-// import tableMergedCellPlugin from '@toast-ui/editor-plugin-table-merged-cell'
-// import umlPlugin from '@toast-ui/editor-plugin-uml'
+import fontSize from "tui-editor-plugin-font-size";
+import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 
 
 const CreatePost = () => {
@@ -200,8 +197,6 @@ const CreatePost = () => {
     </table>
 
 
-    {/* <textarea className="summernote" name="postContext" onChange={onChangeHandler} /> */}
-
       <Editor
         ref={editorRef}
         placeholder="게시글을 입력해주세요."
@@ -216,70 +211,21 @@ const CreatePost = () => {
           ['table', 'image', 'link'],
           ['code', 'codeblock']
         ]}
+        plugins={[fontSize]}
         onChange={onChangeEditorHandler}
       ></Editor>
 
 
-
-
     <br /><br />
-    <table>
-        <tbody>
-
-            <tr>
-                <th>직원 알림 설정</th>
-                <td>
-                    
-                    <input type="checkbox" id="myDept" name="deptAlert"
-                    onChange={onChangeHandler}/>
-                    <label htmlFor="myDept">부서 알림</label>
 
 
-                    <span><input type="checkbox" id="isEmployee" name="employeeAlert" 
-                    onChange={onChangeHandler}/>
-                    <label htmlFor="isEmployee">직원 추가</label></span>
-                    
-                    
-                    {form.employeeAlert && (
-                        <div id="employeeAlertList">
-                            <div style={{backgroundColor: '#F5F5F5', padding: '6px 13px'}}>
-                                <span style={{paddingRight: '15px'}}>차윤하 팀장</span>
-                                <span>차윤하 팀장</span>
-                            </div>
-                            <div>특정 직원에게 알림을 설정할 수 있습니다.</div>
-                        </div>)
-                    }
-                   
-                </td>
-            </tr>
-
-            <tr>
-                <th>공지글 설정</th>
-                <td>
-                    <span><input type="checkbox" id="addNotice" name="postNoticeStatus"
-                    onChange={onChangeHandler}/></span>
-                    
-                    {/* {form.postNoticeStatus && (
-                        <div id="dateNotice">
-                            <input type="date" name="addNoticeDate" onChange={onChangeHandler}/>
-                        </div>
-                    )} */}
-                </td>
-            
-            </tr>
-
-        </tbody>
-
-    </table>
-
-    <div style={{textAlign: 'right'}}>
+    <div style={{marginTop: 10, textAlign: 'center'}}>
         {/* <button type="submit" className={styles.btn}>임시 저장</button> */}
-        <button type="submit" className={styles.btn} style={{letterSpacing: 1 +'px'}} onClick={registPostHandler}>제출</button>
+        <button type="submit" className={styles.btn} style={{letterSpacing: 1 +'px'}} onClick={registPostHandler}>등록</button>
     </div>
 
 </div>
 
-    
     </>
 }
 

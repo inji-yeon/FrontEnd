@@ -2,25 +2,18 @@ import { useEffect, useState } from 'react';
 import styles from './PostList.module.css';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
 
 const PostList = ({data}) => {
 
 
-    console.log('+++postList 컴포넌트에서 받은 ++++++>>> : ', data);
-   
-        // optional chaining
-    // console.log('postList 컴포넌트 : ', data?.data?.content);
+    console.log('postList 컴포넌트에서 받은 postList props : ', data);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(data);
 
     }, [data]);
-
-    
-    
-    const navigate = useNavigate();
-
 
 
     return <>
@@ -38,10 +31,11 @@ const PostList = ({data}) => {
 
             <tbody>
 
-                
              {data?.content?.map((post, idx) => (
 
-                    <tr key={post.postCode} onClick={() => navigate(`/board/posts/${post.postCode}`)}>
+                    <tr key={post.postCode} onClick={() => navigate(`/board/posts/${post.postCode}`)}
+                        className=''
+                    >
                         <td>{post.postCode}</td>
                         <td>{post.postTitle}</td>
                         <td>{post.employee.employeeName}</td>
