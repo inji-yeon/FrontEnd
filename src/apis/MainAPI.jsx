@@ -69,6 +69,8 @@ export const callAttendenceAPI = () => {
         console.log('근태 관련 데이터 :',data);
     })
 }
+
+
 const 원본 = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/main`;
 
@@ -98,3 +100,5 @@ const 원본 = () => {
     };
 
 };
+
+
