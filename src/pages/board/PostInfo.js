@@ -14,18 +14,18 @@ const PostInfo = () => {
 
     const navigate = useNavigate();
 
-   const {postCode} = useParams(); //이름 파라미터
+    const {postCode} = useParams(); //이름 파라미터
 
-   const [like, setLike] = useState(false);
+    const [like, setLike] = useState(false);
+    const [userCode, setUserCode] = useState(0);
+
 
    // reducer
     const post = useSelector(state => state.board?.post);
     const dispatch = useDispatch();
 
     const token = decodeJwt(window.localStorage.getItem('accessToken'));
-    console.log('token : ',token);
 
-    const [userCode, setUserCode] = useState(0);
     
     useEffect(() => {
 
@@ -34,8 +34,6 @@ const PostInfo = () => {
         }
 
     }, [post])
-    
-   console.log('----------', post);
 
 
    useEffect(() => {
@@ -46,7 +44,7 @@ const PostInfo = () => {
     
    }, [])
 
-   console.log('post : ' ,post);
+    console.log('post : ' ,post);
 
     function RawHtml({ htmlContent }) {
         return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
@@ -74,7 +72,6 @@ const PostInfo = () => {
         console.log(data); // handle success response here
         setLike(!like);
 
-        alert('좋아요를 누르셨습니다.');
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -121,7 +118,7 @@ const PostInfo = () => {
 
         )}
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginLeft: 10 }}>
             <div className={styles.postTitle}>{post?.postTitle}</div>
             <div className="heartBtn">
                 <img src={userCode === token.empCode && like? Heart: HeartEmpty} 
@@ -131,7 +128,7 @@ const PostInfo = () => {
         
         
         <div>
-             <table>
+            <table style={{marginLeft: 10}}>
             <tbody>
                 <tr>
                 <td rowSpan={2}>
@@ -145,11 +142,11 @@ const PostInfo = () => {
                     <circle cx="17.5" cy="17.5" r="17.5" fill="#D9D9D9" />
                     </svg>
                 </td>
-                <td style={{ paddingTop: 10, color: "#606060" }}>{post?.employee?.employeeName}</td>
+                <td style={{ paddingTop: 10, color: "#606060", paddingLeft:5}}>{post?.employee?.employeeName}</td>
                 </tr>
                 <tr>
-                <td style={{ fontSize: 15, padding: 0, margin: 0, color: "#A3A2A2" }}>
-                    {post?.postDate}
+                <td style={{ fontSize: 14, paddingLeft: 5, margin: 0, color: "#A3A2A2" }}>
+                    {`${post?.postDate[0]}.${post?.postDate[1]}.${post?.postDate[2]} ${post?.postDate[3]}:${post?.postDate[4]}`}
                 </td>
                 </tr>
             </tbody>
@@ -157,12 +154,13 @@ const PostInfo = () => {
 
             <br /><br />
             <div className={styles.context}>
-            <RawHtml className="email-content" htmlContent={post?.postContext} />
+                <RawHtml className="email-content" htmlContent={post?.postContext} />
             </div>
 
+            <div style={{padding: 10 ,backgroundColor: '#F5F5F5', marginBottom: 20,}}>
             {post && post?.postAttachmentList ? 
                     post?.postAttachmentList?.map((attachment) => (
-                        <div key={attachment.postAttachmentCode}>
+                        <div key={attachment.postAttachmentCode} >
                             <span> 💾</span>
                             <span onClick={()=>{downloadFile(attachment.postAttachmentCode)}} className="mail_attechment_file"> {attachment.postAttachmentOgFile}</span>
                         </div>
@@ -170,9 +168,10 @@ const PostInfo = () => {
                     <></>
                     )
             }
+            </div>
             
 
-            <div style={{ display: "flex", fontSize: 14, color: "#606060" }}>
+            <div style={{ display: "flex", fontSize: 14, color: "#606060", justifyContent: 'flex-end', }}>
             <div style={{ marginRight: 25 }}>댓글 {post?.postCommentList?.length}</div>
             <div style={{ marginRight: 25 }}>좋아요 {post?.postLikeList?.length}</div>
             <div style={{ marginRight: 25 }}>조회 {post?.postViews}</div>

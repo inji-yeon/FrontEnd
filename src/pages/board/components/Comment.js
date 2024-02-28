@@ -48,9 +48,9 @@ const Comment = ({comments, postCode, empCode}) => {
 
 
         setContent('');
+        alert("댓글을 등록하였습니다.");
         window.location.reload();
 
-        showAlert('댓글을 등록하였습니다.');
     }
 
     console.log('comment  ', comment);
@@ -81,33 +81,33 @@ const Comment = ({comments, postCode, empCode}) => {
     /* 댓글 삭제 */
     const commentRemoveHandler = (commentCode) => {
 
-        console.log('commentCode :',commentCode);
-        dispatch(callRemoveCommentAPI({
-            commentCode,
-        }));
+        if (window.confirm(`댓글를 삭제하시겠습니까?`)) {
 
-        alert('댓글을 삭제하였습니다.');
-        window.location.reload();
+            dispatch(callRemoveCommentAPI({
+                commentCode,
+            }));
+            alert('댓글을 삭제하였습니다.');
+            window.location.reload();
+        }
+        
     }
 
 
     // 댓글 조회 프롭스, 리듀서 호출 
-    
     console.log('수정 상태 : ',isEdit);
-
     console.log('editconent : ', editContent);
 
 
     return <>
-    
-        <div style={{ display: "flex", marginTop: 70, marginBottom: 70 }}>
+
+        <hr />
+        <div style={{ display: "flex", marginTop: 30, marginBottom: 50, }}>
             <textarea className={styles.inputComment} placeholder='댓글' ref={contentInput} value={content} onChange={(e) => setContent(e.target.value)}/>
             <button className={styles.addCommentBtn} onClick={commentRegistHandler}>등록</button>
         </div>
 
 
         {/* 댓글 */}
-
         {comments?.map((comment, idx) => (
 
             <div className={styles.comment} key={comment.commentCode}>
@@ -162,6 +162,7 @@ const Comment = ({comments, postCode, empCode}) => {
                 ref={contentInput}
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
+                style={{marginLeft: 50}}
                 />  
             ) : (
                 <div style={{ paddingLeft: 50 }}>

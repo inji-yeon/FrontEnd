@@ -4,6 +4,9 @@ import { callGetPostInfoAPI, callModifyPostAPI, callRegistPostAPI, modifyPostAPI
 import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import fontSize from "tui-editor-plugin-font-size";
+import "tui-editor-plugin-font-size/dist/tui-editor-plugin-font-size.css";
 
 const UpdatePost = () => {
 
@@ -15,7 +18,6 @@ const UpdatePost = () => {
     const boardList = useSelector(state => state.boardReducer?.boardList); // 게시판 카테고리
     
     const [editorText, setEditorText] = useState(post?.post.postContext)
-
     const editorRef = useRef();
 
     const [files, setFiles] = useState([]);
@@ -26,6 +28,8 @@ const UpdatePost = () => {
         dispatch(callGetPostInfoAPI({
             postCode
         }))
+
+        console.log("== editorText ==", editorText);
 
     }, [])
 
@@ -41,11 +45,10 @@ const UpdatePost = () => {
             deptAlert: post?.post.deptAlert,
             employeeAlert: post?.post.employeeAlert,
             postNoticeStatus: post?.post.postNoticeStatus,
-            // addNoticeDate: post?.post.addNoticeDate,
         })
 
-        editorRef.current?.getInstance().setHTML(post?.post.postContext);
-        setEditorText(post?.post.postContext);
+        editorRef.current?.getInstance().setHTML(editorText);
+        // setEditorText(post?.post.postContext);
         
     }, [post])
 
@@ -77,8 +80,7 @@ const UpdatePost = () => {
 
     const onChangeEditorHandler = (e) => {
 
-        const data = editorRef.current?.getInstance().getHTML();
-        setEditorText(data);
+        setEditorText(editorRef.current?.getInstance().getHTML());
 
     }
 
@@ -92,7 +94,7 @@ const UpdatePost = () => {
         formData.append("boardGroupCode", updateform.boardGroupCode);
         formData.append("boardCode", updateform.boardCode);
         formData.append("postTitle", updateform.postTitle);
-        formData.append("postContext", updateform.postContext);
+        // formData.append("postContext", updateform.postContext);
         formData.append("deptAlert", updateform.deptAlert);
         formData.append("employeeAlert", updateform.employeeAlert);
         formData.append("postNoticeStatus", updateform.postNoticeStatus);    
@@ -141,11 +143,6 @@ const UpdatePost = () => {
             <tr>
                 <th>게시판 분류</th>
                 <td style={{paddingRight: '-30px'}}>
-                    {/* <select name="boardGroupCode" onChange={onChangeHandler} value={updateform.boardGroupCode}>
-                        <option value={1}>사내게시판</option>
-                        <option value={2}>부서게시판</option>
-                        <option value={3}>익명게시판</option>
-                    </select> */}
 
                     <select name="boardCode" onChange={onChangeHandler} value={updateform.boardCode}>
                         {
@@ -229,61 +226,11 @@ const UpdatePost = () => {
           ['code', 'codeblock']
         ]}
         onChange={onChangeEditorHandler}
+        plugins={[fontSize]}
       ></Editor>
 
 
     <br /><br />
-    <table>
-        <tbody>
-
-            <tr>
-                <th>직원 알림 설정</th>
-                <td>
-                    
-                    <input type="checkbox" id="myDept" name="deptAlert" 
-                    onChange={onChangeHandler}/>
-                    <label htmlFor="myDept">부서 알림</label>
-
-
-                    <span><input type="checkbox" id="isEmployee" name="employeeAlert" 
-                    onChange={onChangeHandler}/>
-                    <label htmlFor="isEmployee">직원 추가</label></span>
-                    
-                    
-                    {updateform.employeeAlert && (
-                        <div id="employeeAlertList">
-                            <div style={{backgroundColor: '#F5F5F5', padding: '6px 13px'}}>
-                                <span style={{paddingRight: '15px'}}>차윤하 팀장</span>
-                                <span>차윤하 팀장</span>
-                            </div>
-                            <div>특정 직원에게 알림을 설정할 수 있습니다.</div>
-                        </div>)
-                    }
-                   
-                </td>
-            </tr>
-
-            <tr>
-                <th>공지글 설정</th>
-                <td>
-                    <span>  
-                        <input type="checkbox" id="addNotice" name="postNoticeStatus" onChange={onChangeHandler}
-                            checked={updateform.postNoticeStatus === "Y" } 
-                        />
-                    </span>
-                    
-                    {/* {updateform.addNoticeStatus && (
-                        <div id="dateNotice">
-                            <input type="date" name="addNoticeDate" onChange={onChangeHandler}/>
-                        </div>
-                    )} */}
-                </td>
-            
-            </tr>
-
-        </tbody>
-
-    </table>
 
     <div style={{textAlign: 'right'}}>
         <button type="submit" className={styles.btn} onClick={() => navigate(-1)}>취소</button>

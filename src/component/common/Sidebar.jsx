@@ -97,7 +97,7 @@ function SideBar() {
                 navigate('/approval');
                 break;
             case 'board':
-                navigate('/board');
+                navigate('/board/1/posts');
                 break;
             case 'group':
                 navigate('/group');
@@ -182,7 +182,7 @@ function SideBar() {
                             <div id="group">조직</div>
                         </li>
                         <li onClick={() => { sidebarMenuSelectHandler('admin') }}>
-                            <div>(임시)관리자</div>
+                            <div>관리자</div>
                         </li>
                     </ul>
                 </div>

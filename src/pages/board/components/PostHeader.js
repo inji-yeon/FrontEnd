@@ -54,9 +54,6 @@ function PostHeader({boardCode}) {
             <span className={styles.category}>{boardInfo?.boardTitle}</span> <span className={styles.postCnt}>[ 34 ]</span>
 
             <div className={styles.boardContext}>
-                {/* <div>운영자 : 차윤하 팀장  가윤하 본부장  나윤하 팀원</div>
-                <br /> */}
-                <br />
                 <div>{boardInfo?.boardDescription}</div>
             </div>
 
