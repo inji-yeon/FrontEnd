@@ -1,10 +1,9 @@
 //공통으로 사용하는 사이드바 부분입니다. 
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './sidemenu.css';
 import { useEffect, useRef, useState } from 'react';
 
-import { getUserInformation } from '../../apis/SidebarAPI';
 import { useNavigate } from 'react-router-dom';
 import { decodeJwt } from '../../utils/tokenUtils';
 
@@ -16,6 +15,7 @@ function SideBar() {
     const [token, setToken] = useState('');
     const [userDept, setUserDept] = useState('');
     const [userGroup, setUserGroup] = useState('');
+    const [userRole, setUserRole] = useState('');
     useEffect(() => {
         setToken(decodeJwt(window.localStorage.getItem("accessToken")));
     }, [])
@@ -29,6 +29,7 @@ function SideBar() {
                 case 4: setUserGroup('마케팅본부'); break;
                 default: setUserGroup('Error');
             }
+            setUserRole(token.employeeRole[0].authority.authorityName);
         }
 
     }, [token])
@@ -65,7 +66,7 @@ function SideBar() {
                     alert('로그인을 먼저해주세요');
 
                     
-                    return navigate('/login'); ;
+                    return navigate('/login');
                 }
         const box = document.querySelector('.selected_box');
         const texts = ['mail', 'attendance', 'calendar', 'project', 'approval', 'board', 'group'];
@@ -181,9 +182,11 @@ function SideBar() {
                         <li onClick={() => { sidebarMenuSelectHandler('group') }}>
                             <div id="group">조직</div>
                         </li>
+                        { userRole === 'ROLE_ADMIN' ? (
                         <li onClick={() => { sidebarMenuSelectHandler('admin') }}>
                             <div>(임시)관리자</div>
                         </li>
+                        ):(<></>)}
                     </ul>
                 </div>
                 <div className="working_status_wrap">

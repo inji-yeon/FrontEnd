@@ -3,7 +3,6 @@ import { fetchMailByStatus, fetchMailSearch, toggleImportant } from "../../apis/
 import './mail.css';
 import '../../component/mail/errorMessage.css'
 import { useContext, useEffect, useState } from "react";
-import { fetchMail } from "../../modules/MailModule";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import MailContext from "./common/MailContext";
@@ -110,9 +109,7 @@ function Mail({ itemsPerPage }) {
         let selectedPage = data.selected;
         setCurrentPage(selectedPage);
         // getMailToMe(selectedPage);
-        dispatch(fetchMailByStatus(realMails[0].emailStatus,selectedPage));   //와 무슨 메일의 데이터를 요청할 지 내가 어케 알음?
-
-        //근데 이게 페이지가 있다는 거는 메일이 많단 소리임 
+        dispatch(fetchMailByStatus(realMails[0].emailStatus,selectedPage)); 
     };
     const [currentPage, setCurrentPage] = useState(0);
     return (
