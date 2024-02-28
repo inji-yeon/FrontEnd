@@ -56,9 +56,9 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
             headers: { Authorization: 'Bearer ' + window.localStorage.getItem('accessToken') },
             body: JSON.stringify({
                 chatContent: chatTextValue,
-                chatFileName: '파일이름이다.', 
-                chatFile: '사진데이터', 
-                isFileSend: 'N' 
+                chatFileName: '파일이름이다.',
+                chatFile: '사진데이터',
+                isFileSend: 'N'
             })
         })
 
@@ -262,7 +262,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                                         <div className={styles.member_info}>
                                                             <div className={styles.member_list_img_and_name}>
                                                                 <img
-                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${employee.profileList[0]?.profileChangedFile}`) : `/profile1.png`}
                                                                     alt='멤버사진'
                                                                 />
                                                                 <span>{employee?.employeeName}</span>
@@ -350,8 +350,8 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                     <img src={chat?.chatroomMember?.employee?.profileList
                                         ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
                                             ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
-                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`)
-                                        : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                            : `/profile1.png`)
+                                        : `/profile1.png`}
                                         alt="프로필사진" className={styles.chat_element_row_1} />
                                     <div className={styles.chat_element_row_2}>
                                         <div className={styles.sender}>
