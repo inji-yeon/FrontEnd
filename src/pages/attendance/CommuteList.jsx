@@ -65,14 +65,13 @@ function CommuteList() {
     }
 
     useEffect(() => {
-        //날짜 데이터 보내는 형식 2024-02
         setStart((currentPage - 1) * 5);
         const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;        
 
         dispatch(
             callCommutesListAPI({
                 currentPage: currentPage,
-                now: formattedDate, // 현재 날짜 정보를 API 호출 시 전달
+                now: formattedDate, 
             })
         );
     }, [currentPage, currentDate]);

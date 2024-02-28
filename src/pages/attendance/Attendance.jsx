@@ -121,8 +121,7 @@ function Attendance() {
     
         // 시, 분, 초 추출
         const [hours, minutes, seconds] = currentTime.split(' ')[1].split(':').map(Number);
-        
-        
+            
         // API 호출 시 arrivalTime을 문자열로 전달
         dispatch(callCommuteUpdateAPI({
             departureTime: currentTime.replace(' ', 'T'), // ISO 형식으로 변경, 
@@ -130,8 +129,6 @@ function Attendance() {
         
         })); 
             
-    
-
         window.location.reload();
    
       };
@@ -215,6 +212,7 @@ function Attendance() {
             <div className={commuteMa.main2}>
                 <span className={commuteMa.mainTitle}>내 근태 현황</span>
                 {/* <button onClick={adminAttendance} className={commuteMa.admin}>관리자 페이지</button> */}
+                {console.log(commuteVacation,'commuteVacation')}
                 <div className={commuteMa.bar}></div>
                 <div className={commuteMa.box}>
                     <div className={commuteMa.vacation_box}>
