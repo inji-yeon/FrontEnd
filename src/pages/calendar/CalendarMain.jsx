@@ -1,7 +1,7 @@
 import Calendar from '@toast-ui/react-calendar'
 import '@toast-ui/calendar/dist/toastui-calendar.min.css'
 
-import styles from './calendarMain.module.css'
+import styles from './CalendarMain.module.css'
 import { useEffect, useRef, useState } from 'react'
 import CalendarListPage from './CalendarListPage'
 import EventWindow from './EventWindow'
