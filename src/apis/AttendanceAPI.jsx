@@ -12,7 +12,9 @@ import{
     GET_ADMIN_VACATION,
     GET_ADMIN_NO_VACATION,
     GET_DETAIL_MY,
-    PUT_DETAIL_DOC
+    PUT_DETAIL_DOC,
+    POST_MAIN_COMMUTE,
+    PUT_MAIN_DEPART
 } from '../modules/AttendanceModule'
 
 
@@ -530,3 +532,71 @@ export const callUpdateStateAPI = ({ approvalDocumentCode }) => {
     };
 };
 
+
+
+
+
+export const insertCommuteAPI = () => {
+    let requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mainpage/arrive`;
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+                },
+            });
+
+            // fetch가 완료될 때까지 기다린 후에 아래 코드가 실행됨
+            if (response.status === 200) {
+                const result = await response.json(); // 응답을 JSON으로 파싱
+                console.log('[AttendanceAPI] insertCommuteAPI RESULT : ', result);
+                dispatch({ type: POST_MAIN_COMMUTE, payload: result });
+            } else {
+                console.log('Response status:', response.status);
+                console.log('dkdk');
+            }
+        } catch (error) {
+            console.error('Error during API call:', error.message); // 오류 메시지 출력 수정
+        }
+    };
+};
+
+
+
+
+export const updateCommuteAPI = () => {
+    let requestURL;
+
+    requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/mainpage/arrive`;
+
+
+    console.log('[AttendanceAPI] requestURL :', requestURL);
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+        console.log(result)
+        
+        
+        if (result.status === 200) {
+            
+            console.log('[AttendanceAPI] updateCommuteAPI RESULT : ', result);
+            dispatch({ type: PUT_MAIN_DEPART, payload: result });
+
+        } else {
+            console.log('dkdk');
+        }
+    };
+};
