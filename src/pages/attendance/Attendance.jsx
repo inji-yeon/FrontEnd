@@ -222,7 +222,7 @@ function Attendance() {
                         <span className={commuteMa.vacation_image}></span>
                         <div className={commuteMa.vacation2}>{commuteVacation?.resultVacation}</div>
                         <span className={commuteMa.vacation_day}>일</span>
-                        <button onClick={vacationApplyClick}  style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.vacation_apply}>휴가 신청하기</button>
+                        <button onClick={vacationApplyClick} style={{ backgroundColor: '#FFBE98', border: 'none' }} className={commuteMa.vacation_apply}>휴가 신청하기</button>
                     </div>
                     <div className={commuteMa.payment_box}>
                         <span className={commuteMa.payment_leave}>결재 대기</span>
