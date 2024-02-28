@@ -218,7 +218,7 @@ function SideBar() {
                             <tr className="working_status_row2">
                                 <td className="status_profile">
                                     <div>
-                                        <img src={profile ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208//web-images/${profile}` : '/profile1.png'} alt="프로필 이미지" />
+                                        <img src={profile ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${profile}` : '/profile1.png'} alt="프로필 이미지" />
                                     </div>
                                 </td>
                                 <td className="status_name_and_team">
