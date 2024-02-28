@@ -150,16 +150,16 @@ function Attendance() {
     const attendanceMain = useSelector((state => state.attendance));
 
 
-    const commuteMain = attendanceMain?.data;
+    const commuteMain = attendanceMain?.data?.data;
     console.log('commuteMain =====>', commuteMain);
 
-    const commuteVacation =attendanceMain?.data2;
+    const commuteVacation =attendanceMain?.data?.data2;
     console.log('commuteVacation =====>', commuteVacation);
 
-    const commuteWaiting = attendanceMain?.data3;
+    const commuteWaiting = attendanceMain?.data?.data3;
     console.log('commuteWaiting ========>',commuteWaiting );
 
-    const commuteName = attendanceMain?.data4;
+    const commuteName = attendanceMain?.data?.data4;
     console.log('========= commuteName ===========', commuteName)
 
 
