@@ -49,9 +49,6 @@ function MailWrite() {
     useEffect(() => {
         setToken(decodeJwt(window.localStorage.getItem('accessToken')));
     }, [])
-    useEffect(() => {
-        console.log('토큰은 :', token);
-    }, [token])
 
     const sendEmail = (status) => {   //이메일 보내기 버튼 눌럿을 때
         if (title && receiver) {          //insert작업인데 @MessageMapping으로 보내야한다.
@@ -102,8 +99,8 @@ function MailWrite() {
                                 employeeId: receiver + '@witty.com'
                             }
                         }
-                        fetObj(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/send-reserve-mail`, 'POST', emailDTO)
-                            .then(res => res.json())
+                        fetObj(`http://${process.env.REACT_APP_RESTAPI_IP}:1208/mail/send-reserve-mail`, 'POST', emailDTO);
+                        navigate('/mail/check');
                     }
                     break;
                 case 'temporary':

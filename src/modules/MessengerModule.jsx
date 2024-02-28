@@ -143,14 +143,11 @@ const messengerReducer = handleActions(
             }
         },
         [PUT_PINNED_CHATROOM]: (state, { payload }) => {
-            // payload?.data 는 chatroomCode 라는 Long 타입이다.
             const chatroomCode = payload?.data;
             const chatroomList = state.messengerMain.chatroomList;
             const notChangedChatroomList = chatroomList.filter(chatroom => chatroom.chatroomCode !== chatroomCode);
             const changedChatroomList = chatroomList.filter(chatroom => chatroom.chatroomCode === chatroomCode)
                 .map(chatroom => ({ ...chatroom, chatroomFixedStatus: chatroom.chatroomFixedStatus === 'Y' ? 'N' : 'Y' }))
-            console.log('notChangedChatroomList', notChangedChatroomList);
-            console.log('changedChatroomList', changedChatroomList);
             const newChatroomList = [...notChangedChatroomList, ...changedChatroomList]
                 ?.sort((chatroom1, chatroom2) => {
                     if (chatroom1.chatroomFixedStatus === 'N' && chatroom2.chatroomFixedStatus === 'Y') {
@@ -243,6 +240,7 @@ const messengerReducer = handleActions(
                 ?.filter(chatroom => chatroom?.chatroomCode !== chat.chatroomCode)
             const newChatroomList = chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode === chat.chatroomCode)
+            const newChatList = [...state.chatroomData.chatList].filter(oldChat => oldChat?.chatCode !== chat?.chatCode)
             return {
                 ...state,
                 messengerMain: {
@@ -255,7 +253,7 @@ const messengerReducer = handleActions(
                 },
                 chatroomData: {
                     ...state.chatroomData,
-                    chatList: [...state.chatroomData.chatList, chat]
+                    chatList: [...newChatList, chat]
                 }
             }
         },
@@ -265,8 +263,6 @@ const messengerReducer = handleActions(
             const newChatroomList = chatroomList
                 ?.filter(chatroom => chatroom?.chatroomCode === chat.chatroomCode)
                 ?.map(chatroom => {
-                    console.log('chatroom', chatroom);
-                    console.log('chatroom.notReadChatCount', chatroom.notReadChatCount);
                     return {
                         ...chatroom,
                         chatroomChatDate: new Date(chat.chatWriteDate).getTime(),

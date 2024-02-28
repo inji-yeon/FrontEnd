@@ -27,6 +27,7 @@
     padding-right: 20px;
     font-weight: 700;
     padding-bottom: 30px;
+    font-size: 15px;
 
 }
 
@@ -50,4 +51,6 @@
 
 }
 
-
+.toastui-editor-contents{
+    font-size: 15px;
+}

@@ -22,10 +22,9 @@ function ProjectMain() {
         projectCode: null,
         projectTitle: '',
         projectDescription: '',
-        progressStatus: '',
         projectDeadline: '',
-        projectLockedStatus: '',
-        projectProgressStatus: ''
+        projectLockedStatus: 'Y',
+        projectProgressStatus: '프로젝트 생성'
     })
 
 
@@ -91,9 +90,6 @@ function ProjectMain() {
         color: 'white'
     }
     useEffect(() => {
-        project && console.log('project', project);
-    }, [project])
-    useEffect(() => {
         setProjectList(project?.projectListWithPaging?.data);
         setProjectPageInfo(project?.projectListWithPaging?.pageInfo);
     }, [project?.projectListWithPaging])
@@ -141,8 +137,6 @@ function ProjectMain() {
     }, [project?.message])
 
     useEffect(() => {
-        projectList?.length && console.log('projectList>>>', projectList);
-        projectPageInfo && console.log('projectPageInfo>>>', projectPageInfo);
         const pageStart = projectPageInfo?.pageStart;
         const pageEnd = projectPageInfo?.pageEnd;
         const range = Array.from({ length: pageEnd - pageStart + 1 }, (_, index) => index + pageStart)
@@ -240,13 +234,13 @@ function ProjectMain() {
                                                 <div className={styles.project_element_row_2}>
                                                     <div className={styles.project_manager}>관리자: {projectManagerName}</div>
                                                 </div>
-                                                <div className={styles.project_element_row_3}>
+                                                <div className={styles.project_element_row_3} style={{ color: projectDeadline <= new Date().getTime() && 'red', fontWeight: projectDeadline <= new Date().getTime() && 'bold' }}>
                                                     ~ {format(projectDeadline, "yyyy-MM-dd", { timeZone: 'Asia/Seoul' })}
                                                 </div>
                                                 <div className={styles.project_element_row_4}>
                                                     <div className={styles.project_element_progress_status} style={{ color: colorType(projectProgressStatus) }}>{projectProgressStatus}</div>
                                                     <div>
-                                                        {projectLockedStatus
+                                                        {projectLockedStatus === 'Y'
                                                             ? <img src='/project/lock.png' alt='잠금' className={styles.lock_img} />
                                                             : ''}
                                                         <img src='/project/member_count.png' alt='인원:' />
@@ -376,7 +370,7 @@ function ProjectMain() {
                                 className={styles.create_exit_button}
                                 onClick={gobackHandler}
                             >뒤로가기</button>
-                            <button onClick={submitHandler}>수정하기</button>
+                            <button onClick={submitHandler}>생성하기</button>
                         </div>
                     </div>
                 </section>

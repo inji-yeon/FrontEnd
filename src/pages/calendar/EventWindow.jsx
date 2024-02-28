@@ -117,6 +117,7 @@ function EventWindow({ eventWindow, setEventWindow, calendar }) {
                 eventCategory: form.eventCategory
             }
         }
+        console.log(eventOptions, 'eventOptions');
         dispatch(callModifyEventAPI({ eventOptions }))
         eventWindowExitHandler()
     }

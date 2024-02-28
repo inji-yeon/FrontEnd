@@ -6,8 +6,6 @@ import {
     POST_POST,
     PUT_POST,
     DELETE_POST,
-    PUT_MOVE_POST,
-    GET_POSTS_SEARCH,
     POST_LIKE,
 } from '../modules/PostModule.jsx'
 
@@ -16,34 +14,17 @@ import {
     PUT_COMMENT,
     DELETE_COMMENT, 
 } from '../modules/PostCommentModule.jsx'
+
 import { GET_BOARD, GET_BOARDS } from '../modules/BoardModule.jsx'
-
-
-/* 리덕스 적용 전  */
-// export const callGetPostsAPI = ({boardCode}) => {
-
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`
-//     // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
-
-//     return axios.get(requestURL, {
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "*/*",
-//                 "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
-//             }
-//         })
-//         .then( res => res.data)
-//         .catch(error => console.error(error))
-
-//     }
 
 
 
 /* 게시글 조회 */
 export const callGetPostsAPI = ({boardCode, offset}) => {
 
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}?offset=${offset ? offset : 1}`
-    // const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}`;
+    console.log('게시글 조회 api offset', offset)
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/${boardCode}/posts?offset=${offset ? offset : 0}`
 
     return async(dispatch, getState) => {
 
@@ -107,8 +88,6 @@ export const callGetBoardAPI = ({boardCode}) => {
             }).then(res => res.data)
             .catch(err => console.log(err));
 
-            console.log('get board api : ', result);
-
             dispatch({type: GET_BOARD, payload: result?.data});
 
     }
@@ -133,8 +112,6 @@ export const callSearchPostAPI = (boardCode, search) => {
             }
             ).then(res => res.data)
              .catch(err => console.log(err));
-
-            console.log('api : ', result);
 
             dispatch({type: GET_POSTS, payload: result?.data});
 
@@ -173,8 +150,6 @@ export const modifyPostAPI = ({postCode, form}) => {
 /* 게시글 등록 */
 export const callRegistPostAPI = ({formData}) => {
 
-    console.log('callRegist formData : ', formData);
-
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/board/posts/regist`;
 
     return async(dispatch, getState) => {
@@ -191,9 +166,6 @@ export const callRegistPostAPI = ({formData}) => {
             ).then(res => res.data)
              .catch(err => console.log(err))
 
-            
-            console.log(result);
-
             dispatch({type: POST_POST, payload: result});
 
     }
@@ -209,7 +181,6 @@ export async function downloadFileAPI(attachmentCode) {
           .then(response => {
             const contentDisposition = response.headers.get('expires');
             console.log('Content-Disposition:', contentDisposition);
-
 
             console.log('==========>', response)
             const blob = new Blob([response.data]);
@@ -247,10 +218,7 @@ export const callModifyPostAPI = ({postCode, form}) => {
                         "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
                     },
                 }
-            ).then(res => {
-                console.log('게시글 수정 data : ',res?.data);
-                return res.data;
-            })
+            ).then(res => res.data)
              .catch(err => console.log(err))
 
 
@@ -280,8 +248,6 @@ export const callRemovePostAPI = ({postCode}) => {
             ).then(res => res.data)
              .catch(err => console.log(err))
 
-            console.log('post delete api result----------',result);
-
             dispatch({type: DELETE_POST, payload: result});
 
     }
@@ -307,8 +273,6 @@ export const callGetPostInfoAPI = ({postCode}) => {
         })
         .then(res => res.data)
         .catch(err => console.log(err))
-    
-        console.log(`result : `, result);
 
         dispatch({type: GET_POST, payload: result?.data});
 
@@ -337,9 +301,6 @@ export const callRegistLikeAPI = ({postCode}) => {
             }
             ).then(res => res.data)
              .catch(err => console.log(err))
-
-            
-            console.log(result);
 
             dispatch({type: POST_LIKE, payload: result});
 
@@ -371,8 +332,6 @@ export const callRegistCommentAPI = ({postCode, postCommentContext}) => {
             ).then(res => res.data)
              .catch(err => console.log(err))
 
-            console.log('result',result);
-
             dispatch({type: POST_COMMENT, payload: result});
 
     }
@@ -400,8 +359,6 @@ export const callModifyCommentAPI = ({commentCode, postCommentContext}) => {
             ).then(res => res.data)
              .catch(err => console.log(err))
 
-            console.log('comment modify api result----------',result);
-
             dispatch({type: PUT_COMMENT, payload: result});
 
     }
@@ -428,8 +385,6 @@ export const callRemoveCommentAPI = ({commentCode}) => {
                 }
             ).then(res => res.data)
              .catch(err => console.log(err))
-
-            console.log('comment delete api result----------',result);
 
             dispatch({type: DELETE_COMMENT, payload: result});
 

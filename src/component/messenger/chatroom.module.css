@@ -133,11 +133,13 @@
 
 .chat_element_row_2>.letter {
     font-size: 14px;
-    color: #a3a2a2;
+    color: #606060;
     background-color: white;
+    background-color: #FFF2EA;
     border-radius: 10px;
     padding: 10px;
     line-height: 16px;
+    max-width: 160px;
 }
 
 .chat_element_me .letter {

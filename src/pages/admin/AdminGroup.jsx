@@ -15,41 +15,41 @@ function AdminGroup() {
         //기본 정보
         employee: {
             employeeDepartment: {
-                departmentCode: '5' //팀 코드
+                departmentCode: '1' //팀 코드
             },
             employeeJob: {
-                jobCode: '4' //직위 코드
+                jobCode: '1' //직위 코드
             },
-            employeeName: 'test', //이름
+            employeeName: '', //이름
             employeeBirthDate: '2000-01-01', //생일
-            employeeResidentNumber: '000000-0000000', //주민번호
-            employeePhone: '010-0000-0000', //폰 번호
-            employeeAddress: '서울특별시', //주소
+            employeeResidentNumber: '', //주민번호
+            employeePhone: '010-', //폰 번호
+            employeeAddress: '', //주소
             employeeJoinDate: new Date().toISOString().split('T')[0], //입사일
-            employeeRetirementDate: new Date().toISOString().split('T')[0], //퇴사일 (회원가입이라 퇴사x)
-            employeeId: 'test', //아이디
-            employeePassword: 'test', //비밀번호
-            employeeAssignedCode: '00000000', //사번
-            employeeExternalEmail: 'test@test.com', //이메일
-            employeeRole: 'ROLE_USER' //권한
+            employeeRetirementDate: null, //퇴사일 (회원가입이라 퇴사x)
+            employeeId: '', //아이디
+            employeePassword: '', //비밀번호
+            employeeAssignedCode: '', //사번
+            employeeExternalEmail: '', //이메일
+            employeeRole: '' //권한
         },
 
         career: {
             //경력
-            careerStartDate: new Date().toISOString().split('T')[0], //시작일
-            careerEndDate: new Date().toISOString().split('T')[0], //종료일
-            careerPosition: '팀장', //직위
-            careerCompanyName: '회사이름', //회사이름
-            careerBusinessInformation: '자세한업무' //업무내용
+            careerStartDate: null, //시작일
+            careerEndDate:  null,//종료일
+            careerPosition: '', //직위
+            careerCompanyName: '', //회사이름
+            careerBusinessInformation: '' //업무내용
         },
 
         education: {
             //학력
-            educationName: '00대학교', //학력이름
-            educationMajor: '00부', //전공
-            educationGrades: '4.5', //학점
-            educationAdmissionDate: '2011-03-01', //입학일
-            educationGraduateDate: '2024-02-24' //졸업일
+            educationName: '', //학력이름
+            educationMajor: '', //전공
+            educationGrades: '', //학점
+            educationAdmissionDate: null, //입학일
+            educationGraduateDate: null //졸업일
         }
     })
     const departmentHandler = e => {
@@ -123,12 +123,17 @@ function AdminGroup() {
 
     async function joinUser() {
         //회원가입 시키는 API 호출
-        // const result = await joinUserAPI(data);
-        // showAlert(`${result.message} 유저코드 : ${result.data.employee.employeeCode}`);
-        const formData = new FormData()
-        formData.append('profile', profile)
-        const userProfileResult = await insertUserProfileAPI(formData)
-        console.log(userProfileResult)
+        const result = await joinUserAPI(data);
+        showAlert(`${result.message} 유저코드 : ${result.data.employee.employeeCode}`);
+        if(profile){
+            const formData = new FormData();
+            formData.append('profile', profile);
+            const userProfileResult = await insertUserProfileAPI(formData);
+            console.log(userProfileResult);
+        }
+        
+        
+        
     }
 
     return (
@@ -145,21 +150,21 @@ function AdminGroup() {
                         </tr>
                         <tr>
                             <td rowSpan={'4'} colSpan={'2'}>
-                                {/* {imageSrc && (
+                                {imageSrc && (
                                     <img
                                         src={imageSrc}
                                         alt='Preview'
-                                        style={{ width: '200px', height: 'auto' }}
+                                        style={{ width: '200px', height: '300px' }}
                                     />
-                                )} */}
-                                <div
+                                )}
+                                {/* <div
                                     style={{
                                         width: '200px',
                                         height: '300px',
                                         backgroundColor: 'hsl(12,92%,85%)',
                                         margin: '10px auto'
                                     }}
-                                ></div>
+                                ></div> */}
                                 <input
                                     accept='image/*'
                                     onChange={e => setProfileHandler(e)}
@@ -186,7 +191,7 @@ function AdminGroup() {
                                     data-section='employee'
                                     name='employeeRetirementDate'
                                     onChange={eventHandler}
-                                    type='text'
+                                    type='date'
                                     value={data.employee.employeeRetirementDate}
                                 />
                             </td>
@@ -197,8 +202,10 @@ function AdminGroup() {
                             </td>
                             <td colSpan={'3'}>
                                 <select name='department' value={data.department}>
+                                    <option value=''>관리본부</option>
+                                    <option value=''>영업본부</option>
                                     <option value=''>개발본부</option>
-                                    <option value=''>부서2</option>
+                                    <option value=''>마케팅본부</option>
                                 </select>
                             </td>
                         </tr>
@@ -217,6 +224,11 @@ function AdminGroup() {
                                     <option value='5'>총무팀</option>
                                     <option value='6'>회계팀</option>
                                     <option value='7'>영업팀</option>
+                                    <option value='8'>IT운영팀</option>
+                                    <option value='9'>개발1팀</option>
+                                    <option value='10'>마케팅팀</option>
+                                    <option value='11'>인사관리팀</option>
+                                    <option value='16'>개발2팀</option>
                                 </select>
                             </td>
                         </tr>
