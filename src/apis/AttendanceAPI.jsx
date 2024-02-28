@@ -1,4 +1,5 @@
-import{
+import axios from 'axios';
+import {
     GET_COMMUTE_LIST,
     GET_DO_PAYMENT,
     GET_DO_REJECT,
@@ -26,19 +27,22 @@ export const callCommuteMainAPI = () => {
 
 
     return async (dispatch, getState) => {
-        const result = await fetch(requestURL, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: '*/*',
-                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-            },
-        }).then((response) => response.json());
+        const result = await axios
+            .get(requestURL, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+                }
+            }).then((response) => {
+                console.log('response', response);
+                return response;
+            });
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callCommuteMainAPI RESULT : ', result);
             dispatch({ type: GET_COMMUTE_MAIN, payload: result });
 
@@ -96,7 +100,7 @@ export const callCommuteUpdateAPI = ({ departureTime, early }) => {
         const requestBody = {
             departureTime,
             early, // late가 true면 '조퇴', 아니면 '정상'으로 설정
-            
+
         };
 
         const result = await fetch(requestURL, {
@@ -133,7 +137,7 @@ export const callCommuteUpdateAPI = ({ departureTime, early }) => {
 export const callCommutesListAPI = ({ currentPage, now }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/lists?yearMonth=${now}&offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/lists?yearMonth=${now}`;
@@ -152,10 +156,10 @@ export const callCommutesListAPI = ({ currentPage, now }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callCommutesListAPI RESULT : ', result);
             dispatch({ type: GET_COMMUTE_LIST, payload: result });
 
@@ -170,7 +174,7 @@ export const callCommutesListAPI = ({ currentPage, now }) => {
 export const callDoPaymentAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/completed?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/completed`;
@@ -189,10 +193,10 @@ export const callDoPaymentAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callDoPaymentAPI RESULT : ', result);
             dispatch({ type: GET_DO_PAYMENT, payload: result.data });
 
@@ -207,7 +211,7 @@ export const callDoPaymentAPI = ({ currentPage }) => {
 export const callDoRejectAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/rejection?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/rejection`;
@@ -226,10 +230,10 @@ export const callDoRejectAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callDoRejectAPI RESULT : ', result);
             dispatch({ type: GET_DO_REJECT, payload: result.data });
 
@@ -244,7 +248,7 @@ export const callDoRejectAPI = ({ currentPage }) => {
 export const callDoWaitingAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/waiting?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/payment/waiting`;
@@ -262,10 +266,10 @@ export const callDoWaitingAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callDoWaitingAPI RESULT : ', result);
             dispatch({ type: GET_DO_WAITING, payload: result.data });
 
@@ -281,7 +285,7 @@ export const callDoWaitingAPI = ({ currentPage }) => {
 export const callMyApprovalAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-payment?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-payment`;
@@ -299,10 +303,10 @@ export const callMyApprovalAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callMyApprovalAPI RESULT : ', result);
             dispatch({ type: GET_MY_APPROVAL, payload: result.data });
 
@@ -318,7 +322,7 @@ export const callMyApprovalAPI = ({ currentPage }) => {
 export const callMyRejectAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-companion?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-companion`;
@@ -336,10 +340,10 @@ export const callMyRejectAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callMyRejectAPI RESULT : ', result);
             dispatch({ type: GET_MY_COMPANION, payload: result.data });
 
@@ -354,7 +358,7 @@ export const callMyRejectAPI = ({ currentPage }) => {
 export const callMyWaitingAPI = ({ currentPage }) => {
     let requestURL;
 
-     if (currentPage !== undefined && currentPage !== null) {
+    if (currentPage !== undefined && currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-waiting?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/my/documents-waiting`;
@@ -372,7 +376,7 @@ export const callMyWaitingAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
+
         if (result.status === 200) {
             console.log('[AttendanceAPI] callMyWaitingAPI RESULT : ', result);
             dispatch({ type: GET_MY_WAITING, payload: result });
@@ -388,7 +392,7 @@ export const callMyWaitingAPI = ({ currentPage }) => {
 export const callAdminVacationAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/vacation?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/vacation`;
@@ -406,10 +410,10 @@ export const callAdminVacationAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callAdminVacationAPI RESULT : ', result);
             dispatch({ type: GET_ADMIN_VACATION, payload: result.data });
 
@@ -424,7 +428,7 @@ export const callAdminVacationAPI = ({ currentPage }) => {
 export const callNoAdminVacationAPI = ({ currentPage }) => {
     let requestURL;
 
-    if(currentPage !== undefined || currentPage !== null) {
+    if (currentPage !== undefined || currentPage !== null) {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/no/vacation?offset=${currentPage}`;
     } else {
         requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/api/v1/attendances/admin/no/vacation`;
@@ -442,10 +446,10 @@ export const callNoAdminVacationAPI = ({ currentPage }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callNoAdminVacationAPI RESULT : ', result);
             dispatch({ type: GET_ADMIN_NO_VACATION, payload: result.data });
 
@@ -478,10 +482,10 @@ export const callDetailMylAPI = ({ approvalDocumentCode }) => {
             },
         }).then((response) => response.json());
         console.log(result)
-        
-        
+
+
         if (result.status === 200) {
-            
+
             console.log('[AttendanceAPI] callDetailMylAPI RESULT : ', result);
             dispatch({ type: GET_DETAIL_MY, payload: result });
 

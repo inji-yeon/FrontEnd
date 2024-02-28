@@ -48,10 +48,40 @@ function ProjectBoard() {
         projectProgressStatus: ''
     })
     useEffect(() => {
+        if (form?.projectCode && selectRef) {
+            const current = selectRef?.current;
+            switch (current?.value) {
+                case '프로젝트 생성':
+                    current.style.color = "#FF3F3F"
+                    break;
+                case '기획중':
+                    current.style.color = "#FF843F"
+                    break;
+                case '기획완료':
+                    current.style.color = "#43FF3F"
+                    break;
+                case '프로젝트 진행중':
+                    current.style.color = "#3FBAFF"
+                    break;
+                case '프로젝트 완료':
+                    current.style.color = "#7C3FFF"
+                    break;
+                case '피드백':
+                    current.style.color = "#FB3FFF"
+                    break;
+                default:
+            }
+        }
+    }, [form])
+    useEffect(() => {
         if (project?.error) {
-            alert('오류가 발생했습니다. 로그인 페이지로 돌아갑니다.');
-            console.error('error Message: ', project?.error);
-            navigate('/login');
+            if (project?.error?.response?.data?.code === 'ERROR_CODE_6001') {
+                alert('허가된 사원이 아닙니다. 프로젝트 화면으로 돌아갑니다.');
+                navigate('/projects');
+            } else {
+                alert('알 수 없는 오류가 발생했습니다. 메인으로 나갑니다.');
+                navigate('/main');
+            }
             dispatch({ type: PROJECT_ERROR, payload: '' });
         }
     }, [project?.error])
@@ -75,31 +105,7 @@ function ProjectBoard() {
         }
     }, [project?.projectPostListWithPaging])
     useEffect(() => {
-        if (selectRef) {
-            const current = selectRef.current;
-            switch (current.value) {
-                case '프로젝트 생성':
-                    current.style.color = "#FF3F3F"
-                    break;
-                case '기획중':
-                    current.style.color = "#FF843F"
-                    break;
-                case '기획완료':
-                    current.style.color = "#43FF3F"
-                    break;
-                case '프로젝트 진행중':
-                    current.style.color = "#3FBAFF"
-                    break;
-                case '프로젝트 완료':
-                    current.style.color = "#7C3FFF"
-                    break;
-                case '피드백':
-                    current.style.color = "#FB3FFF"
-                    break;
-                default:
-            }
-        }
-    }, [selectRef?.current?.value])
+    }, [selectRef])
     useEffect(() => {
         details && setForm({
             projectCode: details.projectCode,
@@ -139,7 +145,7 @@ function ProjectBoard() {
         }
     }
     const handleImageError = (e) => {
-        e.target.src = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`;
+        e.target.src = `/profile1.png`;
         e.target.onError = null;
     }
     useEffect(() => {
@@ -223,7 +229,7 @@ function ProjectBoard() {
                                     <img src={manager?.profileList
                                         ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                         ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${manager?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                        : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
+                                        : `/profile1.png`} alt='프로필' onError={handleImageError} />
                                 </div>
                                 <div className={styles.employee_name}>
                                     {manager?.employeeName}
@@ -317,7 +323,7 @@ function ProjectBoard() {
                                                         <img src={employee?.profileList
                                                             ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                                             ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
+                                                            : `/profile1.png`} alt='프로필' onError={handleImageError} />
                                                     </div>
                                                     <div className={styles.employee_name}>
                                                         {employee?.employeeName}
@@ -349,7 +355,7 @@ function ProjectBoard() {
                                                         <img src={member?.employee?.profileList
                                                             ?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile
                                                             ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${member?.employee?.profileList?.filter(profile => profile?.profileDeleteStatus === "N")[0]?.profileChangedFile}`
-                                                            : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`} alt='프로필' onError={handleImageError} />
+                                                            : `/profile1.png`} alt='프로필' onError={handleImageError} />
                                                     </div>
                                                     <div className={styles.employee_name}>
                                                         {member?.employee?.employeeName}
@@ -362,12 +368,12 @@ function ProjectBoard() {
                                                     <div className={styles.employee_job_name}>
                                                         {member?.employee?.job?.jobName ?? ''}
                                                     </div>
-                                                    {manager?.employeeCode === userEmployeeCode() && member?.employee?.employeeCode !== manager?.employeeCode
-                                                        && <>
-                                                            <button className={styles.kicked_button} onClick={() => kickedHandler(member?.employee?.employeeCode)}>{member?.employee?.employeeCode === userEmployeeCode() ? '나가기' : '내보내기'}</button>
-                                                            <button onClick={() => delegateHandler(member?.employee?.employeeCode)}>위임하기</button>
-                                                        </>
-                                                    }
+                                                    <>
+                                                        {member?.employee?.employeeCode === userEmployeeCode()
+                                                            ? manager?.employeeCode !== userEmployeeCode() && <button className={styles.kicked_button} onClick={() => kickedHandler(member?.employee?.employeeCode)}>나가기</button>
+                                                            : manager?.employeeCode === userEmployeeCode() && <button className={styles.kicked_button} onClick={() => kickedHandler(member?.employee?.employeeCode)}>내보내기</button>}
+                                                        {member?.employee?.employeeCode !== userEmployeeCode() && manager?.employeeCode === userEmployeeCode() && <button onClick={() => delegateHandler(member?.employee?.employeeCode)}>위임하기</button>}
+                                                    </>
                                                 </div>
                                             </div>
                                         )

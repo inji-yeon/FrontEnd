@@ -40,15 +40,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         const range = Array.from({ length: pageEnd - pageStart + 1 }, (_, index) => index + pageStart)
         setPageRange(range)
     }, [searchList, searchPageInfo])
-
     useEffect(() => {
-        console.log('messengerData?.scrollingToChatCode', messengerData?.scrollingToChatCode);
-        if (messengerData?.scrollingToChatCode) {
-            console.log('들어온 경우');
-        }
-    }, [messengerData?.scrollingToChatCode])
-    useEffect(() => {
-        console.log('여기도 오는지 >>> messengerData?.messengerMain?.chatroomList >>>', messengerData?.messengerMain?.chatroomList);
         if (messengerData?.scrollingToChatCode) {
             dispatch({ type: RESET_SCROLLING_TO_CHATCODE })
         }
@@ -57,7 +49,6 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         setChatTextValue(e.target.value);
     }
     const sendChatHandler = () => {
-        console.log('전송버튼 눌렀다!');
         const chatroomCode = messengerData?.chatroomData?.chatroomCode;
 
         websocket?.publish({
@@ -65,10 +56,9 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
             headers: { Authorization: 'Bearer ' + window.localStorage.getItem('accessToken') },
             body: JSON.stringify({
                 chatContent: chatTextValue,
-                chatFileName: '파일이름이다.', // 파일 이름이 있다면 여기에 설정
-                chatFile: '사진데이터 예정', // 파일 데이터가 있다면 여기에 설정
-                // chatFileURL: '', // 파일 URL이 있다면 여기에 설정
-                isFileSend: 'N' // 파일을 전송했는지 여부에 대한 플래그
+                chatFileName: '파일이름이다.', 
+                chatFile: '사진데이터', 
+                isFileSend: 'N' 
             })
         })
 
@@ -116,21 +106,12 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
         isInviteWindow && dispatch(callGetEmployeesAPI());
     }, [isInviteWindow])
     useEffect(() => {
-        chatContainerRef && console.log('chatConteinerRef.current', chatContainerRef.current);
-    }, [chatContainerRef])
-    useEffect(() => {
         oldEmployeeList
             && setOldEmployeeCodeList(oldEmployeeList?.map(oldEmployee => oldEmployee?.employeeCode));
     }, [oldEmployeeList]);
     useEffect(() => {
-        oldEmployeeCodeList && console.log('oldEmployeeCodeList', oldEmployeeCodeList);
-    }, [oldEmployeeCodeList])
-    useEffect(() => {
-        // 이곳이 생성되면 일단 chatroomCode를 통해 채팅 목록을 가지고 옴.(여기가 문제)
         chatroomCode
             && dispatch(callGetChatroomAPI({ chatroomCode }))
-        // chatroomCode
-        //     && dispatch(callUpdateChatReadStatus({ chatroomCode, chatCode }));
     }, [])
 
     useEffect(() => {
@@ -138,9 +119,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
     }, [messengerData?.chatroomData?.chatList])
     useEffect(() => {
         if (flag && chatList?.length) {
-            console.log('chatList', chatList);
             const maxChatCode = Math.max(...chatList.map(chat => chat.chatCode));
-            console.log('maxChatCode', maxChatCode);
             dispatch(callUpdateChatReadStatus({ chatroomCode, maxChatCode }));
             setFlag(false);
         }
@@ -231,7 +210,7 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                                                         <div className={styles.member_info}>
                                                             <div className={styles.member_list_img_and_name}>
                                                                 <img
-                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`) : `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/profile2.png`}
+                                                                    src={employee?.profileList ? (employee.profileList[0]?.profileChangedFile ?? `/profile1.png`) : `/profile1.png`}
                                                                     alt='멤버사진'
                                                                 />
                                                                 <span>{employee?.employeeName}</span>
@@ -420,21 +399,21 @@ function Chatroom({ chatroomList, setIsChatroomOpen, chatroomCode, setChatroomCo
                         onClick={exitHandler} />
                 </div>
                 <div className={styles.chatroom_body}>
-                    {/* 
-                    chat_element -> 일반적인 채팅
-                    chat_element_divide -> 채팅일자가 넘어가는 부분에서 발생
-                    chat_element_me -> 현재 가지고 있는 토큰값을 이용해서 code값이 동일할 경우 생기는 스타일
-                 */}
                     <div ref={chatContainerRef} className={styles.chat_body_text}>
                         <div className={styles.chat_elements_paging}>
                             <img src="/messenger/arrowToTop.png" alt="이전 채팅 불러오기" onClick={chatLoadingHandler} />
                         </div>
                         {chatList?.map(chat => {
-                            console.log('불린', messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode);
                             return (
                                 <div className={`${chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() ? styles.chat_element : styles.chat_element_me} ${messengerData?.chatroomData?.lastReadChatCode === chat?.chatCode ? styles.read_status : ''}`}
                                     key={chat?.chatCode}
                                     id={`chat_${chat?.chatCode}`}>
+                                    {chat?.chatroomMember?.employee?.employeeCode !== userEmployeeCode() && <img src={chat?.chatroomMember?.employee?.profileList
+                                        ? (chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile
+                                            ? `http://${process.env.REACT_APP_RESTAPI_IP}:1208/web-images/${chat?.chatroomMember?.employee?.profileList[0]?.profileChangedFile}`
+                                            : `/profile1.png`)
+                                        : `/profile1.png`}
+                                        alt="프로필사진" className={styles.chat_element_row_1} />}
                                     <div className={styles.chat_element_row_2}>
                                         <div className={styles.sender}>
                                             {chat?.chatroomMember?.employee?.employeeName}
