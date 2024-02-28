@@ -151,7 +151,7 @@ function Attendance() {
 
 
     const commuteMain = attendanceMain?.data?.data;
-    console.log('commuteMain =====>', commuteMain);
+    console.log('commuteMain ======>', commuteMain);
 
     const commuteVacation =attendanceMain?.data?.data2;
     console.log('commuteVacation =====>', commuteVacation);
