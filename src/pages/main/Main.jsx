@@ -142,7 +142,6 @@ useEffect(() => {
   const departureTime = commuteMain?.attendanceManagementDepartureTime;
   if (commuteMain?.attendanceManagementDepartureTime) {
     setIsAttendance(true); // 퇴근 상태로 설정
-
   } 
   if(arrivalTime < departureTime) {
     setIsAttendance(false); // 출근 상태로 설정
@@ -161,6 +160,7 @@ const changeAttendance = (status) => {
     if (arrivalTime > departureTime){
       dispatch(updateCommuteAPI({}));
       setIsAttendance(false); // 퇴근 상태로 변경
+      window.location.reload();
     }  else  {
       alert('이미 퇴근 했습니다.');
       return;
@@ -174,6 +174,7 @@ const changeAttendance = (status) => {
     } else {
       dispatch(insertCommuteAPI({}));
       setIsAttendance(true); // 출근 상태로 변경
+      
     }
 
   }
