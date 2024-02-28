@@ -92,6 +92,7 @@ const projectReducer = handleActions(
                 projectInfo: payload?.data
             }
         },
+        
         [GET_PROJECT_POST_LIST]: (state, { payload }) => {
             let projectPostData = payload?.data?.data?.map(data => {
                 return {

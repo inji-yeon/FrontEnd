@@ -33,6 +33,7 @@ function Login() {
 
   // //비밀번호 찾기
   const onClickForgotPasswordHandler = () => {
+    alert('잠시만 기다려주세요')
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
     dispatch(callForgotPasswordAPI({ form: forgotPasswordForm })).catch(
       (error) => {
