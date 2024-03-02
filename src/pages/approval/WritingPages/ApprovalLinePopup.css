@@ -1,0 +1,85 @@
+.approval_line_popup{
+    width: 893px;
+    height: 550px;
+    background-color: white;
+    border: #D3D3D3 solid 1px;
+}
+.approval_line_popup_title{
+    width: 893px;
+    height: 64px;
+    background-color: #F5F5F5;
+    display: flex;
+    align-items: center;
+}
+.approval_line_popup_title_text{
+    font-family: pretendard;
+    font-size: 20px;
+    color: #606060;
+    font-weight: bold;
+    margin-left: 28px;
+}
+.approval_line_popup_doc_title{
+    font-family: pretendard;
+    font-size: 16px;
+    color: #606060;
+    margin-left: 39px;
+}
+.line_cancel_button{
+    width: 60px;
+    height: 30px;
+    background-color: white;
+    border-radius: 5px;
+    border: #969393 solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 435px;
+}
+.line_cancel_text{
+    font-family: pretendard;
+    font-size: 16px;
+    color: #606060;
+}
+.line_check_button{
+    width: 62px;
+    height: 32px;
+    background-color: #FA9A85;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 17px;
+}
+.line_check_text{
+    font-family: pretendard;
+    font-size: 16px;
+    color: white;
+}
+.search-container{
+    margin-top: 30px;
+    margin-left: 50px;
+}
+
+#searchInput{
+    width: 220px;
+}
+
+#searchButton{
+    margin-left: 5px;
+    width: 45px;
+}
+
+#orgchartgroup{
+    margin-left: 50px;
+    margin-top: 20px;
+    width: 270px;
+    max-height: 360px;
+    background-color: peachpuff;
+    overflow: auto;
+}
+.added_name{
+    width: 270px;
+    height: 360px;
+    background-color: aquamarine;
+    margin-right: 50px;
+}

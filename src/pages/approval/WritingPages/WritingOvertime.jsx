@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './WritingOvertime.css';
-import CurrentTime from './Time';
+import CurrentTime from '../Time';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { callLoggedinUserAPI } from '../../apis/ApprovalAPICalls';
+import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
 
 function WritingOvertime(){
     const navigate = useNavigate();

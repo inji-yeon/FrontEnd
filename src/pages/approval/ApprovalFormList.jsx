@@ -1,12 +1,12 @@
 import './ApprovalFormList.css';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
-import AwayForm from './AwayForm';
-import BusinessTripForm from './BusinessTripForm';
-import OnLeaveForm from './OnLeaveForm';
-import OvertimeForm from './OvertimeForm';
-import WFHForm from './WFHForm';
-import SWForm from './SWForm';
+import AwayForm from './FormLists/AwayForm';
+import BusinessTripForm from './FormLists/BusinessTripForm';
+import OnLeaveForm from './FormLists/OnLeaveForm';
+import OvertimeForm from './FormLists/OvertimeForm';
+import WFHForm from './FormLists/WFHForm';
+import SWForm from './FormLists/SWForm';
 
 function ApprovalFormList(){
     const navigate = useNavigate();

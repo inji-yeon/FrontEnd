@@ -8,7 +8,6 @@ export const callApprovalDocListAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-on-process`;
 
     return async (dispatch, getState) => {
-        console.log('들옴?');
         
         const result = await fetch(requestURL, {
             method: "GET",

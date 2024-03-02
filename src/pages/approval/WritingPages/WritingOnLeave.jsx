@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './WritingOnLeave.css';
-import CurrentTime from './Time';
+import CurrentTime from '../Time';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { callLoggedinUserAPI } from '../../apis/ApprovalAPICalls';
+import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
+import ApprovalLinePopup from './ApprovalLinePopup';
 
 function WritingOnLeave(){
     const navigate = useNavigate();
@@ -12,6 +13,8 @@ function WritingOnLeave(){
     const [clikType, setClickType] = useState("");
     const [image, SetImage] = useState(null);
     const imangeInput = useRef();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const popupRef = useRef();
 
     function getDaysDifference(startDate, endDate) {
         const start = new Date(startDate);
@@ -34,10 +37,27 @@ function WritingOnLeave(){
             dispatch(callLoggedinUserAPI());
           }, [dispatch]);
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                setIsPopupOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleOpenPopup = () => {
+        setIsPopupOpen(true);
+    }
+
     return(
         <>
-            <div className="writing_button_and_content">
-                <div className="writing_section">
+        <div className="writing_button_and_content">
+            <div className="writing_section">
                     <div className="aproval_save_button">
                         <span className="saving_text">임시 저장</span>
                     </div>
@@ -46,6 +66,7 @@ function WritingOnLeave(){
                     </div>
             </div>
 
+        <div className='writing_content'>
             <div className="form_writing_section">
             <div className="form_body">
             <div className="form_title_section">
@@ -96,8 +117,36 @@ function WritingOnLeave(){
                     </div>
                 </div>
             </div>
-        </div>
             </div>
+            </div>
+        
+            <div className="approval_line_section">
+            <div className="approval_line_title">
+                <div className="approval_line_list">
+                    <span className="approval_line_list_text">결재선</span>
+                    <div className="underline"></div>
+                </div>
+                <div className="view_line_list">
+                    <span className="view_line_list_text">열람자</span>
+                    <div className="underline"></div>
+                </div>
+                <div className="attached_file_list">
+                    <span className="attached_file_list_text">첨부문서</span>
+                    <div className="underline"></div>
+                </div>
+            </div>
+            <div className="shaded_underline"></div>
+            <div className="set_approval_line">
+                <div className="set_approval_line_button" onClick={handleOpenPopup}>
+                    <span className="set_approval_line_text">결재선 지정</span>
+                </div>
+            </div>
+                <div className="approval_employee_list" ref={popupRef}>
+                    {isPopupOpen && <ApprovalLinePopup />}
+                </div>
+
+            </div>
+        </div>
         </div>
         </>
     );

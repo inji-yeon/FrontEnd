@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './WritingOvertime.css';
-import CurrentTime from './Time';
+import CurrentTime from '../Time';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { callLoggedinUserAPI } from '../../apis/ApprovalAPICalls';
+import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
 
-function WritingWFH(){
+function WritingBusinessTrip(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentTimeString = CurrentTime();
@@ -48,7 +48,7 @@ function WritingWFH(){
             <section className="form_writing_section">
         <div className="form_body">
             <div className="form_title_section">
-                <div className="form_title">재택근무 신청서</div>
+                <div className="form_title">출장 신청서</div>
             </div>
             <div className="form_table" style={{ display: 'table' }}>
                 <div style={{ display: 'table-row' }}>
@@ -85,10 +85,10 @@ function WritingWFH(){
                 </div>
             </div>
         </div>
-    </section>
+            </section>
         </div>
         </>
     );
 }
 
-export default WritingWFH;
+export default WritingBusinessTrip;
