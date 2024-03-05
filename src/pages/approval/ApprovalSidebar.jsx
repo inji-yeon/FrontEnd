@@ -105,15 +105,6 @@ function ApprovalSidebar() {
       resetSelectedMenus();
     };
     
-    // const handleOutboxMenuClick = (menu) => {
-    //   setSelectedOutboxMenu(menu);
-    //   outboxHandler(menu);
-    // };
-
-    // const handleViewMenuClick = (menu) => {
-    //   setSelectedViewMenu(menu);
-    //   viewHandler(menu);
-    // };
 
     return (
         <>

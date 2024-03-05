@@ -1,5 +1,5 @@
 import '../WritingPages/ApprovalLinePopup.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; // useSelector 추가
 import 'jstree/dist/themes/default/style.min.css';
 import $ from 'jquery';
@@ -9,6 +9,9 @@ function ApprovalLinePopup() {
 
     const orgData = useSelector(state => state.groupchartreducer);
     const dispatch = useDispatch();
+
+    const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [assignedEmployees, setAssignedEmployees] = useState([]);
 
     useEffect(() => {
         if (orgData.length > 0) {
@@ -31,7 +34,6 @@ function ApprovalLinePopup() {
     };
 
     function initializeTree(data) {
-        console.log('그룹 사이드바에서 데이터 그리기')
         console.log('그룹 사이드바에서 데이터 그리기',data)
         $('#orgchartgroup').jstree({
             'core': {
@@ -50,7 +52,6 @@ function ApprovalLinePopup() {
             
         });   
         $('#orgchartgroup').on('click', '.jstree-anchor', function () {
-            console.log('그룹 사이드바에')
             var nodeId = $(this).parent().attr('id');
             var nodeData = $('#orgchartgroup').jstree(true).get_node(nodeId); // 선택된 노드의 데이터 가져오기
             if (nodeData && nodeData.original && nodeData.original.type === 'employee') { // 사원인 경우에만 실행
@@ -58,10 +59,28 @@ function ApprovalLinePopup() {
                 // "emp_" 부분을 제거하고 숫자 부분만 추출하여 사원 번호 설정
                 var employeeNumber = employeeCode.split('_')[1]; // "emp_" 부분을 기준으로 문자열 나누기
                 console.log('선택된 사원 번호:', employeeNumber);
+
+                 var employeeInfo = nodeData.original;
+                 var employeeName = employeeInfo.text;
+                 var employeeDepartment = $('#orgchartgroup').jstree(true).get_node(employeeInfo.parent).text;
+
+                 console.log('선택된 사원 이름:', employeeName);
+                 console.log('선택된 사원 부서:', employeeDepartment);         
+
+                 setSelectedEmployees([...selectedEmployees, { employeeNumber, employeeName, employeeDepartment }]);
+                
             }
             $('#orgchartgroup').jstree('toggle_node', nodeId);
         });
     }
+
+    const handleAssign = () => {
+        // 선택된 사원 목록을 배열에 추가
+        setAssignedEmployees([...assignedEmployees, ...selectedEmployees]);
+        // 선택된 사원 초기화
+        setSelectedEmployees([]);
+    };
+
 
 return (
         <>
@@ -82,14 +101,25 @@ return (
           <input type="text" id="searchInput" placeholder="부서명 or 부서원을 입력하세요" />
           <button id="searchButton">검색</button>
         </div>
-    
+    <section className="line_name_section">
         <div id="orgchartgroup">
             {/* 조직도 트리뷰 들어갈 자리 */}
         </div>
     
-    <div className="added_name">
-        
-    </div>
+        <div className='line_assign_button'>
+            <img src="/Approval/approval_undo.png" className='undo_button' onClick={handleAssign}/>
+            <img src="/Approval/approval_assign.png" className='assign_button'/>
+
+        </div>
+        <div className="added_name">
+            {/* 추가된 사원 목록 출력 */}
+            {assignedEmployees.map((employee, index) => (
+                <div key={index}>
+                    {`${employee.employeeName}, ${employee.employeeDepartment}`}
+                </div>
+            ))}
+        </div>
+    </section>
     </div>
 </div>
 </div>
