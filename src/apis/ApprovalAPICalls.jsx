@@ -1,11 +1,13 @@
 import {
     GET_OUTBOX_ONPROCESS,
+    POST_APPROVAL_DOC,
 } from '../modules/ApprovalModule';
+import axios from 'axios';
 import { userEmployeeCode } from '../utils/tokenUtils';
 
 
-export const callApprovalDocListAPI = () => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-on-process`;
+export const callOutboxListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-approval`;
 
     return async (dispatch, getState) => {
         
@@ -49,3 +51,19 @@ export const callLoggedinUserAPI = () => {
     };
 }
 
+export const callSubmitOverworkAPI = ({ form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/submit-overwork`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+            dispatch({ type: POST_APPROVAL_DOC, payload: result.data });
+    };
+}

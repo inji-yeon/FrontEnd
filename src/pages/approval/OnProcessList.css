@@ -6,14 +6,14 @@
     width: 100%;
     background-color: #F5F5F5;
 }
-.awaiting_title_section {
+.op_title_section {
     height: 100px;
     width: 1335px;
     background-color: white;
     display: flex;
 	align-items: center;
 }
-.awaiting_title {
+.op_title {
     font-size: 20px;
     font-weight: bold;
     margin-left: 68px;
@@ -47,52 +47,67 @@
     margin-left: 730px;
     padding: 2px;
 }
-.awaiting_list_content{
+.op_list_content{
     width: 1295px;
     height: 980px;
     background-color: white;
     padding-top: 38px;
 }
-.awaiting_list{
+.op_list{
     font-size: 16px;
     color: #606060;
     margin-left: 40px;
     border-collapse: collapse;
 }
-.awaiting_list thead th,
-.awaiting_list tbody td {
+.op_list thead th,
+.op_list tbody td {
     border-bottom: 1px solid #606060;
     padding: 15px;
 }
-.awaiting_list tbody tr:last-child td {
+.op_list tbody tr:last-child td {
     border-bottom: none;
 }
-.awaiting_list th:first-child,
-.awaiting_list td:first-child {
+.op_list th:first-child {
     width: 188px;
     padding-left: 40px;
 }
 
-.awaiting_list th:nth-child(2),
-.awaiting_list td:nth-child(2) {
+.op_list td:first-child {
+    width: 188px;
+    padding-left: 55px;
+}
+
+.op_list th:nth-child(2) {
     width: 500px;
     padding-left: 11.25px;
 }
-.awaiting_list td:nth-child(2) {
+
+.op_list td:nth-child(2) {
+    width: 500px;
+    padding-left: 26.25px;
+}
+.op_list td:nth-child(2) {
     cursor: pointer;
 }
-.awaiting_list th:nth-child(3),
-.awaiting_list td:nth-child(3) {
+.op_list th:nth-child(3) {
     width: 100px;
     padding-left: 11.25px;
 }
-.awaiting_list th:nth-child(4),
-.awaiting_list td:nth-child(4) {
+
+.op_list td:nth-child(3) {
+    width: 100px;
+    padding-left: 26.25px;
+}
+.op_list th:nth-child(4) {
     width: 130px;
     padding-left: 11.25px;
 }
-.awaiting_list th:nth-child(5),
-.awaiting_list td:nth-child(5) {
+.op_list td:nth-child(4){
+    width: 130px;
+    padding-left: 26.25px;
+}
+.op_list th:nth-child(5),
+.op_list td:nth-child(5) {
     width: 100px;
     padding-right: 40px;
     padding-left: 11.25px;
@@ -112,24 +127,6 @@
 .process_check_text{
     font-size: 16px;
     color: white;
-}
-.awaiting_list_footer {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    height: 20px;
-    margin-top: 30px;
-}
-.awaiting_list_footer > input[type=button] {
-    border-radius: 2px;
-    font-size: 12px;
-    border: 1px solid #d9d9d9;
-    background: white;
-    cursor: pointer;
-}
-
-.awaiting_list_footer > input[type=button]:hover {
-    background: #d9d9d9;
 }
 
 .list_writing_button {

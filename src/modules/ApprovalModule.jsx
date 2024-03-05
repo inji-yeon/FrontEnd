@@ -2,11 +2,11 @@ import { createActions, handleActions } from "redux-actions";
 
 const initialState = [];
 export const GET_OUTBOX_ONPROCESS = 'approval/GET_OUTBOX_ONPROCESS';
-export const GET_APPROVAL_LINE = 'approval/GET_APPROVAL_LINE';
+export const POST_APPROVAL_DOC = 'approval/POST_APPROVAL_DOC';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
-    [GET_APPROVAL_LINE]: (payload) => payload,
+    [POST_APPROVAL_DOC]: (payload) => payload,
 });
 
 
@@ -14,18 +14,12 @@ const approvalReducer = handleActions(
     {
         [GET_OUTBOX_ONPROCESS]: (state, { payload }) => {
             console.log('GET_OUTBOX_ONPROCESS action dispatched. Payload:', payload);
-            return {
-                ...state,
-                data: payload
-            };
+            return payload;
         },
-        [GET_APPROVAL_LINE]: (state, { payload }) => {
-            console.log('GET_APPROVAL_LINE action dispatched. Payload:', payload);
-            return {
-                ...state,
-                data: payload
-            };
-        }
+        [POST_APPROVAL_DOC]: (state, { payload }) => {
+            console.log('POST APPROVAL action dispatched. Payload:', payload);
+            return payload;
+        },
     },
     initialState
 );
