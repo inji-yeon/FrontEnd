@@ -96,11 +96,27 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
     }
 
     const handleAssign = () => {
-        // 선택된 사원 목록을 배열에 추가
-        setAssignedEmployees([...assignedEmployees, ...selectedEmployees]);
+        // 중복된 사원을 체크하기 위한 set 생성
+        const employeeSet = new Set(assignedEmployees.map(employee => employee.employeeNumber));
+    
+        // 선택된 사원 목록을 배열에 추가할 때 중복 여부 확인하여 처리
+        const updatedEmployees = [...assignedEmployees];
+        selectedEmployees.forEach(employee => {
+            if (!employeeSet.has(employee.employeeNumber)) {
+                updatedEmployees.push(employee);
+                employeeSet.add(employee.employeeNumber); // set에 추가
+            } else {
+                alert(`이미 추가된 결재자입니다.`);
+            }
+        });
+    
+        // 변경된 사원 목록 설정
+        setAssignedEmployees(updatedEmployees);
+    
         // 선택된 사원 초기화
         setSelectedEmployees([]);
     };
+    
 
 
     const handleDragStart = (index) => {
@@ -127,6 +143,10 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
         onClose(); 
     };
 
+    const handleClosePopup = () => {
+        onClose();
+    }
+
     const handleEmployeeClick = (employee) => {
         // 사원을 클릭하면 선택된 상태로 유지
         setSelectedEmployees([...selectedEmployees, employee]);
@@ -134,7 +154,7 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
         // 선택된 사원의 정보를 표시하는 요소에 클래스 추가
         const selectedElement = document.querySelector(`.added_name_info[data-employee-number="${employee.employeeNumber}"]`);
         if (selectedElement) {
-            selectedElement.classList.add('selected');
+            selectedElement.classList.add('popup_selected');
     }
     };
 
@@ -153,7 +173,7 @@ return (
     <span className="approval_line_popup_title_text">결재선 지정</span>
     <span className="approval_line_popup_doc_title">[개발 1팀] 연차 신청서</span>
     <div className="line_cancel_button">
-        <span className="line_cancel_text">취소</span>
+        <span className="line_cancel_text" onClick={handleClosePopup}>취소</span>
     </div>
     <div className="line_check_button" onClick={handleConfirm}>
         <span className="line_check_text">확인</span>
@@ -186,7 +206,7 @@ return (
                 onDragOver={(e) => handleDragOver(index, e)}
                 onDrop={() => handleDrop(index)}
                 onClick={() => handleEmployeeClick(employee)}
-                className={selectedEmployees.includes(employee) ? 'selected' : ''}>                    
+                className={selectedEmployees.includes(employee) ? 'popup_selected' : ''}>                    
                 <td className='added_name_index'>
                         <div className="list_index_circle">{index + 1}</div>
                     </td>

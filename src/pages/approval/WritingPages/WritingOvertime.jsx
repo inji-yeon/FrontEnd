@@ -70,6 +70,10 @@ function WritingOvertime(){
         formData.append("overworkEndTime",form.overworkEndTime);
         formData.append("overworkReason", form.overworkReason);
 
+        selectedEmployees.forEach(employee => {
+            formData.append("additionalApprovers", employee.employeeNumber);
+        });
+
         dispatch(callSubmitOverworkAPI({
             form: formData
         }));
