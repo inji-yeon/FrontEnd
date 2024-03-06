@@ -13,6 +13,9 @@ function ApprovalLinePopup() {
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [assignedEmployees, setAssignedEmployees] = useState([]);
 
+    const [draggedIndex, setDraggedIndex] = useState(null); // 드래그된 사원의 인덱스
+
+
     useEffect(() => {
         if (orgData.length > 0) {
             const formattedData = convertDataForJSTree(orgData);
@@ -54,6 +57,15 @@ function ApprovalLinePopup() {
         $('#orgchartgroup').on('click', '.jstree-anchor', function () {
             var nodeId = $(this).parent().attr('id');
             var nodeData = $('#orgchartgroup').jstree(true).get_node(nodeId); // 선택된 노드의 데이터 가져오기
+            
+            // 본부 이름을 매핑하는 객체
+                const departmentNames = {
+                'dept_1': '관리본부',
+                'dept_2': '영업본부',
+                'dept_3': '개발본부',
+                'dept_4': '마케팅본부'
+                };  
+
             if (nodeData && nodeData.original && nodeData.original.type === 'employee') { // 사원인 경우에만 실행
                 var employeeCode = nodeData.original.employeeCode; // 사원 번호 가져오기
                 // "emp_" 부분을 제거하고 숫자 부분만 추출하여 사원 번호 설정
@@ -63,11 +75,14 @@ function ApprovalLinePopup() {
                  var employeeInfo = nodeData.original;
                  var employeeName = employeeInfo.text;
                  var employeeDepartment = $('#orgchartgroup').jstree(true).get_node(employeeInfo.parent).text;
+                 var parentInfo = $('#orgchartgroup').jstree(true).get_node(employeeInfo.parent).parent;
+                 var parentDepartment = parentInfo && departmentNames[parentInfo] ? departmentNames[parentInfo] : ''; // 부서의 부모 노드가 본부일 때 해당 본부 이름을 가져오는 매핑
 
                  console.log('선택된 사원 이름:', employeeName);
-                 console.log('선택된 사원 부서:', employeeDepartment);         
+                 console.log('선택된 사원 부서:', employeeDepartment);      
+                 console.log('본부:', parentDepartment);
 
-                 setSelectedEmployees([...selectedEmployees, { employeeNumber, employeeName, employeeDepartment }]);
+                 setSelectedEmployees([...selectedEmployees, { employeeNumber, employeeName, employeeDepartment, parentDepartment }]);
                 
             }
             $('#orgchartgroup').jstree('toggle_node', nodeId);
@@ -81,6 +96,23 @@ function ApprovalLinePopup() {
         setSelectedEmployees([]);
     };
 
+
+    const handleDragStart = (index) => {
+        setDraggedIndex(index);
+    };
+
+    const handleDragOver = (index, e) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (index) => {
+        if (draggedIndex !== null && draggedIndex !== index) {
+            const updatedEmployees = [...assignedEmployees];
+            const draggedEmployee = updatedEmployees.splice(draggedIndex, 1)[0];
+            updatedEmployees.splice(index, 0, draggedEmployee);
+            setAssignedEmployees(updatedEmployees);
+        }
+    };
 
 return (
         <>
@@ -113,11 +145,25 @@ return (
         </div>
         <div className="added_name">
             {/* 추가된 사원 목록 출력 */}
+            <table className="added_name_list">
+        <tbody>
             {assignedEmployees.map((employee, index) => (
-                <div key={index}>
-                    {`${employee.employeeName}, ${employee.employeeDepartment}`}
-                </div>
+                <tr key={index}
+                draggable={true}
+                onDragStart={() => handleDragStart(index)}
+                onDragOver={(e) => handleDragOver(index, e)}
+                onDrop={() => handleDrop(index)}>                    <td className='added_name_index'>
+                        <div className="list_index_circle">{index + 1}</div>
+                    </td>
+                    <td className='added_name_info'>
+                        <span className='employee_name'>{employee.employeeName}</span><br/>
+                    <span className='parent_department'>{employee.parentDepartment}&nbsp;/&nbsp; 
+                    {employee.employeeDepartment}</span>
+                    </td>
+                </tr>
             ))}
+        </tbody>
+    </table>
         </div>
     </section>
     </div>

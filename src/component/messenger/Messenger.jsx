@@ -93,8 +93,8 @@ function Messenger() {
             <div className={styles.messenger_wrap}>
                 {!isMessengerOpen ? (
                     <img
-                        src='/messenger/temp_messenger_img.png'
-                        alt='메신저'
+                        // src='/messenger/temp_messenger_img.png'
+                        // alt='메신저'
                         className={styles.messenger_logo}
                         onClick={messengerImgHandler}
                     />

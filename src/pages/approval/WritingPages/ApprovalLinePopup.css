@@ -81,8 +81,9 @@
     width: 270px;
     margin-top: 20px;
     max-height: 400px;
-    background-color: aquamarine;
+    border: #D3D3D3 solid 1px;
     margin-right: 70px;
+    overflow: scroll;
 }
 .line_name_section{
     display: flex;
@@ -104,4 +105,47 @@
 }
 .assign_button{
     margin-top: 10px;
+}
+.list_index_circle {
+    border-radius: 50%;
+    background-color: #D3D3D3;
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px; /* 수직 가운데 정렬 */
+}
+/* .even .list_index_circle {
+    background-color: white;
+    color: #606060;
+} */
+.added_name_index {
+    width: 50px;
+    height: 50px;
+    display: flex; /* Flexbox를 사용하여 내부 요소를 가로 및 세로 중앙에 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    border-bottom: #D3D3D3 solid 1px;;
+
+}
+.added_name_info{
+    width: 218px;
+    height: 50px;
+    padding-left: 10px;
+    border-bottom: #D3D3D3 solid 1px;
+}
+/* .even {
+    background-color: rgba(250, 154, 133, 0.3); 
+}
+
+.odd {
+    background-color: white; 
+} */
+.employee_name{
+    font-weight: bold;
+    font-size: 14px;
+}
+.parent_department{
+    font-size: 12px;
+    color: #A3A2A2;
 }
