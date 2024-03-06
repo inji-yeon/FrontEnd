@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'; // useSelector 추가
 import 'jstree/dist/themes/default/style.min.css';
 import $ from 'jquery';
 import 'jstree'
+import { callGroupChartAPI } from '../../../apis/GroupchartAPI';
 
-function ApprovalLinePopup() {
+function ApprovalLinePopup({ onConfirm, onClose }) {
 
     const orgData = useSelector(state => state.groupchartreducer);
     const dispatch = useDispatch();
@@ -35,6 +36,11 @@ function ApprovalLinePopup() {
             employeeCode: item.id
         }));
     };
+
+    useEffect(() => {
+        console.log('api를 그룹 사이드바에서 불러오는지 ')
+        dispatch(callGroupChartAPI({ form: null }));
+    }, [dispatch]);
 
     function initializeTree(data) {
         console.log('그룹 사이드바에서 데이터 그리기',data)
@@ -114,6 +120,32 @@ function ApprovalLinePopup() {
         }
     };
 
+    const handleConfirm = () => {
+        // 선택된 사원 목록을 부모 컴포넌트로 전달합니다.
+        onConfirm(assignedEmployees);
+        // 여기서 팝업을 닫거나 다른 로직을 수행할 수 있습니다.
+        onClose(); 
+    };
+
+    const handleEmployeeClick = (employee) => {
+        // 사원을 클릭하면 선택된 상태로 유지
+        setSelectedEmployees([...selectedEmployees, employee]);
+
+        // 선택된 사원의 정보를 표시하는 요소에 클래스 추가
+        const selectedElement = document.querySelector(`.added_name_info[data-employee-number="${employee.employeeNumber}"]`);
+        if (selectedElement) {
+            selectedElement.classList.add('selected');
+    }
+    };
+
+    const handleUnassign = () => {
+        // 선택된 사원들을 assignedEmployees 배열에서 제거
+        const updatedEmployees = assignedEmployees.filter(employee => !selectedEmployees.includes(employee));
+        setAssignedEmployees(updatedEmployees);
+        // 선택된 사원 초기화
+        setSelectedEmployees([]);
+    };
+    
 return (
         <>
 <div className="approval_line_popup">
@@ -123,7 +155,7 @@ return (
     <div className="line_cancel_button">
         <span className="line_cancel_text">취소</span>
     </div>
-    <div className="line_check_button">
+    <div className="line_check_button" onClick={handleConfirm}>
         <span className="line_check_text">확인</span>
     </div>
 </div>
@@ -140,7 +172,7 @@ return (
     
         <div className='line_assign_button'>
             <img src="/Approval/approval_undo.png" className='undo_button' onClick={handleAssign}/>
-            <img src="/Approval/approval_assign.png" className='assign_button'/>
+            <img src="/Approval/approval_assign.png" className='assign_button' onClick={handleUnassign}/>
 
         </div>
         <div className="added_name">
@@ -152,7 +184,10 @@ return (
                 draggable={true}
                 onDragStart={() => handleDragStart(index)}
                 onDragOver={(e) => handleDragOver(index, e)}
-                onDrop={() => handleDrop(index)}>                    <td className='added_name_index'>
+                onDrop={() => handleDrop(index)}
+                onClick={() => handleEmployeeClick(employee)}
+                className={selectedEmployees.includes(employee) ? 'selected' : ''}>                    
+                <td className='added_name_index'>
                         <div className="list_index_circle">{index + 1}</div>
                     </td>
                     <td className='added_name_info'>

@@ -40,9 +40,6 @@ function OvertimeForm(){
                         <input type="time" id="ov_start_time"  className="inputbox"/>
                         <span className="datelength">~</span>
                         <input type="time" id="ov_end_time"  className="inputbox"/>
-                        <span className="ov_dateTotal">, 총</span>
-                        <input className="total_overtime" type="text"/>
-                        <span className="date_unit">일</span>
                     </div>
                 </div>
 

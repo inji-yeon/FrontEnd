@@ -1,41 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './WritingOnLeave.css';
-import CurrentTime from '../Time';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
 import ApprovalLinePopup from './ApprovalLinePopup';
 
 function WritingOnLeave(){
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const currentTimeString = CurrentTime();
-    const [clikType, setClickType] = useState("");
-    const [image, SetImage] = useState(null);
-    const imangeInput = useRef();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const popupRef = useRef();
+    const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-    function getDaysDifference(startDate, endDate) {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const difference = end - start; // 밀리초 단위의 차이
-        const days = difference / (1000 * 60 * 60 * 24); // 일수로 변환
-        return Math.round(days); // 소수점 아래를 반올림하여 반환
-      }
-
-    const [form, setForm] = useState({
-        OLTitle: '',
-        OLStart: '',
-        OLEnd: '',
-        OLReason: '',
-        file: '',
-    });
-
-        // 로그인한 정보 불러옴
-        useEffect(() => {
-            dispatch(callLoggedinUserAPI());
-          }, [dispatch]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -53,6 +26,13 @@ function WritingOnLeave(){
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
     }
+
+    const handleSelectedEmployees = (selectedEmployees) => {
+        setSelectedEmployees(selectedEmployees);
+        // 선택된 사원 목록을 받아 처리하는 로직
+        console.log("선택된 사원 목록:", selectedEmployees);
+    };
+    
 
     return(
         <>
@@ -141,8 +121,26 @@ function WritingOnLeave(){
                     <span className="set_approval_line_text">결재선 지정</span>
                 </div>
             </div>
+            <div className='selected_lines_for_on_leave'>
+                    <table className='selected_list_ol'>
+                        <tbody>
+                        {selectedEmployees.map((employee, index) => (
+                            <tr key={index}>
+                                <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                    <div className="list_index_circle_ol">{index + 1}</div>
+                                </td>
+                                <td className={`selected_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                    <span className='employee_name_ol'>{employee.employeeName}</span><br/>
+                                    <span className='employee_department_ol'>{employee.parentDepartment}&nbsp;/&nbsp;
+                                    {employee.employeeDepartment}</span>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
                 <div className="approval_employee_list" ref={popupRef}>
-                    {isPopupOpen && <ApprovalLinePopup />}
+                    {isPopupOpen && <ApprovalLinePopup onConfirm={handleSelectedEmployees} onClose={() => setIsPopupOpen(false)}/>}
                 </div>
 
             </div>

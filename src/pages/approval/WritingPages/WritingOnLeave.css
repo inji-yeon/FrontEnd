@@ -87,7 +87,6 @@
     background-color: #F5F5F5;
 }
 .approval_line_list_text, .view_line_list_text, .attached_file_list_text{
-    font-family: pretendard;
     font-size: 16px;
     color: #606060;
 }
@@ -179,4 +178,50 @@
 .inputbox {
     height: 25px;
     width: 130px;
+}
+.selected_list_ol{
+    margin-left: 17px;
+    margin-top: 20px;
+}
+.list_index_circle_ol {
+    border-radius: 50%;
+    background-color: #D3D3D3;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.selected_index_ol {
+    width: 65px;
+    height: 65px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+.selected_info_ol{
+    width: 248px;
+    height: 50px;
+    padding-left: 10px;
+}
+.employee_name_ol{
+    font-weight: bold;
+    font-size: 16px;
+}
+.employee_department_ol{
+    font-size: 14px;
+    color: #A3A2A2;
+}
+
+.even {
+    background-color: rgba(250, 154, 133, 0.1); 
+}
+
+.odd {
+    background-color: white; /* 짝수 배경색 */
+}
+.even .list_index_circle_ol {
+    background-color: white;
+    color:#606060;
 }
