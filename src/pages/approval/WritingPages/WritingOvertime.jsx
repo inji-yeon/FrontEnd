@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callLoggedinUserAPI, callSubmitOverworkAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ApprovalLinePopup from './ApprovalLinePopup';
+import ApprovalRefPopup from './ApprovalRefPopup';
 
 function WritingOvertime(){
 
@@ -11,6 +12,8 @@ function WritingOvertime(){
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const popupRef = useRef();
     const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [selectedViewers, setSelectedViewers] = useState([]);
+    const [selectedSection, setSelectedSection] = useState("approval");
 
 
     useEffect(() => {
@@ -26,6 +29,10 @@ function WritingOvertime(){
         };
     }, []);
 
+    const handleOpenSection = (section) => { 
+        setSelectedSection(section);
+    }
+
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
     }
@@ -35,6 +42,16 @@ function WritingOvertime(){
         // 선택된 사원 목록을 받아 처리하는 로직
         console.log("선택된 사원 목록:", selectedEmployees);
     };
+
+    const handleSelectedViewers = (selectedViewers) => {
+        setSelectedViewers(selectedViewers);
+        // 선택된 사원 목록을 받아 처리하는 로직
+        console.log("선택된 열람자 목록:", selectedViewers);
+    };
+    
+    const isSelected = (section) => {
+        return selectedSection === section;
+    }
     
     const [clickType, setClickType] = useState("") 
 
@@ -72,6 +89,10 @@ function WritingOvertime(){
 
         selectedEmployees.forEach(employee => {
             formData.append("additionalApprovers", employee.employeeNumber);
+        });
+
+        selectedViewers.forEach(viewer => {
+            formData.append("refViewers", viewer.employeeNumber);
         });
 
         dispatch(callSubmitOverworkAPI({
@@ -149,48 +170,88 @@ function WritingOvertime(){
 
                 <div className="approval_line_section">
             <div className="approval_line_title">
-                <div className="approval_line_list">
-                    <span className="approval_line_list_text">결재선</span>
-                    <div className="underline"></div>
+                <div className={`approval_line_list ${isSelected("approval") ? "selected" : ""}`} onClick={() => handleOpenSection("approval")}>
+                   <span className={`approval_line_list_text ${isSelected("approval") ? "bold" : ""}`}>결재선</span>
+                  <div className={`ol_underline ${isSelected("approval") ? "active" : ""}`}></div>
                 </div>
-                <div className="view_line_list">
-                    <span className="view_line_list_text">열람자</span>
-                    <div className="underline"></div>
+                <div className={`view_line_list ${isSelected("view") ? "selected" : ""}`} onClick={() => handleOpenSection("view")}>
+                    <span className={`view_line_list_text ${isSelected("view") ? "bold" : ""}`}>열람자</span>
+                    <div className={`ol_underline ${isSelected("view") ? "active" : ""}`}></div>
                 </div>
-                <div className="attached_file_list">
-                    <span className="attached_file_list_text">첨부문서</span>
-                    <div className="underline"></div>
+                <div className={`attached_file_list ${isSelected("attached") ? "selected" : ""}`} onClick={() => handleOpenSection("attached")}>
+                    <span className={`attached_file_list_text ${isSelected("attached") ? "bold" : ""}`}>첨부문서</span>
+                    <div className={`ol_underline ${isSelected("attached") ? "active" : ""}`}></div>
                 </div>
             </div>
             <div className="shaded_underline"></div>
-            <div className="set_approval_line">
-                <div className="set_approval_line_button" onClick={handleOpenPopup}>
-                    <span className="set_approval_line_text">결재선 지정</span>
-                </div>
-            </div>
-            <div className='selected_lines_for_on_leave'>
-                    <table className='selected_list_ol'>
-                        <tbody>
-                        {selectedEmployees.map((employee, index) => (
-                            <tr key={index}>
-                                <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                    <div className="list_index_circle_ol">{index + 1}</div>
-                                </td>
-                                <td className={`selected_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                    <span className='employee_name_ol'>{employee.employeeName}</span><br/>
-                                    <span className='employee_department_ol'>{employee.parentDepartment}&nbsp;/&nbsp;
-                                    {employee.employeeDepartment}</span>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="approval_employee_list" ref={popupRef}>
-                    {isPopupOpen && <ApprovalLinePopup onConfirm={handleSelectedEmployees} onClose={() => setIsPopupOpen(false)}/>}
-                </div>
 
+            {selectedSection === "approval" && ( // 조건부 렌더링
+                <div className='selected_as_approval_line'>
+                    <div className="set_approval_line">
+                        <div className="set_approval_line_button" onClick={handleOpenPopup}>
+                            <span className="set_approval_line_text">결재선 지정</span>
+                        </div>
+                    </div>
+                    <div className='selected_lines_for_on_leave'>
+                            <table className='selected_list_ol'>
+                                <tbody>
+                                {selectedEmployees.map((employee, index) => (
+                                    <tr key={index}>
+                                        <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <div className="list_index_circle_ol">{index + 1}</div>
+                                        </td>
+                                        <td className={`selected_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <span className='employee_name_ol'>{employee.employeeName}</span><br/>
+                                            <span className='employee_department_ol'>{employee.parentDepartment}&nbsp;/&nbsp;
+                                            {employee.employeeDepartment}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                    </div>
+                    <div className="approval_employee_list" ref={popupRef}>
+                        {isPopupOpen && <ApprovalLinePopup onConfirm={handleSelectedEmployees} onClose={() => setIsPopupOpen(false)}/>}
+                    </div>
                 </div>
+            )}
+
+            {selectedSection === "view" && (
+                <div className='selected_as_view_line'>
+                    <div className="set_ref_line">
+                        <div className="set_approval_ref_button" onClick={handleOpenPopup}>
+                            <span className="set_approval_line_text">열람자 지정</span>
+                        </div>
+                    </div>
+                    <div className='selected_ref_for_on_leave'>
+                            <table className='selected_ref_list_ol'>
+                                <tbody>
+                                {selectedViewers.map((viewer, index) => (
+                                    <tr key={index}>
+                                        <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <div className="list_ref_index_circle_ol">{index + 1}</div>
+                                        </td>
+                                        <td className={`selected_ref_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <span className='ref_name_ol'>{viewer.employeeName}</span><br/>
+                                            <span className='ref_department_ol'>{viewer.parentDepartment}&nbsp;/&nbsp;
+                                            {viewer.employeeDepartment}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                    </div>
+                    <div className="approval_ref_list" ref={popupRef}>
+                        {isPopupOpen && <ApprovalRefPopup onConfirm={handleSelectedViewers} onClose={() => setIsPopupOpen(false)}/>}
+                    </div>
+                </div>
+            )}
+
+            {selectedSection === "attached" && (
+                <div className='selected_as_attached_file'></div>
+            )}
+
+            </div>
             </div>
             </div>
         </>

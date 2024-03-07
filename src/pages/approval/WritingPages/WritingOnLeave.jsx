@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './WritingOnLeave.css';
 import { useDispatch } from 'react-redux';
 import ApprovalLinePopup from './ApprovalLinePopup';
+import ApprovalRefPopup from './ApprovalRefPopup';
 
 function WritingOnLeave(){
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ function WritingOnLeave(){
     const [totalDay, setTotalDay] = useState('');
     const popupRef = useRef();
     const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [selectedViewers, setSelectedViewers] = useState([]);
     const [selectedSection, setSelectedSection] = useState("approval");
 
     const handleStartDateChange = (event) => {
@@ -60,6 +62,12 @@ function WritingOnLeave(){
         setSelectedEmployees(selectedEmployees);
         // 선택된 사원 목록을 받아 처리하는 로직
         console.log("선택된 사원 목록:", selectedEmployees);
+    };
+
+    const handleSelectedViewers = (selectedViewers) => {
+        setSelectedViewers(selectedViewers);
+        // 선택된 사원 목록을 받아 처리하는 로직
+        console.log("선택된 열람자 목록:", selectedViewers);
     };
 
     const isSelected = (section) => {
@@ -182,7 +190,34 @@ function WritingOnLeave(){
             )}
 
             {selectedSection === "view" && (
-                <div className='selected_as_view_line'></div>
+                <div className='selected_as_view_line'>
+                    <div className="set_ref_line">
+                        <div className="set_approval_ref_button" onClick={handleOpenPopup}>
+                            <span className="set_approval_line_text">열람자 지정</span>
+                        </div>
+                    </div>
+                    <div className='selected_ref_for_on_leave'>
+                            <table className='selected_ref_list_ol'>
+                                <tbody>
+                                {selectedViewers.map((viewer, index) => (
+                                    <tr key={index}>
+                                        <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <div className="list_ref_index_circle_ol">{index + 1}</div>
+                                        </td>
+                                        <td className={`selected_ref_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <span className='ref_name_ol'>{viewer.employeeName}</span><br/>
+                                            <span className='ref_department_ol'>{viewer.parentDepartment}&nbsp;/&nbsp;
+                                            {viewer.employeeDepartment}</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                    </div>
+                    <div className="approval_ref_list" ref={popupRef}>
+                        {isPopupOpen && <ApprovalRefPopup onConfirm={handleSelectedViewers} onClose={() => setIsPopupOpen(false)}/>}
+                    </div>
+                </div>
             )}
 
             {selectedSection === "attached" && (

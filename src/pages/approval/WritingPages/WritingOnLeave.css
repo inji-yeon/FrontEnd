@@ -12,7 +12,6 @@
 	align-items: center;
 }
 .new_form_title {
-    font-family: pretendard;
     font-size: 20px;
     font-weight: bold;
     margin-left: 68px;
@@ -125,7 +124,7 @@
     margin: auto;
     z-index: 0;
 }
-.set_approval_line_button{
+.set_approval_line_button, .set_approval_ref_button{
     width: 72px;
     height: 27px;
     border: solid 1px #606060;
@@ -139,7 +138,7 @@
     color: #606060;
     cursor: pointer;
 }
-.set_approval_line{
+.set_approval_line, .set_ref_line{
     display: flex;
     justify-content: right;
     margin-top: 17px;
@@ -182,11 +181,11 @@
     height: 25px;
     width: 130px;
 }
-.selected_list_ol{
+.selected_list_ol, .selected_ref_list_ol{
     margin-left: 17px;
     margin-top: 20px;
 }
-.list_index_circle_ol {
+.list_index_circle_ol, .list_ref_index_circle_ol {
     border-radius: 50%;
     background-color: #D3D3D3;
     color: #ffffff;
@@ -196,23 +195,23 @@
     line-height: 30px;
 }
 
-.selected_index_ol {
+.selected_index_ol, .selected_ref_index_ol {
     width: 65px;
     height: 65px;
     display: flex; 
     justify-content: center; 
     align-items: center; 
 }
-.selected_info_ol{
+.selected_info_ol, .selected_ref_info_ol{
     width: 248px;
     height: 50px;
     padding-left: 10px;
 }
-.employee_name_ol{
+.employee_name_ol, .ref_name_ol{
     font-weight: bold;
     font-size: 16px;
 }
-.employee_department_ol{
+.employee_department_ol, .ref_department_ol{
     font-size: 14px;
     color: #A3A2A2;
 }
@@ -224,7 +223,7 @@
 .odd {
     background-color: white; /* 짝수 배경색 */
 }
-.even .list_index_circle_ol {
+.even .list_index_circle_ol, .even .list_ref_index_circle_ol {
     background-color: white;
     color:#606060;
 }
