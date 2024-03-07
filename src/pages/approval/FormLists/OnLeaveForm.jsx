@@ -40,7 +40,7 @@ function OnLeaveForm(){
                         <input type="date" id="start_date"  class="inputbox"/>
                         <span className="datelength">~</span>
                         <input type="date" id="end-date"  class="inputbox"/>
-                        <span className="dateTotal">, 총</span>
+                        <span className="dateTotal">, &nbsp;&nbsp;총</span>
                         <input className="total_day" type="text"/>
                         <span className="date_unit">일</span>
                     </div>

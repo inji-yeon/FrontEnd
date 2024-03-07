@@ -148,15 +148,31 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
     }
 
     const handleEmployeeClick = (employee) => {
-        // 사원을 클릭하면 선택된 상태로 유지
-        setSelectedEmployees([...selectedEmployees, employee]);
-
-        // 선택된 사원의 정보를 표시하는 요소에 클래스 추가
-        const selectedElement = document.querySelector(`.added_name_info[data-employee-number="${employee.employeeNumber}"]`);
-        if (selectedElement) {
-            selectedElement.classList.add('popup_selected');
-    }
+        // 이미 선택되어 있는지 확인
+        const isSelected = selectedEmployees.some(selectedEmployee => selectedEmployee.employeeNumber === employee.employeeNumber);
+    
+        if (isSelected) {
+            // 이미 선택되어 있으면 선택 해제
+            const updatedSelectedEmployees = selectedEmployees.filter(selectedEmployee => selectedEmployee.employeeNumber !== employee.employeeNumber);
+            setSelectedEmployees(updatedSelectedEmployees);
+    
+            // 선택 해제된 사원의 정보를 표시하는 요소의 클래스 제거
+            const selectedElement = document.querySelector(`.added_name_info[data-employee-number="${employee.employeeNumber}"]`);
+            if (selectedElement) {
+                selectedElement.classList.remove('popup_selected');
+            }
+        } else {
+            // 선택되어 있지 않으면 선택 상태로 추가
+            setSelectedEmployees([...selectedEmployees, employee]);
+    
+            // 선택된 사원의 정보를 표시하는 요소에 클래스 추가
+            const selectedElement = document.querySelector(`.added_name_info[data-employee-number="${employee.employeeNumber}"]`);
+            if (selectedElement) {
+                selectedElement.classList.add('popup_selected');
+            }
+        }
     };
+    
 
     const handleUnassign = () => {
         // 선택된 사원들을 assignedEmployees 배열에서 제거

@@ -104,13 +104,16 @@
     align-items: center;
     flex-direction: column;
 }
-.underline {
+.ol_underline {
     bottom: 0;
     left: 0;
     width: 65%;
     height: 2px;
-    background-color: #FA9A85;
+    background-color: transparent;
     z-index: 1;
+}
+.ol_underline.active {
+    background-color: #FA9A85;
 }
 .shaded_underline {
     position: relative;
@@ -224,4 +227,7 @@
 .even .list_index_circle_ol {
     background-color: white;
     color:#606060;
+}
+.total_day {
+    text-align: right;
 }
