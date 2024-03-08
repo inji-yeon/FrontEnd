@@ -14,7 +14,8 @@ function WritingOvertime(){
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [selectedViewers, setSelectedViewers] = useState([]);
     const [selectedSection, setSelectedSection] = useState("approval");
-
+    const [image, setImage] = useState(null);
+    const imageInput = useRef(); 
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -62,6 +63,7 @@ function WritingOvertime(){
         overworkStartTime: '',
         overworkEndTime: '',
         overworkReason: '',
+        file: '',
     });
 
     const onChangeHandler = (e) => {
@@ -75,8 +77,32 @@ function WritingOvertime(){
         console.log('실제로 값이 변하는지', form);
     },[form]);
 
+    // 이미지 업로드 세팅
+    const onClickImageUpload = () => {
+        imageInput.current.click();
+    }
+
+    // 파일 업로드 핸들러
+    const onFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file); // 이미지 상태 업데이트
+            setForm(prevForm => ({
+                ...prevForm,
+                file: file, // 파일 객체 전달
+            }));
+        }
+    };
+    
+
     const onClickSubmitHandler = () => {
         console.log('[Approval] onClickSubmitHandler');
+
+        // 추가 결재자가 있는지 확인
+        if (selectedEmployees.length === 0) {
+            alert('결재자를 추가해주세요.');
+            return; // 추가 결재자가 없으므로 함수 종료
+        }
 
         const formData = new FormData();
 
@@ -87,13 +113,20 @@ function WritingOvertime(){
         formData.append("overworkEndTime",form.overworkEndTime);
         formData.append("overworkReason", form.overworkReason);
 
+        if(image){
+            formData.append("file", image);
+        }
+
         selectedEmployees.forEach(employee => {
             formData.append("additionalApprovers", employee.employeeNumber);
         });
 
-        selectedViewers.forEach(viewer => {
-            formData.append("refViewers", viewer.employeeNumber);
-        });
+        // selectedViewers 배열이 비어있지 않은 경우에만 추가
+        if (selectedViewers.length > 0) {
+            selectedViewers.forEach(viewer => {
+                formData.append("refViewers", viewer.employeeNumber);
+            });
+        }
 
         dispatch(callSubmitOverworkAPI({
             form: formData
@@ -216,7 +249,7 @@ function WritingOvertime(){
                 </div>
             )}
 
-            {selectedSection === "view" && (
+            {selectedSection === "view" && selectedViewers &&(
                 <div className='selected_as_view_line'>
                     <div className="set_ref_line">
                         <div className="set_approval_ref_button" onClick={handleOpenPopup}>
@@ -248,7 +281,17 @@ function WritingOvertime(){
             )}
 
             {selectedSection === "attached" && (
-                <div className='selected_as_attached_file'></div>
+                <div className='selected_as_attached_file'>
+                                  <input
+        type="file"
+        ref={imageInput}
+        onChange={onFileChange}
+        style={{ display: 'none' }} // 시각적으로 숨김 처리
+      />
+                    <span>
+                <button onClick={ onClickImageUpload }>첨부파일</button>
+              </span>
+                </div>
             )}
 
             </div>

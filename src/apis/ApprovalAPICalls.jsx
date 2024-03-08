@@ -64,6 +64,6 @@ export const callSubmitOverworkAPI = ({ form }) => {
             body: form,
         }).then((response) => response.json());
 
-            dispatch({ type: POST_APPROVAL_DOC, payload: result.data });
+            dispatch({ type: POST_APPROVAL_DOC, payload: result });
     };
 }
