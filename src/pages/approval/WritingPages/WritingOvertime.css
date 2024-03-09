@@ -132,13 +132,49 @@
     justify-content: center;
     align-items: center;
 }
-.set_approval_line_text{
-    font-family: pretendard;
+.file_attaching_button{
+    width: 60px;
+    height: 27px;
+    border: solid 1px #606060;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.delete_file_button{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #606060;
+    margin-right: 21px;
+}
+.file_delete_title_ol{
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.file_name_title_ol{
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    flex: 1;
+}
+.attached_file_item_ol{
+    width: 313px;
+    height: 45px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center; 
+    border-bottom:#D3D3D3 1px solid;
+}
+.set_approval_line_text, .file_attaching_text{
     font-size: 12px;
     color: #606060;
     cursor: pointer;
 }
-.set_approval_line, .set_ref_line{
+.set_approval_line, .set_ref_line, .set_file_section{
     display: flex;
     justify-content: right;
     margin-top: 17px;
@@ -181,9 +217,9 @@
     height: 25px;
     width: 130px;
 }
-.selected_list_ol, .selected_ref_list_ol{
+.selected_list_ol, .selected_ref_list_ol, .attached_file_list_ol{
     margin-left: 17px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .list_index_circle_ol, .list_ref_index_circle_ol {
     border-radius: 50%;
@@ -207,10 +243,25 @@
     height: 50px;
     padding-left: 10px;
 }
+.file_list_title_ol{
+    width: 303px;
+    height: 25px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center; 
+    background-color: #D3D3D3
+}
+
 .employee_name_ol, .ref_name_ol{
     font-weight: bold;
     font-size: 16px;
 }
+.file_name_ol{
+    font-size: 16px;
+    margin-left: 10px;
+    flex: 1;
+}
+
 .employee_department_ol, .ref_department_ol{
     font-size: 14px;
     color: #A3A2A2;

@@ -7,11 +7,9 @@ import { callOutboxListAPI } from '../../apis/ApprovalAPICalls';
 
 function OnProcessList(){
     const dispatch = useDispatch();
-    const document = useSelector((state) => state.approvalReducer);
-    const documentList = document?.data;
+    const documentList = useSelector((state) => state.approvalReducer);
     const navigate = useNavigate();
     
-    console.log('document Redux State======', document);
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
@@ -46,12 +44,12 @@ function OnProcessList(){
             </thead>
 
             <tbody>
-            {document && document.map((documents) => (
-            <tr key = {documents.approvalDocCode}>
-                <td>{documents.approvalForm}</td>
-                <td>{documents.approvalTitle}</td>
-                <td>{documents.employeeCode?.employeeName}</td>
-                <td>{documents.approvalRequestDate}</td>
+            {documentList && documentList.map((document) => (
+            <tr key = {document.approvalDocCode}>
+                <td>{document.approvalForm}</td>
+                <td>{document.approvalTitle}</td>
+                <td>{document.employeeCode?.employeeName}</td>
+                <td>{document.approvalRequestDate}</td>
                 <td>
                     <div className="process_check_button">
                         <span className="process_check_text">결재 현황 확인</span>

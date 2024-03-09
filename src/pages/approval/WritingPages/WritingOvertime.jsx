@@ -9,6 +9,8 @@ import ApprovalRefPopup from './ApprovalRefPopup';
 function WritingOvertime(){
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const popupRef = useRef();
     const [selectedEmployees, setSelectedEmployees] = useState([]);
@@ -16,6 +18,7 @@ function WritingOvertime(){
     const [selectedSection, setSelectedSection] = useState("approval");
     const [image, setImage] = useState(null);
     const imageInput = useRef(); 
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -63,7 +66,7 @@ function WritingOvertime(){
         overworkStartTime: '',
         overworkEndTime: '',
         overworkReason: '',
-        file: '',
+        files: '',
     });
 
     const onChangeHandler = (e) => {
@@ -84,16 +87,29 @@ function WritingOvertime(){
 
     // 파일 업로드 핸들러
     const onFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file); // 이미지 상태 업데이트
+        const files = e.target.files;
+        if (files.length > 0) {
+            const fileList = Array.from(files); // FileList를 배열로 변환
+            setImages(prevImages => [...prevImages, ...fileList]); // 이미지 배열 상태에 새로운 파일 추가
             setForm(prevForm => ({
                 ...prevForm,
-                file: file, // 파일 객체 전달
+                files: [...prevForm.files, ...fileList], // 기존 파일과 새로운 파일을 함께 저장
             }));
         }
     };
+
+    const handleRemoveFile = (index) => {
+        const newImages = [...images];
+        newImages.splice(index, 1); // 해당 인덱스의 파일 삭제
+        setImages(newImages); // 이미지 배열 상태 업데이트
     
+        const newFiles = [...form.files];
+        newFiles.splice(index, 1); // 해당 인덱스의 파일 삭제
+        setForm(prevForm => ({
+            ...prevForm,
+            files: newFiles, // 파일 배열 상태 업데이트
+        }));
+    };
 
     const onClickSubmitHandler = () => {
         console.log('[Approval] onClickSubmitHandler');
@@ -113,9 +129,10 @@ function WritingOvertime(){
         formData.append("overworkEndTime",form.overworkEndTime);
         formData.append("overworkReason", form.overworkReason);
 
-        if(image){
-            formData.append("file", image);
-        }
+        // 파일 정보 추가
+        form.files.forEach(file => {
+            formData.append("file", file); // 여러 개의 파일이 있을 수 있으므로 append 사용
+        });
 
         selectedEmployees.forEach(employee => {
             formData.append("additionalApprovers", employee.employeeNumber);
@@ -135,6 +152,7 @@ function WritingOvertime(){
         console.log(form, '기안 올린 내용');
         
         alert('결재 기안이 완료되었습니다.');
+
     }
 
 
@@ -257,22 +275,22 @@ function WritingOvertime(){
                         </div>
                     </div>
                     <div className='selected_ref_for_on_leave'>
-                            <table className='selected_ref_list_ol'>
-                                <tbody>
-                                {selectedViewers.map((viewer, index) => (
-                                    <tr key={index}>
-                                        <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                            <div className="list_ref_index_circle_ol">{index + 1}</div>
-                                        </td>
-                                        <td className={`selected_ref_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                            <span className='ref_name_ol'>{viewer.employeeName}</span><br/>
-                                            <span className='ref_department_ol'>{viewer.parentDepartment}&nbsp;/&nbsp;
-                                            {viewer.employeeDepartment}</span>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                        <table className='selected_ref_list_ol'>
+                            <tbody>
+                            {selectedViewers.map((viewer, index) => (
+                                <tr key={index}>
+                                    <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                        <div className="list_ref_index_circle_ol">{index + 1}</div>
+                                    </td>
+                                    <td className={`selected_ref_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                        <span className='ref_name_ol'>{viewer.employeeName}</span><br/>
+                                        <span className='ref_department_ol'>{viewer.parentDepartment}&nbsp;/&nbsp;
+                                        {viewer.employeeDepartment}</span>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                     </div>
                     <div className="approval_ref_list" ref={popupRef}>
                         {isPopupOpen && <ApprovalRefPopup onConfirm={handleSelectedViewers} onClose={() => setIsPopupOpen(false)}/>}
@@ -282,15 +300,38 @@ function WritingOvertime(){
 
             {selectedSection === "attached" && (
                 <div className='selected_as_attached_file'>
-                                  <input
-        type="file"
-        ref={imageInput}
-        onChange={onFileChange}
-        style={{ display: 'none' }} // 시각적으로 숨김 처리
-      />
-                    <span>
-                <button onClick={ onClickImageUpload }>첨부파일</button>
-              </span>
+                <input
+                type="file"
+                ref={imageInput}
+                onChange={onFileChange}
+                style={{ display: 'none' }}
+                multiple 
+                />
+
+                <div className='set_file_section'>
+                    <div className="file_attaching_button" onClick={ onClickImageUpload }>
+                        <span className='file_attaching_text'>첨부파일</span>
+                    </div>
+                </div>
+
+                <div className="attached_file_for_ol">
+                    <table className='attached_file_list_ol'>
+                        <tbody>
+                        {/* <tr className='file_list_title_ol'>
+                            <span className='file_name_title_ol'>파일명</span>
+                            <span className='file_delete_title_ol'>삭제</span>
+                        </tr> */}
+                        {images.map((file, index) => (
+                            <tr key={index}>
+                                <td className="attached_file_item_ol">
+                                    <span className='file_name_ol'>{file.name}</span>
+                                    <span className='delete_file_button' onClick={() => handleRemoveFile(index)}>x</span>
+                                </td>
+                    </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             )}
 
