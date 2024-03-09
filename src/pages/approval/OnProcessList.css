@@ -83,7 +83,7 @@
 }
 
 .op_list td:nth-child(2) {
-    width: 500px;
+    width: 480px;
     padding-left: 26.25px;
 }
 .op_list td:nth-child(2) {
@@ -99,7 +99,7 @@
     padding-left: 26.25px;
 }
 .op_list th:nth-child(4) {
-    width: 130px;
+    width: 150px;
     padding-left: 11.25px;
 }
 .op_list td:nth-child(4){
@@ -131,4 +131,31 @@
 
 .list_writing_button {
     cursor: pointer;
+}
+
+/* 페이지네이션 */
+.pagination{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 20px;
+    margin: 20px 0px;
+    margin-top: 70px;
+}
+
+.pagination button {
+    font-size: 14px;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    color: #606060;
+}
+.pagination button:hover {
+    background: rgba(250, 154, 133, 0.3);
+}
+.pagination .page-item.active button {
+    color: #fb6240;
+    border-color: #fb6240;
+    font-weight: bold;
 }

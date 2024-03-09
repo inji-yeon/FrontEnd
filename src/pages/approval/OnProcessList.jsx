@@ -1,14 +1,24 @@
 import './OnProcessList.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { callOutboxListAPI } from '../../apis/ApprovalAPICalls';
 
+function formatDate(dateArray) {
+    const year = dateArray[0];
+    const month = String(dateArray[1]).padStart(2, '0');
+    const day = String(dateArray[2]).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
 function OnProcessList(){
     const dispatch = useDispatch();
     const documentList = useSelector((state) => state.approvalReducer);
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [selectedPage, setSelectedPage] = useState(1); // 선택된 페이지 추적
+
     
     console.log('documentList Redux State======', documentList);
 
@@ -16,6 +26,34 @@ function OnProcessList(){
         dispatch(callOutboxListAPI());
     }, []);
     
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = documentList.slice(indexOfFirstItem, indexOfLastItem);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        setSelectedPage(pageNumber); // 페이지 번호를 클릭할 때 선택된 페이지 상태 업데이트
+    };
+
+    const goToFirstPage = () => {
+        setCurrentPage(1);
+        setSelectedPage(1); // 맨 처음 페이지로 이동할 때 선택된 페이지 상태 업데이트
+    };
+
+    const goToLastPage = () => {
+        setCurrentPage(Math.ceil(documentList.length / itemsPerPage));
+        setSelectedPage(Math.ceil(documentList.length / itemsPerPage));
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+        if (currentPage > 1) setSelectedPage(currentPage - 1);
+    };
+    const goToNextPage = () => {
+        if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setCurrentPage(currentPage + 1);
+        if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setSelectedPage(currentPage + 1);
+    };
+
     return(
         <>
         <section className="project_section">
@@ -44,12 +82,12 @@ function OnProcessList(){
             </thead>
 
             <tbody>
-            {documentList.length > 0 && documentList.map((document) => (
+            {currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
                 <td>{document.approvalTitle}</td>
                 <td>{document.employeeCode?.employeeName}</td>
-                <td>{document.approvalRequestDate}</td>
+                <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>
                     <div className="process_check_button">
                         <span className="process_check_text">결재 현황 확인</span>
@@ -59,7 +97,27 @@ function OnProcessList(){
                 ))}
             </tbody>
         </table>
-
+        <ul className="pagination">
+            <li className="page-item">
+                <button onClick={goToFirstPage}>{"<<"}</button>
+            </li>
+            <li className="page-item">
+                <button onClick={goToPreviousPage}>{"<"}</button>
+            </li>
+            {[...Array(Math.ceil(documentList.length / itemsPerPage))].map((_, index) => (
+                <li key={index} className={`page-item ${selectedPage === index + 1 ? 'active' : ''}`}> {/* 변경: 선택된 페이지에 'active' 클래스 추가 */}
+                    <button onClick={() => paginate(index + 1)} className="page-link">
+                        {index + 1}
+                    </button>
+                </li>
+            ))}
+            <li className="page-item">
+                <button onClick={goToNextPage}>{">"}</button>
+            </li>
+            <li className="page-item">
+                <button onClick={goToLastPage}>{">>"}</button>
+            </li>
+        </ul>
     </div>
     </section>
         </>
