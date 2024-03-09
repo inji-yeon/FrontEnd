@@ -59,12 +59,12 @@ function OnProcessList(){
         <section className="project_section">
     <div className="op_title_section">
         <span className="op_title">결재 진행함</span>
-        <select className="doc_search-options">
-            <option value="search_by_title">제목</option>
+        <select className="op_doc_search_options">
+            <option value="search_by_title" defaultChecked>제목</option>
             <option value="search_by_name">이름</option>
         </select>
-        <div className="doc_search_section">
-            <input type="text" className="doc_search" placeholder="검색어를 입력해주세요."/>
+        <div className="op_doc_search_section">
+            <input type="text" className="op_doc_search" placeholder="검색어를 입력해주세요."/>
             <img alt="" className="search_icon" src="/Approval/search.png"/>
         </div>
     </div>

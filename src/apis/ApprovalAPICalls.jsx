@@ -1,6 +1,7 @@
 import {
     GET_OUTBOX_ONPROCESS,
     POST_APPROVAL_DOC,
+    GET_OUTBOX_FINISHED,
 } from '../modules/ApprovalModule';
 import axios from 'axios';
 import { userEmployeeCode } from '../utils/tokenUtils';
@@ -21,7 +22,7 @@ export const callOutboxListAPI = () => {
         })
         .then(response => response.json());
 
-        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT 111: ', result);
+        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_OUTBOX_ONPROCESS',  payload: result.data });
         
@@ -65,5 +66,26 @@ export const callSubmitOverworkAPI = ({ form }) => {
         }).then((response) => response.json());
 
             dispatch({ type: POST_APPROVAL_DOC, payload: result });
+    };
+}
+export const callOutboxFinishedListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-finished`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callOutboxFinishedListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_OUTBOX_FINISHED',  payload: result.data });
+        
     };
 }

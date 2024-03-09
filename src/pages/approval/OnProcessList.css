@@ -2,10 +2,6 @@
     display: grid;
     grid-column: auto;
 }
-.on_process_section{
-    width: 100%;
-    background-color: #F5F5F5;
-}
 .op_title_section {
     height: 100px;
     width: 1335px;
@@ -18,14 +14,14 @@
     font-weight: bold;
     margin-left: 68px;
 }
-.doc_search_section {
+.op_doc_search_section {
     margin-left: 5px;
     display: flex;
     align-items: center;
 }
-.doc_search {
+.op_doc_search {
     width: 272px;
-    height: 26px;
+    height: 30px;
     border-color: #606060;
     border-width: 1.5px;
     font-size: 16px;
@@ -37,14 +33,14 @@
     width: 17px;
     margin-left: -30px;
 }
-.doc_search-options{
-    width: 55px;
+.op_doc_search_options{
+    width: 65px;
     height: 30px;
     border-color: #606060;
     border-width: 1.5px;
     font-size: 16px;
     color: #606060;
-    margin-left: 730px;
+    margin-left: 612px;
     padding: 2px;
 }
 .op_list_content{
