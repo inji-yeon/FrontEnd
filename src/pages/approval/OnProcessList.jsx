@@ -44,7 +44,7 @@ function OnProcessList(){
             </thead>
 
             <tbody>
-            {documentList && documentList.map((document) => (
+            {documentList.length > 0 && documentList.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
                 <td>{document.approvalTitle}</td>

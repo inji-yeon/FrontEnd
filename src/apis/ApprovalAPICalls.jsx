@@ -47,7 +47,7 @@ export const callLoggedinUserAPI = () => {
 
         console.log('[ApprovalAPICalls] callLoggedinUserAPI RESULT : ', result);
 
-        dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result });
+        dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result.data });
     };
 }
 

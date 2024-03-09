@@ -130,10 +130,14 @@ function WritingOvertime(){
         formData.append("overworkReason", form.overworkReason);
 
         // 파일 정보 추가
-        form.files.forEach(file => {
-            formData.append("file", file); // 여러 개의 파일이 있을 수 있으므로 append 사용
-        });
-
+        if (Array.isArray(form.files)) {
+            form.files.forEach(file => {
+                formData.append("file", file); // 여러 개의 파일이 있을 수 있으므로 append 사용
+            });
+        } else if (form.files instanceof File) {
+            formData.append("file", form.files); // 파일이 하나일 경우에는 바로 추가
+        }
+        
         selectedEmployees.forEach(employee => {
             formData.append("additionalApprovers", employee.employeeNumber);
         });
@@ -152,6 +156,8 @@ function WritingOvertime(){
         console.log(form, '기안 올린 내용');
         
         alert('결재 기안이 완료되었습니다.');
+        
+        navigate('/approval/onProcessList'); // 페이지 이동
 
     }
 
