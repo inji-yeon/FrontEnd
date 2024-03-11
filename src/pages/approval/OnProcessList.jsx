@@ -13,7 +13,7 @@ function formatDate(dateArray) {
 
 function OnProcessList(){
     const dispatch = useDispatch();
-    const documentList = useSelector((state) => state.approvalReducer);
+    const documentList = useSelector((state) => Array.isArray(state.approvalReducer) ? state.approvalReducer : []);
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -54,6 +54,12 @@ function OnProcessList(){
         if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setSelectedPage(currentPage + 1);
     };
 
+    const handleDocumentClick = (approvalDocCode) => {
+        // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
+        console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
+        navigate(`/approval/OverworkDetailsOnProcess/${approvalDocCode}`);
+    };
+    
     return(
         <>
         <section className="project_section">
@@ -82,10 +88,12 @@ function OnProcessList(){
             </thead>
 
             <tbody>
-            {currentItems.map((document) => (
+            {documentList.length > 0 && currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
-                <td>{document.approvalTitle}</td>
+                <td onClick={() => handleDocumentClick(document.approvalDocCode)}>
+                    {document.approvalTitle}
+                </td>
                 <td>{document.employeeCode?.employeeName}</td>
                 <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>

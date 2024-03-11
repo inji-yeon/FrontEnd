@@ -41,6 +41,7 @@ import WritingOvertime from './pages/approval/WritingPages/WritingOvertime';
 import WritingAway from './pages/approval/WritingPages/WritingAway';
 import WritingBusinessTrip from './pages/approval/WritingPages/WritingBusinessTrip';
 import WritingWFH from './pages/approval/WritingPages/WritingWFH';
+import OverworkDetailsOnProcess from './pages/approval/DetailPages/OverworkDetailsOnProcess';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -127,6 +128,7 @@ function App() {
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />
                         <Route path='retrieved' element={<RetrievedList />} />
+                        <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPageSideBar />} >
