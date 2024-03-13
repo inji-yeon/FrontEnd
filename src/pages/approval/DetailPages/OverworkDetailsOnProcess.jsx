@@ -6,38 +6,25 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 function OverworkDetailsOnProcess(){
 
-    const popupRef = useRef();
     const dispatch = useDispatch();
     const { approvalDocCode } = useParams(); // approvalDocCode 가져옴
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [selectedViewers, setSelectedViewers] = useState([]);
     const [selectedSection, setSelectedSection] = useState("approval");
-    const [image, setImage] = useState(null);
     const imageInput = useRef(); 
     const [images, setImages] = useState([]);
-    const overworkDetails = useSelector((state) => state.approvalReducer.overworkDetails);
+    const overworkDetails = useSelector((state) => state.approvalReducer);
 
+    console.log("overworkDetails: ", overworkDetails);
+    console.log("overworkDetails.employeeDTOs: ", overworkDetails.employeeDTOs);
+    console.log("overworkDetails.referenceEmployeeDTOs: ", overworkDetails.referenceEmployeeDTOs);
+    
     const handleOpenSection = (section) => { 
         setSelectedSection(section);
     }
-
-    const handleSelectedEmployees = (selectedEmployees) => {
-        setSelectedEmployees(selectedEmployees);
-        // 선택된 사원 목록을 받아 처리하는 로직
-        console.log("선택된 사원 목록:", selectedEmployees);
-    };
-
-    const handleSelectedViewers = (selectedViewers) => {
-        setSelectedViewers(selectedViewers);
-        // 선택된 사원 목록을 받아 처리하는 로직
-        console.log("선택된 열람자 목록:", selectedViewers);
-    };
     
     const isSelected = (section) => {
         return selectedSection === section;
     }
-    
-    const [clickType, setClickType] = useState("") 
 
     const [form, setForm] = useState({
         overworkTitle: '',
@@ -49,17 +36,6 @@ function OverworkDetailsOnProcess(){
         files: '',
     });
 
-    const onChangeHandler = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    // 이미지 업로드 세팅
-    const onClickImageUpload = () => {
-        imageInput.current.click();
-    }
 
     // 파일 업로드 핸들러
     const onFileChange = (e) => {
@@ -92,7 +68,21 @@ function OverworkDetailsOnProcess(){
         dispatch(callOverworkDetailsAPI({ approvalDocCode }));
     }, [dispatch, approvalDocCode]); 
 
-
+    // 부서 코드에 따라 부서 이름 반환
+    const getDepartmentName = (departmentCode) => {
+        switch (departmentCode) {
+            case 1:
+                return "관리본부";
+            case 2:
+                return "영업본부";
+            case 3:
+                return "개발본부";
+            case 4:
+                return "마케팅본부";
+            default:
+                return "기타";
+        }
+    }
     return(
         <>
             <div className="ow_detail_button_and_content">
@@ -118,8 +108,7 @@ function OverworkDetailsOnProcess(){
                             className="input_box"
                             type="text"
                             name="overworkTitle"
-                            value={overworkDetails?.overworkTitle}
-                            onChange={onChangeHandler}
+                            value={overworkDetails?.overwork?.overworkTitle}
                         />                        
                         </div>
                     </div>
@@ -127,7 +116,7 @@ function OverworkDetailsOnProcess(){
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>구분</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <select id="type" name="kindOfOverwork" value={form.kindOfOverwork} onChange={onChangeHandler}>
+                            <select id="type" name="kindOfOverwork" value={overworkDetails?.overwork?.kindOfOverwork}>
                                 <option value="">선택</option>
                                 <option value="overtime_day">연장근로</option>
                                 <option value="overtime_holiday">휴일근로</option>
@@ -139,23 +128,23 @@ function OverworkDetailsOnProcess(){
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>근무 일자</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input type="date" id="ov_working_date"  className="inputbox" name="overworkDate" value={form.overworkDate} onChange={onChangeHandler}/>
+                            <input type="date" id="ov_working_date"  className="inputbox" name="overworkDate" value={overworkDetails?.overwork?.overworkDate}/>
                         </div>
                     </div>
 
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>근무 시간</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input type="time" id="ov_start_time"  className="inputbox" name="overworkStartTime" value={form.overworkStartTime} onChange={onChangeHandler}/>
+                            <input type="time" id="ov_start_time"  className="inputbox" name="overworkStartTime" value={overworkDetails?.overwork?.overworkStartTime}/>
                             <span className="datelength">~</span>
-                            <input type="time" id="ov_end_time"  className="inputbox" name="overworkEndTime" value={form.overworkEndTime} onChange={onChangeHandler}/>
+                            <input type="time" id="ov_end_time"  className="inputbox" name="overworkEndTime" value={overworkDetails?.overwork?.overworkEndTime}/>
                         </div>
                     </div>
 
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>업무 내용</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input className="input_box" type="text" name="overworkReason" value={form.overworkReason} onChange={onChangeHandler}/>
+                            <input className="input_box" type="text" name="overworkReason" value={overworkDetails?.overwork?.overworkReason}/>
                         </div>
                     </div>
                 </div>
@@ -183,39 +172,38 @@ function OverworkDetailsOnProcess(){
                 <div className='selected_as_approval_line'>
                     <div className='selected_lines_for_on_leave'>
                             <table className='selected_list_ol'>
-                                <tbody>
-                                {selectedEmployees.map((employee, index) => (
+                            <tbody>
+                                {overworkDetails.employeeDTOs && overworkDetails.employeeDTOs.map((employee, index) => (
                                     <tr key={index}>
                                         <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                             <div className="list_index_circle_ol">{index + 1}</div>
                                         </td>
                                         <td className={`selected_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                             <span className='employee_name_ol'>{employee.employeeName}</span><br/>
-                                            <span className='employee_department_ol'>{employee.parentDepartment}&nbsp;/&nbsp;
-                                            {employee.employeeDepartment}</span>
+                                            <span className='employee_department_ol'>{getDepartmentName(employee.department.parentDepartmentCode)}&nbsp;/&nbsp;{employee.department.departmentName}</span>
                                         </td>
                                     </tr>
                                 ))}
-                                </tbody>
+                            </tbody>
                             </table>
                     </div>
                 </div>
             )}
 
-            {selectedSection === "view" && selectedViewers &&(
+            {selectedSection === "view" && (
                 <div className='selected_as_view_line'>
                     <div className='selected_ref_for_on_leave'>
                         <table className='selected_ref_list_ol'>
                             <tbody>
-                            {selectedViewers.map((viewer, index) => (
+                            {overworkDetails.referenceEmployeeDTOs && overworkDetails.referenceEmployeeDTOs.map((referenceEmployee, index) => (
                                 <tr key={index}>
                                     <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                         <div className="list_ref_index_circle_ol">{index + 1}</div>
                                     </td>
                                     <td className={`selected_ref_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                        <span className='ref_name_ol'>{viewer.employeeName}</span><br/>
-                                        <span className='ref_department_ol'>{viewer.parentDepartment}&nbsp;/&nbsp;
-                                        {viewer.employeeDepartment}</span>
+                                        <span className='ref_name_ol'>{referenceEmployee.employeeName}</span><br/>
+                                        <span className='ref_department_ol'>{getDepartmentName(referenceEmployee.department.parentDepartmentCode)}&nbsp;/&nbsp;{referenceEmployee.department.departmentName}
+                                        </span>
                                     </td>
                                 </tr>
                             ))}
@@ -227,22 +215,13 @@ function OverworkDetailsOnProcess(){
 
             {selectedSection === "attached" && (
                 <div className='selected_as_attached_file'>
-                <input
-                type="file"
-                ref={imageInput}
-                onChange={onFileChange}
-                style={{ display: 'none' }}
-                multiple 
-                />
-
                 <div className="attached_file_for_ol">
                     <table className='attached_file_list_ol'>
                         <tbody>
-                        {images.map((file, index) => (
+                        {overworkDetails.approvalAttachedFiles.map((file, index) => (
                             <tr key={index}>
                                 <td className="attached_file_item_ol">
-                                    <span className='file_name_ol'>{file.name}</span>
-                                    <span className='delete_file_button' onClick={() => handleRemoveFile(index)}>x</span>
+                                    <span className='file_name_ol'>{file.approvalChangedFile}</span>
                                 </td>
                     </tr>
                         ))}

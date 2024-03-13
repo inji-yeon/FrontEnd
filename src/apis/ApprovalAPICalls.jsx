@@ -5,9 +5,6 @@ import {
     GET_OUTBOX_REJECTED,
     GET_OVERWORK_DETAILS,
 } from '../modules/ApprovalModule';
-import axios from 'axios';
-import { userEmployeeCode } from '../utils/tokenUtils';
-
 
 export const callOutboxListAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-approval`;
