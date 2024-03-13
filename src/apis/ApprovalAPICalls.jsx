@@ -131,3 +131,32 @@ export const callOverworkDetailsAPI = ({ approvalDocCode }) => {
         
     };
 }
+
+export const CallApprovalAttachedDownloadAPI = ({ fileName }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/attachment/${fileName}`;
+
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            console.log('[ApprovalAPICalls] CallApprovalAttachedDownloadAPI RESULT: ', url);
+
+            dispatch({ type: 'approval/GET_APPROVAL_ATTACHMENT', payload: { url, fileName } });
+        } catch (error) {
+            console.error('[ApprovalAPICalls] CallApprovalAttachedDownloadAPI ERROR: ', error);
+            // Handle error
+        }
+    };
+};

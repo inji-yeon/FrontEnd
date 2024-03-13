@@ -149,6 +149,7 @@
     display: flex;
     align-items: center; 
     border-bottom:#D3D3D3 1px solid;
+    cursor: pointer;
 }
 #ov_start_time, #ov_end_time, #ov_working_date{
     font-size: 16px;

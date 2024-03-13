@@ -3,15 +3,13 @@ import './OverworkDetailsOnProcess.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { callOverworkDetailsAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { CallApprovalAttachedDownloadAPI } from '../../../apis/ApprovalAPICalls';
 
 function OverworkDetailsOnProcess(){
 
     const dispatch = useDispatch();
     const { approvalDocCode } = useParams(); // approvalDocCode 가져옴
-    const [selectedViewers, setSelectedViewers] = useState([]);
     const [selectedSection, setSelectedSection] = useState("approval");
-    const imageInput = useRef(); 
-    const [images, setImages] = useState([]);
     const overworkDetails = useSelector((state) => state.approvalReducer);
 
     console.log("overworkDetails: ", overworkDetails);
@@ -26,42 +24,6 @@ function OverworkDetailsOnProcess(){
         return selectedSection === section;
     }
 
-    const [form, setForm] = useState({
-        overworkTitle: '',
-        kindOfOverwork: '',
-        overworkDate: '',
-        overworkStartTime: '',
-        overworkEndTime: '',
-        overworkReason: '',
-        files: '',
-    });
-
-
-    // 파일 업로드 핸들러
-    const onFileChange = (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            const fileList = Array.from(files); // FileList를 배열로 변환
-            setImages(prevImages => [...prevImages, ...fileList]); // 이미지 배열 상태에 새로운 파일 추가
-            setForm(prevForm => ({
-                ...prevForm,
-                files: [...prevForm.files, ...fileList], // 기존 파일과 새로운 파일을 함께 저장
-            }));
-        }
-    };
-
-    const handleRemoveFile = (index) => {
-        const newImages = [...images];
-        newImages.splice(index, 1); // 해당 인덱스의 파일 삭제
-        setImages(newImages); // 이미지 배열 상태 업데이트
-    
-        const newFiles = [...form.files];
-        newFiles.splice(index, 1); // 해당 인덱스의 파일 삭제
-        setForm(prevForm => ({
-            ...prevForm,
-            files: newFiles, // 파일 배열 상태 업데이트
-        }));
-    };
 
     useEffect(() => {
         console.log("approvalDocCode:", approvalDocCode);
@@ -83,6 +45,24 @@ function OverworkDetailsOnProcess(){
                 return "기타";
         }
     }
+
+    // 파일 다운로드
+    const handleFileDownload = (fileName) => {
+        // 파일 다운로드 API 호출
+        fetch(`http://localhost:1208/web-images/${fileName}`)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        })
+        .catch(error => console.error('File download error:', error));
+    }
+    
     return(
         <>
             <div className="ow_detail_button_and_content">
@@ -218,12 +198,12 @@ function OverworkDetailsOnProcess(){
                 <div className="attached_file_for_ol">
                     <table className='attached_file_list_ol'>
                         <tbody>
-                        {overworkDetails.approvalAttachedFiles.map((file, index) => (
-                            <tr key={index}>
-                                <td className="attached_file_item_ol">
-                                    <span className='file_name_ol'>{file.approvalChangedFile}</span>
-                                </td>
-                    </tr>
+                        {overworkDetails && overworkDetails.approvalAttachedFiles && overworkDetails.approvalAttachedFiles.map((file, index) => (
+                        <tr key={index} onClick={() => handleFileDownload(file.approvalChangedFile)}> {/* 파일 다운로드 이벤트 핸들러 */}
+                            <td className="attached_file_item_ol">
+                                <span className='file_name_ol'>{file.approvalOgFile}</span>
+                            </td>
+                        </tr>
                         ))}
                         </tbody>
                     </table>
