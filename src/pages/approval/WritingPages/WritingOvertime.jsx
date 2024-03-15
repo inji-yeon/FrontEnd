@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './WritingOvertime.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { callLoggedinUserAPI, callSubmitOverworkAPI } from '../../../apis/ApprovalAPICalls';
+import { callLoggedinUserAPI, callSubmitOverworkAPI, callSaveOverworkAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ApprovalLinePopup from './ApprovalLinePopup';
 import ApprovalRefPopup from './ApprovalRefPopup';
@@ -111,6 +111,29 @@ function WritingOvertime(){
         }));
     };
 
+    // 임시 저장
+    const onClickSaveHandler = () => {
+        console.log('[Approval] onClickSaveHandler');
+
+        const formData = new FormData();
+
+        formData.append("overworkTitle", form.overworkTitle);
+        formData.append("kindOfOverwork", form.kindOfOverwork);
+        formData.append("overworkDate", form.overworkDate);
+        formData.append("overworkStartTime", form.overworkStartTime);
+        formData.append("overworkEndTime",form.overworkEndTime);
+        formData.append("overworkReason", form.overworkReason);
+
+        dispatch(callSaveOverworkAPI({
+            form: formData
+        }));
+        
+        console.log(form, '저장 내용');
+        
+        alert('임시 저장되었습니다.');
+    }
+
+    // 상신
     const onClickSubmitHandler = () => {
         console.log('[Approval] onClickSubmitHandler');
 
@@ -166,7 +189,7 @@ function WritingOvertime(){
         <>
             <div className="writing_button_and_content">
                 <div className="writing_section">
-                    <div className="aproval_save_button">
+                    <div className="aproval_save_button" onClick={onClickSaveHandler}>
                         <span className="saving_text">임시 저장</span>
                     </div>
                     <div className="approval_submit_button" onClick={onClickSubmitHandler}>

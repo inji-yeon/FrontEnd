@@ -1,11 +1,12 @@
 import {
     GET_OUTBOX_ONPROCESS,
-    POST_APPROVAL_DOC,
+    POST_OVERWORK_DOC,
     GET_OUTBOX_FINISHED,
     GET_OUTBOX_REJECTED,
     GET_OVERWORK_DETAILS,
     PUT_RETRIEVAL,
     GET_RETRIEVAL_LIST,
+    POST_SAVE_OVERWORK,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -34,7 +35,6 @@ export const callLoggedinUserAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/loggedin-employee`;
 
     return async (dispatch, getState) => {
-        console.log('정보 들어옴');
 
         const result = await fetch(requestURL, {
             method: "GET",
@@ -66,7 +66,7 @@ export const callSubmitOverworkAPI = ({ form }) => {
             body: form,
         }).then((response) => response.json());
 
-            dispatch({ type: POST_APPROVAL_DOC, payload: result });
+            dispatch({ type: POST_OVERWORK_DOC, payload: result });
     };
 }
 export const callOutboxFinishedListAPI = () => {
@@ -215,5 +215,21 @@ export const callOutboxRetrievedListAPI = () => {
 
         dispatch({ type:  'approval/GET_RETRIEVAL_LIST',  payload: result.data });
         
+    };
+}
+export const callSaveOverworkAPI = ({ form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/temp-save-overwork`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+            dispatch({ type: POST_SAVE_OVERWORK, payload: result });
     };
 }

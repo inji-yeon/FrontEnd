@@ -5,6 +5,7 @@ import 'jstree/dist/themes/default/style.min.css';
 import $ from 'jquery';
 import 'jstree'
 import { callGroupChartAPI } from '../../../apis/GroupchartAPI';
+import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
 
 function ApprovalLinePopup({ onConfirm, onClose }) {
 
@@ -16,7 +17,13 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
 
     const [draggedIndex, setDraggedIndex] = useState(null); // 드래그된 사원의 인덱스
 
+    useEffect(() => {
+        dispatch(callLoggedinUserAPI());
+    }, []);
 
+    const loggedInUser = useSelector(state => state.approvalReducer);
+    console.log("loggedInUser", loggedInUser);
+    
     useEffect(() => {
         if (orgData.length > 0) {
             const formattedData = convertDataForJSTree(orgData);
@@ -98,15 +105,20 @@ function ApprovalLinePopup({ onConfirm, onClose }) {
     const handleAssign = () => {
         // 중복된 사원을 체크하기 위한 set 생성
         const employeeSet = new Set(assignedEmployees.map(employee => employee.employeeNumber));
-    
+
         // 선택된 사원 목록을 배열에 추가할 때 중복 여부 확인하여 처리
         const updatedEmployees = [...assignedEmployees];
+
         selectedEmployees.forEach(employee => {
-            if (!employeeSet.has(employee.employeeNumber)) {
-                updatedEmployees.push(employee);
-                employeeSet.add(employee.employeeNumber); // set에 추가
+            if (parseInt(loggedInUser) === parseInt(employee.employeeNumber)) {
+                alert(`기안자는 결재선에 추가할 수 없습니다.`);
             } else {
-                alert(`이미 추가된 결재자입니다.`);
+                if (!employeeSet.has(employee.employeeNumber)) {
+                    updatedEmployees.push(employee);
+                    employeeSet.add(employee.employeeNumber); // set에 추가
+                } else {
+                    alert(`이미 추가된 결재자입니다.`);
+                }
             }
         });
     
