@@ -45,6 +45,21 @@
     align-items: center;
     justify-content: center;
 }
+.ow_detail_retrieve_button.active:hover {
+    width: 94px;
+    height: 37px;
+    border-radius: 5px;
+    border: solid 2px #FA9A85;
+    background-color: #FA9A85;
+    margin-left: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.ow_detail_retrieve_button.active:hover .ow_detail_retrieve_text {
+    color: white; 
+}
 .ow_detail_tolist_button{
     width: 126px;
     height: 37px;
@@ -193,7 +208,7 @@
     margin-left: 17px;
     margin-top: 10px;
 }
-.list_index_circle_ol, .list_ref_index_circle_ol {
+.list_index_circle_op, .list_ref_index_circle_ol {
     border-radius: 50%;
     background-color: #D3D3D3;
     color: #ffffff;
@@ -203,17 +218,20 @@
     line-height: 30px;
 }
 
-.selected_index_ol, .selected_ref_index_ol {
+.selected_index_op, .selected_ref_index_ol {
     width: 65px;
     height: 65px;
     display: flex; 
     justify-content: center; 
     align-items: center; 
 }
-.selected_info_ol, .selected_ref_info_ol{
-    width: 248px;
+.selected_info_op, .selected_ref_info_ol{
+    width: 180px;
     height: 50px;
     padding-left: 10px;
+}
+.selected_status_op{
+    width: 68px;
 }
 .file_list_title_ol{
     width: 303px;
@@ -224,7 +242,7 @@
     background-color: #D3D3D3
 }
 
-.employee_name_ol, .ref_name_ol{
+.employee_name_op, .ref_name_ol{
     font-weight: bold;
     font-size: 16px;
 }
@@ -234,9 +252,32 @@
     flex: 1;
 }
 
-.employee_department_ol, .ref_department_ol{
+.employee_department_op, .ref_department_ol{
     font-size: 14px;
     color: #A3A2A2;
+}
+.approval_line_status_op{
+    width: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.approval_line_status_op.draft {
+    font-size: 14px;
+    color: #606060;
+}
+.approval_line_status_op.pending {
+    font-size: 14px;
+    color: #606060;
+}
+.approval_line_status_op.approval {
+    font-size: 14px;
+    color: #5da2fb;
+}
+.approval_line_status_op.rejected {
+    font-size: 14px;
+    color: #fa5d5d;
 }
 
 .even {
@@ -246,7 +287,7 @@
 .odd {
     background-color: white; /* 짝수 배경색 */
 }
-.even .list_index_circle_ol, .even .list_ref_index_circle_ol {
+.even .list_index_circle_op, .even .list_ref_index_circle_ol {
     background-color: white;
     color:#606060;
 }

@@ -133,19 +133,19 @@ function ApprovalSidebar() {
           <div className="inbox_title" onClick={handleInboxClick}>결재 상신함</div>
         </div>
         <div className="inbox_menu_section" style={{height: inboxMenuHeight}}>
-          <div className={`on_process ${selectedInboxMenu === 'onProcessList' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('onProcessList')}>
+          <div className={`side_on_process ${selectedInboxMenu === 'onProcessList' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('onProcessList')}>
             <span className="inbox_text">결재 진행함</span>
           </div>
-          <div className={`completed ${selectedInboxMenu === 'completed' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('completed')}>
+          <div className={`side_completed ${selectedInboxMenu === 'completed' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('completed')}>
             <span className="inbox_text">결재 완료함</span>
           </div>
-          <div className={`rejected ${selectedInboxMenu === 'rejected' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('rejected')}>
+          <div className={`side_rejected ${selectedInboxMenu === 'rejected' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('rejected')}>
             <span className="inbox_text">반려 문서함</span>
           </div>
-          <div className={`retrieved ${selectedInboxMenu === 'retrieved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('retrieved')}>
+          <div className={`side_retrieved ${selectedInboxMenu === 'retrieved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('retrieved')}>
             <span className="inbox_text">회수 문서함</span>
           </div>
-          <div className={`saved ${selectedInboxMenu === 'saved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('saved')}>
+          <div className={`side_saved ${selectedInboxMenu === 'saved' ? 'bold' : ''}`} onClick={() => handleInboxMenuClick('saved')}>
             <span className="inbox_text">임시 저장</span>
           </div>
         </div>

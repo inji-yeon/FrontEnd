@@ -13,7 +13,7 @@ function formatDate(dateArray) {
 
 function CompletedList(){
     const dispatch = useDispatch();
-    const documentList = useSelector((state) => state.approvalReducer);
+    const documentList = useSelector((state) => Array.isArray(state.approvalReducer) ? state.approvalReducer : []);
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -82,7 +82,7 @@ function CompletedList(){
             </thead>
 
             <tbody>
-            {currentItems.map((document) => (
+            {documentList && currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
                 <td>{document.approvalTitle}</td>

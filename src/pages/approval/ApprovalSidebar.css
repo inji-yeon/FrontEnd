@@ -132,7 +132,7 @@
 	margin-right: 40px;
 	margin-left: 25px;
   }
-.completed, .rejected, .retrieved, .saved, .on_process { 
+.side_completed, .side_rejected, .side_retrieved, .side_saved, .side_on_process { 
 	width:100%;
 	height:60px;
 	display: flex;

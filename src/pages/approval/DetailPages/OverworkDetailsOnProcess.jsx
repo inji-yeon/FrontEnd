@@ -34,14 +34,14 @@ function OverworkDetailsOnProcess(){
     const onClickRetrievalHandler = async () => {
         try {
             const result = await dispatch(callRetrievalAPI({ approvalDocCode }));
-            console.log("Retrieval result:", result); // API 호출 결과를 확인합니다.
-            console.log("Retrieval success:", result.success); // success 및 message에 직접 접근합니다.
+            console.log("Retrieval result:", result); 
+            console.log("Retrieval success:", result.success); 
             console.log("Retrieval message:", result.message);
-            if(result.success = true) {
+            if(result.success === true) {
                 alert(result.message)
-                navigate('/approval/onProcessList'); // 추후 회수 리스트로 수정
+                navigate('/approval/retrieved'); 
             } else {
-            alert(result.message)
+                alert(result.message)
             }
         } catch (error) {
             console.error('Error in onClickRetrievalHandler:', error);
@@ -88,6 +88,22 @@ function OverworkDetailsOnProcess(){
         navigate('/approval/onProcessList');
     }
 
+    function getClassByStatus(status) {
+        switch (status) {
+            case "기안":
+                return "draft";
+            case "대기":
+                return "pending";
+            case "결재":
+                return "approval";
+            case "반려":
+                return "rejected";
+            default:
+                return "";
+        }
+    }
+
+    
     return(
         <>
             <div className="ow_detail_button_and_content">
@@ -95,7 +111,7 @@ function OverworkDetailsOnProcess(){
                     <div className="ow_detail_tolist_button">
                         <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
-                    <div className="ow_detail_retrieve_button" onClick={onClickRetrievalHandler}>
+                    <div className={`ow_detail_retrieve_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickRetrievalHandler}>
                         <span className="ow_detail_retrieve_text">회수</span>
                     </div>
                 </div>
@@ -180,12 +196,25 @@ function OverworkDetailsOnProcess(){
                             <tbody>
                                 {overworkDetails.employeeDTOs && overworkDetails.employeeDTOs.map((employee, index) => (
                                     <tr key={index}>
-                                        <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                            <div className="list_index_circle_ol">{index + 1}</div>
+                                        <td className={`selected_index_op ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <div className="list_index_circle_op">{index + 1}</div>
                                         </td>
-                                        <td className={`selected_info_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                            <span className='employee_name_ol'>{employee.employeeName}</span><br/>
-                                            <span className='employee_department_ol'>{getDepartmentName(employee.department.parentDepartmentCode)}&nbsp;/&nbsp;{employee.department.departmentName}</span>
+                                        <td className={`selected_info_op ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            <span className='employee_name_op'>{employee.employeeName}</span><br/>
+                                            <span className='employee_department_op'>{getDepartmentName(employee.department.parentDepartmentCode)}&nbsp;/&nbsp;{employee.department.departmentName}</span>
+                                        </td>
+                                        <td className={`selected_status_op ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                            {/* approvalLines에서 해당 employeeCode에 해당하는 approvalProcessStatus 가져오기 */}
+                                            {overworkDetails.additionalApprovalLines && overworkDetails.additionalApprovalLines.map((approvalLine) => {
+                                                if (approvalLine.employeeCode === employee.employeeCode) {
+                                                    return (
+                                                        <div className={`approval_line_status_op ${getClassByStatus(approvalLine.approvalProcessStatus)}`}>
+                                                        <span className="approval_line_status_text_op">{approvalLine.approvalProcessStatus}</span>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            })}
                                         </td>
                                     </tr>
                                 ))}

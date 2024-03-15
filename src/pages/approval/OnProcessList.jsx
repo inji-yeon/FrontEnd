@@ -2,7 +2,7 @@ import './OnProcessList.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOutboxListAPI } from '../../apis/ApprovalAPICalls';
+import { callOutboxOnProcessListAPI } from '../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
     const year = dateArray[0];
@@ -23,7 +23,7 @@ function OnProcessList(){
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        dispatch(callOutboxListAPI());
+        dispatch(callOutboxOnProcessListAPI());
     }, []);
     
     

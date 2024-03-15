@@ -5,10 +5,11 @@ import {
     GET_OUTBOX_REJECTED,
     GET_OVERWORK_DETAILS,
     PUT_RETRIEVAL,
+    GET_RETRIEVAL_LIST,
 } from '../modules/ApprovalModule';
 
-export const callOutboxListAPI = () => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-approval`;
+export const callOutboxOnProcessListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-on-process`;
 
     return async (dispatch, getState) => {
         
@@ -22,7 +23,7 @@ export const callOutboxListAPI = () => {
         })
         .then(response => response.json());
 
-        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT: ', result);
+        console.log('[ApprovalAPICalls] callOutboxOnProcessListAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_OUTBOX_ONPROCESS',  payload: result.data });
         
@@ -195,3 +196,24 @@ export const callRetrievalAPI = ({ approvalDocCode }) => {
     };
 }
 
+export const callOutboxRetrievedListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-retrieved`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callOutboxRetrievedListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_RETRIEVAL_LIST',  payload: result.data });
+        
+    };
+}
