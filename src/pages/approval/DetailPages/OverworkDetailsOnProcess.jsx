@@ -3,11 +3,12 @@ import './OverworkDetailsOnProcess.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { callOverworkDetailsAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { CallApprovalAttachedDownloadAPI } from '../../../apis/ApprovalAPICalls';
+import { callRetrievalAPI } from '../../../apis/ApprovalAPICalls';
 
 function OverworkDetailsOnProcess(){
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { approvalDocCode } = useParams(); // approvalDocCode 가져옴
     const [selectedSection, setSelectedSection] = useState("approval");
     const overworkDetails = useSelector((state) => state.approvalReducer);
@@ -15,7 +16,7 @@ function OverworkDetailsOnProcess(){
     console.log("overworkDetails: ", overworkDetails);
     console.log("overworkDetails.employeeDTOs: ", overworkDetails.employeeDTOs);
     console.log("overworkDetails.referenceEmployeeDTOs: ", overworkDetails.referenceEmployeeDTOs);
-    
+
     const handleOpenSection = (section) => { 
         setSelectedSection(section);
     }
@@ -29,6 +30,26 @@ function OverworkDetailsOnProcess(){
         console.log("approvalDocCode:", approvalDocCode);
         dispatch(callOverworkDetailsAPI({ approvalDocCode }));
     }, [dispatch, approvalDocCode]); 
+
+    const onClickRetrievalHandler = async () => {
+        try {
+            const result = await dispatch(callRetrievalAPI({ approvalDocCode }));
+            console.log("Retrieval result:", result); // API 호출 결과를 확인합니다.
+            console.log("Retrieval success:", result.success); // success 및 message에 직접 접근합니다.
+            console.log("Retrieval message:", result.message);
+            if(result.success = true) {
+                alert(result.message)
+                navigate('/approval/onProcessList'); // 추후 회수 리스트로 수정
+            } else {
+            alert(result.message)
+            }
+        } catch (error) {
+            console.error('Error in onClickRetrievalHandler:', error);
+            // Handle error
+        }
+    }
+    
+    
 
     // 부서 코드에 따라 부서 이름 반환
     const getDepartmentName = (departmentCode) => {
@@ -63,14 +84,18 @@ function OverworkDetailsOnProcess(){
         .catch(error => console.error('File download error:', error));
     }
     
+    const toTheListHandler = () => {
+        navigate('/approval/onProcessList');
+    }
+
     return(
         <>
             <div className="ow_detail_button_and_content">
                 <div className="ow_detail_section">
                     <div className="ow_detail_tolist_button">
-                        <span className="ow_detail_tolist_text">목록으로</span>
+                        <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
-                    <div className="ow_detail_retrieve_button">
+                    <div className="ow_detail_retrieve_button" onClick={onClickRetrievalHandler}>
                         <span className="ow_detail_retrieve_text">회수</span>
                     </div>
                 </div>

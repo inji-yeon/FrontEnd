@@ -7,6 +7,7 @@ export const GET_OUTBOX_FINISHED = 'approval/GET_OUTBOX_FINISHED';
 export const GET_OUTBOX_REJECTED = 'approval/GET_OUTBOX_REJECTED';
 export const GET_OVERWORK_DETAILS = 'approval/GET_OVERWORK_DETAILS';
 export const GET_APPROVAL_ATTACHMENT = 'approval/GET_APPROVAL_ATTACHMENT';
+export const PUT_RETRIEVAL = 'approval/PUT_RETRIEVAL';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
@@ -15,6 +16,7 @@ const actions = createActions({
     [GET_OUTBOX_REJECTED]: (payload) => payload,
     [GET_OVERWORK_DETAILS]: (payload) => payload,
     [GET_APPROVAL_ATTACHMENT]: (payload) => payload,
+    [PUT_RETRIEVAL]: (payload) => payload,
 });
 
 
@@ -43,6 +45,10 @@ const approvalReducer = handleActions(
         [GET_APPROVAL_ATTACHMENT]: (state, { payload }) => {
             console.log('GET_APPROVAL_ATTACHMENT action dispatched. Payload:', payload);
             return payload;
+        },
+        [PUT_RETRIEVAL]: (state, { payload }) => {
+            console.log('PUT_RETRIEVAL action dispatched. Payload:', payload);
+            return state;
         },
     },
     initialState

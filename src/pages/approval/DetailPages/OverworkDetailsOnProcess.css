@@ -54,6 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 .ow_detail_retrieve_button {
     background-color: white;

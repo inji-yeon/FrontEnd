@@ -4,6 +4,7 @@ import {
     GET_OUTBOX_FINISHED,
     GET_OUTBOX_REJECTED,
     GET_OVERWORK_DETAILS,
+    PUT_RETRIEVAL,
 } from '../modules/ApprovalModule';
 
 export const callOutboxListAPI = () => {
@@ -160,3 +161,37 @@ export const CallApprovalAttachedDownloadAPI = ({ fileName }) => {
         }
     };
 };
+
+export const callRetrievalAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/retrieval/${approvalDocCode}`;
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+            console.log('[ApprovalAPICalls] callRetrievalAPI RESULT: ', result);
+
+            dispatch({ type:  'approval/PUT_RETRIEVAL',  payload: result });
+
+            // 비동기 작업 완료 후 결과를 반환합니다.
+            return result;
+        } catch (error) {
+            console.error('[ApprovalAPICalls] callRetrievalAPI ERROR: ', error);
+            // Handle error
+            throw error; // 에러를 다시 throw하여 오류 처리를 호출하는 곳에서 처리할 수 있도록 합니다.
+        }
+    };
+}
+

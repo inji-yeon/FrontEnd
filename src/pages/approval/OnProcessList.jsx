@@ -26,6 +26,7 @@ function OnProcessList(){
         dispatch(callOutboxListAPI());
     }, []);
     
+    
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = documentList.slice(indexOfFirstItem, indexOfLastItem);
