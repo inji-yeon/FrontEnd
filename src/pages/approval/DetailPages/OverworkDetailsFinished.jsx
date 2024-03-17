@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './OverworkDetailsOnProcess.css';
+import './OverworkDetailsFinished.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOverworkDetailsOPAPI } from '../../../apis/ApprovalAPICalls';
-import { useNavigate, useParams } from 'react-router-dom';
-import { callRetrievalAPI } from '../../../apis/ApprovalAPICalls';
+import { callOverworkDetailsFinAPI } from '../../../apis/ApprovalAPICalls';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
-function OverworkDetailsOnProcess(){
+function OverworkDetailsFinished(){
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -27,30 +26,8 @@ function OverworkDetailsOnProcess(){
 
     useEffect(() => {
         console.log("approvalDocCode:", approvalDocCode);
-        dispatch(callOverworkDetailsOPAPI({ approvalDocCode }));
+        dispatch(callOverworkDetailsFinAPI({ approvalDocCode }));
     }, [dispatch, approvalDocCode]); 
-
-    const onClickRetrievalHandler = async () => {
-        const confirmed = window.confirm("문서를 회수하시겠습니까?");
-        if (confirmed) {
-            try {
-                const result = await dispatch(callRetrievalAPI({ approvalDocCode }));
-                console.log("Retrieval result:", result); 
-                console.log("Retrieval success:", result.success); 
-                console.log("Retrieval message:", result.message);
-                if(result.success === true) {
-                    alert(result.message)
-                    navigate('/approval/retrieved'); 
-                } else {
-                    alert(result.message)
-                }
-            } catch (error) {
-                console.error('Error in onClickRetrievalHandler:', error);
-                // Handle error
-            }
-        }
-    }
-    
 
     // 부서 코드에 따라 부서 이름 반환
     const getDepartmentName = (departmentCode) => {
@@ -86,7 +63,7 @@ function OverworkDetailsOnProcess(){
     }
     
     const toTheListHandler = () => {
-        navigate('/approval/onProcessList');
+        navigate('/approval/completed');
     }
 
     function getClassByStatus(status) {
@@ -104,20 +81,28 @@ function OverworkDetailsOnProcess(){
         }
     }
 
+    const handleDocumentClick = (approvalDocCode) => {
+        const confirmed = window.confirm("재기안 페이지로 이동하시겠습니까?");
+        if (confirmed) {
+            console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
+            navigate(`/approval/ResubmitOvertime/${approvalDocCode}`);
+        }
+    };
+    
     
     return(
         <>
-            <div className="ow_detail_button_and_content">
-                <div className="ow_detail_section">
-                    <div className="ow_detail_tolist_button">
-                        <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
+            <div className="fin_detail_button_and_content">
+                <div className="fin_detail_section">
+                    <div className="fin_detail_tolist_button">
+                        <span className="fin_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
-                    <div className={`ow_detail_retrieve_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickRetrievalHandler}>
-                        <span className="ow_detail_retrieve_text">회수</span>
+                    <div className='fin_detail_resubmit_button' onClick={() => handleDocumentClick(approvalDocCode)}>
+                        <span className="fin_detail_resubmit_text">재기안</span>
                     </div>
                 </div>
-            <div className='ow_detail_content'>
-                <section className="ow_detail_form_section">
+            <div className='fin_detail_content'>
+                <section className="fin_detail_form_section">
             <div className="form_body">
                 <div className="form_title_section">
                     <div className="form_title">연장근로 신청서</div>
@@ -272,4 +257,4 @@ function OverworkDetailsOnProcess(){
     );
 }
 
-export default OverworkDetailsOnProcess;
+export default OverworkDetailsFinished;

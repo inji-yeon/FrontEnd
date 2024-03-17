@@ -5,6 +5,8 @@ import 'jstree/dist/themes/default/style.min.css';
 import $ from 'jquery';
 import 'jstree'
 import { callGroupChartAPI } from '../../../apis/GroupchartAPI';
+import { callLoggedinUserAPI } from '../../../apis/ApprovalAPICalls';
+
 
 function ApprovalRefPopup({ onConfirm, onClose }) {
 
@@ -13,6 +15,13 @@ function ApprovalRefPopup({ onConfirm, onClose }) {
 
     const [selectedViewers, setSelectedViewers] = useState([]);
     const [assignedViewers, setAssignedViewers] = useState([]);
+
+    useEffect(() => {
+        dispatch(callLoggedinUserAPI());
+    }, []);
+
+    const loggedInUser = useSelector(state => state.approvalReducer);
+    console.log("loggedInUser", loggedInUser);
 
     useEffect(() => {
         if (orgData.length > 0) {
@@ -98,12 +107,17 @@ function ApprovalRefPopup({ onConfirm, onClose }) {
     
         // 선택된 사원 목록을 배열에 추가할 때 중복 여부 확인하여 처리
         const updatedViewers = [...assignedViewers];
+
         selectedViewers.forEach(viewer => {
-            if (!viewerSet.has(viewer.employeeNumber)) {
-                updatedViewers.push(viewer);
-                viewerSet.add(viewer.employeeNumber); // set에 추가
+            if (parseInt(loggedInUser) === parseInt(viewer.employeeNumber)) {
+                alert(`기안자는 열람자로 추가할 수 없습니다.`);
             } else {
-                alert(`이미 추가된 열람자입니다.`);
+                if (!viewerSet.has(viewer.employeeNumber)) {
+                    updatedViewers.push(viewer);
+                    viewerSet.add(viewer.employeeNumber); // set에 추가
+                } else {
+                    alert(`이미 추가된 열람자입니다.`);
+                }
             }
         });
     

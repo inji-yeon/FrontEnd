@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callOutboxOnProcessListAPI } from '../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
+    if (!dateArray || dateArray.length === 0) {
+        return ''; // 혹은 다른 기본값을 반환
+    }
+
     const year = dateArray[0];
     const month = String(dateArray[1]).padStart(2, '0');
     const day = String(dateArray[2]).padStart(2, '0');

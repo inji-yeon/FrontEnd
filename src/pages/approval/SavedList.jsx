@@ -1,8 +1,8 @@
-import './RetrievedList.css';
+import './SavedList.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOutboxRetrievedListAPI } from '../../apis/ApprovalAPICalls';
+import { callOutboxSavedListAPI } from '../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
     if (!dateArray || dateArray.length === 0) {
@@ -15,7 +15,8 @@ function formatDate(dateArray) {
     return `${year}-${month}-${day}`;
 }
 
-function RetrievedList(){
+
+function SavedList(){
     const dispatch = useDispatch();
     const documentList = useSelector((state) => Array.isArray(state.approvalReducer) ? state.approvalReducer : []);
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function RetrievedList(){
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        dispatch(callOutboxRetrievedListAPI());
+        dispatch(callOutboxSavedListAPI());
     }, []);
     
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -66,20 +67,20 @@ function RetrievedList(){
     return(
         <>
         <section className="project_section">
-    <div className="rtr_title_section">
-        <span className="rtr_title">회수 문서함</span>
-        <select className="rtr_doc_search_options">
+    <div className="sv_title_section">
+        <span className="sv_title">임시 저장</span>
+        <select className="sv_doc_search_options">
             <option value="search_by_title">제목</option>
             <option value="search_by_name">이름</option>
         </select>
-        <div className="rtr_doc_search_section">
-            <input type="text" className="rtr_doc_search" placeholder="검색어를 입력해주세요."/>
+        <div className="sv_doc_search_section">
+            <input type="text" className="sv_doc_search" placeholder="검색어를 입력해주세요."/>
             <img alt="" className="search_icon" src="/Approval/search.png"/>
         </div>
     </div>
 
-    <div className="rtr_list_content">
-        <table style={{textAlign: "left"}} className="rtr_list">
+    <div className="sv_list_content">
+        <table style={{textAlign: "left"}} className="sv_list">
             <thead>
             <tr>
                 <th>분류</th>
@@ -95,12 +96,12 @@ function RetrievedList(){
                 <td>{document.approvalForm}</td>
                 <td onClick={() => handleDocumentClick(document.approvalDocCode)}>
                     {document.approvalTitle}
-                </td>
+                </td>           
                 <td>{document.employeeCode?.employeeName}</td>
                 <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>
-                    <div className="rtr_process_check_button">
-                        <span className="rtr_process_check_text">회수 완료</span>
+                    <div className="sv_process_check_button">
+                        <span className="sv_process_check_text">임시저장</span>
                     </div>
                 </td>
             </tr>
@@ -134,4 +135,4 @@ function RetrievedList(){
     );
 }
 
-export default RetrievedList;
+export default SavedList;

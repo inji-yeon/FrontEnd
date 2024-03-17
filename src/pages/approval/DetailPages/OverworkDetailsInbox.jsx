@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './OverworkDetailsOnProcess.css';
+import './OverworkDetailsInbox.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOverworkDetailsOPAPI } from '../../../apis/ApprovalAPICalls';
+import { callOverworkDetailsInboxAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callRetrievalAPI } from '../../../apis/ApprovalAPICalls';
+import { callInboxApprovalAPI } from '../../../apis/ApprovalAPICalls';
 
-function OverworkDetailsOnProcess(){
+function OverworkDetailsInbox(){
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -27,27 +27,16 @@ function OverworkDetailsOnProcess(){
 
     useEffect(() => {
         console.log("approvalDocCode:", approvalDocCode);
-        dispatch(callOverworkDetailsOPAPI({ approvalDocCode }));
+        dispatch(callOverworkDetailsInboxAPI({ approvalDocCode }));
     }, [dispatch, approvalDocCode]); 
 
-    const onClickRetrievalHandler = async () => {
-        const confirmed = window.confirm("문서를 회수하시겠습니까?");
+    const onClickApprovalHandler = () => {
+        const confirmed = window.confirm("결재를 진행합니다.");
         if (confirmed) {
-            try {
-                const result = await dispatch(callRetrievalAPI({ approvalDocCode }));
-                console.log("Retrieval result:", result); 
-                console.log("Retrieval success:", result.success); 
-                console.log("Retrieval message:", result.message);
-                if(result.success === true) {
-                    alert(result.message)
-                    navigate('/approval/retrieved'); 
-                } else {
-                    alert(result.message)
-                }
-            } catch (error) {
-                console.error('Error in onClickRetrievalHandler:', error);
-                // Handle error
-            }
+            dispatch(callInboxApprovalAPI({ approvalDocCode }));
+
+            alert('문서가 결재되었습니다.');
+            navigate('/approval/inbox');
         }
     }
     
@@ -86,7 +75,7 @@ function OverworkDetailsOnProcess(){
     }
     
     const toTheListHandler = () => {
-        navigate('/approval/onProcessList');
+        navigate('/approval/inbox');
     }
 
     function getClassByStatus(status) {
@@ -112,8 +101,11 @@ function OverworkDetailsOnProcess(){
                     <div className="ow_detail_tolist_button">
                         <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
-                    <div className={`ow_detail_retrieve_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickRetrievalHandler}>
-                        <span className="ow_detail_retrieve_text">회수</span>
+                    <div className={`ow_detail_rej_button ${overworkDetails.availability ? 'active' : ''}`}>
+                        <span className="ow_detail_rej_text">반려</span>
+                    </div>
+                    <div className={`ow_detail_app_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickApprovalHandler}>
+                        <span className="ow_detail_app_text">결재</span>
                     </div>
                 </div>
             <div className='ow_detail_content'>
@@ -272,4 +264,4 @@ function OverworkDetailsOnProcess(){
     );
 }
 
-export default OverworkDetailsOnProcess;
+export default OverworkDetailsInbox;

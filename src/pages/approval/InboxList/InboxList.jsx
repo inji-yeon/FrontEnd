@@ -1,8 +1,8 @@
-import './RetrievedList.css';
+import '../InboxList/InboxList.css'
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOutboxRetrievedListAPI } from '../../apis/ApprovalAPICalls';
+import { callInboxListAPI } from '../../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
     if (!dateArray || dateArray.length === 0) {
@@ -15,18 +15,18 @@ function formatDate(dateArray) {
     return `${year}-${month}-${day}`;
 }
 
-function RetrievedList(){
+function InboxList(){
     const dispatch = useDispatch();
     const documentList = useSelector((state) => Array.isArray(state.approvalReducer) ? state.approvalReducer : []);
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
-    const [selectedPage, setSelectedPage] = useState(1); 
-    
+    const [selectedPage, setSelectedPage] = useState(1); // 선택된 페이지 추적
+
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        dispatch(callOutboxRetrievedListAPI());
+        dispatch(callInboxListAPI());
     }, []);
     
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -60,26 +60,26 @@ function RetrievedList(){
     const handleDocumentClick = (approvalDocCode) => {
         // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
         console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
-        navigate(`/approval/OverworkDetailsFinished/${approvalDocCode}`);
+        navigate(`/approval/OverworkDetailsInbox/${approvalDocCode}`);
     };
-
+    
     return(
         <>
         <section className="project_section">
-    <div className="rtr_title_section">
-        <span className="rtr_title">회수 문서함</span>
-        <select className="rtr_doc_search_options">
+    <div className="ib_title_section">
+        <span className="ib_title">결재 대기함</span>
+        <select className="ib_doc_search_options">
             <option value="search_by_title">제목</option>
             <option value="search_by_name">이름</option>
         </select>
-        <div className="rtr_doc_search_section">
-            <input type="text" className="rtr_doc_search" placeholder="검색어를 입력해주세요."/>
+        <div className="ib_doc_search_section">
+            <input type="text" className="ib_doc_search" placeholder="검색어를 입력해주세요."/>
             <img alt="" className="search_icon" src="/Approval/search.png"/>
         </div>
     </div>
 
-    <div className="rtr_list_content">
-        <table style={{textAlign: "left"}} className="rtr_list">
+    <div className="ib_list_content">
+        <table style={{textAlign: "left"}} className="ib_list">
             <thead>
             <tr>
                 <th>분류</th>
@@ -89,8 +89,9 @@ function RetrievedList(){
                 <th>상태</th>
             </tr>
             </thead>
+
             <tbody>
-            {currentItems.length > 0 && currentItems.map((document) => (
+            {documentList && currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
                 <td onClick={() => handleDocumentClick(document.approvalDocCode)}>
@@ -99,8 +100,8 @@ function RetrievedList(){
                 <td>{document.employeeCode?.employeeName}</td>
                 <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>
-                    <div className="rtr_process_check_button">
-                        <span className="rtr_process_check_text">회수 완료</span>
+                    <div className="ib_process_check_button">
+                        <span className="ib_process_check_text">결재 대기</span>
                     </div>
                 </td>
             </tr>
@@ -134,4 +135,4 @@ function RetrievedList(){
     );
 }
 
-export default RetrievedList;
+export default InboxList;

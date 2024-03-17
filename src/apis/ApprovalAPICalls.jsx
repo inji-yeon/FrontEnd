@@ -3,10 +3,15 @@ import {
     POST_OVERWORK_DOC,
     GET_OUTBOX_FINISHED,
     GET_OUTBOX_REJECTED,
-    GET_OVERWORK_DETAILS,
+    GET_OVERWORK_DETAILS_OP,
     PUT_RETRIEVAL,
     GET_RETRIEVAL_LIST,
     POST_SAVE_OVERWORK,
+    GET_OUTBOX_SAVED,
+    GET_OVERWORK_DETAILS_FIN,
+    GET_INBOX_APPROVAL,
+    GET_OVERWORK_DETAILS_INBOX,
+    PUT_INBOX_APPROVAL,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -111,8 +116,8 @@ export const callOutboxRejectedListAPI = () => {
         
     };
 }
-export const callOverworkDetailsAPI = ({ approvalDocCode }) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork/${approvalDocCode}`;
+export const callOverworkDetailsOPAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork-details-op/${approvalDocCode}`;
 
     return async (dispatch, getState) => {
         
@@ -127,9 +132,9 @@ export const callOverworkDetailsAPI = ({ approvalDocCode }) => {
         .then(response => response.json());
 
         console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
-        console.log('[ApprovalAPICalls] callOverworkDetailsAPI RESULT: ', result);
+        console.log('[ApprovalAPICalls] callOverworkDetailsOPAPI RESULT: ', result);
 
-        dispatch({ type:  'approval/GET_OVERWORK_DETAILS',  payload: result.data });
+        dispatch({ type:  'approval/GET_OVERWORK_DETAILS_OP',  payload: result.data });
         
     };
 }
@@ -231,5 +236,123 @@ export const callSaveOverworkAPI = ({ form }) => {
         }).then((response) => response.json());
 
             dispatch({ type: POST_SAVE_OVERWORK, payload: result });
+    };
+}
+
+export const callOutboxSavedListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-saved`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callOutboxSavedListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_RETRIEVAL_LIST',  payload: result.data });
+        
+    };
+}
+export const callOverworkDetailsFinAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork-details-fin/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callOverworkDetailsFinAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_OVERWORK_DETAILS_FIN',  payload: result.data });
+        
+    };
+}
+export const callInboxListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/inbox-approval`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInboxListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_INBOX_APPROVAL',  payload: result.data });
+        
+    };
+}
+export const callOverworkDetailsInboxAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork-details-inbox/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callOverworkDetailsInboxAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_OVERWORK_DETAILS_INBOX',  payload: result.data });
+        
+    };
+}
+
+export const callInboxApprovalAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/approvement/${approvalDocCode}`;
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+            console.log('[ApprovalAPICalls] callInboxApprovalAPI RESULT: ', result);
+
+            dispatch({ type:  'approval/PUT_INBOX_APPROVAL',  payload: result });
+
+            return result;
+        } catch (error) {
+            console.error('[ApprovalAPICalls] callInboxApprovalAPI ERROR: ', error);
+            throw error; 
+        }
     };
 }

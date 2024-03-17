@@ -13,7 +13,7 @@ function ApprovalSidebar() {
 
     const [outboxClicked, setOutboxClicked] = useState(false);
     const [outboxMenuHeight, setOutboxMenuHeight] = useState('180px');
-    const [outboxSectionHeight, setOutboxSectionHeight] = useState('225px');
+    const [outboxSectionHeight, setOutboxSectionHeight] = useState('165px');
     const [outboxdropdown, setOutboxDropdown] = useState('/Approval/opened_dropdown.png');
 
     const [viewClicked, setViewClicked] = useState(false);
@@ -37,7 +37,7 @@ function ApprovalSidebar() {
     const handleOutboxClick = () => {
       setOutboxClicked(prevState => !prevState);
       setOutboxMenuHeight(prevHeight => (prevHeight === '0px' ? '180px' : '0px'));
-      setOutboxSectionHeight(prevHeight => (prevHeight === '45px' ? '225px' : '45px'));
+      setOutboxSectionHeight(prevHeight => (prevHeight === '45px' ? '165px' : '45px'));
       setOutboxDropdown(prevDropdown =>
         prevDropdown === '/Approval/dropdown.png' ? '/Approval/opened_dropdown.png' : '/Approval/dropdown.png'
       );
@@ -89,6 +89,18 @@ function ApprovalSidebar() {
           break;
       }
     }
+    const outboxHandler = (value) => {
+
+      switch (value) {
+        case 'inbox':
+          navigate('inbox');
+          break;
+
+        default:
+          break;
+      }
+    }
+
 
         // 각 섹션의 선택한 메뉴 상태를 추가 상태로 관리합니다.
     const [selectedInboxMenu, setSelectedInboxMenu] = useState(null);
@@ -99,6 +111,10 @@ function ApprovalSidebar() {
     const handleInboxMenuClick = (menu) => {
       setSelectedInboxMenu(menu);
       inboxHandler(menu);
+    };
+    const handleOutboxMenuClick = (menu) => {
+      setSelectedOutboxMenu(menu);
+      outboxHandler(menu);
     };
 
     const handleDocWritingButtonClick = () => {
@@ -156,15 +172,13 @@ function ApprovalSidebar() {
           <img className="outbox_drop_down" src={outboxdropdown}/>
           <span  className="outbox_title" onClick={handleOutboxClick}>결재 수신함</span>
         </div>
-        <div className="outbox_menu_section" style={{height: outboxMenuHeight}}>
+        <div className={`outbox_menu_section ${selectedInboxMenu === 'inbox' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inbox')}>
+
           <div className="awating">
             <span className="outbox_text">결재 대기함</span>
           </div>
           <div className="out_completed">
             <span className="outbox_text">결재 완료함</span>
-          </div>
-          <div className="represent">
-            <span className="outbox_text">대리 결재</span>
           </div>
         </div>
       </div>

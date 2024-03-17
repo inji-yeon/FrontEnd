@@ -29,6 +29,7 @@ import ApprovalFormList from './pages/approval/ApprovalFormList';
 import OnProcessList from './pages/approval/OnProcessList';
 import CompletedList from './pages/approval/CompletedList';
 import RejectedList from './pages/approval/RejectedList';
+import SavedList from './pages/approval/SavedList';
 import RetrievedList from './pages/approval/RetrievedList';
 import AwayForm from './pages/approval/FormLists/AwayForm';
 import BusinessTripForm from './pages/approval/FormLists/BusinessTripForm';
@@ -42,6 +43,10 @@ import WritingAway from './pages/approval/WritingPages/WritingAway';
 import WritingBusinessTrip from './pages/approval/WritingPages/WritingBusinessTrip';
 import WritingWFH from './pages/approval/WritingPages/WritingWFH';
 import OverworkDetailsOnProcess from './pages/approval/DetailPages/OverworkDetailsOnProcess';
+import OverworkDetailsFinished from './pages/approval/DetailPages/OverworkDetailsFinished';
+import ResubmitOvertime from './pages/approval/WritingPages/ResubmitOvertime';
+import InboxList from './pages/approval/InboxList/InboxList';
+import OverworkDetailsInbox from './pages/approval/DetailPages/OverworkDetailsInbox';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -128,7 +133,12 @@ function App() {
                         <Route path='completed' element={<CompletedList />} />
                         <Route path='rejected' element={<RejectedList />} />
                         <Route path='retrieved' element={<RetrievedList />} />
+                        <Route path='inbox' element={<InboxList />} />
+                        <Route path='saved' element={<SavedList />} />
                         <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
+                        <Route path='OverworkDetailsFinished/:approvalDocCode' element={<OverworkDetailsFinished />} />
+                        <Route path='ResubmitOvertime/:approvalDocCode' element={<ResubmitOvertime />} />
+                        <Route path='OverworkDetailsInbox/:approvalDocCode' element={<OverworkDetailsInbox />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPageSideBar />} >

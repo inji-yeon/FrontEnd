@@ -36,22 +36,22 @@
     background-color: white;
 }
 .ow_detail_retrieve_button{
-    width: 94px;
+    width: 84px;
     height: 37px;
     border-radius: 5px;
     border: solid 2px #A3A2A2;
-    margin-left: 31px;
+    margin-left: 21px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .ow_detail_retrieve_button.active:hover {
-    width: 94px;
+    width: 84px;
     height: 37px;
     border-radius: 5px;
     border: solid 2px #FA9A85;
     background-color: #FA9A85;
-    margin-left: 31px;
+    margin-left: 21px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,7 +61,7 @@
     color: white; 
 }
 .ow_detail_tolist_button{
-    width: 126px;
+    width: 111px;
     height: 37px;
     border-radius: 5px;
     border: solid 2px #A3A2A2;

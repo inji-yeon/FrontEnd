@@ -1,24 +1,84 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './WritingOvertime.css';
-import { useDispatch } from 'react-redux';
+import './ResubmitOvertime.css';
+import { useSelector, useDispatch } from 'react-redux';
 import { callSubmitOverworkAPI, callSaveOverworkAPI } from '../../../apis/ApprovalAPICalls';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { callOverworkDetailsFinAPI } from '../../../apis/ApprovalAPICalls';
 import ApprovalLinePopup from './ApprovalLinePopup';
 import ApprovalRefPopup from './ApprovalRefPopup';
 
-function WritingOvertime(){
+function ResubmitOvertime(){
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { approvalDocCode } = useParams();
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const popupRef = useRef();
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [selectedViewers, setSelectedViewers] = useState([]);
     const [selectedSection, setSelectedSection] = useState("approval");
+    const overworkDetails = useSelector((state) => state.approvalReducer);
     const [image, setImage] = useState(null);
     const imageInput = useRef(); 
     const [images, setImages] = useState([]);
+
+    useEffect(() => {
+        console.log("approvalDocCode:", approvalDocCode);
+        dispatch(callOverworkDetailsFinAPI({ approvalDocCode }));
+    }, [dispatch, approvalDocCode]); 
+
+    // 부서 코드에 따라 부서 이름 반환
+    const getDepartmentName = (departmentCode) => {
+        switch (departmentCode) {
+            case 1:
+                return "관리본부";
+            case 2:
+                return "영업본부";
+            case 3:
+                return "개발본부";
+            case 4:
+                return "마케팅본부";
+            default:
+                return "기타";
+        }
+    }
+
+    // 파일 다운로드
+    const handleFileDownload = (fileName) => {
+        // 파일 다운로드 API 호출
+        fetch(`http://localhost:1208/web-images/${fileName}`)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        })
+        .catch(error => console.error('File download error:', error));
+    }
+    
+    const toTheListHandler = () => {
+        navigate('/approval/completed');
+    }
+
+    function getClassByStatus(status) {
+        switch (status) {
+            case "기안":
+                return "draft";
+            case "대기":
+                return "pending";
+            case "결재":
+                return "approval";
+            case "반려":
+                return "rejected";
+            default:
+                return "";
+        }
+    }
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -68,6 +128,20 @@ function WritingOvertime(){
         overworkReason: '',
         files: '',
     });
+
+    useEffect(() => {
+        if (overworkDetails.overwork) {
+            setForm(prevForm => ({
+                ...prevForm,
+                overworkTitle: overworkDetails.overwork.overworkTitle,
+                kindOfOverwork: overworkDetails.overwork.kindOfOverwork,
+                overworkDate: overworkDetails.overwork.overworkDate,
+                overworkStartTime: overworkDetails.overwork.overworkStartTime,
+                overworkEndTime: overworkDetails.overwork.overworkEndTime,
+                overworkReason: overworkDetails.overwork.overworkReason,
+            }));
+        }
+    }, [overworkDetails]);
 
     const onChangeHandler = (e) => {
         setForm({
@@ -217,15 +291,26 @@ function WritingOvertime(){
                 <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>제목</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input className="input_box" type="text" name="overworkTitle" value={form.overworkTitle} onChange={onChangeHandler}/>
+                        <input
+                            className="input_box"
+                            type="text"
+                            name="overworkTitle"
+                            value={form.overworkTitle} // form 상태의 값을 사용하도록 수정
+                            onChange={onChangeHandler} // 입력이 변경될 때 form 상태를 업데이트
+                        />    
                         </div>
                     </div>
 
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>구분</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <select id="type" name="kindOfOverwork" value={form.kindOfOverwork} onChange={onChangeHandler}>
-                                <option value="">선택</option>
+                        <select
+                            id="type"
+                            name="kindOfOverwork"
+                            value={form.kindOfOverwork} 
+                            onChange={onChangeHandler} 
+                        >       
+                            <option value="">선택</option>
                                 <option value="overtime_day">연장근로</option>
                                 <option value="overtime_holiday">휴일근로</option>
                             </select>
@@ -236,23 +321,51 @@ function WritingOvertime(){
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>근무 일자</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input type="date" id="ov_working_date"  className="inputbox" name="overworkDate" value={form.overworkDate} onChange={onChangeHandler}/>
+                        <input
+                            type="date"
+                            id="ov_working_date"
+                            className="inputbox"
+                            name="overworkDate"
+                            value={form.overworkDate} // form 상태의 값을 사용하도록 수정
+                            onChange={onChangeHandler} // 입력이 변경될 때 form 상태를 업데이트하는 함수
+                        />
                         </div>
                     </div>
 
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>근무 시간</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input type="time" id="ov_start_time"  className="inputbox" name="overworkStartTime" value={form.overworkStartTime} onChange={onChangeHandler}/>
-                            <span className="datelength">~</span>
-                            <input type="time" id="ov_end_time"  className="inputbox" name="overworkEndTime" value={form.overworkEndTime} onChange={onChangeHandler}/>
+                        <input
+                            type="time"
+                            id="ov_start_time"
+                            className="inputbox"
+                            name="overworkStartTime"
+                            value={form.overworkStartTime} // form 상태의 값을 사용하도록 수정
+                            onChange={onChangeHandler} // 입력이 변경될 때 form 상태를 업데이트하는 함수
+                        />
+                        <span className="datelength">~</span>
+                        <input
+                            type="time"
+                            id="ov_end_time"
+                            className="inputbox"
+                            name="overworkEndTime"
+                            value={form.overworkEndTime} // form 상태의 값을 사용하도록 수정
+                            onChange={onChangeHandler} // 입력이 변경될 때 form 상태를 업데이트하는 함수
+                        />
+                                    
                         </div>
                     </div>
 
                     <div style={{ display: 'table-row' }}>
                         <div className ="A" style={{ display: 'table-cell' }}>업무 내용</div>
                         <div className ="B" style={{ display: 'table-cell' }}>
-                            <input className="input_box" type="text" name="overworkReason" value={form.overworkReason} onChange={onChangeHandler}/>
+                        <input
+                            className="input_box"
+                            type="text"
+                            name="overworkReason"
+                            value={form.overworkReason} // form 상태의 값을 사용하도록 수정
+                            onChange={onChangeHandler} // 입력이 변경될 때 form 상태를 업데이트하는 함수
+                        />                        
                         </div>
                     </div>
                 </div>
@@ -286,7 +399,7 @@ function WritingOvertime(){
                     <div className='selected_lines_for_on_leave'>
                             <table className='selected_list_ol'>
                                 <tbody>
-                                {selectedEmployees.map((employee, index) => (
+                                {selectedEmployees && selectedEmployees.map((employee, index) => (
                                     <tr key={index}>
                                         <td className={`selected_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                             <div className="list_index_circle_ol">{index + 1}</div>
@@ -317,7 +430,7 @@ function WritingOvertime(){
                     <div className='selected_ref_for_on_leave'>
                         <table className='selected_ref_list_ol'>
                             <tbody>
-                            {selectedViewers.map((viewer, index) => (
+                            {selectedViewers && selectedViewers.map((viewer, index) => (
                                 <tr key={index}>
                                     <td className={`selected_ref_index_ol ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                         <div className="list_ref_index_circle_ol">{index + 1}</div>
@@ -382,4 +495,4 @@ function WritingOvertime(){
     );
 }
 
-export default WritingOvertime;
+export default ResubmitOvertime;

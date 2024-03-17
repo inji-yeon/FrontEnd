@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callOutboxFinishedListAPI } from '../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
+    if (!dateArray || dateArray.length === 0) {
+        return ''; // 혹은 다른 기본값을 반환
+    }
+
     const year = dateArray[0];
     const month = String(dateArray[1]).padStart(2, '0');
     const day = String(dateArray[2]).padStart(2, '0');
@@ -53,6 +57,11 @@ function CompletedList(){
         if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setSelectedPage(currentPage + 1);
     };
 
+    const handleDocumentClick = (approvalDocCode) => {
+        // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
+        console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
+        navigate(`/approval/OverworkDetailsFinished/${approvalDocCode}`);
+    };
     
     return(
         <>
@@ -85,7 +94,9 @@ function CompletedList(){
             {documentList && currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
-                <td>{document.approvalTitle}</td>
+                <td onClick={() => handleDocumentClick(document.approvalDocCode)}>
+                    {document.approvalTitle}
+                </td>
                 <td>{document.employeeCode?.employeeName}</td>
                 <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>
