@@ -89,7 +89,8 @@ function OverworkDetailsFinished(){
         }
     };
     
-    
+    let rejectedReasonAdded = false;
+
     return(
         <>
             <div className="fin_detail_button_and_content">
@@ -154,6 +155,22 @@ function OverworkDetailsFinished(){
                             <input className="input_box" type="text" name="overworkReason" value={overworkDetails?.overwork?.overworkReason}/>
                         </div>
                     </div>
+                    {overworkDetails.additionalApprovalLines && overworkDetails.additionalApprovalLines.map((approvalLine, index) => {
+                        if (!rejectedReasonAdded && approvalLine.approvalRejectedReason && index > 0) {
+                            rejectedReasonAdded = true;
+                            const rejectedReason = approvalLine.approvalRejectedReason.substring(1, approvalLine.approvalRejectedReason.length - 1);
+                            return (
+                                <div style={{ display: 'table-row' }} key={approvalLine.approvalLineCode}>
+                                    <div className="A" style={{ display: 'table-cell' }}>반려 사유</div>
+                                    <div className="B" style={{ display: 'table-cell' }}>
+                                        <input className="input_box" type="text" name="rejectedReason" value={rejectedReason} readOnly />
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })}
+
                 </div>
             </div>
                 </section>

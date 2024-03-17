@@ -45,6 +45,7 @@
     align-items: center;
     justify-content: center;
     background-color: #FA9A85;
+    cursor: pointer;
 }
 .ow_detail_rej_button{
     width: 84px;
@@ -55,6 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     
 }
 .ow_detail_tolist_button{

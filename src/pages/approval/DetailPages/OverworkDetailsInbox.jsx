@@ -3,7 +3,7 @@ import './OverworkDetailsInbox.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { callOverworkDetailsInboxAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callInboxApprovalAPI } from '../../../apis/ApprovalAPICalls';
+import { callInboxApprovalAPI, callInboxRejectAPI } from '../../../apis/ApprovalAPICalls';
 
 function OverworkDetailsInbox(){
 
@@ -16,6 +16,8 @@ function OverworkDetailsInbox(){
     console.log("overworkDetails: ", overworkDetails);
     console.log("overworkDetails.employeeDTOs: ", overworkDetails.employeeDTOs);
     console.log("overworkDetails.referenceEmployeeDTOs: ", overworkDetails.referenceEmployeeDTOs);
+
+    const [rejectionReason, setRejectionReason] = useState(""); // 반려 사유 상태 변수 추가
 
     const handleOpenSection = (section) => { 
         setSelectedSection(section);
@@ -39,6 +41,21 @@ function OverworkDetailsInbox(){
             navigate('/approval/inbox');
         }
     }
+    
+    const onClickRejectionHandler = () => {
+        const reason = window.prompt("반려 사유를 입력해주세요.", "");
+        if (reason !== null) {
+            setRejectionReason(reason); // 반려 사유 상태 업데이트
+    
+            const confirmed = window.confirm("반려를 진행합니다.");
+            if (confirmed) {
+                dispatch(callInboxRejectAPI({ approvalDocCode, reason }));
+                alert('문서가 반려되었습니다.');
+                navigate('/approval/inbox');
+            }
+        }
+    }
+    
     
 
     // 부서 코드에 따라 부서 이름 반환
@@ -101,7 +118,7 @@ function OverworkDetailsInbox(){
                     <div className="ow_detail_tolist_button">
                         <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
-                    <div className={`ow_detail_rej_button ${overworkDetails.availability ? 'active' : ''}`}>
+                    <div className={`ow_detail_rej_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickRejectionHandler}>
                         <span className="ow_detail_rej_text">반려</span>
                     </div>
                     <div className={`ow_detail_app_button ${overworkDetails.availability ? 'active' : ''}`} onClick={onClickApprovalHandler}>

@@ -12,6 +12,7 @@ import {
     GET_INBOX_APPROVAL,
     GET_OVERWORK_DETAILS_INBOX,
     PUT_INBOX_APPROVAL,
+    PUT_INBOX_REJECT,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -352,6 +353,37 @@ export const callInboxApprovalAPI = ({ approvalDocCode }) => {
             return result;
         } catch (error) {
             console.error('[ApprovalAPICalls] callInboxApprovalAPI ERROR: ', error);
+            throw error; 
+        }
+    };
+}
+export const callInboxRejectAPI = ({ approvalDocCode, reason }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/rejection/${approvalDocCode}`;
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json", // 변경
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                },
+                body: JSON.stringify(reason), // 객체 형태로 래핑하지 않고 그대로 전달
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+            console.log('[ApprovalAPICalls] callInboxRejectAPI RESULT: ', result);
+
+            dispatch({ type:  'approval/PUT_INBOX_REJECT',  payload: result });
+
+            return result;
+        } catch (error) {
+            console.error('[ApprovalAPICalls] callInboxRejectAPI ERROR: ', error);
             throw error; 
         }
     };
