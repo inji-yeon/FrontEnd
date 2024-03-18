@@ -101,6 +101,10 @@ function ApprovalSidebar() {
           navigate('inboxFinished');
           break;
 
+        case 'inboxRejectedList':
+          navigate('inboxRejectedList');
+          break;
+
         default:
           break;
       }
@@ -185,7 +189,7 @@ function ApprovalSidebar() {
           <div className={`out_completed ${selectedInboxMenu === 'inboxFinished' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxFinished')}>
             <span className="outbox_text">결재 완료함</span>
           </div>
-          <div className="represent">
+          <div className={`represent ${selectedInboxMenu === 'inboxRejectedList' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxRejectedList')}>
             <span className="outbox_text">반려 문서함</span>
           </div>
         </div>

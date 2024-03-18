@@ -14,6 +14,7 @@ import {
     PUT_INBOX_APPROVAL,
     PUT_INBOX_REJECT,
     GET_INBOX_FINISHED,
+    GET_INBOX_REJECTED,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -429,6 +430,27 @@ export const CallInboxFinishedListAPI = () => {
         console.log('[ApprovalAPICalls] CallInboxFinishedListAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_INBOX_FINISHED',  payload: result.data });
+        
+    };
+}
+export const CallInboxRejectedListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/inbox-rejected`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] CallInboxRejectedListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_INBOX_REJECTED',  payload: result.data });
         
     };
 }

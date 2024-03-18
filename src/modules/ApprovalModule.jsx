@@ -19,6 +19,7 @@ export const GET_OVERWORK_DETAILS_INBOX_FIN = 'approval/GET_OVERWORK_DETAILS_INB
 export const PUT_INBOX_APPROVAL = 'approval/PUT_INBOX_APPROVAL';
 export const PUT_INBOX_REJECT = 'approval/PUT_INBOX_REJECT';
 export const GET_INBOX_FINISHED = 'approval/GET_INBOX_FINISHED';
+export const GET_INBOX_REJECTED = 'approval/GET_INBOX_REJECTED';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
@@ -39,6 +40,7 @@ const actions = createActions({
     [PUT_INBOX_APPROVAL]: (payload) => payload,
     [PUT_INBOX_REJECT]: (payload) => payload,
     [GET_INBOX_FINISHED]: (payload) => payload,
+    [GET_INBOX_REJECTED]: (payload) => payload,
 });
 
 
@@ -114,6 +116,10 @@ const approvalReducer = handleActions(
         },
         [GET_INBOX_FINISHED]: (state, { payload }) => {
             console.log('GET_INBOX_FINISHED action dispatched. Payload:', payload);
+            return payload;
+        },
+        [GET_INBOX_REJECTED]: (state, { payload }) => {
+            console.log('GET_INBOX_REJECTED action dispatched. Payload:', payload);
             return payload;
         },
     },
