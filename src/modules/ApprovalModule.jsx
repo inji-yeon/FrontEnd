@@ -20,6 +20,7 @@ export const PUT_INBOX_APPROVAL = 'approval/PUT_INBOX_APPROVAL';
 export const PUT_INBOX_REJECT = 'approval/PUT_INBOX_REJECT';
 export const GET_INBOX_FINISHED = 'approval/GET_INBOX_FINISHED';
 export const GET_INBOX_REJECTED = 'approval/GET_INBOX_REJECTED';
+export const GET_REFERENCE = 'approval/GET_REFERENCE';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
@@ -41,6 +42,7 @@ const actions = createActions({
     [PUT_INBOX_REJECT]: (payload) => payload,
     [GET_INBOX_FINISHED]: (payload) => payload,
     [GET_INBOX_REJECTED]: (payload) => payload,
+    [GET_REFERENCE]: (payload) => payload,
 });
 
 
@@ -120,6 +122,10 @@ const approvalReducer = handleActions(
         },
         [GET_INBOX_REJECTED]: (state, { payload }) => {
             console.log('GET_INBOX_REJECTED action dispatched. Payload:', payload);
+            return payload;
+        },
+        [GET_REFERENCE]: (state, { payload }) => {
+            console.log('GET_REFERENCE action dispatched. Payload:', payload);
             return payload;
         },
     },

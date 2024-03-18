@@ -1,8 +1,8 @@
-import '../InboxList/InboxFinishedList.css';
+import '../InboxList/ReferenceList.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { CallInboxFinishedListAPI } from '../../../apis/ApprovalAPICalls';
+import { CallReferenceListAPI } from '../../../apis/ApprovalAPICalls';
 
 function formatDate(dateArray) {
     if (!dateArray || dateArray.length === 0) {
@@ -15,7 +15,7 @@ function formatDate(dateArray) {
     return `${year}-${month}-${day}`;
 }
 
-function InboxFinishedList(){
+function ReferenceList(){
     const dispatch = useDispatch();
     const documentList = useSelector((state) => Array.isArray(state.approvalReducer) ? state.approvalReducer : []);
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ function InboxFinishedList(){
     console.log('documentList Redux State======', documentList);
 
     useEffect(() => {
-        dispatch(CallInboxFinishedListAPI());
+        dispatch(CallReferenceListAPI());
     }, []);
     
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -65,26 +65,21 @@ function InboxFinishedList(){
     
     function getStatusString(status) {
         switch (status) {
-            case '결재':
-                return '결재 완료';
-            case '반려':
-                return '최종 반려';
-            case '대기':
-                return '결재 대기';
+            case 'Y':
+                return '열람';
+            case 'N':
+                return '미열람';
             default:
                 return '';
         }
     }
 
     function getProcessCheckButtonClass(status) {
-        if (getStatusString(status) === '결재 완료') {
-            return 'approved';
+        if (getStatusString(status) === '열람') {
+            return 'checked';
         }
-        if (getStatusString(status) === '최종 반려') {
-            return 'rejected';
-        }
-        if (getStatusString(status) === '결재 대기') {
-            return 'await';
+        if (getStatusString(status) === '미열람') {
+            return 'unchecked';
         }
         return '';
     }
@@ -92,20 +87,20 @@ function InboxFinishedList(){
     return(
         <>
         <section className="project_section">
-    <div className="ib_fin_title_section">
-        <span className="ib_fin_title">결재 완료함</span>
-        <select className="ib_fin_doc_search_options">
+    <div className="ref_fin_title_section">
+        <span className="ref_fin_title">열람함</span>
+        <select className="ref_fin_doc_search_options">
             <option value="search_by_title">제목</option>
             <option value="search_by_name">이름</option>
         </select>
-        <div className="ib_fin_doc_search_section">
-            <input type="text" className="ib_fin_doc_search" placeholder="검색어를 입력해주세요."/>
+        <div className="ref_fin_doc_search_section">
+            <input type="text" className="ref_fin_doc_search" placeholder="검색어를 입력해주세요."/>
             <img alt="" className="search_icon" src="/Approval/search.png"/>
         </div>
     </div>
 
-    <div className="ib_fin_list_content">
-        <table style={{textAlign: "left"}} className="ib_fin_list">
+    <div className="ref_fin_list_content">
+        <table style={{textAlign: "left"}} className="ref_fin_list">
             <thead>
             <tr>
                 <th>분류</th>
@@ -126,8 +121,8 @@ function InboxFinishedList(){
                 <td>{document.approvalDoc?.employeeCode?.employeeName}</td>
                 <td>{formatDate(document.approvalDoc?.approvalRequestDate)}</td>
                 <td>
-                <div className="ib_fin_process_check_button">
-                        <span className={`ib_fin_process_check_text ${getProcessCheckButtonClass(document?.status)}`}>{getStatusString(document?.status)}</span>
+                <div className="ref_fin_process_check_button">
+                        <span className={`ref_fin_process_check_text ${getProcessCheckButtonClass(document?.whetherChecked)}`}>{getStatusString(document?.whetherChecked)}</span>
                     </div>
                 </td>
             </tr>
@@ -161,4 +156,4 @@ function InboxFinishedList(){
     );
 }
 
-export default InboxFinishedList;
+export default ReferenceList;

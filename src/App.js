@@ -50,6 +50,7 @@ import InboxRejectedList from './pages/approval/InboxList/InboxRejectedList';
 import OverworkDetailsInbox from './pages/approval/DetailPages/OverworkDetailsInbox';
 import InboxFinishedList from './pages/approval/InboxList/InboxFinishedList';
 import OverworkDetailsInboxFinished from './pages/approval/DetailPages/OverworkDetailsInboxFinished';
+import ReferenceList from './pages/approval/InboxList/ReferenceList';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -139,6 +140,7 @@ function App() {
                         <Route path='inbox' element={<InboxList />} />
                         <Route path='inboxFinished' element={<InboxFinishedList />} />
                         <Route path='inboxRejectedList' element={<InboxRejectedList />} />
+                        <Route path='referenceList' element={<ReferenceList />} />
                         <Route path='saved' element={<SavedList />} />
                         <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
                         <Route path='OverworkDetailsFinished/:approvalDocCode' element={<OverworkDetailsFinished />} />

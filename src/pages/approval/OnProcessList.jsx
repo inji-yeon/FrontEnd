@@ -103,7 +103,7 @@ function OnProcessList(){
                 <td>{formatDate(document.approvalRequestDate)}</td>
                 <td>
                     <div className="process_check_button">
-                        <span className="process_check_text">결재 현황 확인</span>
+                        <span className="process_check_text">결재 대기</span>
                     </div>
                 </td>
             </tr>

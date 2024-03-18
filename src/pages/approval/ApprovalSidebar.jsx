@@ -110,6 +110,18 @@ function ApprovalSidebar() {
       }
     }
 
+    const viewHandler = (value) => {
+
+      switch (value) {
+        case 'referenceList':
+          navigate('referenceList');
+          break;
+
+        default:
+          break;
+      }
+    }
+
         // 각 섹션의 선택한 메뉴 상태를 추가 상태로 관리합니다.
     const [selectedInboxMenu, setSelectedInboxMenu] = useState(null);
     const [selectedOutboxMenu, setSelectedOutboxMenu] = useState(null);
@@ -124,6 +136,10 @@ function ApprovalSidebar() {
     const handleOutboxMenuClick = (menu) => {
       setSelectedOutboxMenu(menu);
       outboxHandler(menu);
+    };
+    const handleViewMenuClick = (menu) => {
+      setSelectedViewMenu(menu);
+      viewHandler(menu);
     };
 
     const handleDocWritingButtonClick = () => {
@@ -183,13 +199,13 @@ function ApprovalSidebar() {
         </div>
         <div className="outbox_menu_section" style={{height: outboxMenuHeight}}>
 
-          <div className={`awating ${selectedInboxMenu === 'inbox' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inbox')}>
+          <div className={`awating ${selectedOutboxMenu === 'inbox' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inbox')}>
             <span className="outbox_text">결재 대기함</span>
           </div>
-          <div className={`out_completed ${selectedInboxMenu === 'inboxFinished' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxFinished')}>
+          <div className={`out_completed ${selectedOutboxMenu === 'inboxFinished' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxFinished')}>
             <span className="outbox_text">결재 완료함</span>
           </div>
-          <div className={`represent ${selectedInboxMenu === 'inboxRejectedList' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxRejectedList')}>
+          <div className={`represent ${selectedOutboxMenu === 'inboxRejectedList' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxRejectedList')}>
             <span className="outbox_text">반려 문서함</span>
           </div>
         </div>
@@ -200,7 +216,7 @@ function ApprovalSidebar() {
           <img className="view_drop_down" src={viewdropdown}/>
           <span className="view_title"  onClick={handleViewClick}>열람함</span>
         </div>
-        <div className="view_menu_section" style={{height: viewMenuHeight}}>
+        <div className={`view_menu_section ${selectedViewMenu === 'referenceList' ? 'bold' : ''}`} onClick={() => handleViewMenuClick('referenceList')}>
           <div className="view_menu">
             <span className="view_text">열람함</span>
           </div>
