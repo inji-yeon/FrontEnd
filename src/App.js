@@ -47,6 +47,8 @@ import OverworkDetailsFinished from './pages/approval/DetailPages/OverworkDetail
 import ResubmitOvertime from './pages/approval/WritingPages/ResubmitOvertime';
 import InboxList from './pages/approval/InboxList/InboxList';
 import OverworkDetailsInbox from './pages/approval/DetailPages/OverworkDetailsInbox';
+import InboxFinishedList from './pages/approval/InboxList/InboxFinishedList';
+import OverworkDetailsInboxFinished from './pages/approval/DetailPages/OverworkDetailsInboxFinished';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -134,11 +136,13 @@ function App() {
                         <Route path='rejected' element={<RejectedList />} />
                         <Route path='retrieved' element={<RetrievedList />} />
                         <Route path='inbox' element={<InboxList />} />
+                        <Route path='inboxFinished' element={<InboxFinishedList />} />
                         <Route path='saved' element={<SavedList />} />
                         <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
                         <Route path='OverworkDetailsFinished/:approvalDocCode' element={<OverworkDetailsFinished />} />
                         <Route path='ResubmitOvertime/:approvalDocCode' element={<ResubmitOvertime />} />
                         <Route path='OverworkDetailsInbox/:approvalDocCode' element={<OverworkDetailsInbox />} />
+                        <Route path='OverworkDetailsInboxFinished/:approvalDocCode' element={<OverworkDetailsInboxFinished />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPageSideBar />} >

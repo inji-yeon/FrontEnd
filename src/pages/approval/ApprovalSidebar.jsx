@@ -97,6 +97,10 @@ function ApprovalSidebar() {
           navigate('inbox');
           break;
 
+        case 'inboxFinished':
+          navigate('inboxFinished');
+          break;
+
         default:
           break;
       }
@@ -178,7 +182,7 @@ function ApprovalSidebar() {
           <div className={`awating ${selectedInboxMenu === 'inbox' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inbox')}>
             <span className="outbox_text">결재 대기함</span>
           </div>
-          <div className="out_completed">
+          <div className={`out_completed ${selectedInboxMenu === 'inboxFinished' ? 'bold' : ''}`} onClick={() => handleOutboxMenuClick('inboxFinished')}>
             <span className="outbox_text">결재 완료함</span>
           </div>
           <div className="represent">

@@ -13,6 +13,7 @@ import {
     GET_OVERWORK_DETAILS_INBOX,
     PUT_INBOX_APPROVAL,
     PUT_INBOX_REJECT,
+    GET_INBOX_FINISHED,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -326,6 +327,28 @@ export const callOverworkDetailsInboxAPI = ({ approvalDocCode }) => {
         
     };
 }
+export const callOverworkDetailsInboxFinishedAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork-details-inbox-fin/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callOverworkDetailsInboxFinishedAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_OVERWORK_DETAILS_INBOX_FIN',  payload: result.data });
+        
+    };
+}
 
 export const callInboxApprovalAPI = ({ approvalDocCode }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/approvement/${approvalDocCode}`;
@@ -386,5 +409,26 @@ export const callInboxRejectAPI = ({ approvalDocCode, reason }) => {
             console.error('[ApprovalAPICalls] callInboxRejectAPI ERROR: ', error);
             throw error; 
         }
+    };
+}
+export const CallInboxFinishedListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/inbox-finished-docs`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] CallInboxFinishedListAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_INBOX_FINISHED',  payload: result.data });
+        
     };
 }

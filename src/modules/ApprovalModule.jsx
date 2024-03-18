@@ -15,8 +15,10 @@ export const GET_OUTBOX_SAVED = 'approval/GET_OUTBOX_SAVED';
 export const GET_OVERWORK_DETAILS_FIN = 'approval/GET_OVERWORK_DETAILS_FIN';
 export const GET_INBOX_APPROVAL = 'approval/GET_INBOX_APPROVAL';
 export const GET_OVERWORK_DETAILS_INBOX = 'approval/GET_OVERWORK_DETAILS_INBOX';
+export const GET_OVERWORK_DETAILS_INBOX_FIN = 'approval/GET_OVERWORK_DETAILS_INBOX_FIN';
 export const PUT_INBOX_APPROVAL = 'approval/PUT_INBOX_APPROVAL';
 export const PUT_INBOX_REJECT = 'approval/PUT_INBOX_REJECT';
+export const GET_INBOX_FINISHED = 'approval/GET_INBOX_FINISHED';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
@@ -31,10 +33,12 @@ const actions = createActions({
     [POST_SAVE_OVERWORK]: (payload) => payload,
     [GET_OUTBOX_SAVED]: (payload) => payload,
     [GET_OVERWORK_DETAILS_FIN]: (payload) => payload,
+    [GET_OVERWORK_DETAILS_INBOX_FIN]: (payload) => payload,
     [GET_INBOX_APPROVAL]: (payload) => payload,
     [GET_OVERWORK_DETAILS_INBOX]: (payload) => payload,
     [PUT_INBOX_APPROVAL]: (payload) => payload,
     [PUT_INBOX_REJECT]: (payload) => payload,
+    [GET_INBOX_FINISHED]: (payload) => payload,
 });
 
 
@@ -96,6 +100,10 @@ const approvalReducer = handleActions(
             console.log('GET_OVERWORK_DETAILS_INBOX action dispatched. Payload:', payload);
             return payload;
         },
+        [GET_OVERWORK_DETAILS_INBOX_FIN]: (state, { payload }) => {
+            console.log('GET_OVERWORK_DETAILS_INBOX_FIN action dispatched. Payload:', payload);
+            return payload;
+        },
         [PUT_INBOX_APPROVAL]: (state, { payload }) => {
             console.log('PUT_INBOX_APPROVAL action dispatched. Payload:', payload);
             return state;
@@ -103,6 +111,10 @@ const approvalReducer = handleActions(
         [PUT_INBOX_REJECT]: (state, { payload }) => {
             console.log('PUT_INBOX_REJECT action dispatched. Payload:', payload);
             return state;
+        },
+        [GET_INBOX_FINISHED]: (state, { payload }) => {
+            console.log('GET_INBOX_FINISHED action dispatched. Payload:', payload);
+            return payload;
         },
     },
     initialState
