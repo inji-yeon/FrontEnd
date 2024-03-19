@@ -1,10 +1,14 @@
 import './ApprovalSidebar.css'
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from "react-router-dom";
+import { CallCountsAPI } from '../../apis/ApprovalAPICalls';
+import { useSelector, useDispatch } from 'react-redux';
 
 function ApprovalSidebar() {
     const [active, setActive] = useState(false);
     let navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [processingCount, setProcessingCount] = useState(0); // 결재 진행 대기 숫자 상태
 
     const [inboxClicked, setInboxClicked] = useState(false);
     const [inboxMenuHeight, setInboxMenuHeight] = useState('300px');
@@ -158,7 +162,7 @@ function ApprovalSidebar() {
       </div>
       <div className="status">
         <div className="processing">
-          <span className="processing_count">2</span>
+          <span className="processing_count">11</span>
           <span className="processing_title">결재 진행</span>
         </div>
 

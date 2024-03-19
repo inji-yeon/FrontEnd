@@ -21,6 +21,9 @@ export const PUT_INBOX_REJECT = 'approval/PUT_INBOX_REJECT';
 export const GET_INBOX_FINISHED = 'approval/GET_INBOX_FINISHED';
 export const GET_INBOX_REJECTED = 'approval/GET_INBOX_REJECTED';
 export const GET_REFERENCE = 'approval/GET_REFERENCE';
+export const GET_REFERENCE_DETAILS = 'approval/GET_REFERENCE_DETAILS';
+export const PUT_REFERENCE_CHECKED = 'approval/PUT_REFERENCE_CHECKED';
+export const GET_COUNTS = 'approval/GET_COUNTS';
 
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
@@ -43,6 +46,9 @@ const actions = createActions({
     [GET_INBOX_FINISHED]: (payload) => payload,
     [GET_INBOX_REJECTED]: (payload) => payload,
     [GET_REFERENCE]: (payload) => payload,
+    [GET_REFERENCE_DETAILS]: (payload) => payload,
+    [PUT_REFERENCE_CHECKED]: (payload) => payload,
+    [GET_COUNTS]: (payload) => payload,
 });
 
 
@@ -126,6 +132,18 @@ const approvalReducer = handleActions(
         },
         [GET_REFERENCE]: (state, { payload }) => {
             console.log('GET_REFERENCE action dispatched. Payload:', payload);
+            return payload;
+        },
+        [GET_REFERENCE_DETAILS]: (state, { payload }) => {
+            console.log('GET_REFERENCE_DETAILS action dispatched. Payload:', payload);
+            return payload;
+        },
+        [PUT_REFERENCE_CHECKED]: (state, { payload }) => {
+            console.log('PUT_REFERENCE_CHECKED action dispatched. Payload:', payload);
+            return state;
+        },
+        [GET_COUNTS]: (state, { payload }) => {
+            console.log('GET_COUNTS action dispatched. Payload:', payload);
             return payload;
         },
     },

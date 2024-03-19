@@ -57,10 +57,10 @@ function ReferenceList(){
         if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setSelectedPage(currentPage + 1);
     };
 
-    const handleDocumentClick = (approvalDocCode) => {
+    const handleDocumentClick = (approvalDocCode, whetherChecked) => {
         // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
         console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
-        navigate(`/approval/OverworkDetailsInboxFinished/${approvalDocCode}`);
+        navigate(`/approval/OverworkDetailsRef/${approvalDocCode}/${whetherChecked}`);
     };
     
     function getStatusString(status) {
@@ -115,7 +115,7 @@ function ReferenceList(){
             {documentList && currentItems.map((document) => (
             <tr key = {document.approvalDoc?.approvalDocCode}>
                 <td>{document.approvalDoc?.approvalForm}</td>
-                <td onClick={() => handleDocumentClick(document.approvalDoc?.approvalDocCode)}>
+                <td onClick={() => handleDocumentClick(document.approvalDoc?.approvalDocCode, document.whetherChecked)}>
                     {document.approvalDoc?.approvalTitle}
                 </td>
                 <td>{document.approvalDoc?.employeeCode?.employeeName}</td>

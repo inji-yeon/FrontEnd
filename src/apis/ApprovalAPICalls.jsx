@@ -16,6 +16,8 @@ import {
     GET_INBOX_FINISHED,
     GET_INBOX_REJECTED,
     GET_REFERENCE,
+    PUT_REFERENCE_CHECKED,
+    GET_COUNTS,
 } from '../modules/ApprovalModule';
 
 export const callOutboxOnProcessListAPI = () => {
@@ -473,6 +475,79 @@ export const CallReferenceListAPI = () => {
         console.log('[ApprovalAPICalls] CallReferenceListAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_REFERENCE',  payload: result.data });
+        
+    };
+}
+export const callOverworkDetailsRefdAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/overwork-details-ref/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callOverworkDetailsRefdAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_REFERENCE_DETAILS',  payload: result.data });
+        
+    };
+}
+export const callReferenceCheckedAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/reference-checked/${approvalDocCode}`;
+    return async (dispatch, getState) => {
+        try {
+            const response = await fetch(requestURL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+            console.log('[ApprovalAPICalls] callReferenceCheckedAPI RESULT: ', result);
+
+            dispatch({ type:  'approval/PUT_REFERENCE_CHECKED',  payload: result });
+
+            return result;
+        } catch (error) {
+            console.error('[ApprovalAPICalls] callReferenceCheckedAPI ERROR: ', error);
+            throw error; 
+        }
+    };
+}
+export const CallCountsAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/get-counts`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] CallCountsAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_COUNTS',  payload: result.data });
         
     };
 }

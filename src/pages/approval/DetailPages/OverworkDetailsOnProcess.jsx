@@ -104,6 +104,17 @@ function OverworkDetailsOnProcess(){
         }
     }
 
+    function getStatusString(status) {
+        switch (status) {
+            case 'Y':
+                return '열람';
+            case 'N':
+                return '미열람';
+            default:
+                return '';
+        }
+    }
+
     
     return(
         <>
@@ -239,6 +250,19 @@ function OverworkDetailsOnProcess(){
                                         <span className='ref_name_ol'>{referenceEmployee.employeeName}</span><br/>
                                         <span className='ref_department_ol'>{getDepartmentName(referenceEmployee.department.parentDepartmentCode)}&nbsp;/&nbsp;{referenceEmployee.department.departmentName}
                                         </span>
+                                    </td>
+                                    <td className={`selected_ref_status_op ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                        {/* approvalLines에서 해당 employeeCode에 해당하는 approvalProcessStatus 가져오기 */}
+                                        {overworkDetails.approvalReferences && overworkDetails.approvalReferences.map((approvalRef) => {
+                                            if (approvalRef.employeeCode === referenceEmployee.employeeCode) {
+                                                return (
+                                                    <div className="approval_ref_status_op">
+                                                    <span className="approval_ref_status_text_op">{getStatusString(approvalRef.whetherCheckedApproval)}</span>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        })}
                                     </td>
                                 </tr>
                             ))}

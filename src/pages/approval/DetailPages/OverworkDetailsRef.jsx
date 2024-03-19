@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './OverworkDetailsInboxFinished.css';
+import './OverworkDetailsRef.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { callOverworkDetailsInboxAPI } from '../../../apis/ApprovalAPICalls';
+import { callOverworkDetailsRefdAPI } from '../../../apis/ApprovalAPICalls';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callInboxApprovalAPI, callInboxRejectAPI } from '../../../apis/ApprovalAPICalls';
+import { callReferenceCheckedAPI } from '../../../apis/ApprovalAPICalls';
 
-function OverworkDetailsInboxFinished(){
+function OverworkDetailsRef(){
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { approvalDocCode } = useParams(); // approvalDocCode 가져옴
+    const { approvalDocCode, whetherChecked } = useParams(); // approvalDocCode 가져옴
     const [selectedSection, setSelectedSection] = useState("approval");
     const overworkDetails = useSelector((state) => state.approvalReducer);
+    const [isChecked, setIsChecked] = useState(whetherChecked === 'Y'); // '열람'일 때 true로 설정
 
     console.log("overworkDetails: ", overworkDetails);
     console.log("overworkDetails.employeeDTOs: ", overworkDetails.employeeDTOs);
@@ -29,34 +30,9 @@ function OverworkDetailsInboxFinished(){
 
     useEffect(() => {
         console.log("approvalDocCode:", approvalDocCode);
-        dispatch(callOverworkDetailsInboxAPI({ approvalDocCode }));
+        dispatch(callOverworkDetailsRefdAPI({ approvalDocCode }));
     }, [dispatch, approvalDocCode]); 
 
-    const onClickApprovalHandler = () => {
-        const confirmed = window.confirm("결재를 진행합니다.");
-        if (confirmed) {
-            dispatch(callInboxApprovalAPI({ approvalDocCode }));
-
-            alert('문서가 결재되었습니다.');
-            navigate('/approval/inbox');
-        }
-    }
-    
-    const onClickRejectionHandler = () => {
-        const reason = window.prompt("반려 사유를 입력해주세요.", "");
-        if (reason !== null) {
-            setRejectionReason(reason); // 반려 사유 상태 업데이트
-    
-            const confirmed = window.confirm("반려를 진행합니다.");
-            if (confirmed) {
-                dispatch(callInboxRejectAPI({ approvalDocCode, reason }));
-                alert('문서가 반려되었습니다.');
-                navigate('/approval/inbox');
-            }
-        }
-    }
-    
-    
 
     // 부서 코드에 따라 부서 이름 반환
     const getDepartmentName = (departmentCode) => {
@@ -110,8 +86,6 @@ function OverworkDetailsInboxFinished(){
         }
     }
 
-    let rejectedReasonAdded = false;
-
     function getStatusString(status) {
         switch (status) {
             case 'Y':
@@ -123,6 +97,18 @@ function OverworkDetailsInboxFinished(){
         }
     }
 
+    let rejectedReasonAdded = false;
+
+    // 체크박스 상태 변경 핸들러
+    const handleCheckboxChange = () => {
+        // 이미 체크된 상태인 경우에는 아무 동작도 하지 않음
+        if (isChecked) {
+            return;
+        }
+        setIsChecked(true); // 체크 상태를 true로 변경
+        dispatch(callReferenceCheckedAPI({ approvalDocCode })); // 서버에 열람 확인 요청 보내기
+    };
+    
     return(
         <>
             <div className="ow_detail_button_and_content">
@@ -130,12 +116,19 @@ function OverworkDetailsInboxFinished(){
                     <div className="ow_detail_tolist_button">
                         <span className="ow_detail_tolist_text" onClick={toTheListHandler}>목록으로</span>
                     </div>
+
                 </div>
             <div className='ow_detail_content'>
                 <section className="ow_detail_form_section">
             <div className="form_body">
-                <div className="form_title_section">
-                    <div className="form_title">연장근로 신청서</div>
+                <div className="ow_detail_form_title_section">
+                    <div className="ow_detail_form_title">연장근로 신청서</div>
+                    <div className="ow_detail_checked_button">
+                    <label className='ref_check_section'>
+                        <input className="ref_checkbox" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+                        <span className='ow_detail_checked_text'>열람 확인</span>
+                    </label>
+                    </div>
                 </div>
                 <div className="form_table" style={{ display: 'table' }}>
                 <div style={{ display: 'table-row' }}>
@@ -316,4 +309,4 @@ function OverworkDetailsInboxFinished(){
     );
 }
 
-export default OverworkDetailsInboxFinished;
+export default OverworkDetailsRef;

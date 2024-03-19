@@ -51,6 +51,7 @@ import OverworkDetailsInbox from './pages/approval/DetailPages/OverworkDetailsIn
 import InboxFinishedList from './pages/approval/InboxList/InboxFinishedList';
 import OverworkDetailsInboxFinished from './pages/approval/DetailPages/OverworkDetailsInboxFinished';
 import ReferenceList from './pages/approval/InboxList/ReferenceList';
+import OverworkDetailsRef from './pages/approval/DetailPages/OverworkDetailsRef';
 
 import ProjectBoard from './pages/project/ProjectBoard';
 import ProjectBoardDetail from './pages/project/ProjectBoardDetail';
@@ -147,6 +148,7 @@ function App() {
                         <Route path='ResubmitOvertime/:approvalDocCode' element={<ResubmitOvertime />} />
                         <Route path='OverworkDetailsInbox/:approvalDocCode' element={<OverworkDetailsInbox />} />
                         <Route path='OverworkDetailsInboxFinished/:approvalDocCode' element={<OverworkDetailsInboxFinished />} />
+                        <Route path='OverworkDetailsRef/:approvalDocCode/:whetherChecked' element={<OverworkDetailsRef />} />
                     </Route>
                     
                     <Route path='mypage' element={<MyPageSideBar />} >
