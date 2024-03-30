@@ -59,11 +59,22 @@ function OnProcessList(){
         if (currentPage < Math.ceil(documentList.length / itemsPerPage)) setSelectedPage(currentPage + 1);
     };
 
-    const handleDocumentClick = (approvalDocCode) => {
-        // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
+    const handleDocumentClick = (approvalDocCode, approvalForm) => {
+        // 클릭된 문서의 approvalDocCode와 approvalForm을 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
         console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
-        navigate(`/approval/OverworkDetailsOnProcess/${approvalDocCode}`);
+        console.log("클릭된 문서의 approvalForm:", approvalForm);
+        
+        // approvalForm에 따라 다른 경로로 이동
+        if (approvalForm === "휴가신청서") {
+            navigate(`/approval/OnLeaveDetailsOnProcess/${approvalDocCode}`);
+        } else if (approvalForm === "연장근로신청서") {
+            navigate(`/approval/OverworkDetailsOnProcess/${approvalDocCode}`);
+        } else {
+            // 기본적으로는 OverworkDetailsOnProcess로 이동
+            navigate(`/approval/OverworkDetailsOnProcess/${approvalDocCode}`);
+        }
     };
+    
     
     return(
         <>
@@ -96,7 +107,7 @@ function OnProcessList(){
             {documentList.length > 0 && currentItems.map((document) => (
             <tr key = {document.approvalDocCode}>
                 <td>{document.approvalForm}</td>
-                <td onClick={() => handleDocumentClick(document.approvalDocCode)}>
+                <td onClick={() => handleDocumentClick(document.approvalDocCode, document.approvalForm)}>
                     {document.approvalTitle}
                 </td>
                 <td>{document.employeeCode?.employeeName}</td>

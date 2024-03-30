@@ -4,14 +4,14 @@
     grid-column: auto;
     background-color: #F5F5F5;
 }
-.new_form_title_section {
+.ow_detail_form_title_section {
     height: 100px;
     width: 1335px;
     background-color: white;
     display: flex;
 	align-items: center;
 }
-.new_form_title {
+.ow_detail_form_title {
     font-size: 20px;
     font-weight: bold;
     margin-left: 68px;
@@ -23,53 +23,75 @@
     margin-top: 7px;
     margin-left: 7px;
 }
-.writing_section {
+.ow_detail_section {
     height: 70px;
     background-color: white;
     display: flex;
 	align-items: center;
     border-bottom: 1px solid #D3D3D3;
 }
-.writing_button_and_content {
+.ow_detail_button_and_content {
     height: 953px;
     margin-top: 7px;
     background-color: white;
 }
-.aproval_save_button, .approval_submit_button{
-    width: 126px;
+.ow_detail_retrieve_button{
+    width: 84px;
+    height: 37px;
+    border-radius: 5px;
+    border: solid 2px #A3A2A2;
+    margin-left: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ow_detail_retrieve_button.active:hover {
+    width: 84px;
     height: 37px;
     border-radius: 5px;
     border: solid 2px #FA9A85;
+    background-color: #FA9A85;
+    margin-left: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.ow_detail_retrieve_button.active:hover .ow_detail_retrieve_text {
+    color: white; 
+}
+.ow_detail_tolist_button{
+    width: 111px;
+    height: 37px;
+    border-radius: 5px;
+    border: solid 2px #A3A2A2;
     margin-left: 31px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
-.aproval_save_button {
+.ow_detail_retrieve_button {
     background-color: white;
 }
-.approval_submit_button {
-    background-color: #FA9A85;
-}
-.saving_text, .submitting_text {
-    font-family: pretendard;
+.ow_detail_retrieve_text {
     font-size: 16px;
     text-align: center;
     font-weight: bold;
+    color: #606060;
 }
-.saving_text {
-    color: #FA9A85;
+.ow_detail_tolist_text{
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    color: #606060;
 }
-.submitting_text {
-    color: white;
-}
-.form_writing_section {
+.ow_detail_form_section {
     width: 972px;
     margin-left: 7px;
     background-color: white;
 }
-.writing_content{
+.ow_detail_content{
     display: flex;
     flex-direction: row;
 }
@@ -115,35 +137,35 @@
 .ol_underline.active {
     background-color: #FA9A85;
 }
-.shaded_underline {
-    position: relative;
-    top: -1.5px;
-    left: 0;
-    width: 90%;
-    height: 1.5px;
-    background-color: #D3D3D3;
-    margin: auto;
-    z-index: 0;
-}
-.set_approval_line_button, .set_approval_ref_button{
-    width: 72px;
-    height: 27px;
-    border: solid 1px #606060;
+.delete_file_button{
+    width: 20px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.set_approval_line_text{
-    font-family: pretendard;
-    font-size: 12px;
+    font-size: 18px;
     color: #606060;
-    cursor: pointer;
+    margin-right: 21px;
 }
-.set_approval_line, .set_ref_line{
+.file_delete_title_ol{
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+.file_name_title_ol{
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    flex: 1;
+}
+.attached_file_item_ol{
+    width: 313px;
+    height: 45px;
+    padding-left: 10px;
     display: flex;
-    justify-content: right;
-    margin-top: 17px;
-    margin-right: 17px;
+    align-items: center; 
+    border-bottom:#D3D3D3 1px solid;
+    cursor: pointer;
 }
 #ov_start_time, #ov_end_time, #ov_working_date{
     font-size: 16px;
@@ -182,11 +204,11 @@
     height: 25px;
     width: 130px;
 }
-.selected_list_ol, .selected_ref_list_ol{
+.selected_list_ol, .selected_ref_list_ol, .attached_file_list_ol{
     margin-left: 17px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
-.list_index_circle_ol, .list_ref_index_circle_ol {
+.list_index_circle_op, .list_ref_index_circle_ol {
     border-radius: 50%;
     background-color: #D3D3D3;
     color: #ffffff;
@@ -196,25 +218,66 @@
     line-height: 30px;
 }
 
-.selected_index_ol, .selected_ref_index_ol {
+.selected_index_op, .selected_ref_index_ol {
     width: 65px;
     height: 65px;
     display: flex; 
     justify-content: center; 
     align-items: center; 
 }
-.selected_info_ol, .selected_ref_info_ol{
-    width: 248px;
+.selected_info_op, .selected_ref_info_ol{
+    width: 180px;
     height: 50px;
     padding-left: 10px;
 }
-.employee_name_ol, .ref_name_ol{
+.selected_status_op{
+    width: 68px;
+}
+.file_list_title_ol{
+    width: 303px;
+    height: 25px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center; 
+    background-color: #D3D3D3
+}
+
+.employee_name_op, .ref_name_ol{
     font-weight: bold;
     font-size: 16px;
 }
-.employee_department_ol, .ref_department_ol{
+.file_name_ol{
+    font-size: 16px;
+    margin-left: 10px;
+    flex: 1;
+}
+
+.employee_department_op, .ref_department_ol{
     font-size: 14px;
     color: #A3A2A2;
+}
+.approval_line_status_op{
+    width: 50px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.approval_line_status_op.draft {
+    font-size: 14px;
+    color: #606060;
+}
+.approval_line_status_op.pending {
+    font-size: 14px;
+    color: #606060;
+}
+.approval_line_status_op.approval {
+    font-size: 14px;
+    color: #5da2fb;
+}
+.approval_line_status_op.rejected {
+    font-size: 14px;
+    color: #fa5d5d;
 }
 
 .even {
@@ -224,7 +287,7 @@
 .odd {
     background-color: white; /* 짝수 배경색 */
 }
-.even .list_index_circle_ol, .even .list_ref_index_circle_ol {
+.even .list_index_circle_op, .even .list_ref_index_circle_ol {
     background-color: white;
     color:#606060;
 }

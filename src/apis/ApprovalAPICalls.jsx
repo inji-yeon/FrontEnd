@@ -1,9 +1,11 @@
 import {
     GET_OUTBOX_ONPROCESS,
     POST_OVERWORK_DOC,
+    POST_ONLEAVE_DOC,
     GET_OUTBOX_FINISHED,
     GET_OUTBOX_REJECTED,
     GET_OVERWORK_DETAILS_OP,
+    GET_ONLEAVE_DETAILS_OP,
     PUT_RETRIEVAL,
     GET_RETRIEVAL_LIST,
     POST_SAVE_OVERWORK,
@@ -80,6 +82,22 @@ export const callSubmitOverworkAPI = ({ form }) => {
             dispatch({ type: POST_OVERWORK_DOC, payload: result });
     };
 }
+export const callSubmitOnLeaveAPI = ({ form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/submit-on-leave`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+            dispatch({ type: POST_ONLEAVE_DOC, payload: result });
+    };
+}
 export const callOutboxFinishedListAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-finished`;
 
@@ -141,6 +159,28 @@ export const callOverworkDetailsOPAPI = ({ approvalDocCode }) => {
         console.log('[ApprovalAPICalls] callOverworkDetailsOPAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_OVERWORK_DETAILS_OP',  payload: result.data });
+        
+    };
+}
+export const callOnLeaveDetailsOPAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/on-leave-details-op/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callOnLeaveDetailsOPAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_ONLEAVE_DETAILS_OP',  payload: result.data });
         
     };
 }

@@ -3,9 +3,11 @@ import { createActions, handleActions } from "redux-actions";
 const initialState = [];
 export const GET_OUTBOX_ONPROCESS = 'approval/GET_OUTBOX_ONPROCESS';
 export const POST_OVERWORK_DOC = 'approval/POST_APPROVAL_DOC';
+export const POST_ONLEAVE_DOC = 'approval/POST_ONLEAVE_DOC';
 export const GET_OUTBOX_FINISHED = 'approval/GET_OUTBOX_FINISHED';
 export const GET_OUTBOX_REJECTED = 'approval/GET_OUTBOX_REJECTED';
 export const GET_OVERWORK_DETAILS_OP = 'approval/GET_OVERWORK_DETAILS_OP';
+export const GET_ONLEAVE_DETAILS_OP = 'approval/GET_ONLEAVE_DETAILS_OP';
 export const GET_APPROVAL_ATTACHMENT = 'approval/GET_APPROVAL_ATTACHMENT';
 export const PUT_RETRIEVAL = 'approval/PUT_RETRIEVAL';
 export const GET_RETRIEVAL_LIST = 'approval/GET_RETRIEVAL_LIST';
@@ -28,9 +30,11 @@ export const GET_COUNTS = 'approval/GET_COUNTS';
 const actions = createActions({
     [GET_OUTBOX_ONPROCESS]: (payload) => payload,
     [POST_OVERWORK_DOC]: (payload) => payload,
+    [POST_ONLEAVE_DOC]: (payload) => payload,
     [GET_OUTBOX_FINISHED]: (payload) => payload,
     [GET_OUTBOX_REJECTED]: (payload) => payload,
     [GET_OVERWORK_DETAILS_OP]: (payload) => payload,
+    [GET_ONLEAVE_DETAILS_OP]: (payload) => payload,
     [GET_APPROVAL_ATTACHMENT]: (payload) => payload,
     [PUT_RETRIEVAL]: (payload) => payload,
     [GET_RETRIEVAL_LIST]: (payload) => payload,
@@ -62,6 +66,10 @@ const approvalReducer = handleActions(
             console.log('POST_OVERWORK_DOC action dispatched. Payload:', payload);
             return payload;
         },
+        [POST_ONLEAVE_DOC]: (state, { payload }) => {
+            console.log('POST_ONLEAVE_DOC action dispatched. Payload:', payload);
+            return payload;
+        },
         [GET_OUTBOX_FINISHED]: (state, { payload }) => {
             console.log('GET_OUTBOX_FINISHED action dispatched. Payload:', payload);
             return payload;
@@ -72,6 +80,10 @@ const approvalReducer = handleActions(
         },
         [GET_OVERWORK_DETAILS_OP]: (state, { payload }) => {
             console.log('GET_OVERWORK_DETAILS_OP action dispatched. Payload:', payload);
+            return payload;
+        },
+        [GET_ONLEAVE_DETAILS_OP]: (state, { payload }) => {
+            console.log('GET_ONLEAVE_DETAILS_OP action dispatched. Payload:', payload);
             return payload;
         },
         [GET_APPROVAL_ATTACHMENT]: (state, { payload }) => {

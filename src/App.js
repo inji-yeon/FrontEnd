@@ -43,6 +43,7 @@ import WritingAway from './pages/approval/WritingPages/WritingAway';
 import WritingBusinessTrip from './pages/approval/WritingPages/WritingBusinessTrip';
 import WritingWFH from './pages/approval/WritingPages/WritingWFH';
 import OverworkDetailsOnProcess from './pages/approval/DetailPages/OverworkDetailsOnProcess';
+import OnLeaveDetailsOnProcess from './pages/approval/DetailPages/OnLeaveDetailsOnProcess';
 import OverworkDetailsFinished from './pages/approval/DetailPages/OverworkDetailsFinished';
 import ResubmitOvertime from './pages/approval/WritingPages/ResubmitOvertime';
 import InboxList from './pages/approval/InboxList/InboxList';
@@ -144,6 +145,7 @@ function App() {
                         <Route path='referenceList' element={<ReferenceList />} />
                         <Route path='saved' element={<SavedList />} />
                         <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
+                        <Route path='OnLeaveDetailsOnProcess/:approvalDocCode' element={<OnLeaveDetailsOnProcess />} />
                         <Route path='OverworkDetailsFinished/:approvalDocCode' element={<OverworkDetailsFinished />} />
                         <Route path='ResubmitOvertime/:approvalDocCode' element={<ResubmitOvertime />} />
                         <Route path='OverworkDetailsInbox/:approvalDocCode' element={<OverworkDetailsInbox />} />
