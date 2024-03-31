@@ -162,7 +162,7 @@ function ApprovalSidebar() {
       </div>
       <div className="status">
         <div className="processing">
-          <span className="processing_count">11</span>
+          <span className="processing_count">4</span>
           <span className="processing_title">결재 진행</span>
         </div>
 

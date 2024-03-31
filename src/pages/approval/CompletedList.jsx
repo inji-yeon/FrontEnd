@@ -60,7 +60,7 @@ function CompletedList(){
     const handleDocumentClick = (approvalDocCode) => {
         // 클릭된 문서의 approvalDocCode를 사용하여 다른 컴포넌트로 전달하거나 필요한 동작 수행
         console.log("클릭된 문서의 approvalDocCode:", approvalDocCode);
-        navigate(`/approval/OverworkDetailsFinished/${approvalDocCode}`);
+        navigate(`/approval/SWDetailsFinished/${approvalDocCode}`);
     };
     
     return(

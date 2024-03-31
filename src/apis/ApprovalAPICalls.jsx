@@ -1,6 +1,7 @@
 import {
     GET_OUTBOX_ONPROCESS,
     POST_OVERWORK_DOC,
+    POST_AWAY_DOC,
     POST_ONLEAVE_DOC,
     GET_OUTBOX_FINISHED,
     GET_OUTBOX_REJECTED,
@@ -9,8 +10,11 @@ import {
     PUT_RETRIEVAL,
     GET_RETRIEVAL_LIST,
     POST_SAVE_OVERWORK,
+    POST_SAVE_AWAY,
     GET_OUTBOX_SAVED,
     GET_OVERWORK_DETAILS_FIN,
+    GET_SW_DETAILS_FIN,
+    GET_WFH_DETAILS_FIN,
     GET_INBOX_APPROVAL,
     GET_OVERWORK_DETAILS_INBOX,
     PUT_INBOX_APPROVAL,
@@ -80,6 +84,22 @@ export const callSubmitOverworkAPI = ({ form }) => {
         }).then((response) => response.json());
 
             dispatch({ type: POST_OVERWORK_DOC, payload: result });
+    };
+}
+export const callSubmitAwayAPI = ({ form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/submit-work-type`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+            dispatch({ type: POST_AWAY_DOC, payload: result });
     };
 }
 export const callSubmitOnLeaveAPI = ({ form }) => {
@@ -284,6 +304,22 @@ export const callSaveOverworkAPI = ({ form }) => {
             dispatch({ type: POST_SAVE_OVERWORK, payload: result });
     };
 }
+export const callSaveAwayAPI = ({ form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/temp-save-work-type`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+            dispatch({ type: POST_SAVE_AWAY, payload: result });
+    };
+}
 
 export const callOutboxSavedListAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/outbox-saved`;
@@ -325,6 +361,50 @@ export const callOverworkDetailsFinAPI = ({ approvalDocCode }) => {
         console.log('[ApprovalAPICalls] callOverworkDetailsFinAPI RESULT: ', result);
 
         dispatch({ type:  'approval/GET_OVERWORK_DETAILS_FIN',  payload: result.data });
+        
+    };
+}
+export const callSWDetailsFinAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/sw-details-fin/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callSWDetailsFinAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_SW_DETAILS_FIN',  payload: result.data });
+        
+    };
+}
+export const callWFHDetailsFinAPI = ({ approvalDocCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}:1208/approval/work-type-details-fin/${approvalDocCode}`;
+
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('approvalDocCode 잘 전달되는지: ', approvalDocCode);
+        console.log('[ApprovalAPICalls] callSWDetailsFinAPI RESULT: ', result);
+
+        dispatch({ type:  'approval/GET_WFH_DETAILS_FIN',  payload: result.data });
         
     };
 }

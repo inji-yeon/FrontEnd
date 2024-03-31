@@ -45,6 +45,8 @@ import WritingWFH from './pages/approval/WritingPages/WritingWFH';
 import OverworkDetailsOnProcess from './pages/approval/DetailPages/OverworkDetailsOnProcess';
 import OnLeaveDetailsOnProcess from './pages/approval/DetailPages/OnLeaveDetailsOnProcess';
 import OverworkDetailsFinished from './pages/approval/DetailPages/OverworkDetailsFinished';
+import SWDetailsFinished from './pages/approval/DetailPages/SWDetailsFinished';
+import WFHDetailsFinished from './pages/approval/DetailPages/WFHDetailsFinished';
 import ResubmitOvertime from './pages/approval/WritingPages/ResubmitOvertime';
 import InboxList from './pages/approval/InboxList/InboxList';
 import InboxRejectedList from './pages/approval/InboxList/InboxRejectedList';
@@ -147,6 +149,8 @@ function App() {
                         <Route path='OverworkDetailsOnProcess/:approvalDocCode' element={<OverworkDetailsOnProcess />} />
                         <Route path='OnLeaveDetailsOnProcess/:approvalDocCode' element={<OnLeaveDetailsOnProcess />} />
                         <Route path='OverworkDetailsFinished/:approvalDocCode' element={<OverworkDetailsFinished />} />
+                        <Route path='SWDetailsFinished/:approvalDocCode' element={<SWDetailsFinished />} />
+                        <Route path='WFHDetailsFinished/:approvalDocCode' element={<WFHDetailsFinished />} />
                         <Route path='ResubmitOvertime/:approvalDocCode' element={<ResubmitOvertime />} />
                         <Route path='OverworkDetailsInbox/:approvalDocCode' element={<OverworkDetailsInbox />} />
                         <Route path='OverworkDetailsInboxFinished/:approvalDocCode' element={<OverworkDetailsInboxFinished />} />

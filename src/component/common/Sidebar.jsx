@@ -199,7 +199,7 @@ function SideBar() {
                         <tr className="working_status_row2">
                             <td className="status_profile">
                                 <div>
-                                    <img src={userProfileImg} alt="프로필 이미지" />
+                                    <img src="Approval/profile15.png" alt="프로필 이미지" />
                                 </div>
                             </td>
                             <td className="status_name_and_team">
